@@ -1,0 +1,15 @@
+@import 'blocks/main.scss'
+@import 'blocks/modal.scss'
+@mixin font($fname, $fstyle, $fweight, $furl)
+	@font-face
+		font-family: $fname
+		font-style: $fstyle
+		font-weight: $fweight
+		src: url($furl) format('ttf')
+
+@include font('Montserrat', normal, 300, '../fonts/Montserrat-Light.ttf')
+@include font('Montserrat', normal, 400, '../fonts/Montserrat-Regular.ttf')
+@include font('Montserrat', normal, 500, '../fonts/Montserrat-Medium.ttf')
+@include font('Montserrat', normal, 700, '../fonts/Montserrat-Bold.ttf')
+@include font('Montserrat', normal, 900, '../fonts/Montserrat-Black.ttf')
+@include font('Montserrat', italic, 400, '../fonts/Montserrat-Italic.ttf')
