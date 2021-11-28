@@ -1,0 +1,165 @@
+<template>
+   <div class="modal fade plugin-modal" id="subscription" tabindex="-1" role="dialog"
+   aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+   <div class="modal-dialog plugin-modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content plugin-modal__content">
+         <button class="plugin-modal__btn-close btn-none" data-dismiss="modal">
+            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <rect x="0.351379" y="22.4548" width="31.0238" height="3.20936"
+                  transform="rotate(-45 0.351379 22.4548)" fill="#BB01DA" />
+               <rect x="2.62067" y="0.518066" width="31.0238" height="3.20936"
+                  transform="rotate(45 2.62067 0.518066)" fill="#BB01DA" />
+            </svg>
+         </button>
+         <div class="plugin-modal__head">
+            <h4 class="plugin-modal__title">Управление подпиской</h4>
+            <h5 class="plugin-modal__subtitle">Подписка истекает</h5>
+            <p class="plugin-modal__txt red">
+               31 сентября будет отключена.
+            </p>
+            <p class="plugin-modal__txt red">
+               Для продления подписки оплатите дальнейший доступ к сервису.
+            </p>
+         </div>
+         <h6 class="plugin-modal-form__subtitle">
+            Изменить период списания и продлить подписку
+         </h6>
+         <p class="plugin-modal__txt">
+            Выберите период для продления.Чем больше срок, тем больше выгода.
+         </p>
+         <!-- <form class="plugin-modal-form" v-if="activeStep === 1">
+            <div class="plugin-checkboxes">
+               <label class="plugin-checkbox__label">
+                  <input class="check__input" type="checkbox" id="plugin-checkbox1">
+                  <div class="plugin-checkbox">
+                     <div class="plugin-checkbox__number">
+                        1
+                     </div>
+                     <div class="plugin-checkbox__txt plugin-modal__txt">
+                        1 месяца
+                        <b>
+                           2 000 р.
+                        </b>
+                     </div>
+                  </div>
+               </label>
+               <label class="plugin-checkbox__label">
+                  <input class="check__input" type="checkbox" id="plugin-checkbox2">
+                  <div class="plugin-checkbox">
+                     <div class="plugin-checkbox__discount">
+                        -15%
+                     </div>
+                     <div class="plugin-checkbox__number">
+                        3
+                     </div>
+                     <div class="plugin-checkbox__txt plugin-modal__txt">
+                        3 месяца
+                        <b>
+                           5 100 р.
+                        </b>
+                     </div>
+                  </div>
+               </label>
+               <label class="plugin-checkbox__label">
+                  <input class="check__input" type="checkbox" id="plugin-checkbox3">
+                  <div class="plugin-checkbox">
+                     <div class="plugin-checkbox__discount">
+                        -20%
+                     </div>
+                     <div class="plugin-checkbox__number">
+                        6
+                     </div>
+                     <div class="plugin-checkbox__txt plugin-modal__txt">
+                        6 месяца
+                        <b>
+                           9 600 р.
+                        </b>
+                     </div>
+                  </div>
+               </label>
+            </div>
+            <p class="plugin-modal__txt-small">
+               1 месяц равен 30 календарным дням
+            </p>
+            <button type="button" class="plugin-modal-form__btn btn-none" @click.prevent="next()">оплатить</button>
+            <p class="plugin-modal__txt-small center">
+               Нажимая “Оплатить”, я принимаю условия Политики обработки персональных данный и условия
+               Оферты
+            </p>
+         </form> -->
+           <form class="plugin-modal-form" v-if="activeStep === 1">
+            <div class="plugin-checkboxes">
+               <!-- <label class="plugin-checkbox__label" v-for="(checkbox, i) in checkboxes" :key="checkbox.i"> -->
+               <label class="plugin-checkbox__label" v-for="checkbox in checkboxes" :key="checkbox.number">
+                  <input class="check__input" type="checkbox" id="plugin-checkbox3" v-model="checkbox.value">
+                  <div class="plugin-checkbox">
+                     <div class="plugin-checkbox__discount">
+                        {{ checkbox.discount }}
+                     </div>
+                     <div class="plugin-checkbox__number">
+                        {{ checkbox.number }}
+                     </div>
+                     <div class="plugin-checkbox__txt plugin-modal__txt">
+                        {{ checkbox.month }}
+                        <b>
+                           {{ checkbox.price }} р.
+                        </b>
+                     </div>
+                  </div>
+               </label>
+            </div>
+            <p class="plugin-modal__txt-small">
+               1 месяц равен 30 календарным дням
+            </p>
+            <button type="button" class="plugin-modal-form__btn btn-none" @click.prevent="next()">оплатить</button>
+            <p class="plugin-modal__txt-small center">
+               Нажимая “Оплатить”, я принимаю условия Политики обработки персональных данный и условия
+               Оферты
+            </p>
+         </form>
+         <div class="plugin-modal-action__block" v-if="activeStep === 2">
+            Спасибо! Заказ оформлен. Пожалуйста, подождите. Идет переход к оплате...
+         </div>
+      </div>
+   </div>
+</div>
+</template>
+<script>
+   export default {
+   data: () => ({
+      checkboxes: [
+         {
+            value: false,
+            month : '1 месяц',
+            number: '1',
+            price: '2 000',
+            discount: '-20%'
+         },
+         {
+             value: false,
+            month : '3 месяца',
+            number: '3',
+            price: '5 100',
+            discount: '-15%'
+         },
+         {
+             value: false,
+            month : '6 месяцев',
+            number: '4',
+            price: '9 600',
+            discount: '-20%'
+         },
+      ],
+      activeStep: 1,
+      formSteps: [],
+   }),
+   methods: {
+      prev() {
+      this.activeStep--;
+      },
+      next() {
+      this.activeStep++;
+      },
+   },
+};
+</script>
