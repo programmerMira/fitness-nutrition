@@ -1,0 +1,19 @@
+models:
+  PersonalAccount:
+    user_id: id foreign:User.id
+    age: integer
+    weight: float
+    height: float
+    dream_weight: float
+    life_style_id: id foreign:LifeStyle.id
+    problem_zone_id: id foreign:ProblemZone.id
+    training_location_id: id foreign:TrainingLocation.id
+    menu_calories_id: id foreign:MenuCalory.id
+    hips_cm: float
+    waist_cm: float
+    chest_cm: float
+    photos: json
+controllers:
+  PersonalAccount:
+    resource: api
+seeders: PersonalAccount

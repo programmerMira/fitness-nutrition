@@ -1,0 +1,76 @@
+created:
+    - app/Http/Controllers/MenuController.php
+    - app/Http/Controllers/UserMenuController.php
+    - app/Http/Controllers/FoodCalendarController.php
+    - app/Http/Controllers/TrainingController.php
+    - app/Http/Controllers/TrainingUserController.php
+    - app/Http/Controllers/ActivityCalendarController.php
+    - database/factories/MenuFactory.php
+    - database/factories/UserMenuFactory.php
+    - database/factories/FoodCalendarFactory.php
+    - database/factories/TrainingFactory.php
+    - database/factories/TrainingUserFactory.php
+    - database/factories/ActivityCalendarFactory.php
+    - database/migrations/2021_12_01_223441_create_menus_table.php
+    - database/migrations/2021_12_01_223442_create_user_menus_table.php
+    - database/migrations/2021_12_01_223443_create_food_calendars_table.php
+    - database/migrations/2021_12_01_223444_create_trainings_table.php
+    - database/migrations/2021_12_01_223445_create_training_users_table.php
+    - database/migrations/2021_12_01_223446_create_activity_calendars_table.php
+    - app/Models/Menu.php
+    - app/Models/UserMenu.php
+    - app/Models/FoodCalendar.php
+    - app/Models/Training.php
+    - app/Models/TrainingUser.php
+    - app/Models/ActivityCalendar.php
+    - database/seeders/MenuSeeder.php
+    - database/seeders/UserMenuSeeder.php
+    - database/seeders/FoodCalendarSeeder.php
+    - database/seeders/TrainingSeeder.php
+    - database/seeders/TrainingUserSeeder.php
+    - database/seeders/ActivityCalendarSeeder.php
+    - tests/Feature/Http/Controllers/MenuControllerTest.php
+    - tests/Feature/Http/Controllers/UserMenuControllerTest.php
+    - tests/Feature/Http/Controllers/FoodCalendarControllerTest.php
+    - tests/Feature/Http/Controllers/TrainingControllerTest.php
+    - tests/Feature/Http/Controllers/TrainingUserControllerTest.php
+    - tests/Feature/Http/Controllers/ActivityCalendarControllerTest.php
+    - app/Http/Requests/MenuStoreRequest.php
+    - app/Http/Requests/MenuUpdateRequest.php
+    - app/Http/Requests/UserMenuStoreRequest.php
+    - app/Http/Requests/UserMenuUpdateRequest.php
+    - app/Http/Requests/FoodCalendarStoreRequest.php
+    - app/Http/Requests/FoodCalendarUpdateRequest.php
+    - app/Http/Requests/TrainingStoreRequest.php
+    - app/Http/Requests/TrainingUpdateRequest.php
+    - app/Http/Requests/TrainingUserStoreRequest.php
+    - app/Http/Requests/TrainingUserUpdateRequest.php
+    - app/Http/Requests/ActivityCalendarStoreRequest.php
+    - app/Http/Requests/ActivityCalendarUpdateRequest.php
+    - app/Http/Resources/MenuCollection.php
+    - app/Http/Resources/MenuResource.php
+    - app/Http/Resources/UserMenuCollection.php
+    - app/Http/Resources/UserMenuResource.php
+    - app/Http/Resources/FoodCalendarCollection.php
+    - app/Http/Resources/FoodCalendarResource.php
+    - app/Http/Resources/TrainingCollection.php
+    - app/Http/Resources/TrainingResource.php
+    - app/Http/Resources/TrainingUserCollection.php
+    - app/Http/Resources/TrainingUserResource.php
+    - app/Http/Resources/ActivityCalendarCollection.php
+    - app/Http/Resources/ActivityCalendarResource.php
+updated:
+    - routes/api.php
+models:
+    ProblemZone: { name: 'string:50' }
+    LifeStyle: { name: 'string:50' }
+    TrainingLocation: { name: 'string:50' }
+    MenuCalory: { name: 'string:50' }
+    MenuType: { name: 'string:50' }
+    PersonalAccount: { user_id: 'id foreign:User.id', age: integer, weight: float, height: float, dream_weight: float, life_style_id: 'id foreign:LifeStyle.id', problem_zone_id: 'id foreign:ProblemZone.id', training_location_id: 'id foreign:TrainingLocation.id', menu_calories_id: 'id foreign:MenuCalory.id', hips_cm: float, waist_cm: float, chest_cm: float, photos: json }
+    Menu: { menu_type_id: 'id foreign:MenuType.id', menu_calories_id: 'id foreign:MenuCalory.id', menu_content: json }
+    UserMenu: { user_id: 'id foreign:User.id', menu_id: 'id foreign:Menu.id' }
+    FoodCalendar: { users_menus_id: 'id foreign:UserMenu.id', menu_number: integer, day: integer }
+    Training: { training_location_id: 'id foreign:TrainingLocation.id', name: 'string:50', description: 'string:300', training_days: json }
+    TrainingUser: { user_id: 'id foreign:User.id', training_id: 'id foreign:Training.id' }
+    ActivityCalendar: { training_user_id: 'id foreign:TrainingUser.id', level: integer, day: integer }

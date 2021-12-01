@@ -1,0 +1,23 @@
+models:
+  ProblemZone:
+    name: string:50
+  LifeStyle:
+    name: string:50
+  TrainingLocation:
+    name: string:50
+  MenuCalory:
+    name: string:50
+  MenuType:
+    name: string:50
+controllers:
+  ProblemZone:
+    resource: api
+  LifeStyle:
+    resource: api
+  TrainingLocation:
+    resource: api
+  MenuCalory:
+    resource: api
+  MenuType:
+    resource: api
+seeders: ProblemZone, LifeStyle, TrainingLocation, MenuCalory, MenuType
