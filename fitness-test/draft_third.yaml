@@ -1,0 +1,38 @@
+models:
+  Menu:
+    menu_type_id: id foreign:MenuType.id
+    menu_calories_id: id foreign:MenuCalory.id
+    menu_content: json
+  UserMenu:
+    user_id: id foreign:User.id
+    menu_id: id foreign:Menu.id
+  FoodCalendar:
+    users_menus_id: id foreign:UserMenu.id
+    menu_number: integer
+    day: integer
+  Training:
+    training_location_id: id foreign:TrainingLocation.id
+    name: string:50
+    description: string:300
+    training_days: json
+  TrainingUser:
+    user_id: id foreign:User.id
+    training_id: id foreign:Training.id
+  ActivityCalendar:
+    training_user_id: id foreign:TrainingUser.id
+    level: integer
+    day: integer
+controllers:
+  Menu:
+    resource: api
+  UserMenu:
+    resource: api  
+  FoodCalendar:
+    resource: api 
+  Training:
+    resource: api 
+  TrainingUser:
+    resource: api 
+  ActivityCalendar:
+    resource: api 
+seeders: Menu, UserMenu, FoodCalendar, Training, TrainingUser, ActivityCalendar
