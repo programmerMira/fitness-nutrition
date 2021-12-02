@@ -11,10 +11,6 @@ use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \App\Http\Resources\MenuCollection
-     */
     public function index(Request $request)
     {
         $menus = Menu::all();
@@ -22,10 +18,6 @@ class MenuController extends Controller
         return new MenuCollection($menus);
     }
 
-    /**
-     * @param \App\Http\Requests\MenuStoreRequest $request
-     * @return \App\Http\Resources\MenuResource
-     */
     public function store(MenuStoreRequest $request)
     {
         $menu = Menu::create($request->validated());
@@ -33,37 +25,23 @@ class MenuController extends Controller
         return new MenuResource($menu);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Menu $menu
-     * @return \App\Http\Resources\MenuResource
-     */
-    public function show(Request $request, Menu $menu)
+    public function show(Request $request, $menuId)
     {
+        $menu = Menu::find($menuId);
         return new MenuResource($menu);
     }
 
-    /**
-     * @param \App\Http\Requests\MenuUpdateRequest $request
-     * @param \App\Models\Menu $menu
-     * @return \App\Http\Resources\MenuResource
-     */
-    public function update(MenuUpdateRequest $request, Menu $menu)
+    public function update(MenuUpdateRequest $request, $menuId)
     {
+        $menu = Menu::find($menuId);
         $menu->update($request->validated());
-
         return new MenuResource($menu);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Menu $menu
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, Menu $menu)
+    public function destroy(Request $request, $menuId)
     {
+        $menu = Menu::find($menuId);
         $menu->delete();
-
         return response()->noContent();
     }
 }

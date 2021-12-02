@@ -38,8 +38,9 @@ class TrainingLocationController extends Controller
      * @param \App\Models\TrainingLocation $trainingLocation
      * @return \App\Http\Resources\TrainingLocationResource
      */
-    public function show(Request $request, TrainingLocation $trainingLocation)
+    public function show(Request $request, $trainingLocationId)
     {
+        $trainingLocation = TrainingLocation::find($trainingLocationId);
         return new TrainingLocationResource($trainingLocation);
     }
 
@@ -48,10 +49,10 @@ class TrainingLocationController extends Controller
      * @param \App\Models\TrainingLocation $trainingLocation
      * @return \App\Http\Resources\TrainingLocationResource
      */
-    public function update(TrainingLocationUpdateRequest $request, TrainingLocation $trainingLocation)
+    public function update(TrainingLocationUpdateRequest $request, $trainingLocationId)
     {
+        $trainingLocation = TrainingLocation::find($trainingLocationId);
         $trainingLocation->update($request->validated());
-
         return new TrainingLocationResource($trainingLocation);
     }
 
@@ -60,10 +61,10 @@ class TrainingLocationController extends Controller
      * @param \App\Models\TrainingLocation $trainingLocation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, TrainingLocation $trainingLocation)
+    public function destroy(Request $request, $trainingLocationId)
     {
+        $trainingLocation = TrainingLocation::find($trainingLocationId);
         $trainingLocation->delete();
-
         return response()->noContent();
     }
 }

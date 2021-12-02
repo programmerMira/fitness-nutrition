@@ -38,8 +38,9 @@ class MenuCaloryController extends Controller
      * @param \App\Models\MenuCalory $menuCalory
      * @return \App\Http\Resources\MenuCaloryResource
      */
-    public function show(Request $request, MenuCalory $menuCalory)
+    public function show(Request $request, $menuCaloryId)
     {
+        $menuCalory = MenuCalory::find($menuCaloryId);
         return new MenuCaloryResource($menuCalory);
     }
 
@@ -48,10 +49,10 @@ class MenuCaloryController extends Controller
      * @param \App\Models\MenuCalory $menuCalory
      * @return \App\Http\Resources\MenuCaloryResource
      */
-    public function update(MenuCaloryUpdateRequest $request, MenuCalory $menuCalory)
+    public function update(MenuCaloryUpdateRequest $request, $menuCaloryId)
     {
+        $menuCalory = MenuCalory::find($menuCaloryId);
         $menuCalory->update($request->validated());
-
         return new MenuCaloryResource($menuCalory);
     }
 
@@ -60,10 +61,10 @@ class MenuCaloryController extends Controller
      * @param \App\Models\MenuCalory $menuCalory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, MenuCalory $menuCalory)
+    public function destroy(Request $request, $menuCaloryId)
     {
+        $menuCalory = MenuCalory::find($menuCaloryId);
         $menuCalory->delete();
-
         return response()->noContent();
     }
 }

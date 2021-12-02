@@ -11,10 +11,6 @@ use Illuminate\Http\Request;
 
 class MenuTypeController extends Controller
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \App\Http\Resources\MenuTypeCollection
-     */
     public function index(Request $request)
     {
         $menuTypes = MenuType::all();
@@ -22,10 +18,6 @@ class MenuTypeController extends Controller
         return new MenuTypeCollection($menuTypes);
     }
 
-    /**
-     * @param \App\Http\Requests\MenuTypeStoreRequest $request
-     * @return \App\Http\Resources\MenuTypeResource
-     */
     public function store(MenuTypeStoreRequest $request)
     {
         $menuType = MenuType::create($request->validated());
@@ -33,37 +25,23 @@ class MenuTypeController extends Controller
         return new MenuTypeResource($menuType);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\MenuType $menuType
-     * @return \App\Http\Resources\MenuTypeResource
-     */
-    public function show(Request $request, MenuType $menuType)
+    public function show(Request $request, $menuTypeId)
     {
+        $menuType = MenuType::find($menuTypeId);
         return new MenuTypeResource($menuType);
     }
 
-    /**
-     * @param \App\Http\Requests\MenuTypeUpdateRequest $request
-     * @param \App\Models\MenuType $menuType
-     * @return \App\Http\Resources\MenuTypeResource
-     */
-    public function update(MenuTypeUpdateRequest $request, MenuType $menuType)
+    public function update(MenuTypeUpdateRequest $request, $menuTypeId)
     {
+        $menuType = MenuType::find($menuTypeId);
         $menuType->update($request->validated());
-
         return new MenuTypeResource($menuType);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\MenuType $menuType
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, MenuType $menuType)
+    public function destroy(Request $request, $menuTypeId)
     {
+        $menuType = MenuType::find($menuTypeId);
         $menuType->delete();
-
         return response()->noContent();
     }
 }

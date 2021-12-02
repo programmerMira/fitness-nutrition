@@ -11,10 +11,6 @@ use Illuminate\Http\Request;
 
 class FoodCalendarController extends Controller
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \App\Http\Resources\FoodCalendarCollection
-     */
     public function index(Request $request)
     {
         $foodCalendars = FoodCalendar::all();
@@ -22,10 +18,6 @@ class FoodCalendarController extends Controller
         return new FoodCalendarCollection($foodCalendars);
     }
 
-    /**
-     * @param \App\Http\Requests\FoodCalendarStoreRequest $request
-     * @return \App\Http\Resources\FoodCalendarResource
-     */
     public function store(FoodCalendarStoreRequest $request)
     {
         $foodCalendar = FoodCalendar::create($request->validated());
@@ -33,37 +25,23 @@ class FoodCalendarController extends Controller
         return new FoodCalendarResource($foodCalendar);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\FoodCalendar $foodCalendar
-     * @return \App\Http\Resources\FoodCalendarResource
-     */
-    public function show(Request $request, FoodCalendar $foodCalendar)
+    public function show(Request $request, $foodCalendarId)
     {
+        $foodCalendar = FoodCalendar($foodCalendarId);
         return new FoodCalendarResource($foodCalendar);
     }
 
-    /**
-     * @param \App\Http\Requests\FoodCalendarUpdateRequest $request
-     * @param \App\Models\FoodCalendar $foodCalendar
-     * @return \App\Http\Resources\FoodCalendarResource
-     */
-    public function update(FoodCalendarUpdateRequest $request, FoodCalendar $foodCalendar)
+    public function update(FoodCalendarUpdateRequest $request, $foodCalendarId)
     {
+        $foodCalendar = FoodCalendar($foodCalendarId);
         $foodCalendar->update($request->validated());
-
         return new FoodCalendarResource($foodCalendar);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\FoodCalendar $foodCalendar
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, FoodCalendar $foodCalendar)
+    public function destroy(Request $request, $foodCalendarId)
     {
+        $foodCalendar = FoodCalendar($foodCalendarId);
         $foodCalendar->delete();
-
         return response()->noContent();
     }
 }
