@@ -11,10 +11,6 @@ use Illuminate\Http\Request;
 
 class TrainingController extends Controller
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \App\Http\Resources\TrainingCollection
-     */
     public function index(Request $request)
     {
         $trainings = Training::all();
@@ -22,10 +18,6 @@ class TrainingController extends Controller
         return new TrainingCollection($trainings);
     }
 
-    /**
-     * @param \App\Http\Requests\TrainingStoreRequest $request
-     * @return \App\Http\Resources\TrainingResource
-     */
     public function store(TrainingStoreRequest $request)
     {
         $training = Training::create($request->validated());
@@ -33,37 +25,23 @@ class TrainingController extends Controller
         return new TrainingResource($training);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Training $training
-     * @return \App\Http\Resources\TrainingResource
-     */
-    public function show(Request $request, Training $training)
+    public function show(Request $request, $trainingId)
     {
+        $training = Training::find($trainingId);
         return new TrainingResource($training);
     }
 
-    /**
-     * @param \App\Http\Requests\TrainingUpdateRequest $request
-     * @param \App\Models\Training $training
-     * @return \App\Http\Resources\TrainingResource
-     */
-    public function update(TrainingUpdateRequest $request, Training $training)
+    public function update(TrainingUpdateRequest $request, $trainingId)
     {
+        $training = Training::find($trainingId);
         $training->update($request->validated());
-
         return new TrainingResource($training);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Training $training
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, Training $training)
+    public function destroy(Request $request, $trainingId)
     {
+        $training = Training::find($trainingId);
         $training->delete();
-
         return response()->noContent();
     }
 }

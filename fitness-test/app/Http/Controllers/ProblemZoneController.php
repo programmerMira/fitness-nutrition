@@ -38,8 +38,9 @@ class ProblemZoneController extends Controller
      * @param \App\Models\ProblemZone $problemZone
      * @return \App\Http\Resources\ProblemZoneResource
      */
-    public function show(Request $request, ProblemZone $problemZone)
+    public function show(Request $request, $problemZoneId)
     {
+        $problemZone = ProblemZone::find($problemZoneId);
         return new ProblemZoneResource($problemZone);
     }
 
@@ -48,8 +49,9 @@ class ProblemZoneController extends Controller
      * @param \App\Models\ProblemZone $problemZone
      * @return \App\Http\Resources\ProblemZoneResource
      */
-    public function update(ProblemZoneUpdateRequest $request, ProblemZone $problemZone)
+    public function update(ProblemZoneUpdateRequest $request, $problemZoneId)
     {
+        $problemZone = ProblemZone::find($problemZoneId);
         $problemZone->update($request->validated());
 
         return new ProblemZoneResource($problemZone);
@@ -60,8 +62,9 @@ class ProblemZoneController extends Controller
      * @param \App\Models\ProblemZone $problemZone
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, ProblemZone $problemZone)
+    public function destroy(Request $request, $problemZoneId)
     {
+        $problemZone = ProblemZone::find($problemZoneId);
         $problemZone->delete();
 
         return response()->noContent();

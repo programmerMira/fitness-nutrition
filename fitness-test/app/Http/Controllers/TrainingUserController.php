@@ -11,10 +11,6 @@ use Illuminate\Http\Request;
 
 class TrainingUserController extends Controller
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \App\Http\Resources\TrainingUserCollection
-     */
     public function index(Request $request)
     {
         $trainingUsers = TrainingUser::all();
@@ -22,10 +18,6 @@ class TrainingUserController extends Controller
         return new TrainingUserCollection($trainingUsers);
     }
 
-    /**
-     * @param \App\Http\Requests\TrainingUserStoreRequest $request
-     * @return \App\Http\Resources\TrainingUserResource
-     */
     public function store(TrainingUserStoreRequest $request)
     {
         $trainingUser = TrainingUser::create($request->validated());
@@ -33,37 +25,23 @@ class TrainingUserController extends Controller
         return new TrainingUserResource($trainingUser);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\TrainingUser $trainingUser
-     * @return \App\Http\Resources\TrainingUserResource
-     */
-    public function show(Request $request, TrainingUser $trainingUser)
+    public function show(Request $request, $trainingUserId)
     {
+        $trainingUser = TrainingUser::find($trainingUserId);
         return new TrainingUserResource($trainingUser);
     }
 
-    /**
-     * @param \App\Http\Requests\TrainingUserUpdateRequest $request
-     * @param \App\Models\TrainingUser $trainingUser
-     * @return \App\Http\Resources\TrainingUserResource
-     */
-    public function update(TrainingUserUpdateRequest $request, TrainingUser $trainingUser)
+    public function update(TrainingUserUpdateRequest $request, $trainingUserId)
     {
+        $trainingUser = TrainingUser::find($trainingUserId);
         $trainingUser->update($request->validated());
-
         return new TrainingUserResource($trainingUser);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\TrainingUser $trainingUser
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, TrainingUser $trainingUser)
+    public function destroy(Request $request, $trainingUserId)
     {
+        $trainingUser = TrainingUser::find($trainingUserId);
         $trainingUser->delete();
-
         return response()->noContent();
     }
 }

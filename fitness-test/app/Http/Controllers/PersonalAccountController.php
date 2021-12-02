@@ -11,10 +11,6 @@ use Illuminate\Http\Request;
 
 class PersonalAccountController extends Controller
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \App\Http\Resources\PersonalAccountCollection
-     */
     public function index(Request $request)
     {
         $personalAccounts = PersonalAccount::all();
@@ -22,10 +18,6 @@ class PersonalAccountController extends Controller
         return new PersonalAccountCollection($personalAccounts);
     }
 
-    /**
-     * @param \App\Http\Requests\PersonalAccountStoreRequest $request
-     * @return \App\Http\Resources\PersonalAccountResource
-     */
     public function store(PersonalAccountStoreRequest $request)
     {
         $personalAccount = PersonalAccount::create($request->validated());
@@ -33,37 +25,23 @@ class PersonalAccountController extends Controller
         return new PersonalAccountResource($personalAccount);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\PersonalAccount $personalAccount
-     * @return \App\Http\Resources\PersonalAccountResource
-     */
-    public function show(Request $request, PersonalAccount $personalAccount)
+    public function show(Request $request, $personalAccountId)
     {
+        $personalAccount = PersonalAccount::find($personalAccountId);
         return new PersonalAccountResource($personalAccount);
     }
 
-    /**
-     * @param \App\Http\Requests\PersonalAccountUpdateRequest $request
-     * @param \App\Models\PersonalAccount $personalAccount
-     * @return \App\Http\Resources\PersonalAccountResource
-     */
-    public function update(PersonalAccountUpdateRequest $request, PersonalAccount $personalAccount)
+    public function update(PersonalAccountUpdateRequest $request, $personalAccountId)
     {
+        $personalAccount = PersonalAccount::find($personalAccountId);
         $personalAccount->update($request->validated());
-
         return new PersonalAccountResource($personalAccount);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\PersonalAccount $personalAccount
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, PersonalAccount $personalAccount)
+    public function destroy(Request $request, $personalAccountId)
     {
+        $personalAccount = PersonalAccount::find($personalAccountId);
         $personalAccount->delete();
-
         return response()->noContent();
     }
 }
