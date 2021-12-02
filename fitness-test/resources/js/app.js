@@ -1,4 +1,5 @@
 require('./bootstrap');
+import store from './store';
 
 window.Vue = require('vue').default;
 
@@ -6,4 +7,5 @@ window.Vue = require('vue').default;
 
 const app = new Vue({
     el: '#app',
+    store
 });
