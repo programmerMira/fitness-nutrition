@@ -3,8 +3,12 @@ import store from './store';
 
 window.Vue = require('vue').default;
 
-Vue.component('Formstep', require('./components/Formstep.vue').default);
-Vue.component('Buy', require('./components/Buy.vue').default);
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
+
+Vue.component('Formstep', require('./components/modal/Formstep.vue').default);
+Vue.component('Buy', require('./components/modal/Buy.vue').default);
+Vue.component('Login', require('./components/modal/Login.vue').default);
 
 Vue.component('Workout', require('./components/Workout.vue').default);
 Vue.component('Home', require('./components/Home.vue').default);
@@ -16,3 +20,5 @@ const app = new Vue({
     el: '#app',
     store
 });
+
+
