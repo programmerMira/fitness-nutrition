@@ -21,17 +21,16 @@ use App\Http\Controllers\MenuCaloryController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
 Route::get('/users', function (Request $request) {
    $users= \App\Models\User::all();
     return response()->json($users);
 });
-
 Route::get('/users/{id}', function (Request $request, User $user) {
     //$user= \App\Models\User::find($id);
     return response()->json($user);
 });
 
+#region api-links
 Route::prefix('problem-zone')->group(function () {
     Route::get('/list', [ProblemZoneController::class,'index']);
     Route::get('/show/{id}', [ProblemZoneController::class,'show']);
@@ -116,6 +115,7 @@ Route::prefix('activity-calendar')->group(function () {
     Route::put('/update/{id}', [ActivityCalendarController::class,'update']);
     Route::delete('/delete/{id}', [ActivityCalendarController::class,'destroy']);
 });
+#endregion
 #region resources
 /*Route::apiResource('problem-zone', ProblemZoneController::class);
 Route::apiResource('life-style', LifeStyleController::class);
