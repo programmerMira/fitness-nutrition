@@ -1388,7 +1388,6 @@ footer {
 
   .office__txt {
     margin: 0;
-    padding-bottom: 38px;
     position: relative;
   }
   .office__txt::after {
