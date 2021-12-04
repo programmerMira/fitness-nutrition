@@ -9,12 +9,14 @@ use App\Http\Resources\UserMenuResource;
 use App\Models\UserMenu;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
+
 class UserMenuController extends Controller
 {
     public function index(Request $request)
     {
-        $userMenus = UserMenu::all();
-
+        $user = Auth::user()->id;
+        $userMenus = UserMenu::where('user_id','=',$user);
         return new UserMenuCollection($userMenus);
     }
 
@@ -27,21 +29,39 @@ class UserMenuController extends Controller
 
     public function show(Request $request, $userMenuId)
     {
-        $userMenu = UserMenu::find($userMenuId);
-        return new UserMenuResource($userMenu);
+        $user = Auth::user()->id;
+        $userMenu = UserMenu::where('user_id','=',$user);
+        foreach($userMenu as $item){
+            if($item->id == $userMenuId){
+                return new UserMenuResource($item);
+            }
+        }
+        return new UserMenuResource();
     }
 
     public function update(UserMenuUpdateRequest $request, $userMenuId)
     {
-        $userMenu = UserMenu::find($userMenuId);
-        $userMenu->update($request->validated());
-        return new UserMenuResource($userMenu);
+        $user = Auth::user()->id;
+        $userMenu = UserMenu::where('user_id','=',$user);
+        foreach($userMenu as $item){
+            if($item->id == $userMenuId){
+                $item->update($request->validated());
+                return new UserMenuResource($item);
+            }
+        }
+        return new UserMenuResource();
     }
 
     public function destroy(Request $request, $userMenuId)
     {
-        $userMenu = UserMenu::find($userMenuId);
-        $userMenu->delete();
+        $user = Auth::user()->id;
+        $userMenu = UserMenu::where('user_id','=',$user);
+        foreach($userMenu as $item){
+            if($item->id == $userMenuId){
+                $item->delete();
+                return response()->noContent();
+            }
+        }
         return response()->noContent();
     }
 }

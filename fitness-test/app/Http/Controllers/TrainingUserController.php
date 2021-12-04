@@ -9,39 +9,58 @@ use App\Http\Resources\TrainingUserResource;
 use App\Models\TrainingUser;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
+
 class TrainingUserController extends Controller
 {
     public function index(Request $request)
     {
-        $trainingUsers = TrainingUser::all();
-
-        return new TrainingUserCollection($trainingUsers);
+        $user = Auth::user()->id;
+        $trainingsUser = TrainingUser::where('user_id','=',$user);
+        return new TrainingUserCollection($trainingsUser);
     }
 
     public function store(TrainingUserStoreRequest $request)
     {
         $trainingUser = TrainingUser::create($request->validated());
-
         return new TrainingUserResource($trainingUser);
     }
 
     public function show(Request $request, $trainingUserId)
     {
-        $trainingUser = TrainingUser::find($trainingUserId);
-        return new TrainingUserResource($trainingUser);
+        $user = Auth::user()->id;
+        $trainingsUser = TrainingUser::where('user_id','=',$user);
+        foreach($trainingsUser as $item){
+            if($item->id == $trainingUserId){
+                return new TrainingUserResource($item);
+            }
+        }
+        return new TrainingUserResource();
     }
 
     public function update(TrainingUserUpdateRequest $request, $trainingUserId)
     {
-        $trainingUser = TrainingUser::find($trainingUserId);
-        $trainingUser->update($request->validated());
-        return new TrainingUserResource($trainingUser);
+        $user = Auth::user()->id;
+        $trainingsUser = TrainingUser::where('user_id','=',$user);
+        foreach($trainingsUser as $item){
+            if($item->id == $trainingUserId){
+                $item->update($request->validated());
+                return new TrainingUserResource($item);
+            }
+        }
+        return new TrainingUserResource();
     }
 
     public function destroy(Request $request, $trainingUserId)
     {
-        $trainingUser = TrainingUser::find($trainingUserId);
-        $trainingUser->delete();
+        $user = Auth::user()->id;
+        $trainingsUser = TrainingUser::where('user_id','=',$user);
+        foreach($trainingsUser as $item){
+            if($item->id == $trainingUserId){
+                $item->delete();
+                return response()->noContent();
+            }
+        }
         return response()->noContent();
     }
 }
