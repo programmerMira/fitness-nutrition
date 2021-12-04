@@ -127,7 +127,6 @@
    }
    .office__txt {
       margin: 0;
-      padding-bottom: 38px;
       position: relative;
       &::after {
          content: "";
@@ -939,7 +938,7 @@
       line-height: 164.4%;
    }
    .program__block-contain {
-      padding: 0 20px; 
+      padding: 0 20px;
    }
 }
 @media only screen and (max-width: 410px) {

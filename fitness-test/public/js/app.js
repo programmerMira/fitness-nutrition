@@ -1,6 +1,17 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./node_modules/@babel/runtime/regenerator/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/regenerator-runtime/runtime.js");
+
+
+/***/ }),
+
 /***/ "./node_modules/axios/index.js":
 /*!*************************************!*\
   !*** ./node_modules/axios/index.js ***!
@@ -3376,6 +3387,15 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     selectTab: function selectTab() {
       this.selectedTab = this.tab.title;
+    },
+    logout: function logout() {
+      var _this = this;
+
+      axios.post('/logout').then(function (response) {
+        _this.$router.push("/");
+      })["catch"](function (error) {
+        location.reload();
+      });
     }
   }
 });
@@ -5926,14 +5946,1656 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _modules_problemZones__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/problemZones */ "./resources/js/store/modules/problemZones.js");
+/* harmony import */ var _modules_lifeStyles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/lifeStyles */ "./resources/js/store/modules/lifeStyles.js");
+/* harmony import */ var _modules_trainingLocations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/trainingLocations */ "./resources/js/store/modules/trainingLocations.js");
+/* harmony import */ var _modules_menuCalories__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/menuCalories */ "./resources/js/store/modules/menuCalories.js");
+/* harmony import */ var _modules_menuType__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/menuType */ "./resources/js/store/modules/menuType.js");
+/* harmony import */ var _modules_menus__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/menus */ "./resources/js/store/modules/menus.js");
+/* harmony import */ var _modules_trainings__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/trainings */ "./resources/js/store/modules/trainings.js");
+/* harmony import */ var _modules_personalAccount__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/personalAccount */ "./resources/js/store/modules/personalAccount.js");
+/* harmony import */ var _modules_userMenus__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/userMenus */ "./resources/js/store/modules/userMenus.js");
+/* harmony import */ var _modules_foodCalendars__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/foodCalendars */ "./resources/js/store/modules/foodCalendars.js");
+/* harmony import */ var _modules_trainingUsers__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/trainingUsers */ "./resources/js/store/modules/trainingUsers.js");
+/* harmony import */ var _modules_activityCalendars__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/activityCalendars */ "./resources/js/store/modules/activityCalendars.js");
+
+ //#region import modules
 
 
-vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
-  modules: {}
+
+
+
+
+
+
+/*NoUpdateHere*/
+
+
+/*fix for users*/
+
+
+/*fix for users*/
+
+
+/*fix for users*/
+
+
+/*fix for users*/
+
+ //#endregion
+
+vue__WEBPACK_IMPORTED_MODULE_12__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_13__["default"]);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_13__["default"].Store({
+  modules: {
+    problemZones: _modules_problemZones__WEBPACK_IMPORTED_MODULE_0__["default"],
+    lifeStyles: _modules_lifeStyles__WEBPACK_IMPORTED_MODULE_1__["default"],
+    trainingLocations: _modules_trainingLocations__WEBPACK_IMPORTED_MODULE_2__["default"],
+    menuCalories: _modules_menuCalories__WEBPACK_IMPORTED_MODULE_3__["default"],
+    menuTypes: _modules_menuType__WEBPACK_IMPORTED_MODULE_4__["default"],
+    personalAccount: _modules_personalAccount__WEBPACK_IMPORTED_MODULE_7__["default"],
+    menus: _modules_menus__WEBPACK_IMPORTED_MODULE_5__["default"],
+    userMenus: _modules_userMenus__WEBPACK_IMPORTED_MODULE_8__["default"],
+    foodCalendars: _modules_foodCalendars__WEBPACK_IMPORTED_MODULE_9__["default"],
+    trainings: _modules_trainings__WEBPACK_IMPORTED_MODULE_6__["default"],
+    trainingUsers: _modules_trainingUsers__WEBPACK_IMPORTED_MODULE_10__["default"],
+    activityCalendars: _modules_activityCalendars__WEBPACK_IMPORTED_MODULE_11__["default"]
+  }
 }));
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/activityCalendars.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/store/modules/activityCalendars.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  actions: {
+    fetchActivityCalendars: function fetchActivityCalendars(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit;
+                axios.get('/api/activity-calendar/list').then(function (response) {
+                  commit('LoadActivityCalendars', response.data);
+                })["catch"](function (error) {
+                  console.log("fetchActivityCalendars:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    fetchActivityCalendar: function fetchActivityCalendar(_ref2, ActivityCalendarId) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit;
+                axios.get('/api/activity-calendar/show/' + ActivityCalendarId).then(function (response) {
+                  commit('LoadActivityCalendar', response.data);
+                })["catch"](function (error) {
+                  console.log("LoadActivityCalendar:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    storeActivityCalendar: function storeActivityCalendar(_ref3, ActivityCalendar) {
+      var commit = _ref3.commit;
+      axios.post('/api/activity-calendar/create', {
+        training_user_id: ActivityCalendar.training_user_id,
+        level: ActivityCalendar.level,
+        day: ActivityCalendar.day
+      }).then(function (response) {
+        commit('CreateActivityCalendar', ActivityCalendar);
+      })["catch"](function (error) {
+        console.log("storeActivityCalendar:", error.response);
+      });
+    },
+    setActivityCalendar: function setActivityCalendar(_ref4, ActivityCalendar) {
+      var commit = _ref4.commit;
+      axios.put('/api/activity-calendar/update/' + ActivityCalendar.id, {
+        training_user_id: ActivityCalendar.training_user_id,
+        level: ActivityCalendar.level,
+        day: ActivityCalendar.day
+      }).then(function (response) {
+        commit('UpdateActivityCalendar', ActivityCalendar);
+      })["catch"](function (error) {
+        console.log("setActivityCalendar:", error.response);
+      });
+    },
+    delActivityCalendar: function delActivityCalendar(_ref5, ActivityCalendar) {
+      var commit = _ref5.commit;
+      axios["delete"]('/api/activity-calendar/delete/' + ActivityCalendar.id).then(function (response) {
+        commit('DeleteActivityCalendar', ActivityCalendar);
+      })["catch"](function (error) {
+        console.log("delActivityCalendar:", error.response);
+      });
+    }
+  },
+  mutations: {
+    LoadActivityCalendars: function LoadActivityCalendars(state, ActivityCalendars) {
+      state.ActivityCalendars = ActivityCalendars;
+    },
+    LoadActivityCalendar: function LoadActivityCalendar(state, ActivityCalendar) {
+      state.ActivityCalendar = ActivityCalendar;
+    },
+    CreateActivityCalendar: function CreateActivityCalendar(state, ActivityCalendar) {
+      var index = state.ActivityCalendars.findIndex(function (ActivityCalendar) {
+        return ActivityCalendar.id == id;
+      });
+      state.ActivityCalendars.unshift(index);
+    },
+    UpdateActivityCalendar: function UpdateActivityCalendar(state, ActivityCalendar) {
+      var index = state.ActivityCalendars.findIndex(function (p) {
+        return p.id === ActivityCalendar.id;
+      });
+      state.ActivityCalendars[index] = ActivityCalendar;
+    },
+    DeleteActivityCalendar: function DeleteActivityCalendar(state, ActivityCalendar) {
+      var index = state.ActivityCalendars.findIndex(function (ActivityCalendar) {
+        return ActivityCalendar.id == id;
+      });
+      state.ActivityCalendars.splice(index, 1);
+    }
+  },
+  state: {
+    ActivityCalendars: [],
+    ActivityCalendar: null
+  },
+  getters: {
+    GetActivityCalendars: function GetActivityCalendars(state) {
+      return state.ActivityCalendars;
+    },
+    GetActivityCalendar: function GetActivityCalendar(state) {
+      return state.ActivityCalendar;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/foodCalendars.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/store/modules/foodCalendars.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  actions: {
+    fetchFoodCalendars: function fetchFoodCalendars(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit;
+                axios.get('/api/food-calendar/list').then(function (response) {
+                  commit('LoadFoodCalendars', response.data);
+                })["catch"](function (error) {
+                  console.log("fetchFoodCalendars:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    fetchFoodCalendar: function fetchFoodCalendar(_ref2, FoodCalendarId) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit;
+                axios.get('/api/food-calendar/show/' + FoodCalendarId).then(function (response) {
+                  commit('LoadFoodCalendar', response.data);
+                })["catch"](function (error) {
+                  console.log("LoadFoodCalendar:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    storeFoodCalendar: function storeFoodCalendar(_ref3, FoodCalendar) {
+      var commit = _ref3.commit;
+      axios.post('/api/food-calendar/create', {
+        users_menus_id: FoodCalendar.users_menus_id,
+        menu_number: FoodCalendar.menu_number,
+        day: FoodCalendar.day
+      }).then(function (response) {
+        commit('CreateFoodCalendar', FoodCalendar);
+      })["catch"](function (error) {
+        console.log("storeFoodCalendar:", error.response);
+      });
+    },
+    setFoodCalendar: function setFoodCalendar(_ref4, FoodCalendar) {
+      var commit = _ref4.commit;
+      axios.put('/api/food-calendar/update/' + FoodCalendar.id, {
+        users_menus_id: FoodCalendar.users_menus_id,
+        menu_number: FoodCalendar.menu_number,
+        day: FoodCalendar.day
+      }).then(function (response) {
+        commit('UpdateFoodCalendar', FoodCalendar);
+      })["catch"](function (error) {
+        console.log("setFoodCalendar:", error.response);
+      });
+    },
+    delFoodCalendar: function delFoodCalendar(_ref5, FoodCalendar) {
+      var commit = _ref5.commit;
+      axios["delete"]('/api/food-calendar/delete/' + FoodCalendar.id).then(function (response) {
+        commit('DeleteFoodCalendar', FoodCalendar);
+      })["catch"](function (error) {
+        console.log("delFoodCalendar:", error.response);
+      });
+    }
+  },
+  mutations: {
+    LoadFoodCalendars: function LoadFoodCalendars(state, FoodCalendars) {
+      state.FoodCalendars = FoodCalendars;
+    },
+    LoadFoodCalendar: function LoadFoodCalendar(state, FoodCalendar) {
+      state.FoodCalendar = FoodCalendar;
+    },
+    CreateFoodCalendar: function CreateFoodCalendar(state, FoodCalendar) {
+      var index = state.FoodCalendars.findIndex(function (FoodCalendar) {
+        return FoodCalendar.id == id;
+      });
+      state.FoodCalendars.unshift(index);
+    },
+    UpdateFoodCalendar: function UpdateFoodCalendar(state, FoodCalendar) {
+      var index = state.FoodCalendars.findIndex(function (p) {
+        return p.id === FoodCalendar.id;
+      });
+      state.FoodCalendars[index] = FoodCalendar;
+    },
+    DeleteFoodCalendar: function DeleteFoodCalendar(state, FoodCalendar) {
+      var index = state.FoodCalendars.findIndex(function (FoodCalendar) {
+        return FoodCalendar.id == id;
+      });
+      state.FoodCalendars.splice(index, 1);
+    }
+  },
+  state: {
+    FoodCalendars: [],
+    FoodCalendar: null
+  },
+  getters: {
+    GetFoodCalendars: function GetFoodCalendars(state) {
+      return state.FoodCalendars;
+    },
+    GetFoodCalendar: function GetFoodCalendar(state) {
+      return state.FoodCalendar;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/lifeStyles.js":
+/*!**************************************************!*\
+  !*** ./resources/js/store/modules/lifeStyles.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  actions: {
+    fetchLifeStyles: function fetchLifeStyles(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit;
+                axios.get('/api/life-style/list').then(function (response) {
+                  commit('LoadLifeStyles', response.data);
+                })["catch"](function (error) {
+                  console.log("fetchLifeStyles:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    fetchLifeStyle: function fetchLifeStyle(_ref2, LifeStyleId) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit;
+                axios.get('/api/life-style/show/' + LifeStyleId).then(function (response) {
+                  commit('LoadLifeStyle', response.data);
+                })["catch"](function (error) {
+                  console.log("LoadLifeStyle:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    storeLifeStyle: function storeLifeStyle(_ref3, LifeStyle) {
+      var commit = _ref3.commit;
+      axios.post('/api/life-style/create', {
+        name: LifeStyle.name
+      }).then(function (response) {
+        commit('CreateLifeStyle', LifeStyle);
+      })["catch"](function (error) {
+        console.log("storeLifeStyle:", error.response);
+      });
+    },
+    setLifeStyle: function setLifeStyle(_ref4, LifeStyle) {
+      var commit = _ref4.commit;
+      axios.put('/api/life-style/update/' + LifeStyle.id, {
+        name: LifeStyle.name
+      }).then(function (response) {
+        commit('UpdateLifeStyle', LifeStyle);
+      })["catch"](function (error) {
+        console.log("setLifeStyle:", error.response);
+      });
+    },
+    delLifeStyle: function delLifeStyle(_ref5, LifeStyle) {
+      var commit = _ref5.commit;
+      axios["delete"]('/api/life-style/delete/' + LifeStyle.id).then(function (response) {
+        commit('DeleteLifeStyle', LifeStyle);
+      })["catch"](function (error) {
+        console.log("delLifeStyle:", error.response);
+      });
+    }
+  },
+  mutations: {
+    LoadLifeStyles: function LoadLifeStyles(state, LifeStyles) {
+      state.LifeStyles = LifeStyles;
+    },
+    LoadLifeStyle: function LoadLifeStyle(state, LifeStyle) {
+      state.LifeStyle = LifeStyle;
+    },
+    CreateLifeStyle: function CreateLifeStyle(state, LifeStyle) {
+      var index = state.LifeStyles.findIndex(function (LifeStyle) {
+        return LifeStyle.id == id;
+      });
+      state.LifeStyles.unshift(index);
+    },
+    UpdateLifeStyle: function UpdateLifeStyle(state, LifeStyle) {
+      var index = state.LifeStyles.findIndex(function (p) {
+        return p.id === LifeStyle.id;
+      });
+      state.LifeStyles[index] = LifeStyle;
+    },
+    DeleteLifeStyle: function DeleteLifeStyle(state, LifeStyle) {
+      var index = state.LifeStyles.findIndex(function (LifeStyle) {
+        return LifeStyle.id == id;
+      });
+      state.LifeStyles.splice(index, 1);
+    }
+  },
+  state: {
+    LifeStyles: [],
+    LifeStyle: null
+  },
+  getters: {
+    GetLifeStyles: function GetLifeStyles(state) {
+      return state.LifeStyles;
+    },
+    GetLifeStyle: function GetLifeStyle(state) {
+      return state.LifeStyle;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/menuCalories.js":
+/*!****************************************************!*\
+  !*** ./resources/js/store/modules/menuCalories.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  actions: {
+    fetchMenuCalories: function fetchMenuCalories(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit;
+                axios.get('/api/menu-calory/list').then(function (response) {
+                  commit('LoadMenuCalories', response.data);
+                })["catch"](function (error) {
+                  console.log("fetchMenuCalories:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    fetchMenuCalory: function fetchMenuCalory(_ref2, MenuCaloryId) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit;
+                axios.get('/api/menu-calory/show/' + MenuCaloryId).then(function (response) {
+                  commit('LoadMenuCalory', response.data);
+                })["catch"](function (error) {
+                  console.log("LoadMenuCalory:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    storeMenuCalory: function storeMenuCalory(_ref3, MenuCalory) {
+      var commit = _ref3.commit;
+      axios.post('/api/menu-calory/create', {
+        name: MenuCalory.name
+      }).then(function (response) {
+        commit('CreateMenuCalory', MenuCalory);
+      })["catch"](function (error) {
+        console.log("storeMenuCalory:", error.response);
+      });
+    },
+    setMenuCalory: function setMenuCalory(_ref4, MenuCalory) {
+      var commit = _ref4.commit;
+      axios.put('/api/menu-calory/update/' + MenuCalory.id, {
+        name: MenuCalory.name
+      }).then(function (response) {
+        commit('UpdateMenuCalory', MenuCalory);
+      })["catch"](function (error) {
+        console.log("setMenuCalory:", error.response);
+      });
+    },
+    delMenuCalory: function delMenuCalory(_ref5, MenuCalory) {
+      var commit = _ref5.commit;
+      axios["delete"]('/api/menu-calory/delete/' + MenuCalory.id).then(function (response) {
+        commit('DeleteMenuCalory', MenuCalory);
+      })["catch"](function (error) {
+        console.log("delMenuCalory:", error.response);
+      });
+    }
+  },
+  mutations: {
+    LoadMenuCalories: function LoadMenuCalories(state, MenuCalories) {
+      state.MenuCalories = MenuCalories;
+    },
+    LoadMenuCalory: function LoadMenuCalory(state, MenuCalory) {
+      state.MenuCalory = MenuCalory;
+    },
+    CreateMenuCalory: function CreateMenuCalory(state, MenuCalory) {
+      var index = state.MenuCalories.findIndex(function (MenuCalory) {
+        return MenuCalory.id == id;
+      });
+      state.MenuCalories.unshift(index);
+    },
+    UpdateMenuCalory: function UpdateMenuCalory(state, MenuCalory) {
+      var index = state.MenuCalories.findIndex(function (p) {
+        return p.id === MenuCalory.id;
+      });
+      state.MenuCalories[index] = MenuCalory;
+    },
+    DeleteMenuCalory: function DeleteMenuCalory(state, MenuCalory) {
+      var index = state.MenuCalories.findIndex(function (MenuCalory) {
+        return MenuCalory.id == id;
+      });
+      state.MenuCalories.splice(index, 1);
+    }
+  },
+  state: {
+    MenuCalories: [],
+    MenuCalory: null
+  },
+  getters: {
+    GetMenuCalories: function GetMenuCalories(state) {
+      return state.MenuCalories;
+    },
+    GetMenuCalory: function GetMenuCalory(state) {
+      return state.MenuCalory;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/menuType.js":
+/*!************************************************!*\
+  !*** ./resources/js/store/modules/menuType.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  actions: {
+    fetchMenuTypes: function fetchMenuTypes(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit;
+                axios.get('/api/menu-type/list').then(function (response) {
+                  commit('LoadMenuTypes', response.data);
+                })["catch"](function (error) {
+                  console.log("fetchMenuTypes:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    fetchMenuType: function fetchMenuType(_ref2, MenuTypeId) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit;
+                axios.get('/api/menu-type/show/' + MenuTypeId).then(function (response) {
+                  commit('LoadMenuType', response.data);
+                })["catch"](function (error) {
+                  console.log("LoadMenuType:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    storeMenuType: function storeMenuType(_ref3, MenuType) {
+      var commit = _ref3.commit;
+      axios.post('/api/menu-type/create', {
+        name: MenuType.name
+      }).then(function (response) {
+        commit('CreateMenuType', MenuType);
+      })["catch"](function (error) {
+        console.log("storeMenuType:", error.response);
+      });
+    },
+    setMenuType: function setMenuType(_ref4, MenuType) {
+      var commit = _ref4.commit;
+      axios.put('/api/menu-type/update/' + MenuType.id, {
+        name: MenuType.name
+      }).then(function (response) {
+        commit('UpdateMenuType', MenuType);
+      })["catch"](function (error) {
+        console.log("setMenuType:", error.response);
+      });
+    },
+    delMenuType: function delMenuType(_ref5, MenuType) {
+      var commit = _ref5.commit;
+      axios["delete"]('/api/menu-type/delete/' + MenuType.id).then(function (response) {
+        commit('DeleteMenuType', MenuType);
+      })["catch"](function (error) {
+        console.log("delMenuType:", error.response);
+      });
+    }
+  },
+  mutations: {
+    LoadMenuTypes: function LoadMenuTypes(state, MenuTypes) {
+      state.MenuTypes = MenuTypes;
+    },
+    LoadMenuType: function LoadMenuType(state, MenuType) {
+      state.MenuType = MenuType;
+    },
+    CreateMenuType: function CreateMenuType(state, MenuType) {
+      var index = state.MenuTypes.findIndex(function (MenuType) {
+        return MenuType.id == id;
+      });
+      state.MenuTypes.unshift(index);
+    },
+    UpdateMenuType: function UpdateMenuType(state, MenuType) {
+      var index = state.MenuTypes.findIndex(function (p) {
+        return p.id === MenuType.id;
+      });
+      state.MenuTypes[index] = MenuType;
+    },
+    DeleteMenuType: function DeleteMenuType(state, MenuType) {
+      var index = state.MenuTypes.findIndex(function (MenuType) {
+        return MenuType.id == id;
+      });
+      state.MenuTypes.splice(index, 1);
+    }
+  },
+  state: {
+    MenuTypes: [],
+    MenuType: null
+  },
+  getters: {
+    GetMenuTypes: function GetMenuTypes(state) {
+      return state.MenuTypes;
+    },
+    GetMenuType: function GetMenuType(state) {
+      return state.MenuType;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/menus.js":
+/*!*********************************************!*\
+  !*** ./resources/js/store/modules/menus.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  actions: {
+    fetchMenus: function fetchMenus(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit;
+                axios.get('/api/menu/list').then(function (response) {
+                  commit('LoadMenus', response.data);
+                })["catch"](function (error) {
+                  console.log("fetchMenus:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    fetchMenu: function fetchMenu(_ref2, MenuId) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit;
+                axios.get('/api/menu/show/' + MenuId).then(function (response) {
+                  commit('LoadMenu', response.data);
+                })["catch"](function (error) {
+                  console.log("LoadMenu:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    storeMenu: function storeMenu(_ref3, Menu) {
+      var commit = _ref3.commit;
+      axios.post('/api/menu/create', {
+        menu_type_id: Menu.menu_type_id,
+        menu_calories_id: Menu.menu_calories_id,
+        menu_content: Menu.menu_content
+      }).then(function (response) {
+        commit('CreateMenu', Menu);
+      })["catch"](function (error) {
+        console.log("storeMenu:", error.response);
+      });
+    },
+    setMenu: function setMenu(_ref4, Menu) {
+      var commit = _ref4.commit;
+      axios.put('/api/menu/update/' + Menu.id, {
+        menu_type_id: Menu.menu_type_id,
+        menu_calories_id: Menu.menu_calories_id,
+        menu_content: Menu.menu_content
+      }).then(function (response) {
+        commit('UpdateMenu', Menu);
+      })["catch"](function (error) {
+        console.log("setMenu:", error.response);
+      });
+    },
+    delMenu: function delMenu(_ref5, Menu) {
+      var commit = _ref5.commit;
+      axios["delete"]('/api/menu/delete/' + Menu.id).then(function (response) {
+        commit('DeleteMenu', Menu);
+      })["catch"](function (error) {
+        console.log("delMenu:", error.response);
+      });
+    }
+  },
+  mutations: {
+    LoadMenus: function LoadMenus(state, Menus) {
+      state.Menus = Menus;
+    },
+    LoadMenu: function LoadMenu(state, Menu) {
+      state.Menu = Menu;
+    },
+    CreateMenu: function CreateMenu(state, Menu) {
+      var index = state.Menus.findIndex(function (Menu) {
+        return Menu.id == id;
+      });
+      state.Menus.unshift(index);
+    },
+    UpdateMenu: function UpdateMenu(state, Menu) {
+      var index = state.Menus.findIndex(function (p) {
+        return p.id === Menu.id;
+      });
+      state.Menus[index] = Menu;
+    },
+    DeleteMenu: function DeleteMenu(state, Menu) {
+      var index = state.Menus.findIndex(function (Menu) {
+        return Menu.id == id;
+      });
+      state.Menus.splice(index, 1);
+    }
+  },
+  state: {
+    Menus: [],
+    Menu: null
+  },
+  getters: {
+    GetMenus: function GetMenus(state) {
+      return state.Menus;
+    },
+    GetMenu: function GetMenu(state) {
+      return state.Menu;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/personalAccount.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/store/modules/personalAccount.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  actions: {
+    fetchPersonalAccount: function fetchPersonalAccount(_ref, PersonalAccountId) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit;
+                axios.get('/api/personal-account/show/' + PersonalAccountId).then(function (response) {
+                  commit('LoadUpdatePersonalAccount', response.data);
+                })["catch"](function (error) {
+                  console.log("LoadUpdatePersonalAccount:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+    /*setPersonalAccount({ commit }, PersonalAccount){
+        axios.put('/api/personal-account/update/'+PersonalAccount.id,{
+            ,
+        }).then(response => {
+            commit('LoadUpdatePersonalAccount', PersonalAccount)
+        }).catch((error)=>{
+            console.log("LoadUpdatePersonalAccount:",error.response);
+        });
+    },*/
+
+  },
+  mutations: {
+    LoadUpdatePersonalAccount: function LoadUpdatePersonalAccount(state, PersonalAccount) {
+      state.PersonalAccount = PersonalAccount;
+    }
+  },
+  state: {
+    PersonalAccount: null
+  },
+  getters: {
+    GetPersonalAccount: function GetPersonalAccount(state) {
+      return state.PersonalAccount;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/problemZones.js":
+/*!****************************************************!*\
+  !*** ./resources/js/store/modules/problemZones.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  actions: {
+    fetchProblemZones: function fetchProblemZones(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit;
+                axios.get('/api/problem-zone/list').then(function (response) {
+                  commit('LoadProblemZones', response.data);
+                })["catch"](function (error) {
+                  console.log("fetchProblemZones:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    fetchProblemZone: function fetchProblemZone(_ref2, ProblemZoneId) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit;
+                axios.get('/api/problem-zone/show/' + ProblemZoneId).then(function (response) {
+                  commit('LoadProblemZone', response.data);
+                })["catch"](function (error) {
+                  console.log("LoadProblemZone:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    storeProblemZone: function storeProblemZone(_ref3, ProblemZone) {
+      var commit = _ref3.commit;
+      axios.post('/api/problem-zone/create', {
+        name: ProblemZone.name
+      }).then(function (response) {
+        commit('CreateProblemZone', ProblemZone);
+      })["catch"](function (error) {
+        console.log("storeProblemZone:", error.response);
+      });
+    },
+    setProblemZone: function setProblemZone(_ref4, ProblemZone) {
+      var commit = _ref4.commit;
+      axios.put('/api/problem-zone/update/' + ProblemZone.id, {
+        name: ProblemZone.name
+      }).then(function (response) {
+        commit('UpdateProblemZone', ProblemZone);
+      })["catch"](function (error) {
+        console.log("setProblemZone:", error.response);
+      });
+    },
+    delProblemZone: function delProblemZone(_ref5, ProblemZone) {
+      var commit = _ref5.commit;
+      axios["delete"]('/api/problem-zone/delete/' + ProblemZone.id).then(function (response) {
+        commit('DeleteProblemZone', ProblemZone);
+      })["catch"](function (error) {
+        console.log("delProblemZone:", error.response);
+      });
+    }
+  },
+  mutations: {
+    LoadProblemZones: function LoadProblemZones(state, ProblemZones) {
+      state.ProblemZones = ProblemZones;
+    },
+    LoadProblemZone: function LoadProblemZone(state, ProblemZone) {
+      state.ProblemZone = ProblemZone;
+    },
+    CreateProblemZone: function CreateProblemZone(state, ProblemZone) {
+      var index = state.ProblemZones.findIndex(function (ProblemZone) {
+        return ProblemZone.id == id;
+      });
+      state.ProblemZones.unshift(index);
+    },
+    UpdateProblemZone: function UpdateProblemZone(state, ProblemZone) {
+      var index = state.ProblemZones.findIndex(function (p) {
+        return p.id === ProblemZone.id;
+      });
+      state.ProblemZones[index] = ProblemZone;
+    },
+    DeleteProblemZone: function DeleteProblemZone(state, ProblemZone) {
+      var index = state.ProblemZones.findIndex(function (ProblemZone) {
+        return ProblemZone.id == id;
+      });
+      state.ProblemZones.splice(index, 1);
+    }
+  },
+  state: {
+    ProblemZones: [],
+    ProblemZone: null
+  },
+  getters: {
+    GetProblemZones: function GetProblemZones(state) {
+      return state.ProblemZones;
+    },
+    GetProblemZone: function GetProblemZone(state) {
+      return state.ProblemZone;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/trainingLocations.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/store/modules/trainingLocations.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  actions: {
+    fetchTrainingLocations: function fetchTrainingLocations(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit;
+                axios.get('/api/training-location/list').then(function (response) {
+                  commit('LoadTrainingLocations', response.data);
+                })["catch"](function (error) {
+                  console.log("fetchTrainingLocations:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    fetchTrainingLocation: function fetchTrainingLocation(_ref2, TrainingLocationId) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit;
+                axios.get('/api/training-location/show/' + TrainingLocationId).then(function (response) {
+                  commit('LoadTrainingLocation', response.data);
+                })["catch"](function (error) {
+                  console.log("LoadTrainingLocation:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    storeTrainingLocation: function storeTrainingLocation(_ref3, TrainingLocation) {
+      var commit = _ref3.commit;
+      axios.post('/api/training-location/create', {
+        name: TrainingLocation.name
+      }).then(function (response) {
+        commit('CreateTrainingLocation', TrainingLocation);
+      })["catch"](function (error) {
+        console.log("storeTrainingLocation:", error.response);
+      });
+    },
+    setTrainingLocation: function setTrainingLocation(_ref4, TrainingLocation) {
+      var commit = _ref4.commit;
+      axios.put('/api/training-location/update/' + TrainingLocation.id, {
+        name: TrainingLocation.name
+      }).then(function (response) {
+        commit('UpdateTrainingLocation', TrainingLocation);
+      })["catch"](function (error) {
+        console.log("setTrainingLocation:", error.response);
+      });
+    },
+    delTrainingLocation: function delTrainingLocation(_ref5, TrainingLocation) {
+      var commit = _ref5.commit;
+      axios["delete"]('/api/training-location/delete/' + TrainingLocation.id).then(function (response) {
+        commit('DeleteTrainingLocation', TrainingLocation);
+      })["catch"](function (error) {
+        console.log("delTrainingLocation:", error.response);
+      });
+    }
+  },
+  mutations: {
+    LoadTrainingLocations: function LoadTrainingLocations(state, TrainingLocations) {
+      state.TrainingLocations = TrainingLocations;
+    },
+    LoadTrainingLocation: function LoadTrainingLocation(state, TrainingLocation) {
+      state.TrainingLocation = TrainingLocation;
+    },
+    CreateTrainingLocation: function CreateTrainingLocation(state, TrainingLocation) {
+      var index = state.TrainingLocations.findIndex(function (TrainingLocation) {
+        return TrainingLocation.id == id;
+      });
+      state.TrainingLocations.unshift(index);
+    },
+    UpdateTrainingLocation: function UpdateTrainingLocation(state, TrainingLocation) {
+      var index = state.TrainingLocations.findIndex(function (p) {
+        return p.id === TrainingLocation.id;
+      });
+      state.TrainingLocations[index] = TrainingLocation;
+    },
+    DeleteTrainingLocation: function DeleteTrainingLocation(state, TrainingLocation) {
+      var index = state.TrainingLocations.findIndex(function (TrainingLocation) {
+        return TrainingLocation.id == id;
+      });
+      state.TrainingLocations.splice(index, 1);
+    }
+  },
+  state: {
+    TrainingLocations: [],
+    TrainingLocation: null
+  },
+  getters: {
+    GetTrainingLocations: function GetTrainingLocations(state) {
+      return state.TrainingLocations;
+    },
+    GetTrainingLocation: function GetTrainingLocation(state) {
+      return state.TrainingLocation;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/trainingUsers.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/store/modules/trainingUsers.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  actions: {
+    fetchTrainingUsers: function fetchTrainingUsers(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit;
+                axios.get('/api/training-user/list').then(function (response) {
+                  commit('LoadTrainingUsers', response.data);
+                })["catch"](function (error) {
+                  console.log("fetchTrainingUsers:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    fetchTrainingUser: function fetchTrainingUser(_ref2, TrainingUserId) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit;
+                axios.get('/api/training-user/show/' + TrainingUserId).then(function (response) {
+                  commit('LoadTrainingUser', response.data);
+                })["catch"](function (error) {
+                  console.log("LoadTrainingUser:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    storeTrainingUser: function storeTrainingUser(_ref3, TrainingUser) {
+      var commit = _ref3.commit;
+      axios.post('/api/training-user/create', {
+        user_id: TrainingUser.user_id,
+        training_id: TrainingUser.training_id
+      }).then(function (response) {
+        commit('CreateTrainingUser', TrainingUser);
+      })["catch"](function (error) {
+        console.log("storeTrainingUser:", error.response);
+      });
+    },
+    setTrainingUser: function setTrainingUser(_ref4, TrainingUser) {
+      var commit = _ref4.commit;
+      axios.put('/api/training-user/update/' + TrainingUser.id, {
+        user_id: TrainingUser.user_id,
+        training_id: TrainingUser.training_id
+      }).then(function (response) {
+        commit('UpdateTrainingUser', TrainingUser);
+      })["catch"](function (error) {
+        console.log("setTrainingUser:", error.response);
+      });
+    },
+    delTrainingUser: function delTrainingUser(_ref5, TrainingUser) {
+      var commit = _ref5.commit;
+      axios["delete"]('/api/training-user/delete/' + TrainingUser.id).then(function (response) {
+        commit('DeleteTrainingUser', TrainingUser);
+      })["catch"](function (error) {
+        console.log("delTrainingUser:", error.response);
+      });
+    }
+  },
+  mutations: {
+    LoadTrainingUsers: function LoadTrainingUsers(state, TrainingUsers) {
+      state.TrainingUsers = TrainingUsers;
+    },
+    LoadTrainingUser: function LoadTrainingUser(state, TrainingUser) {
+      state.TrainingUser = TrainingUser;
+    },
+    CreateTrainingUser: function CreateTrainingUser(state, TrainingUser) {
+      var index = state.TrainingUsers.findIndex(function (TrainingUser) {
+        return TrainingUser.id == id;
+      });
+      state.TrainingUsers.unshift(index);
+    },
+    UpdateTrainingUser: function UpdateTrainingUser(state, TrainingUser) {
+      var index = state.TrainingUsers.findIndex(function (p) {
+        return p.id === TrainingUser.id;
+      });
+      state.TrainingUsers[index] = TrainingUser;
+    },
+    DeleteTrainingUser: function DeleteTrainingUser(state, TrainingUser) {
+      var index = state.TrainingUsers.findIndex(function (TrainingUser) {
+        return TrainingUser.id == id;
+      });
+      state.TrainingUsers.splice(index, 1);
+    }
+  },
+  state: {
+    TrainingUsers: [],
+    TrainingUser: null
+  },
+  getters: {
+    GetTrainingUsers: function GetTrainingUsers(state) {
+      return state.TrainingUsers;
+    },
+    GetTrainingUser: function GetTrainingUser(state) {
+      return state.TrainingUser;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/trainings.js":
+/*!*************************************************!*\
+  !*** ./resources/js/store/modules/trainings.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  actions: {
+    fetchTrainings: function fetchTrainings(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit;
+                axios.get('/api/training/list').then(function (response) {
+                  commit('LoadTrainings', response.data);
+                })["catch"](function (error) {
+                  console.log("fetchTrainings:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    fetchTraining: function fetchTraining(_ref2, TrainingId) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit;
+                axios.get('/api/training/show/' + TrainingId).then(function (response) {
+                  commit('LoadTraining', response.data);
+                })["catch"](function (error) {
+                  console.log("LoadTraining:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    storeTraining: function storeTraining(_ref3, Training) {
+      var commit = _ref3.commit;
+      axios.post('/api/training/create', {
+        training_location_id: Training.training_location_id,
+        name: Training.name,
+        description: Training.description,
+        training_days: Training.training_days
+      }).then(function (response) {
+        commit('CreateTraining', Training);
+      })["catch"](function (error) {
+        console.log("storeTraining:", error.response);
+      });
+    },
+    setTraining: function setTraining(_ref4, Training) {
+      var commit = _ref4.commit;
+      axios.put('/api/training/update/' + Training.id, {
+        training_location_id: Training.training_location_id,
+        name: Training.name,
+        description: Training.description,
+        training_days: Training.training_days
+      }).then(function (response) {
+        commit('UpdateTraining', Training);
+      })["catch"](function (error) {
+        console.log("setTraining:", error.response);
+      });
+    },
+    delTraining: function delTraining(_ref5, Training) {
+      var commit = _ref5.commit;
+      axios["delete"]('/api/training/delete/' + Training.id).then(function (response) {
+        commit('DeleteTraining', Training);
+      })["catch"](function (error) {
+        console.log("delTraining:", error.response);
+      });
+    }
+  },
+  mutations: {
+    LoadTrainings: function LoadTrainings(state, Trainings) {
+      state.Trainings = Trainings;
+    },
+    LoadTraining: function LoadTraining(state, Training) {
+      state.Training = Training;
+    },
+    CreateTraining: function CreateTraining(state, Training) {
+      var index = state.Trainings.findIndex(function (Training) {
+        return Training.id == id;
+      });
+      state.Trainings.unshift(index);
+    },
+    UpdateTraining: function UpdateTraining(state, Training) {
+      var index = state.Trainings.findIndex(function (p) {
+        return p.id === Training.id;
+      });
+      state.Trainings[index] = Training;
+    },
+    DeleteTraining: function DeleteTraining(state, Training) {
+      var index = state.Trainings.findIndex(function (Training) {
+        return Training.id == id;
+      });
+      state.Trainings.splice(index, 1);
+    }
+  },
+  state: {
+    Trainings: [],
+    Training: null
+  },
+  getters: {
+    GetTrainings: function GetTrainings(state) {
+      return state.Trainings;
+    },
+    GetTraining: function GetTraining(state) {
+      return state.Training;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/userMenus.js":
+/*!*************************************************!*\
+  !*** ./resources/js/store/modules/userMenus.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  actions: {
+    fetchUserMenus: function fetchUserMenus(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit;
+                axios.get('/api/user-menu/list').then(function (response) {
+                  commit('LoadUserMenus', response.data);
+                })["catch"](function (error) {
+                  console.log("fetchUserMenus:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+
+    /*FIX FOR CURRENT USER*/
+    fetchMenu: function fetchMenu(_ref2, MenuId) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit;
+                axios.get('/api/user-menu/show/' + MenuId).then(function (response) {
+                  commit('LoadMenu', response.data);
+                })["catch"](function (error) {
+                  console.log("LoadMenu:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    storeMenu: function storeMenu(_ref3, UserMenu) {
+      var commit = _ref3.commit;
+      axios.post('/api/user-menu/create', {
+        menu_type_id: UserMenu.menu_type_id,
+        menu_calories_id: UserMenu.menu_calories_id,
+        menu_content: UserMenu.menu_content
+      }).then(function (response) {
+        commit('CreateMenu', UserMenu);
+      })["catch"](function (error) {
+        console.log("storeMenu:", error.response);
+      });
+    },
+    setMenu: function setMenu(_ref4, UserMenu) {
+      var commit = _ref4.commit;
+      axios.put('/api/user-menu/update/' + UserMenu.id, {
+        menu_type_id: UserMenu.menu_type_id,
+        menu_calories_id: UserMenu.menu_calories_id,
+        menu_content: UserMenu.menu_content
+      }).then(function (response) {
+        commit('UpdateMenu', UserMenu);
+      })["catch"](function (error) {
+        console.log("setMenu:", error.response);
+      });
+    },
+    delMenu: function delMenu(_ref5, UserMenu) {
+      var commit = _ref5.commit;
+      axios["delete"]('/api/user-menu/delete/' + UserMenu.id).then(function (response) {
+        commit('DeleteMenu', UserMenu);
+      })["catch"](function (error) {
+        console.log("delMenu:", error.response);
+      });
+    }
+  },
+  mutations: {
+    LoadUserMenus: function LoadUserMenus(state, UserMenus) {
+      state.UserMenus = UserMenus;
+    },
+    LoadMenu: function LoadMenu(state, UserMenu) {
+      state.UserMenu = UserMenu;
+    },
+    CreateMenu: function CreateMenu(state, UserMenu) {
+      var index = state.UserMenus.findIndex(function (UserMenu) {
+        return UserMenu.id == id;
+      });
+      state.UserMenus.unshift(index);
+    },
+    UpdateMenu: function UpdateMenu(state, UserMenu) {
+      var index = state.UserMenus.findIndex(function (p) {
+        return p.id === UserMenu.id;
+      });
+      state.UserMenus[index] = UserMenu;
+    },
+    DeleteMenu: function DeleteMenu(state, UserMenu) {
+      var index = state.UserMenus.findIndex(function (UserMenu) {
+        return UserMenu.id == id;
+      });
+      state.UserMenus.splice(index, 1);
+    }
+  },
+  state: {
+    UserMenus: [],
+    UserMenu: null
+  },
+  getters: {
+    GetUserMenus: function GetUserMenus(state) {
+      return state.UserMenus;
+    },
+    GetMenu: function GetMenu(state) {
+      return state.UserMenu;
+    }
+  }
+});
 
 /***/ }),
 
@@ -41345,6 +43007,770 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./node_modules/regenerator-runtime/runtime.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/regenerator-runtime/runtime.js ***!
+  \*****************************************************/
+/***/ ((module) => {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+var runtime = (function (exports) {
+  "use strict";
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  function define(obj, key, value) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+    return obj[key];
+  }
+  try {
+    // IE 8 has a broken Object.defineProperty that only works on DOM objects.
+    define({}, "");
+  } catch (err) {
+    define = function(obj, key, value) {
+      return obj[key] = value;
+    };
+  }
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+    return generator;
+  }
+  exports.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  define(IteratorPrototype, iteratorSymbol, function () {
+    return this;
+  });
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = GeneratorFunctionPrototype;
+  define(Gp, "constructor", GeneratorFunctionPrototype);
+  define(GeneratorFunctionPrototype, "constructor", GeneratorFunction);
+  GeneratorFunction.displayName = define(
+    GeneratorFunctionPrototype,
+    toStringTagSymbol,
+    "GeneratorFunction"
+  );
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      define(prototype, method, function(arg) {
+        return this._invoke(method, arg);
+      });
+    });
+  }
+
+  exports.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  exports.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      define(genFun, toStringTagSymbol, "GeneratorFunction");
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  exports.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator, PromiseImpl) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return PromiseImpl.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return PromiseImpl.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration.
+          result.value = unwrapped;
+          resolve(result);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new PromiseImpl(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    this._invoke = enqueue;
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
+    return this;
+  });
+  exports.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+    if (PromiseImpl === void 0) PromiseImpl = Promise;
+
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList),
+      PromiseImpl
+    );
+
+    return exports.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        // Note: ["return"] must be used for ES3 parsing compatibility.
+        if (delegate.iterator["return"]) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  define(Gp, toStringTagSymbol, "Generator");
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  define(Gp, iteratorSymbol, function() {
+    return this;
+  });
+
+  define(Gp, "toString", function() {
+    return "[object Generator]";
+  });
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  exports.keys = function(object) {
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  exports.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+
+  // Regardless of whether this script is executing as a CommonJS module
+  // or not, return the runtime object so that we can declare the variable
+  // regeneratorRuntime in the outer scope, which allows this module to be
+  // injected easily by `bin/regenerator --include-runtime script.js`.
+  return exports;
+
+}(
+  // If this script is executing as a CommonJS module, use module.exports
+  // as the regeneratorRuntime namespace. Otherwise create a new empty
+  // object. Either way, the resulting object will be used to initialize
+  // the regeneratorRuntime variable at the top of this file.
+   true ? module.exports : 0
+));
+
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  // This module should not be running in strict mode, so the above
+  // assignment should always work unless something is misconfigured. Just
+  // in case runtime.js accidentally runs in strict mode, in modern engines
+  // we can explicitly access globalThis. In older engines we can escape
+  // strict mode using a global Function call. This could conceivably fail
+  // if a Content Security Policy forbids using Function, but in that case
+  // the proper solution is to fix the accidental strict mode problem. If
+  // you've misconfigured your bundler to force strict mode and applied a
+  // CSP to forbid Function, and you're not willing to fix either of those
+  // problems, please detail your unique predicament in a GitHub issue.
+  if (typeof globalThis === "object") {
+    globalThis.regeneratorRuntime = runtime;
+  } else {
+    Function("r", "regeneratorRuntime = r")(runtime);
+  }
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Notifications.vue?vue&type=style&index=0&lang=css&":
 /*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Notifications.vue?vue&type=style&index=0&lang=css& ***!
@@ -44494,7 +46920,11 @@ var render = function () {
                 "a",
                 {
                   staticClass: "account-head__exit",
-                  attrs: { href: "index.html" },
+                  on: {
+                    click: function ($event) {
+                      return _vm.logout()
+                    },
+                  },
                 },
                 [
                   _c(
