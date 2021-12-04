@@ -16,7 +16,7 @@
                </div>
                <div class="account-head__mob-row">
                   <Notifications></Notifications>
-                  <a href="index.html" class="account-head__exit">
+                  <a v-on:click="logout()" class="account-head__exit">
                      <svg class="account-head__mob-svg" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M14.99 11.2413V8.74375H9.99375V6.24375H14.99V3.7475L19.9875 7.495L14.99 11.2425V11.2413ZM12.4925 14.9887H7.495V3.74625L2.5 1.24875H12.4937V4.99625H13.7437V1.24875C13.7437 0.56125 13.1812 0 12.4937 0H1.24875C0.917764 0.000660653 0.600523 0.132437 0.36648 0.36648C0.132437 0.600523 0.000660653 0.917764 0 1.24875L0 15.4637C0 15.9512 0.275 16.3762 0.6875 16.6012L7.495 19.9987V16.2387H12.4925C13.18 16.2387 13.7425 15.6762 13.7425 14.9887V9.99375H12.4925V14.9913V14.9887Z" fill="#FF144A"/>
                      </svg>
@@ -211,6 +211,13 @@ export default {
    selectTab() {
       this.selectedTab = this.tab.title;
    },
+   logout() {
+      axios.post('/logout').then(response => {
+         this.$router.push("/")
+      }).catch(error => {
+         location.reload();
+      });
+   }
   },
 };
 </script>

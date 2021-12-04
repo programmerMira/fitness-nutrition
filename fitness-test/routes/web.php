@@ -11,7 +11,7 @@ use App\Http\Controllers\UserMenuController;
 use App\Http\Controllers\PersonalAccountController;
 #endregion
 
-Route::view("/","index");
+Route::view("/","index")->name('main');
 Route::view("/diet","diet");
 Route::view("/workout","workout");
 Route::view("/plugin","plugin");
