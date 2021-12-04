@@ -9,26 +9,35 @@ use App\Http\Resources\PersonalAccountResource;
 use App\Models\PersonalAccount;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
+
 class PersonalAccountController extends Controller
 {
     public function index(Request $request)
     {
-        $personalAccounts = PersonalAccount::all();
-
-        return new PersonalAccountCollection($personalAccounts);
+        $user = Auth::user()->id;
+        $personalAccount = PersonalAccount::where('user_id','=',$user);
+        return new PersonalAccountCollection($personalAccount);
     }
 
     public function store(PersonalAccountStoreRequest $request)
     {
         $personalAccount = PersonalAccount::create($request->validated());
-
         return new PersonalAccountResource($personalAccount);
     }
 
     public function show(Request $request, $personalAccountId)
     {
-        $personalAccount = PersonalAccount::find($personalAccountId);
-        return new PersonalAccountResource($personalAccount);
+        $user = Auth::user()->id;
+        $personalAccount = PersonalAccount::where('user_id','=',$user);
+        return new PersonalAccountCollection($personalAccount);
+    }
+    /*
+        User can update their parameters once in 10 days
+    */
+    public function updateParameters(PersonalAccountUpdateRequest $request, $personalAccountId)
+    {
+
     }
 
     public function update(PersonalAccountUpdateRequest $request, $personalAccountId)
