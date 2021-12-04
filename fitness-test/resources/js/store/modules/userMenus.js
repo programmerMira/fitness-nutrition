@@ -7,14 +7,14 @@ export default {
                 console.log("fetchUserMenus:",error.response);
             });
         },/*FIX FOR CURRENT USER*/
-        async fetchMenu({ commit }, MenuId) {
+        async fetchUserMenu({ commit }, MenuId) {
             axios.get('/api/user-menu/show/'+MenuId).then(response => {
                 commit('LoadMenu', response.data)
             }).catch((error)=>{
                 console.log("LoadMenu:",error.response);
             });
         },
-        storeMenu({ commit }, UserMenu){
+        storeUserMenu({ commit }, UserMenu){
             axios.post('/api/user-menu/create',{
                 menu_type_id:UserMenu.menu_type_id,
                 menu_calories_id:UserMenu.menu_calories_id,
@@ -25,7 +25,7 @@ export default {
                 console.log("storeMenu:",error.response);
             });
         },
-        setMenu({ commit }, UserMenu){
+        setUserMenu({ commit }, UserMenu){
             axios.put('/api/user-menu/update/'+UserMenu.id,{
                 menu_type_id:UserMenu.menu_type_id,
                 menu_calories_id:UserMenu.menu_calories_id,
@@ -36,7 +36,7 @@ export default {
                 console.log("setMenu:",error.response);
             });
         },
-        delMenu({ commit }, UserMenu){
+        delUserMenu({ commit }, UserMenu){
             axios.delete('/api/user-menu/delete/'+UserMenu.id).then((response)=>{
                 commit('DeleteMenu', UserMenu)
             }).catch((error)=>{
@@ -48,18 +48,18 @@ export default {
         LoadUserMenus(state, UserMenus){
             state.UserMenus = UserMenus;
         },
-        LoadMenu(state, UserMenu){
+        LoadUserMenu(state, UserMenu){
             state.UserMenu = UserMenu;
         },
-        CreateMenu(state, UserMenu){
+        CreateUserMenu(state, UserMenu){
             let index = state.UserMenus.findIndex(UserMenu => UserMenu.id == id)
             state.UserMenus.unshift(index)
         },
-        UpdateMenu(state, UserMenu){
+        UpdateUserMenu(state, UserMenu){
             let index = state.UserMenus.findIndex(p=> p.id === UserMenu.id)
             state.UserMenus[index] = UserMenu
         },
-        DeleteMenu(state, UserMenu){
+        DeleteUserMenu(state, UserMenu){
             let index = state.UserMenus.findIndex(UserMenu => UserMenu.id == id)
             state.UserMenus.splice(index, 1);
         },
@@ -72,7 +72,7 @@ export default {
         GetUserMenus(state){
             return state.UserMenus;
         },
-        GetMenu(state){
+        GetUserMenu(state){
             return state.UserMenu;
         }
     }

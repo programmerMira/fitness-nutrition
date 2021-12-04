@@ -19,7 +19,7 @@
                         Email или пароль не должен быть пустым
                     </div>
                     <div class="error__mrg"
-                         v-else-if="$v.email.$dirty && !$v.email.email && is_valid">
+                         v-else-if="$v.email.$dirty && !$v.email.email">
                         Такой Email или пароль не существует
                     </div>
                     <div class="modal-input__group">
@@ -53,7 +53,7 @@
                                 </clipPath>
                             </defs>
                         </svg>
-                        <input type="email" class="modal-input" placeholder="Password"
+                        <input type="password" class="modal-input" placeholder="Password"
                                v-model.trim="password"
                                :class="{invalid: ($v.password.$dirty && !$v.password.required) || ($v.password.$dirty && !$v.password.minLength)}">
                     </div>
@@ -77,7 +77,7 @@ export default {
         disabledBtn: false,
         email: '',
         password: '',
-        is_valid: false,
+        logged_in: false,
     }),
     validations: {
         email: {
@@ -101,10 +101,9 @@ export default {
             const auth = { email: this.email, password: this.password };
 
             axios.post('/login', auth).then(response => {
-                this.$router.push("/home")
+                
             }).catch(error => {
-                //location.reload();
-                this.is_valid = false;
+                location.reload();
             });
         }
     }
