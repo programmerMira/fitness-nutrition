@@ -9,12 +9,15 @@ use App\Http\Resources\ActivityCalendarResource;
 use App\Models\ActivityCalendar;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
+
 class ActivityCalendarController extends Controller
 {
     public function index(Request $request)
     {
+        //$user = Auth::user()->name;
+        //dd($user);
         $activityCalendars = ActivityCalendar::all();
-
         return new ActivityCalendarCollection($activityCalendars);
     }
 
