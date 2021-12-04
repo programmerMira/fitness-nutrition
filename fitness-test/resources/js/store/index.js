@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-<<<<<<< Updated upstream
-import problemZones from './modules/problemZones'
-=======
 //#region import modules
 import problemZones from './modules/problemZones'
 import lifeStyles from './modules/lifeStyles'
@@ -18,15 +15,12 @@ import trainings from './modules/trainings'
 /*fix for users*/import trainingUsers from './modules/trainingUsers'
 /*fix for users*/import activityCalendars from './modules/activityCalendars'
 //#endregion
->>>>>>> Stashed changes
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     modules: {
         problemZones,
-<<<<<<< Updated upstream
-=======
         lifeStyles,
         trainingLocations,
         menuCalories,
@@ -38,6 +32,5 @@ export default new Vuex.Store({
         trainings,
         trainingUsers,
         activityCalendars,
->>>>>>> Stashed changes
     }
 })
