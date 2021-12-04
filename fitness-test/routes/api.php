@@ -3,17 +3,13 @@
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 #region controllers usage
 use App\Http\Controllers\ProblemZoneController;
 use App\Http\Controllers\LifeStyleController;
 use App\Http\Controllers\TrainingLocationController;
-use App\Http\Controllers\ActivityCalendarController;
-use App\Http\Controllers\TrainingUserController;
 use App\Http\Controllers\TrainingController;
-use App\Http\Controllers\FoodCalendarController;
-use App\Http\Controllers\UserMenuController;
 use App\Http\Controllers\MenuController;
-use App\Http\Controllers\PersonalAccountController;
 use App\Http\Controllers\MenuTypeController;
 use App\Http\Controllers\MenuCaloryController;
 #endregion
@@ -66,13 +62,6 @@ Route::prefix('menu-type')->group(function () {
     Route::put('/update/{id}', [MenuTypeController::class,'update']);
     Route::delete('/delete/{id}', [MenuTypeController::class,'destroy']);
 });
-Route::prefix('personal-account')->group(function () {
-    Route::get('/list', [PersonalAccountController::class,'index']);
-    Route::get('/show/{id}', [PersonalAccountController::class,'show']);
-    Route::post('/create', [PersonalAccountController::class,'store']);
-    Route::put('/update/{id}', [PersonalAccountController::class,'update']);
-    Route::delete('/delete/{id}', [PersonalAccountController::class,'destroy']);
-});
 Route::prefix('menu')->group(function () {
     Route::get('/list', [MenuController::class,'index']);
     Route::get('/show/{id}', [MenuController::class,'show']);
@@ -80,40 +69,12 @@ Route::prefix('menu')->group(function () {
     Route::put('/update/{id}', [MenuController::class,'update']);
     Route::delete('/delete/{id}', [MenuController::class,'destroy']);
 });
-Route::prefix('user-menu')->group(function () {
-    Route::get('/list', [UserMenuController::class,'index']);
-    Route::get('/show/{id}', [UserMenuController::class,'show']);
-    Route::post('/create', [UserMenuController::class,'store']);
-    Route::put('/update/{id}', [UserMenuController::class,'update']);
-    Route::delete('/delete/{id}', [UserMenuController::class,'destroy']);
-});
-Route::prefix('food-calendar')->group(function () {
-    Route::get('/list', [FoodCalendarController::class,'index']);
-    Route::get('/show/{id}', [FoodCalendarController::class,'show']);
-    Route::post('/create', [FoodCalendarController::class,'store']);
-    Route::put('/update/{id}', [FoodCalendarController::class,'update']);
-    Route::delete('/delete/{id}', [FoodCalendarController::class,'destroy']);
-});
 Route::prefix('training')->group(function () {
     Route::get('/list', [TrainingController::class,'index']);
     Route::get('/show/{id}', [TrainingController::class,'show']);
     Route::post('/create', [TrainingController::class,'store']);
     Route::put('/update/{id}', [TrainingController::class,'update']);
     Route::delete('/delete/{id}', [TrainingController::class,'destroy']);
-});
-Route::prefix('training-user')->group(function () {
-    Route::get('/list', [TrainingUserController::class,'index']);
-    Route::get('/show/{id}', [TrainingUserController::class,'show']);
-    Route::post('/create', [TrainingUserController::class,'store']);
-    Route::put('/update/{id}', [TrainingUserController::class,'update']);
-    Route::delete('/delete/{id}', [TrainingUserController::class,'destroy']);
-});
-Route::prefix('activity-calendar')->group(function () {
-    Route::get('/list', [ActivityCalendarController::class,'index']);
-    Route::get('/show/{id}', [ActivityCalendarController::class,'show']);
-    Route::post('/create', [ActivityCalendarController::class,'store']);
-    Route::put('/update/{id}', [ActivityCalendarController::class,'update']);
-    Route::delete('/delete/{id}', [ActivityCalendarController::class,'destroy']);
 });
 #endregion
 #region resources
