@@ -28,6 +28,7 @@ class TrainingFactory extends Factory
             'name' => $this->faker->name,
             'description' => $this->faker->text,
             'training_days' => '{}',
+            'training_price' => $this->faker->randomFloat(0, 0, 9999999999.),
         ];
     }
 }

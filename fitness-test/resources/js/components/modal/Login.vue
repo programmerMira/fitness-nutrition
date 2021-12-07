@@ -99,11 +99,12 @@ export default {
             }
 
             const auth = { email: this.email, password: this.password };
-
+            console.log(auth);
             axios.post('/login', auth).then(response => {
                 
             }).catch(error => {
-                location.reload();
+                //location.reload();
+                console.log(error);
             });
         }
     }

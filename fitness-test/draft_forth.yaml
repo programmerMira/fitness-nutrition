@@ -1,0 +1,9 @@
+models:
+  Notification:
+    user_id: id foreign:User.id
+    name: string:50
+    description: string:300
+controllers:
+  Notification:
+    resource: api
+seeders: Notification

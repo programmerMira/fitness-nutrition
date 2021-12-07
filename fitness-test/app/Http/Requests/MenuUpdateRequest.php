@@ -27,6 +27,7 @@ class MenuUpdateRequest extends FormRequest
             'menu_type_id' => ['required', 'integer', 'exists:menu_types,id'],
             'menu_calories_id' => ['required', 'integer', 'exists:menu_calories,id'],
             'menu_content' => ['required', 'json'],
+            'menu_price' => ['required', 'double'],
         ];
     }
 }

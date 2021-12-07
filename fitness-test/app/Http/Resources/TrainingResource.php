@@ -20,6 +20,7 @@ class TrainingResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'training_days' => $this->training_days,
+            'training_price' => $this->training_price,
         ];
     }
 }

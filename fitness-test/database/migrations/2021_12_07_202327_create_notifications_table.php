@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMenusTable extends Migration
+class CreateNotificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,12 +15,11 @@ class CreateMenusTable extends Migration
     {
         Schema::disableForeignKeyConstraints();
 
-        Schema::create('menus', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('menu_type_id')->constrained();
-            $table->foreignId('menu_calories_id')->constrained('menu_calory');
-            $table->json('menu_content');
-            $table->double('training_price');
+            $table->foreignId('user_id')->constrained();
+            $table->string('name', 50);
+            $table->string('description', 300);
             $table->timestamps();
         });
 
@@ -34,6 +33,6 @@ class CreateMenusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menus');
+        Schema::dropIfExists('notifications');
     }
 }

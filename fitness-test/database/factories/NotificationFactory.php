@@ -4,18 +4,17 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\Menu;
-use App\Models\MenuCalory;
-use App\Models\MenuType;
+use App\Models\Notification;
+use App\Models\User;
 
-class MenuFactory extends Factory
+class NotificationFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Menu::class;
+    protected $model = Notification::class;
 
     /**
      * Define the model's default state.
@@ -25,10 +24,9 @@ class MenuFactory extends Factory
     public function definition()
     {
         return [
-            'menu_type_id' => MenuType::factory(),
-            'menu_calories_id' => MenuCalory::factory(),
-            'menu_content' => '{}',
-            'menu_price' => $this->faker->randomFloat(0, 0, 9999999999.),
+            'user_id' => User::factory(),
+            'name' => $this->faker->name,
+            'description' => $this->faker->text,
         ];
     }
 }

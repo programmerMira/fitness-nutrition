@@ -61,9 +61,8 @@ class FoodCalendarController extends Controller
         foreach($menu_user as $item){
             if($item->id == $foodCalendarId){
                 $foodCalendar->delete();
-                return new ActivityCalendarResource($foodCalendar);
             }
         }
-        return new FoodCalendarResource();
+        return response()->noContent();
     }
 }

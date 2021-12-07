@@ -18,6 +18,7 @@ class Menu extends Model
         'menu_type_id',
         'menu_calories_id',
         'menu_content',
+        'menu_price',
     ];
 
     /**
@@ -30,6 +31,7 @@ class Menu extends Model
         'menu_type_id' => 'integer',
         'menu_calories_id' => 'integer',
         'menu_content' => 'array',
+        'menu_price' => 'double',
     ];
 
 

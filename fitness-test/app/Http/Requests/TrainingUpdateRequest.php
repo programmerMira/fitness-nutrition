@@ -28,6 +28,7 @@ class TrainingUpdateRequest extends FormRequest
             'name' => ['required', 'string', 'max:50'],
             'description' => ['required', 'string', 'max:300'],
             'training_days' => ['required', 'json'],
+            'training_price' => ['required', 'double'],
         ];
     }
 }

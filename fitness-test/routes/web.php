@@ -9,6 +9,7 @@ use App\Http\Controllers\TrainingUserController;
 use App\Http\Controllers\FoodCalendarController;
 use App\Http\Controllers\UserMenuController;
 use App\Http\Controllers\PersonalAccountController;
+use App\Http\Controllers\NotificationController;
 #endregion
 
 Route::view("/","index")->name('main');
@@ -55,4 +56,11 @@ Route::prefix('api/activity-calendar')->group(function () {
     Route::post('/create', [ActivityCalendarController::class,'store']);
     Route::put('/update/{id}', [ActivityCalendarController::class,'update']);
     Route::delete('/delete/{id}', [ActivityCalendarController::class,'destroy']);
+});
+Route::prefix('api/notification')->group(function () {
+    Route::get('/list', [NotificationController::class,'index']);
+    Route::get('/show/{id}', [NotificationController::class,'show']);
+    Route::post('/create', [NotificationController::class,'store']);
+    Route::put('/update/{id}', [NotificationController::class,'update']);
+    Route::delete('/delete/{id}', [NotificationController::class,'destroy']);
 });

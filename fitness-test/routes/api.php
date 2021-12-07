@@ -89,5 +89,6 @@ Route::apiResource('user-menu', UserMenuController::class);
 Route::apiResource('food-calendar', FoodCalendarController::class);
 Route::apiResource('training', TrainingController::class);
 Route::apiResource('training-user', TrainingUserController::class);
-Route::apiResource('activity-calendar', ActivityCalendarController::class);*/
+Route::apiResource('activity-calendar', ActivityCalendarController::class);
+Route::apiResource('notification', App\Http\Controllers\NotificationController::class);*/
 #endregion

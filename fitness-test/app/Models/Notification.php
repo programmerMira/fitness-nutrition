@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Training extends Model
+class Notification extends Model
 {
     use HasFactory;
 
@@ -15,11 +15,9 @@ class Training extends Model
      * @var array
      */
     protected $fillable = [
-        'training_location_id',
+        'user_id',
         'name',
         'description',
-        'training_days',
-        'training_price',
     ];
 
     /**
@@ -29,14 +27,12 @@ class Training extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'training_location_id' => 'integer',
-        'training_days' => 'array',
-        'training_price' => 'double',
+        'user_id' => 'integer',
     ];
 
 
-    public function trainingLocation()
+    public function user()
     {
-        return $this->belongsTo(\App\Models\TrainingLocation::class);
+        return $this->belongsTo(\App\Models\TrainingUser::class);
     }
 }

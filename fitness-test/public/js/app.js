@@ -5056,8 +5056,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     submitHendler: function submitHendler() {
-      var _this = this;
-
       if (this.$v.$invalid) {
         this.$v.$touch();
         return;
@@ -5069,17 +5067,11 @@ __webpack_require__.r(__webpack_exports__);
         email: this.email,
         password: this.password
       };
-      axios.post('/login', auth).then(function (response) {
-        _this.logged_in = true;
-      })["catch"](function (error) {
-        location.reload();
+      console.log(auth);
+      axios.post('/login', auth).then(function (response) {})["catch"](function (error) {
+        //location.reload();
+        console.log(error);
       });
-
-      if (this.logged_in) {
-        axios.get('/diet', auth).then(function (response) {})["catch"](function (error) {
-          console.log("error:", error);
-        });
-      }
     }
   }
 });
