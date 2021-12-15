@@ -65,7 +65,7 @@ Route::prefix('api/notification')->group(function () {
     Route::put('/update/{id}', [NotificationController::class,'update']);
     Route::delete('/delete/{id}', [NotificationController::class,'destroy']);
 });
-Route::prefix('api/physics-parameters')->group(function () {
+Route::prefix('api/physics-parameter')->group(function () {
     Route::get('/list', [PhysicsParametersController::class,'index']);
     Route::get('/show/{id}', [PhysicsParametersController::class,'show']);
     Route::post('/create', [PhysicsParametersController::class,'store']);
