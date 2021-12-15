@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PersonalAccountStoreRequest extends FormRequest
+class PhysicsParameterStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,12 +25,12 @@ class PersonalAccountStoreRequest extends FormRequest
     {
         return [
             'user_id' => ['required', 'integer', 'exists:users,id'],
-            'age' => ['required', 'integer'],
-            'life_style_id' => ['required', 'integer', 'exists:life_styles,id'],
-            'problem_zone_id' => ['required', 'integer', 'exists:problem_zones,id'],
-            'training_location_id' => ['required', 'integer', 'exists:training_locations,id'],
-            'menu_calories_id' => ['required', 'integer', 'exists:menu_calories,id'],
-            'photos' => ['required', 'json'],
+            'weight' => ['required', 'numeric'],
+            'height' => ['required', 'numeric'],
+            'dream_weight' => ['required', 'numeric'],
+            'hips_cm' => ['required', 'numeric'],
+            'waist_cm' => ['required', 'numeric'],
+            'chest_cm' => ['required', 'numeric'],
         ];
     }
 }

@@ -99,5 +99,6 @@ Route::apiResource('training', TrainingController::class);
 Route::apiResource('training-user', TrainingUserController::class);
 Route::apiResource('activity-calendar', ActivityCalendarController::class);
 Route::apiResource('notification', App\Http\Controllers\NotificationController::class);
-Route::apiResource('question', App\Http\Controllers\QuestionController::class);*/
+Route::apiResource('question', App\Http\Controllers\QuestionController::class);
+Route::apiResource('physics-parameters', App\Http\Controllers\PhysicsParametersController::class);*/
 #endregion

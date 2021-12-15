@@ -17,16 +17,10 @@ class PersonalAccount extends Model
     protected $fillable = [
         'user_id',
         'age',
-        'weight',
-        'height',
-        'dream_weight',
         'life_style_id',
         'problem_zone_id',
         'training_location_id',
         'menu_calories_id',
-        'hips_cm',
-        'waist_cm',
-        'chest_cm',
         'photos',
     ];
 
@@ -38,16 +32,10 @@ class PersonalAccount extends Model
     protected $casts = [
         'id' => 'integer',
         'user_id' => 'integer',
-        'weight' => 'float',
-        'height' => 'float',
-        'dream_weight' => 'float',
         'life_style_id' => 'integer',
         'problem_zone_id' => 'integer',
         'training_location_id' => 'integer',
         'menu_calories_id' => 'integer',
-        'hips_cm' => 'float',
-        'waist_cm' => 'float',
-        'chest_cm' => 'float',
         'photos' => 'array',
     ];
 

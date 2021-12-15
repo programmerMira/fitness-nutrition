@@ -1,14 +1,14 @@
 created:
-    - app/Http/Controllers/QuestionController.php
-    - database/factories/QuestionFactory.php
-    - database/migrations/2021_12_14_141629_create_questions_table.php
-    - app/Models/Question.php
-    - database/seeders/QuestionSeeder.php
-    - tests/Feature/Http/Controllers/QuestionControllerTest.php
-    - app/Http/Requests/QuestionStoreRequest.php
-    - app/Http/Requests/QuestionUpdateRequest.php
-    - app/Http/Resources/QuestionCollection.php
-    - app/Http/Resources/QuestionResource.php
+    - app/Http/Controllers/PhysicsParametersController.php
+    - database/factories/PhysicsParametersFactory.php
+    - database/migrations/2021_12_15_190529_create_physics_parameters_table.php
+    - app/Models/PhysicsParameters.php
+    - database/seeders/PhysicsParametersSeeder.php
+    - tests/Feature/Http/Controllers/PhysicsParametersControllerTest.php
+    - app/Http/Requests/PhysicsParameterStoreRequest.php
+    - app/Http/Requests/PhysicsParameterUpdateRequest.php
+    - app/Http/Resources/PhysicsParameterCollection.php
+    - app/Http/Resources/PhysicsParameterResource.php
 updated:
     - routes/api.php
 models:
@@ -26,3 +26,4 @@ models:
     ActivityCalendar: { training_user_id: 'id foreign:TrainingUser.id', level: integer, day: integer }
     Notification: { user_id: 'id foreign:User.id', name: 'string:50', description: 'string:300' }
     Question: { name: 'string:50', answer: 'string:5000' }
+    PhysicsParameters: { user_id: 'id foreign:User.id', weight: float, height: float, dream_weight: float, hips_cm: float, waist_cm: float, chest_cm: float }

@@ -10,6 +10,7 @@ use App\Http\Controllers\FoodCalendarController;
 use App\Http\Controllers\UserMenuController;
 use App\Http\Controllers\PersonalAccountController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PhysicsParametersController;
 #endregion
 
 Route::view("/","index")->name('main');
@@ -63,4 +64,11 @@ Route::prefix('api/notification')->group(function () {
     Route::post('/create', [NotificationController::class,'store']);
     Route::put('/update/{id}', [NotificationController::class,'update']);
     Route::delete('/delete/{id}', [NotificationController::class,'destroy']);
+});
+Route::prefix('api/physics-parameters')->group(function () {
+    Route::get('/list', [PhysicsParametersController::class,'index']);
+    Route::get('/show/{id}', [PhysicsParametersController::class,'show']);
+    Route::post('/create', [PhysicsParametersController::class,'store']);
+    Route::put('/update/{id}', [PhysicsParametersController::class,'update']);
+    Route::delete('/delete/{id}', [PhysicsParametersController::class,'destroy']);
 });
