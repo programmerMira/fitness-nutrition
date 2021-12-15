@@ -105,9 +105,15 @@
                                     <div id="indicator"></div>
                                 </ul>
                                 <div class="head__btn">
+                                @if (!auth()->guest())
+                                    <button type="button" class="button" onclick="location.href='/home';">
+                                        Домой
+                                    </button>
+                                @else
                                     <button type="button" class="button" data-toggle="modal" data-target="#login">
                                         Вход
                                     </button>
+                                @endif
                                 </div>
                                 <div class="head__social">
                                     <a href="#">
@@ -187,10 +193,16 @@
                     <img src="{{ ('images/first.png') }}" alt="">
                 </div>
                 <div class="first__col">
+                @if (!auth()->guest())
+                    <button type="button" class="button first__btn white-btn" onclick="location.href='/home';">
+                        Домой
+                    </button>
+                @else
                     <button type="button" class="button first__btn white-btn" data-toggle="modal"
                             data-target="#login">
                         Вход
                     </button>
+                @endif
                     <div class="first__social">
                         <a href="#">
                             <svg width="31" height="28" viewBox="0 0 31 28" fill="none"

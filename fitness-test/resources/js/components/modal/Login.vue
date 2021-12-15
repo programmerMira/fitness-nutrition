@@ -19,7 +19,7 @@
                         Email или пароль не должен быть пустым
                     </div>
                     <div class="error__mrg"
-                         v-else-if="$v.email.$dirty && !$v.email.email">
+                         v-if="login_failure">
                         Такой Email или пароль не существует
                     </div>
                     <div class="modal-input__group">
@@ -78,6 +78,7 @@ export default {
         email: '',
         password: '',
         logged_in: false,
+        login_failure:false,
     }),
     validations: {
         email: {
@@ -96,16 +97,13 @@ export default {
                 return
             } else {
                 this.disabledBtn = !this.disabledBtn;
+                const auth = { email: this.email, password: this.password };
+                axios.post('/login', auth).then(response => {
+                    window.location.href = `/home`;
+                }).catch(error => {
+                    this.login_failure=true
+                });
             }
-
-            const auth = { email: this.email, password: this.password };
-            console.log(auth);
-            axios.post('/login', auth).then(response => {
-                
-            }).catch(error => {
-                //location.reload();
-                console.log(error);
-            });
         }
     }
 };

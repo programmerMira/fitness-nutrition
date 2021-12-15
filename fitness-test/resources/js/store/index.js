@@ -9,6 +9,7 @@ import menuCalories from './modules/menuCalories'
 import menuTypes from './modules/menuType'
 import menus from './modules/menus'
 import trainings from './modules/trainings'
+import questions from './modules/questions'
 /*NoUpdateHere*/import personalAccount from './modules/personalAccount'
 /*fix for users*/import userMenus from './modules/userMenus'
 /*fix for users*/import foodCalendars from './modules/foodCalendars'
@@ -32,5 +33,6 @@ export default new Vuex.Store({
         trainings,
         trainingUsers,
         activityCalendars,
+        questions,
     }
 })

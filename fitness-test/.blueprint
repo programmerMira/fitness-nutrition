@@ -1,14 +1,14 @@
 created:
-    - app/Http/Controllers/NotificationController.php
-    - database/factories/NotificationFactory.php
-    - database/migrations/2021_12_07_202327_create_notifications_table.php
-    - app/Models/Notification.php
-    - database/seeders/NotificationSeeder.php
-    - tests/Feature/Http/Controllers/NotificationControllerTest.php
-    - app/Http/Requests/NotificationStoreRequest.php
-    - app/Http/Requests/NotificationUpdateRequest.php
-    - app/Http/Resources/NotificationCollection.php
-    - app/Http/Resources/NotificationResource.php
+    - app/Http/Controllers/QuestionController.php
+    - database/factories/QuestionFactory.php
+    - database/migrations/2021_12_14_141629_create_questions_table.php
+    - app/Models/Question.php
+    - database/seeders/QuestionSeeder.php
+    - tests/Feature/Http/Controllers/QuestionControllerTest.php
+    - app/Http/Requests/QuestionStoreRequest.php
+    - app/Http/Requests/QuestionUpdateRequest.php
+    - app/Http/Resources/QuestionCollection.php
+    - app/Http/Resources/QuestionResource.php
 updated:
     - routes/api.php
 models:
@@ -25,3 +25,4 @@ models:
     TrainingUser: { user_id: 'id foreign:User.id', training_id: 'id foreign:Training.id' }
     ActivityCalendar: { training_user_id: 'id foreign:TrainingUser.id', level: integer, day: integer }
     Notification: { user_id: 'id foreign:User.id', name: 'string:50', description: 'string:300' }
+    Question: { name: 'string:50', answer: 'string:5000' }

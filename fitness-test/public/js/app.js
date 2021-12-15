@@ -5041,7 +5041,8 @@ __webpack_require__.r(__webpack_exports__);
       disabledBtn: false,
       email: '',
       password: '',
-      logged_in: false
+      logged_in: false,
+      login_failure: false
     };
   },
   validations: {
@@ -5056,22 +5057,23 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     submitHendler: function submitHendler() {
+      var _this = this;
+
       if (this.$v.$invalid) {
         this.$v.$touch();
         return;
       } else {
         this.disabledBtn = !this.disabledBtn;
+        var auth = {
+          email: this.email,
+          password: this.password
+        };
+        axios.post('/login', auth).then(function (response) {
+          window.location.href = "/home";
+        })["catch"](function (error) {
+          _this.login_failure = true;
+        });
       }
-
-      var auth = {
-        email: this.email,
-        password: this.password
-      };
-      console.log(auth);
-      axios.post('/login', auth).then(function (response) {})["catch"](function (error) {
-        //location.reload();
-        console.log(error);
-      });
     }
   }
 });
@@ -46919,7 +46921,7 @@ var render = function () {
       _c("nav", { staticClass: "sidebar__menu" }, [
         _c("ul", { staticClass: "sidebar__list" }, [
           _c("li", [
-            _c("a", { attrs: { href: "home.html" } }, [
+            _c("a", { attrs: { href: "/home" } }, [
               _c(
                 "svg",
                 {
@@ -46944,7 +46946,7 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("li", [
-            _c("a", { attrs: { href: "diet.html" } }, [
+            _c("a", { attrs: { href: "/diet" } }, [
               _c(
                 "svg",
                 {
@@ -46995,7 +46997,7 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("li", [
-            _c("a", { attrs: { href: "workout.html" } }, [
+            _c("a", { attrs: { href: "/workout" } }, [
               _c(
                 "svg",
                 {
@@ -47068,7 +47070,7 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("li", [
-            _c("a", { attrs: { href: "plugin.html" } }, [
+            _c("a", { attrs: { href: "/plugin" } }, [
               _c(
                 "svg",
                 {
@@ -47105,7 +47107,7 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("li", [
-            _c("a", { attrs: { href: "question.html" } }, [
+            _c("a", { attrs: { href: "/question" } }, [
               _c(
                 "svg",
                 {
@@ -50280,7 +50282,9 @@ var render = function () {
                           "\n                    Email или пароль не должен быть пустым\n                "
                         ),
                       ])
-                    : _vm.$v.email.$dirty && !_vm.$v.email.email
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.login_failure
                     ? _c("div", { staticClass: "error__mrg" }, [
                         _vm._v(
                           "\n                    Такой Email или пароль не существует\n                "

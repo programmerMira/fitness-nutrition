@@ -4,7 +4,7 @@
       <nav class="sidebar__menu">
          <ul class="sidebar__list">
             <li>
-               <a href="home.html">
+               <a href="/home">
                   <svg width="20" height="18" viewBox="0 0 20 18" fill="none"
                      xmlns="http://www.w3.org/2000/svg">
                      <path d="M8 17.1017V11.2542H12V17.1017H17V9.30508H20L10 0.53389L0 9.30508H3V17.1017H8Z"
@@ -13,7 +13,7 @@
                </a>
             </li>
             <li>
-               <a href="diet.html">
+               <a href="/diet">
                   <svg width="23" height="25" viewBox="0 0 23 25" fill="none"
                      xmlns="http://www.w3.org/2000/svg">
                      <path
@@ -31,7 +31,7 @@
                </a>
             </li>
             <li>
-               <a href="workout.html">
+               <a href="/workout">
                   <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
                      xmlns="http://www.w3.org/2000/svg">
                      <path
@@ -55,7 +55,7 @@
                </a>
             </li>
             <li>
-               <a href="plugin.html">
+               <a href="/plugin">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                      xmlns="http://www.w3.org/2000/svg">
                      <g clip-path="url(#clip0)">
@@ -72,7 +72,7 @@
                </a>
             </li>
             <li>
-               <a href="question.html">
+               <a href="/question">
                   <svg width="23" height="24" viewBox="0 0 23 24" fill="none"
                      xmlns="http://www.w3.org/2000/svg">
                      <path

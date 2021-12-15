@@ -12,6 +12,7 @@ use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MenuTypeController;
 use App\Http\Controllers\MenuCaloryController;
+use App\Http\Controllers\QuestionController;
 #endregion
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -76,6 +77,13 @@ Route::prefix('training')->group(function () {
     Route::put('/update/{id}', [TrainingController::class,'update']);
     Route::delete('/delete/{id}', [TrainingController::class,'destroy']);
 });
+Route::prefix('question')->group(function () {
+    Route::get('/list', [QuestionController::class,'index']);
+    Route::get('/show/{id}', [QuestionController::class,'show']);
+    Route::post('/create', [QuestionController::class,'store']);
+    Route::put('/update/{id}', [QuestionController::class,'update']);
+    Route::delete('/delete/{id}', [QuestionController::class,'destroy']);
+});
 #endregion
 #region resources
 /*Route::apiResource('problem-zone', ProblemZoneController::class);
@@ -90,5 +98,6 @@ Route::apiResource('food-calendar', FoodCalendarController::class);
 Route::apiResource('training', TrainingController::class);
 Route::apiResource('training-user', TrainingUserController::class);
 Route::apiResource('activity-calendar', ActivityCalendarController::class);
-Route::apiResource('notification', App\Http\Controllers\NotificationController::class);*/
+Route::apiResource('notification', App\Http\Controllers\NotificationController::class);
+Route::apiResource('question', App\Http\Controllers\QuestionController::class);*/
 #endregion
