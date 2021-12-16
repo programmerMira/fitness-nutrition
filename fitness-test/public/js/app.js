@@ -4927,13 +4927,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       activeStep: 1,
       formSteps: [],
       imageData: "",
-      formDone: false
+      formDone: false,
+      email: '',
+      code: '',
+      codeChecked: false,
+      password_repeat: '',
+      password: ''
     };
   },
   methods: {
@@ -4945,6 +4953,34 @@ __webpack_require__.r(__webpack_exports__);
     },
     submit: function submit() {
       alert("Submit to blah and show blah and etc.");
+    },
+    AskForCode: function AskForCode() {
+      var _this = this;
+
+      var auth = {
+        email: this.email
+      };
+      axios.post('/password/email', auth).then(function (response) {
+        alert("Код был отправлен, пожалуйста, проверьте вашу почту.");
+        _this.codeChecked = true;
+        next();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    CheckCode: function CheckCode() {//check code here?
+    },
+    CheckPasswordAndSet: function CheckPasswordAndSet() {
+      if (this.password == this.password_repeat && this.password != '') {
+        var pass = {
+          password: this.password
+        };
+        axios.post('/password/reset', pass).then(function (response) {
+          next();
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
     }
   }
 });
@@ -5164,6 +5200,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -5183,15 +5220,17 @@ __webpack_require__.r(__webpack_exports__);
       }],
       diets: [{
         value: false,
-        menu: ' Меню на 30 дней',
+        menu: ' Меню на 30 дней 1',
         price: '2 000 р.'
       }, {
         value: false,
-        menu: ' Меню на 30 дней',
+        menu: ' Меню на 30 дней 2',
         price: '2 000 р.'
       }],
       activeStep: 1,
-      formSteps: []
+      formSteps: [],
+      selected_calory: null,
+      selected_diet: null
     };
   },
   methods: {
@@ -5200,13 +5239,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     next: function next() {
       this.activeStep++;
+    },
+    disableBtn: function disableBtn() {
+      return this.selected_calory != null && this.selected_diet != null;
     }
   },
-  computed: {
-    disabled: function disabled() {
-      return this.diets[index].value ? false : true;
-    }
-  }
+  computed: {}
 });
 
 /***/ }),
@@ -5222,6 +5260,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
 //
 //
 //
@@ -5305,7 +5344,8 @@ __webpack_require__.r(__webpack_exports__);
         price: '2 000 р.'
       }],
       activeStep: 1,
-      formSteps: []
+      formSteps: [],
+      selected_dietsimple: null
     };
   },
   methods: {
@@ -5457,6 +5497,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -5480,7 +5521,8 @@ __webpack_require__.r(__webpack_exports__);
         discount: '-20%'
       }],
       activeStep: 1,
-      formSteps: []
+      formSteps: [],
+      selected_checkbox: null
     };
   },
   methods: {
@@ -5506,6 +5548,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
 //
 //
 //
@@ -5599,7 +5642,9 @@ __webpack_require__.r(__webpack_exports__);
         price: '2 000'
       }],
       activeStep: 1,
-      formSteps: []
+      formSteps: [],
+      selected_location: null,
+      selected_workout: null
     };
   },
   methods: {
@@ -50245,8 +50290,25 @@ var render = function () {
                         ),
                         _vm._v(" "),
                         _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.email,
+                              expression: "email",
+                            },
+                          ],
                           staticClass: "modal-input",
                           attrs: { type: "email", placeholder: "Email" },
+                          domProps: { value: _vm.email },
+                          on: {
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.email = $event.target.value
+                            },
+                          },
                         }),
                       ]),
                       _vm._v(" "),
@@ -50311,6 +50373,11 @@ var render = function () {
                             {
                               staticClass: "button modal__btn-code",
                               attrs: { type: "button" },
+                              on: {
+                                click: function ($event) {
+                                  return _vm.AskForCode()
+                                },
+                              },
                             },
                             [
                               _vm._v(
@@ -50320,30 +50387,59 @@ var render = function () {
                           ),
                           _vm._v(" "),
                           _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.code,
+                                expression: "code",
+                              },
+                            ],
                             staticClass: "modal-input",
-                            attrs: { type: "email", placeholder: "Password" },
+                            attrs: { type: "text", placeholder: "Code" },
+                            domProps: { value: _vm.code },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.code = $event.target.value
+                              },
+                            },
                           }),
                         ]
                       ),
                       _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "button modal__btn",
-                          attrs: { type: "submit" },
-                          on: {
-                            click: function ($event) {
-                              $event.preventDefault()
-                              return _vm.next()
+                      _vm.codeChecked
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "button modal__btn",
+                              attrs: { type: "submit" },
+                              on: {
+                                click: function ($event) {
+                                  return _vm.CheckCode()
+                                },
+                              },
                             },
-                          },
-                        },
-                        [
-                          _vm._v(
-                            "\n                        ПРОДОЛЖИТЬ\n                    "
+                            [
+                              _vm._v(
+                                "\n                        ПРОДОЛЖИТЬ\n                    "
+                              ),
+                            ]
+                          )
+                        : _c(
+                            "button",
+                            {
+                              staticClass: "button modal__btn",
+                              attrs: { type: "submit", disabled: "" },
+                            },
+                            [
+                              _vm._v(
+                                "\n                        ПРОДОЛЖИТЬ\n                    "
+                              ),
+                            ]
                           ),
-                        ]
-                      ),
                     ])
                   : _vm._e(),
                 _vm._v(" "),
@@ -50445,10 +50541,27 @@ var render = function () {
                         ),
                         _vm._v(" "),
                         _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.password,
+                              expression: "password",
+                            },
+                          ],
                           staticClass: "modal-input",
                           attrs: {
-                            type: "email",
+                            type: "password",
                             placeholder: "Введите новый пароль",
+                          },
+                          domProps: { value: _vm.password },
+                          on: {
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.password = $event.target.value
+                            },
                           },
                         }),
                       ]),
@@ -50500,10 +50613,27 @@ var render = function () {
                         ),
                         _vm._v(" "),
                         _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.password_repeat,
+                              expression: "password_repeat",
+                            },
+                          ],
                           staticClass: "modal-input",
                           attrs: {
-                            type: "email",
+                            type: "password",
                             placeholder: "Повторите пароль",
+                          },
+                          domProps: { value: _vm.password_repeat },
+                          on: {
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.password_repeat = $event.target.value
+                            },
                           },
                         }),
                       ]),
@@ -50515,8 +50645,7 @@ var render = function () {
                           attrs: { type: "button" },
                           on: {
                             click: function ($event) {
-                              $event.preventDefault()
-                              return _vm.next()
+                              return _vm.CheckPasswordAndSet()
                             },
                           },
                         },
@@ -50956,6 +51085,11 @@ var render = function () {
                 {
                   staticClass: "plugin-modal__btn-close btn-none",
                   attrs: { "data-dismiss": "modal" },
+                  on: {
+                    click: function ($event) {
+                      _vm.activeStep = 1
+                    },
+                  },
                 },
                 [
                   _c(
@@ -51021,43 +51155,19 @@ var render = function () {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: caloric.value,
-                            expression: "caloric.value",
+                            value: _vm.selected_calory,
+                            expression: "selected_calory",
                           },
                         ],
                         staticClass: "check__input",
-                        attrs: { type: "checkbox", id: caloric.title },
+                        attrs: { type: "radio", id: caloric.title },
                         domProps: {
                           value: caloric.title,
-                          checked: Array.isArray(caloric.value)
-                            ? _vm._i(caloric.value, caloric.title) > -1
-                            : caloric.value,
+                          checked: _vm._q(_vm.selected_calory, caloric.title),
                         },
                         on: {
-                          click: function ($event) {
-                            _vm.disabled = !_vm.disabled
-                          },
                           change: function ($event) {
-                            var $$a = caloric.value,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = caloric.title,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 &&
-                                  _vm.$set(caloric, "value", $$a.concat([$$v]))
-                              } else {
-                                $$i > -1 &&
-                                  _vm.$set(
-                                    caloric,
-                                    "value",
-                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                  )
-                              }
-                            } else {
-                              _vm.$set(caloric, "value", $$c)
-                            }
+                            _vm.selected_calory = caloric.title
                           },
                         },
                       }),
@@ -51093,48 +51203,19 @@ var render = function () {
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: diet.value,
-                                  expression: "diet.value",
+                                  value: _vm.selected_diet,
+                                  expression: "selected_diet",
                                 },
                               ],
                               staticClass: "check__input",
-                              attrs: { type: "checkbox" },
+                              attrs: { type: "radio", id: diet.menu },
                               domProps: {
-                                checked: Array.isArray(diet.value)
-                                  ? _vm._i(diet.value, null) > -1
-                                  : diet.value,
+                                value: diet.menu,
+                                checked: _vm._q(_vm.selected_diet, diet.menu),
                               },
                               on: {
-                                click: function ($event) {
-                                  _vm.disabledBtn = !_vm.disabledBtn
-                                },
                                 change: function ($event) {
-                                  var $$a = diet.value,
-                                    $$el = $event.target,
-                                    $$c = $$el.checked ? true : false
-                                  if (Array.isArray($$a)) {
-                                    var $$v = null,
-                                      $$i = _vm._i($$a, $$v)
-                                    if ($$el.checked) {
-                                      $$i < 0 &&
-                                        _vm.$set(
-                                          diet,
-                                          "value",
-                                          $$a.concat([$$v])
-                                        )
-                                    } else {
-                                      $$i > -1 &&
-                                        _vm.$set(
-                                          diet,
-                                          "value",
-                                          $$a
-                                            .slice(0, $$i)
-                                            .concat($$a.slice($$i + 1))
-                                        )
-                                    }
-                                  } else {
-                                    _vm.$set(diet, "value", $$c)
-                                  }
+                                  _vm.selected_diet = diet.menu
                                 },
                               },
                             }),
@@ -51180,23 +51261,29 @@ var render = function () {
                       0
                     ),
                     _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "plugin-modal-form__btn btn-none",
-                        attrs: {
-                          type: "button",
-                          disabled: _vm.disabledBtn ? false : true,
-                        },
-                        on: {
-                          click: function ($event) {
-                            $event.preventDefault()
-                            return _vm.next()
+                    _vm.disableBtn()
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "plugin-modal-form__btn btn-none",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function ($event) {
+                                $event.preventDefault()
+                                return _vm.next()
+                              },
+                            },
                           },
-                        },
-                      },
-                      [_vm._v("оплатить")]
-                    ),
+                          [_vm._v("оплатить")]
+                        )
+                      : _c(
+                          "button",
+                          {
+                            staticClass: "plugin-modal-form__btn btn-none",
+                            attrs: { type: "button", disabled: "" },
+                          },
+                          [_vm._v("оплатить")]
+                        ),
                     _vm._v(" "),
                     _c("p", { staticClass: "plugin-modal__txt-small center" }, [
                       _vm._v(
@@ -51269,6 +51356,11 @@ var render = function () {
               {
                 staticClass: "plugin-modal__btn-close btn-none",
                 attrs: { "data-dismiss": "modal" },
+                on: {
+                  click: function ($event) {
+                    _vm.activeStep = 1
+                  },
+                },
               },
               [
                 _c(
@@ -51338,48 +51430,22 @@ var render = function () {
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: dietsimple.value,
-                                  expression: "dietsimple.value",
+                                  value: _vm.selected_dietsimple,
+                                  expression: "selected_dietsimple",
                                 },
                               ],
                               staticClass: "check__input",
-                              attrs: { type: "checkbox" },
+                              attrs: { type: "radio", id: dietsimple.menu },
                               domProps: {
-                                checked: Array.isArray(dietsimple.value)
-                                  ? _vm._i(dietsimple.value, null) > -1
-                                  : dietsimple.value,
+                                value: dietsimple.menu,
+                                checked: _vm._q(
+                                  _vm.selected_dietsimple,
+                                  dietsimple.menu
+                                ),
                               },
                               on: {
-                                click: function ($event) {
-                                  _vm.disabled = !_vm.disabled
-                                },
                                 change: function ($event) {
-                                  var $$a = dietsimple.value,
-                                    $$el = $event.target,
-                                    $$c = $$el.checked ? true : false
-                                  if (Array.isArray($$a)) {
-                                    var $$v = null,
-                                      $$i = _vm._i($$a, $$v)
-                                    if ($$el.checked) {
-                                      $$i < 0 &&
-                                        _vm.$set(
-                                          dietsimple,
-                                          "value",
-                                          $$a.concat([$$v])
-                                        )
-                                    } else {
-                                      $$i > -1 &&
-                                        _vm.$set(
-                                          dietsimple,
-                                          "value",
-                                          $$a
-                                            .slice(0, $$i)
-                                            .concat($$a.slice($$i + 1))
-                                        )
-                                    }
-                                  } else {
-                                    _vm.$set(dietsimple, "value", $$c)
-                                  }
+                                  _vm.selected_dietsimple = dietsimple.menu
                                 },
                               },
                             }),
@@ -51428,23 +51494,29 @@ var render = function () {
                     2
                   ),
                   _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "plugin-modal-form__btn btn-none",
-                      attrs: {
-                        type: "button",
-                        disabled: _vm.disabled ? false : true,
-                      },
-                      on: {
-                        click: function ($event) {
-                          $event.preventDefault()
-                          return _vm.next()
+                  _vm.selected_dietsimple != null
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "plugin-modal-form__btn btn-none",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function ($event) {
+                              $event.preventDefault()
+                              return _vm.next()
+                            },
+                          },
                         },
-                      },
-                    },
-                    [_vm._v("оплатить")]
-                  ),
+                        [_vm._v("оплатить")]
+                      )
+                    : _c(
+                        "button",
+                        {
+                          staticClass: "plugin-modal-form__btn btn-none",
+                          attrs: { type: "button" },
+                        },
+                        [_vm._v("оплатить")]
+                      ),
                   _vm._v(" "),
                   _c("p", { staticClass: "plugin-modal__txt-small center" }, [
                     _vm._v(
@@ -51544,6 +51616,11 @@ var render = function () {
               {
                 staticClass: "plugin-modal__btn-close btn-none",
                 attrs: { "data-dismiss": "modal" },
+                on: {
+                  click: function ($event) {
+                    _vm.activeStep = 1
+                  },
+                },
               },
               [
                 _c(
@@ -51616,45 +51693,22 @@ var render = function () {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: checkbox.value,
-                                expression: "checkbox.value",
+                                value: _vm.selected_checkbox,
+                                expression: "selected_checkbox",
                               },
                             ],
                             staticClass: "check__input",
-                            attrs: { type: "checkbox", id: "plugin-checkbox3" },
+                            attrs: { type: "radio", id: checkbox.number },
                             domProps: {
-                              checked: Array.isArray(checkbox.value)
-                                ? _vm._i(checkbox.value, null) > -1
-                                : checkbox.value,
+                              value: checkbox.number,
+                              checked: _vm._q(
+                                _vm.selected_checkbox,
+                                checkbox.number
+                              ),
                             },
                             on: {
                               change: function ($event) {
-                                var $$a = checkbox.value,
-                                  $$el = $event.target,
-                                  $$c = $$el.checked ? true : false
-                                if (Array.isArray($$a)) {
-                                  var $$v = null,
-                                    $$i = _vm._i($$a, $$v)
-                                  if ($$el.checked) {
-                                    $$i < 0 &&
-                                      _vm.$set(
-                                        checkbox,
-                                        "value",
-                                        $$a.concat([$$v])
-                                      )
-                                  } else {
-                                    $$i > -1 &&
-                                      _vm.$set(
-                                        checkbox,
-                                        "value",
-                                        $$a
-                                          .slice(0, $$i)
-                                          .concat($$a.slice($$i + 1))
-                                      )
-                                  }
-                                } else {
-                                  _vm.$set(checkbox, "value", $$c)
-                                }
+                                _vm.selected_checkbox = checkbox.number
                               },
                             },
                           }),
@@ -51718,20 +51772,29 @@ var render = function () {
                     ),
                   ]),
                   _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "plugin-modal-form__btn btn-none",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function ($event) {
-                          $event.preventDefault()
-                          return _vm.next()
+                  _vm.selected_checkbox != null
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "plugin-modal-form__btn btn-none",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function ($event) {
+                              $event.preventDefault()
+                              return _vm.next()
+                            },
+                          },
                         },
-                      },
-                    },
-                    [_vm._v("оплатить")]
-                  ),
+                        [_vm._v("оплатить")]
+                      )
+                    : _c(
+                        "button",
+                        {
+                          staticClass: "plugin-modal-form__btn btn-none",
+                          attrs: { type: "button" },
+                        },
+                        [_vm._v("оплатить")]
+                      ),
                   _vm._v(" "),
                   _c("p", { staticClass: "plugin-modal__txt-small center" }, [
                     _vm._v(
@@ -51828,6 +51891,11 @@ var render = function () {
               {
                 staticClass: "plugin-modal__btn-close btn-none",
                 attrs: { "data-dismiss": "modal" },
+                on: {
+                  click: function ($event) {
+                    _vm.activeStep = 1
+                  },
+                },
               },
               [
                 _c(
@@ -51883,43 +51951,19 @@ var render = function () {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: locations.value,
-                          expression: "locations.value",
+                          value: _vm.selected_location,
+                          expression: "selected_location",
                         },
                       ],
                       staticClass: "check__input",
-                      attrs: { type: "checkbox", id: locations.title },
+                      attrs: { type: "radio", id: locations.title },
                       domProps: {
                         value: locations.title,
-                        checked: Array.isArray(locations.value)
-                          ? _vm._i(locations.value, locations.title) > -1
-                          : locations.value,
+                        checked: _vm._q(_vm.selected_location, locations.title),
                       },
                       on: {
-                        click: function ($event) {
-                          _vm.disabled = !_vm.disabled
-                        },
                         change: function ($event) {
-                          var $$a = locations.value,
-                            $$el = $event.target,
-                            $$c = $$el.checked ? true : false
-                          if (Array.isArray($$a)) {
-                            var $$v = locations.title,
-                              $$i = _vm._i($$a, $$v)
-                            if ($$el.checked) {
-                              $$i < 0 &&
-                                _vm.$set(locations, "value", $$a.concat([$$v]))
-                            } else {
-                              $$i > -1 &&
-                                _vm.$set(
-                                  locations,
-                                  "value",
-                                  $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                )
-                            }
-                          } else {
-                            _vm.$set(locations, "value", $$c)
-                          }
+                          _vm.selected_location = locations.title
                         },
                       },
                     }),
@@ -51964,48 +52008,22 @@ var render = function () {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: workout.value,
-                                expression: "workout.value",
+                                value: _vm.selected_workout,
+                                expression: "selected_workout",
                               },
                             ],
                             staticClass: "check__input",
-                            attrs: { type: "checkbox" },
+                            attrs: { type: "radio", id: workout.level },
                             domProps: {
-                              checked: Array.isArray(workout.value)
-                                ? _vm._i(workout.value, null) > -1
-                                : workout.value,
+                              value: workout.level,
+                              checked: _vm._q(
+                                _vm.selected_workout,
+                                workout.level
+                              ),
                             },
                             on: {
-                              click: function ($event) {
-                                _vm.disabled = !_vm.disabled
-                              },
                               change: function ($event) {
-                                var $$a = workout.value,
-                                  $$el = $event.target,
-                                  $$c = $$el.checked ? true : false
-                                if (Array.isArray($$a)) {
-                                  var $$v = null,
-                                    $$i = _vm._i($$a, $$v)
-                                  if ($$el.checked) {
-                                    $$i < 0 &&
-                                      _vm.$set(
-                                        workout,
-                                        "value",
-                                        $$a.concat([$$v])
-                                      )
-                                  } else {
-                                    $$i > -1 &&
-                                      _vm.$set(
-                                        workout,
-                                        "value",
-                                        $$a
-                                          .slice(0, $$i)
-                                          .concat($$a.slice($$i + 1))
-                                      )
-                                  }
-                                } else {
-                                  _vm.$set(workout, "value", $$c)
-                                }
+                                _vm.selected_workout = workout.level
                               },
                             },
                           }),
@@ -52057,23 +52075,29 @@ var render = function () {
                     ),
                   ]),
                   _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "plugin-modal-form__btn btn-none",
-                      attrs: {
-                        type: "button",
-                        disabled: _vm.disabled ? false : true,
-                      },
-                      on: {
-                        click: function ($event) {
-                          $event.preventDefault()
-                          return _vm.next()
+                  _vm.selected_workout != null && _vm.selected_location != null
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "plugin-modal-form__btn btn-none",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function ($event) {
+                              $event.preventDefault()
+                              return _vm.next()
+                            },
+                          },
                         },
-                      },
-                    },
-                    [_vm._v("оплатить")]
-                  ),
+                        [_vm._v("оплатить")]
+                      )
+                    : _c(
+                        "button",
+                        {
+                          staticClass: "plugin-modal-form__btn btn-none",
+                          attrs: { type: "button" },
+                        },
+                        [_vm._v("оплатить")]
+                      ),
                   _vm._v(" "),
                   _c("p", { staticClass: "plugin-modal__txt-small center" }, [
                     _vm._v(

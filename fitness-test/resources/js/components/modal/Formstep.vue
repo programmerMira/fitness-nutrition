@@ -31,7 +31,7 @@
                                     d="M2.8125 17.8125C2.93682 17.8125 3.05605 17.7631 3.14396 17.6752C3.23186 17.5873 3.28125 17.4681 3.28125 17.3438C3.28125 17.2194 3.23186 17.1002 3.14396 17.0123C3.05605 16.9244 2.93682 16.875 2.8125 16.875H1.875C1.75068 16.875 1.63145 16.9244 1.54354 17.0123C1.45564 17.1002 1.40625 17.2194 1.40625 17.3438C1.40625 17.4681 1.45564 17.5873 1.54354 17.6752C1.63145 17.7631 1.75068 17.8125 1.875 17.8125H2.8125Z"
                                     fill="#9180FF" fill-opacity="0.75"/>
                             </svg>
-                            <input type="email" class="modal-input" placeholder="Email">
+                            <input v-model="email" type="email" class="modal-input" placeholder="Email">
                         </div>
                         <div class="modal-input__group modal-input__group-lose">
                             <svg class="modal-input__svg" width="30" height="30" viewBox="0 0 30 30" fill="none"
@@ -50,12 +50,15 @@
                                     </clipPath>
                                 </defs>
                             </svg>
-                            <button type="button" class="button modal__btn-code">
+                            <button v-on:click="AskForCode()" type="button" class="button modal__btn-code">
                                 Запросить код
                             </button>
-                            <input type="email" class="modal-input" placeholder="Password">
+                            <input v-model="code" type="text" class="modal-input" placeholder="Code">
                         </div>
-                        <button type="submit" class="button modal__btn" @click.prevent="next()">
+                        <button v-if="codeChecked" v-on:click="CheckCode()" type="submit" class="button modal__btn">
+                            ПРОДОЛЖИТЬ
+                        </button>
+                        <button v-else type="submit" class="button modal__btn" disabled>
                             ПРОДОЛЖИТЬ
                         </button>
                     </div>
@@ -93,7 +96,7 @@
                                     </clipPath>
                                 </defs>
                             </svg>
-                            <input type="email" class="modal-input" placeholder="Введите новый пароль">
+                            <input v-model="password" type="password" class="modal-input" placeholder="Введите новый пароль">
                         </div>
                         <div class="modal-input__group">
                             <svg class="modal-input__svg" width="30" height="30" viewBox="0 0 30 30" fill="none"
@@ -112,9 +115,9 @@
                                     </clipPath>
                                 </defs>
                             </svg>
-                            <input type="email" class="modal-input" placeholder="Повторите пароль">
+                            <input v-model="password_repeat" type="password" class="modal-input" placeholder="Повторите пароль">
                         </div>
-                        <button type="button" class="button modal__btn" @click.prevent="next()">
+                        <button v-on:click="CheckPasswordAndSet()" type="button" class="button modal__btn">
                             изменить
                         </button>
                     </div>
@@ -150,17 +153,45 @@ export default {
 		formSteps: [],
 		imageData: "",
 		formDone: false,
+        email: '',
+        code: '',
+        codeChecked: false,
+        password_repeat:'',
+        password:'',
 	}),
 	methods: {
 		prev() {
-		this.activeStep--;
+		    this.activeStep--;
 		},
 		next() {
-		this.activeStep++;
+		    this.activeStep++;
 		},
 		submit() {
-		alert("Submit to blah and show blah and etc.");
+		    alert("Submit to blah and show blah and etc.");
 		},
+        AskForCode(){
+            const auth = { email: this.email };
+            axios.post('/password/email', auth).then(response => {
+                alert("Код был отправлен, пожалуйста, проверьте вашу почту.");
+                this.codeChecked = true;
+                next();
+            }).catch(error => {
+                console.log(error);
+            });
+        },
+        CheckCode(){
+            //check code here?
+        },
+        CheckPasswordAndSet(){
+            if(this.password==this.password_repeat && this.password!=''){
+                const pass = {password:this.password};
+                axios.post('/password/reset', pass).then(response => {
+                    next();
+                }).catch(error => {
+                    console.log(error);
+                });
+            }
+        }
 	},
 };
 </script>

@@ -3,7 +3,7 @@
    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
    <div class="modal-dialog plugin-modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content plugin-modal__content">
-         <button class="plugin-modal__btn-close btn-none" data-dismiss="modal">
+         <button v-on:click="activeStep=1" class="plugin-modal__btn-close btn-none" data-dismiss="modal">
             <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                <rect x="0.351379" y="22.4548" width="31.0238" height="3.20936"
                   transform="rotate(-45 0.351379 22.4548)" fill="#BB01DA" />
@@ -20,7 +20,7 @@
          <form class="plugin-modal-form" v-if="activeStep === 1">
             <div class="plugin-checkboxes">
                <label class="plugin-checkbox__label" v-for="(dietsimple, index) in dietssimple" :key="dietsimple.index">
-                  <input class="check__input" @click="disabled = !disabled" type="checkbox" v-model="dietsimple.value">
+                  <input class="check__input" type="radio" :id="dietsimple.menu" :value="dietsimple.menu" v-model="selected_dietsimple">
                   <div class="plugin-checkbox">
                      <div class="plugin-checkbox__number">
                         {{ index + 1 }}
@@ -46,7 +46,8 @@
                   </div>
                </div>
             </div>
-            <button type="button" :disabled="disabled ? false : true" class="plugin-modal-form__btn btn-none" @click.prevent="next()">оплатить</button>
+            <button v-if="selected_dietsimple!=null" type="button" class="plugin-modal-form__btn btn-none" @click.prevent="next()">оплатить</button>
+            <button v-else type="button" class="plugin-modal-form__btn btn-none">оплатить</button>
             <p class="plugin-modal__txt-small center">
                Нажимая “Оплатить”, я принимаю условия Политики обработки персональных данный и условия
                Оферты
@@ -87,6 +88,7 @@
       ],
       activeStep: 1,
       formSteps: [],
+      selected_dietsimple:null,
    }),
    methods: {
       prev() {
