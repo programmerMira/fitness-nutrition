@@ -39,6 +39,7 @@
             </transition>
          </div> -->
          <Accardion></Accardion>
+          <div class="overflow" @click="open = !open"></div>
       </div>
    </transition>
 </div>

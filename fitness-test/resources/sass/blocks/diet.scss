@@ -427,7 +427,7 @@
       }
       a {
          font-size: 11px;
-         line-height: 13px;   
+         line-height: 13px;
       }
    }
    .diet-info__title {
@@ -482,6 +482,9 @@
    .calendar__slider-diet, .calendar__slider-workout {
       width: 219px;
    }
+    .calendar__slider-workout {
+        width: 196px;
+    }
 }
 @media only screen and (max-width: 689px) {
    .diet .progress__col-second {

@@ -3212,6 +3212,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -3467,6 +3468,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    MenuOffice: _components_Menu_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    Notifications: _components_Notifications_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Questions.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Questions.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _components_Notifications_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Notifications.vue */ "./resources/js/components/Notifications.vue");
+/* harmony import */ var _components_Menu_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Menu.vue */ "./resources/js/components/Menu.vue");
 //
 //
 //
@@ -5858,6 +5896,7 @@ Vue.component('Workout', (__webpack_require__(/*! ./components/Workout.vue */ ".
 Vue.component('Home', (__webpack_require__(/*! ./components/Home.vue */ "./resources/js/components/Home.vue")["default"]));
 Vue.component('Diet', (__webpack_require__(/*! ./components/Diet.vue */ "./resources/js/components/Diet.vue")["default"]));
 Vue.component('Plugin', (__webpack_require__(/*! ./components/Plugin.vue */ "./resources/js/components/Plugin.vue")["default"]));
+Vue.component('Questions', (__webpack_require__(/*! ./components/Questions.vue */ "./resources/js/components/Questions.vue")["default"]));
 Vue.component('Question', (__webpack_require__(/*! ./components/Question.vue */ "./resources/js/components/Question.vue")["default"]));
 var app = new Vue({
   el: '#app',
@@ -12561,7 +12600,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.slide-fade-enter-active {\r\n  transition: all .3s ease;\n}\n.slide-fade-leave-active {\r\n  transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter, .slide-fade-leave-to\r\n/* .slide-fade-leave-active до версии 2.1.8 */ {\r\n  transform: translateX(10px);\r\n  opacity: 0;\n}\n.fade-enter-active,\r\n.fade-leave-active {\r\n  transition: opacity 0.5s ease;\n}\n.fade-enter-from,\r\n.fade-leave-to {\r\n  opacity: 0;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.slide-fade-enter-active {\n  transition: all .3s ease;\n}\n.slide-fade-leave-active {\n  transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter, .slide-fade-leave-to\n/* .slide-fade-leave-active до версии 2.1.8 */ {\n  transform: translateX(10px);\n  opacity: 0;\n}\n.fade-enter-active,\n.fade-leave-active {\n  transition: opacity 0.5s ease;\n}\n.fade-enter-from,\n.fade-leave-to {\n  opacity: 0;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -44973,6 +45012,45 @@ component.options.__file = "resources/js/components/Question.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/Questions.vue":
+/*!***********************************************!*\
+  !*** ./resources/js/components/Questions.vue ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Questions_vue_vue_type_template_id_1d47061c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Questions.vue?vue&type=template&id=1d47061c& */ "./resources/js/components/Questions.vue?vue&type=template&id=1d47061c&");
+/* harmony import */ var _Questions_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Questions.vue?vue&type=script&lang=js& */ "./resources/js/components/Questions.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Questions_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Questions_vue_vue_type_template_id_1d47061c___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Questions_vue_vue_type_template_id_1d47061c___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Questions.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/Select.vue":
 /*!********************************************!*\
   !*** ./resources/js/components/Select.vue ***!
@@ -45608,6 +45686,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Questions.vue?vue&type=script&lang=js&":
+/*!************************************************************************!*\
+  !*** ./resources/js/components/Questions.vue?vue&type=script&lang=js& ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Questions_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Questions.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Questions.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Questions_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/Select.vue?vue&type=script&lang=js&":
 /*!*********************************************************************!*\
   !*** ./resources/js/components/Select.vue?vue&type=script&lang=js& ***!
@@ -45965,6 +46059,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Questions.vue?vue&type=template&id=1d47061c&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/Questions.vue?vue&type=template&id=1d47061c& ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Questions_vue_vue_type_template_id_1d47061c___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Questions_vue_vue_type_template_id_1d47061c___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Questions_vue_vue_type_template_id_1d47061c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Questions.vue?vue&type=template&id=1d47061c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Questions.vue?vue&type=template&id=1d47061c&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Select.vue?vue&type=template&id=17cc0527&":
 /*!***************************************************************************!*\
   !*** ./resources/js/components/Select.vue?vue&type=template&id=17cc0527& ***!
@@ -46204,6 +46315,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "notifications__accardion-container" },
     _vm._l(_vm.content, function (info, index) {
       return _c(
         "div",
@@ -46222,9 +46334,9 @@ var render = function () {
             [
               _c("div", { staticClass: "notifications__title" }, [
                 _vm._v(
-                  "\r\n            " + _vm._s(info.title) + "\r\n            "
+                  "\n            " + _vm._s(info.title) + "\n            "
                 ),
-                _c("span", [_vm._v("\r\n               now\r\n            ")]),
+                _c("span", [_vm._v("\n               now\n            ")]),
               ]),
               _vm._v(" "),
               _c(
@@ -46259,17 +46371,15 @@ var render = function () {
               ? _c("div", { staticClass: "notifications__body" }, [
                   _c("p", { staticClass: "notifications__subtitle" }, [
                     _vm._v(
-                      "\r\n              " +
+                      "\n              " +
                         _vm._s(info.subtitle) +
-                        " \r\n            "
+                        "\n            "
                     ),
                   ]),
                   _vm._v(" "),
                   _c("p", { staticClass: "notifications__txt" }, [
                     _vm._v(
-                      "\r\n              " +
-                        _vm._s(info.text) +
-                        " \r\n            "
+                      "\n              " + _vm._s(info.text) + "\n            "
                     ),
                   ]),
                 ])
@@ -47666,7 +47776,18 @@ var render = function () {
           ? _c(
               "div",
               { staticClass: "notifications__block" },
-              [_c("Accardion")],
+              [
+                _c("Accardion"),
+                _vm._v(" "),
+                _c("div", {
+                  staticClass: "overflow",
+                  on: {
+                    click: function ($event) {
+                      _vm.open = !_vm.open
+                    },
+                  },
+                }),
+              ],
               1
             )
           : _vm._e(),
@@ -48227,6 +48348,160 @@ var render = function () {
       ]),
     ]),
     _vm._v(" "),
+    _vm._m(0),
+  ])
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("section", { attrs: { id: "question" } }, [
+      _c("div", { staticClass: "account-container" }, [
+        _c("div", { staticClass: "question-tab__container" }, [
+          _c(
+            "div",
+            { staticClass: "question-tab__txt question-tab__txt-container" },
+            [
+              _c("h5", { staticClass: "question-tab__title" }, [
+                _vm._v(
+                  "\n                        Тренировки при менструации\n                    "
+                ),
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "question-tab__prg" }, [
+                _vm._v(
+                  "\n                        Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\n                        через приблизительно равные промежутки времени. Характеризуется циклическими изменениями в\n                        организме женщины, особенно выраженными в яичниках и в матке, завершается кровянистыми\n                        выделениями из половых органов. Циклические процессы, происходящие в организме женщины,\n                        осуществляются при участии центральной нервной системы (кора головного мозга, гипоталамус,\n                        гипофиз). Биологическая цель менструального цикла — подготовка организма женщины к\n                        возможной\n                        беременности. Нормальная продолжительность менструального цикла составляет от 21 до 35\n                        дней.\n                        Отсчет менструального цикла начинается с первого дня кровотечения.\n                        Менструальный цикл делится на две фазы, между которыми происходит овуляция.\n                        - Первая фаза называется фолликулярной. Именно в этой фазе развивается фолликул, из\n                        которого\n                        выйдет яйцеклетка, которая потом может превратиться в развивающийся плод и, наконец,\n                        ребенка.\n                        Она начинается в самый первый день начала менструации (менструального кровотечения) и\n                        заканчивается когда происходит овуляция. Занимает примерно половину\n                    "
+                ),
+              ]),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "question-tab__link-more",
+                  attrs: { href: "#" },
+                },
+                [
+                  _vm._v(
+                    "\n                        Назад\n                    "
+                  ),
+                ]
+              ),
+            ]
+          ),
+        ]),
+      ]),
+    ])
+  },
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Questions.vue?vue&type=template&id=1d47061c&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Questions.vue?vue&type=template&id=1d47061c& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("main", { staticClass: "main account-main" }, [
+    _c(
+      "header",
+      { staticClass: "account-header question" },
+      [_c("MenuOffice")],
+      1
+    ),
+    _vm._v(" "),
+    _c("section", { staticClass: "question", attrs: { id: "account-head" } }, [
+      _c("div", { staticClass: "account-container" }, [
+        _c("div", { staticClass: "account-head__row" }, [
+          _c("div", { staticClass: "account-search" }, [
+            _c("input", {
+              staticClass: "account-search__input",
+              attrs: { type: "text", placeholder: "Поиск" },
+            }),
+            _vm._v(" "),
+            _c(
+              "svg",
+              {
+                attrs: {
+                  width: "20",
+                  height: "16",
+                  viewBox: "0 0 20 16",
+                  fill: "none",
+                  xmlns: "http://www.w3.org/2000/svg",
+                },
+              },
+              [
+                _c("path", {
+                  attrs: {
+                    d: "M14.362 9.80581H13.517L13.2176 9.57249C14.2657 8.58737 14.8967 7.30843 14.8967 5.91716C14.8967 2.81489 11.7844 0.300232 7.94476 0.300232C4.10514 0.300232 0.992798 2.81489 0.992798 5.91716C0.992798 9.01944 4.10514 11.5341 7.94476 11.5341C9.66671 11.5341 11.2496 11.0243 12.4689 10.1774L12.7577 10.4194V11.102L18.1053 15.4141L19.6989 14.1265L14.362 9.80581ZM7.94476 9.80581C5.28163 9.80581 3.13186 8.06888 3.13186 5.91716C3.13186 3.76545 5.28163 2.02852 7.94476 2.02852C10.6079 2.02852 12.7577 3.76545 12.7577 5.91716C12.7577 8.06888 10.6079 9.80581 7.94476 9.80581Z",
+                    fill: "#BEBEBE",
+                  },
+                }),
+              ]
+            ),
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "account-head__mob-row" },
+            [
+              _c("Notifications"),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "account-head__exit",
+                  attrs: { href: "index.html" },
+                },
+                [
+                  _c(
+                    "svg",
+                    {
+                      staticClass: "account-head__mob-svg",
+                      attrs: {
+                        width: "20",
+                        height: "20",
+                        viewBox: "0 0 20 20",
+                        fill: "none",
+                        xmlns: "http://www.w3.org/2000/svg",
+                      },
+                    },
+                    [
+                      _c("path", {
+                        attrs: {
+                          "fill-rule": "evenodd",
+                          "clip-rule": "evenodd",
+                          d: "M14.99 11.2413V8.74375H9.99375V6.24375H14.99V3.7475L19.9875 7.495L14.99 11.2425V11.2413ZM12.4925 14.9887H7.495V3.74625L2.5 1.24875H12.4937V4.99625H13.7437V1.24875C13.7437 0.56125 13.1812 0 12.4937 0H1.24875C0.917764 0.000660653 0.600523 0.132437 0.36648 0.36648C0.132437 0.600523 0.000660653 0.917764 0 1.24875L0 15.4637C0 15.9512 0.275 16.3762 0.6875 16.6012L7.495 19.9987V16.2387H12.4925C13.18 16.2387 13.7425 15.6762 13.7425 14.9887V9.99375H12.4925V14.9913V14.9887Z",
+                          fill: "#FF144A",
+                        },
+                      }),
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("span", [_vm._v("Выход")]),
+                ]
+              ),
+            ],
+            1
+          ),
+        ]),
+      ]),
+    ]),
+    _vm._v(" "),
     _c("section", { attrs: { id: "question" } }, [
       _c("div", { staticClass: "account-container" }, [
         _c(
@@ -48246,7 +48521,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\r\n                     Инструкция пользователя\r\n                     "
+                      "\n                     Инструкция пользователя\n                     "
                     ),
                     _c(
                       "svg",
@@ -48281,7 +48556,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\r\n                     Помощь\r\n                     "
+                      "\n                     Помощь\n                     "
                     ),
                     _c(
                       "svg",
@@ -48316,7 +48591,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\r\n                     О тренировках\r\n                     "
+                      "\n                     О тренировках\n                     "
                     ),
                     _c(
                       "svg",
@@ -48351,7 +48626,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\r\n                     О мотивации\r\n                     "
+                      "\n                     О мотивации\n                     "
                     ),
                     _c(
                       "svg",
@@ -48386,7 +48661,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\r\n                     О питании\r\n                     "
+                      "\n                     О питании\n                     "
                     ),
                     _c(
                       "svg",
@@ -48421,7 +48696,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\r\n                     О теле\r\n                     "
+                      "\n                     О теле\n                     "
                     ),
                     _c(
                       "svg",
@@ -48467,13 +48742,13 @@ var staticRenderFns = [
     return _c("div", { staticClass: "question-tab__social-txt" }, [
       _c("b", [
         _vm._v(
-          "\r\n                        Остались вопросы?\r\n                     "
+          "\n                        Остались вопросы?\n                     "
         ),
       ]),
       _vm._v(" "),
       _c("p", [
         _vm._v(
-          "\r\n                        Найдите ответ на свой вопрос в разделе "
+          "\n                        Найдите ответ на свой вопрос в разделе "
         ),
         _c("a", { attrs: { href: "#" } }, [_vm._v("помощь")]),
         _vm._v(" или напишите в наш "),
@@ -48490,15 +48765,27 @@ var staticRenderFns = [
         "div",
         { staticClass: "question-tab__content", attrs: { id: "manual" } },
         [
-          _c("h5", { staticClass: "question-tab__title" }, [
-            _vm._v(
-              "\r\n                        О мотивации\r\n                     "
-            ),
-          ]),
-          _vm._v(" "),
-          _c("p", { staticClass: "question-tab__prg" }, [
-            _vm._v(
-              "\r\n                        Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\r\n                        через приблизительно равные промежутки времени. Характеризуется циклическими изменениями в\r\n                        организме женщины, особенно выраженными в яичниках и в матке, завершается кровянистыми\r\n                        выделениями из половых органов. Циклические процессы, происходящие в организме женщины,\r\n                        осуществляются при участии центральной нервной системы (кора головного мозга, гипоталамус,\r\n                        гипофиз). Биологическая цель менструального цикла — подготовка организма женщины к\r\n                        возможной\r\n                        беременности. Нормальная продолжительность менструального цикла составляет от 21 до 35\r\n                        дней.\r\n                        Отсчет менструального цикла начинается с первого дня кровотечения.\r\n                        Менструальный цикл делится на две фазы, между которыми происходит овуляция.\r\n                        - Первая фаза называется фолликулярной. Именно в этой фазе развивается фолликул, из\r\n                        которого\r\n                        выйдет яйцеклетка, которая потом может превратиться в развивающийся плод и, наконец,\r\n                        ребенка.\r\n                        Она начинается в самый первый день начала менструации (менструального кровотечения) и\r\n                        заканчивается когда происходит овуляция. Занимает примерно половину\r\n                     "
+          _c("div", { staticClass: "question-tab__txt" }, [
+            _c("h5", { staticClass: "question-tab__title" }, [
+              _vm._v(
+                "\n                              Тренировки при менструации\n                          "
+              ),
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "question-tab__prg" }, [
+              _vm._v(
+                "\n                              Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\n                              через приблизительно равные промежутки времени...\n                          "
+              ),
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              { staticClass: "question-tab__link-more", attrs: { href: "#" } },
+              [
+                _vm._v(
+                  "\n                              Подробнее\n                          "
+                ),
+              ]
             ),
           ]),
         ]
@@ -48508,15 +48795,27 @@ var staticRenderFns = [
         "div",
         { staticClass: "question-tab__content", attrs: { id: "help" } },
         [
-          _c("h5", { staticClass: "question-tab__title" }, [
-            _vm._v(
-              "\r\n                        О мотивации\r\n                     "
-            ),
-          ]),
-          _vm._v(" "),
-          _c("p", { staticClass: "question-tab__prg" }, [
-            _vm._v(
-              "\r\n                        Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\r\n                        через приблизительно равные промежутки времени. Характеризуется циклическими изменениями в\r\n                        организме женщины, особенно выраженными в яичниках и в матке, завершается кровянистыми\r\n                        выделениями из половых органов. Циклические процессы, происходящие в организме женщины,\r\n                        осуществляются при участии центральной нервной системы (кора головного мозга, гипоталамус,\r\n                        гипофиз). Биологическая цель менструального цикла — подготовка организма женщины к\r\n                        возможной\r\n                        беременности. Нормальная продолжительность менструального цикла составляет от 21 до 35\r\n                        дней.\r\n                        Отсчет менструального цикла начинается с первого дня кровотечения.\r\n                        Менструальный цикл делится на две фазы, между которыми происходит овуляция.\r\n                        - Первая фаза называется фолликулярной. Именно в этой фазе развивается фолликул, из\r\n                        которого\r\n                        выйдет яйцеклетка, которая потом может превратиться в развивающийся плод и, наконец,\r\n                        ребенка.\r\n                        Она начинается в самый первый день начала менструации (менструального кровотечения) и\r\n                        заканчивается когда происходит овуляция. Занимает примерно половину\r\n                     "
+          _c("div", { staticClass: "question-tab__txt" }, [
+            _c("h5", { staticClass: "question-tab__title" }, [
+              _vm._v(
+                "\n                              Тренировки при менструации\n                          "
+              ),
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "question-tab__prg" }, [
+              _vm._v(
+                "\n                              Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\n                              через приблизительно равные промежутки времени...\n                          "
+              ),
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              { staticClass: "question-tab__link-more", attrs: { href: "#" } },
+              [
+                _vm._v(
+                  "\n                              Подробнее\n                          "
+                ),
+              ]
             ),
           ]),
         ]
@@ -48532,13 +48831,13 @@ var staticRenderFns = [
           _c("div", { staticClass: "question-tab__txt" }, [
             _c("h5", { staticClass: "question-tab__title" }, [
               _vm._v(
-                "\r\n                           Тренировки при менструации\r\n                        "
+                "\n                           Тренировки при менструации\n                        "
               ),
             ]),
             _vm._v(" "),
             _c("p", { staticClass: "question-tab__prg" }, [
               _vm._v(
-                "\r\n                           Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\r\n                           через приблизительно равные промежутки времени...\r\n                        "
+                "\n                           Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\n                           через приблизительно равные промежутки времени...\n                        "
               ),
             ]),
             _vm._v(" "),
@@ -48547,7 +48846,7 @@ var staticRenderFns = [
               { staticClass: "question-tab__link-more", attrs: { href: "#" } },
               [
                 _vm._v(
-                  "\r\n                           Подробнее\r\n                        "
+                  "\n                           Подробнее\n                        "
                 ),
               ]
             ),
@@ -48556,13 +48855,13 @@ var staticRenderFns = [
           _c("div", { staticClass: "question-tab__txt" }, [
             _c("h5", { staticClass: "question-tab__title" }, [
               _vm._v(
-                "\r\n                           Тренировки при менструации\r\n                        "
+                "\n                           Тренировки при менструации\n                        "
               ),
             ]),
             _vm._v(" "),
             _c("p", { staticClass: "question-tab__prg" }, [
               _vm._v(
-                "\r\n                           Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\r\n                           через приблизительно равные промежутки времени...\r\n                        "
+                "\n                           Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\n                           через приблизительно равные промежутки времени...\n                        "
               ),
             ]),
             _vm._v(" "),
@@ -48571,7 +48870,7 @@ var staticRenderFns = [
               { staticClass: "question-tab__link-more", attrs: { href: "#" } },
               [
                 _vm._v(
-                  "\r\n                           Подробнее\r\n                        "
+                  "\n                           Подробнее\n                        "
                 ),
               ]
             ),
@@ -48580,13 +48879,13 @@ var staticRenderFns = [
           _c("div", { staticClass: "question-tab__txt" }, [
             _c("h5", { staticClass: "question-tab__title" }, [
               _vm._v(
-                "\r\n                           Тренировки при менструации\r\n                        "
+                "\n                           Тренировки при менструации\n                        "
               ),
             ]),
             _vm._v(" "),
             _c("p", { staticClass: "question-tab__prg" }, [
               _vm._v(
-                "\r\n                           Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\r\n                           через приблизительно равные промежутки времени...\r\n                        "
+                "\n                           Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\n                           через приблизительно равные промежутки времени...\n                        "
               ),
             ]),
             _vm._v(" "),
@@ -48595,7 +48894,7 @@ var staticRenderFns = [
               { staticClass: "question-tab__link-more", attrs: { href: "#" } },
               [
                 _vm._v(
-                  "\r\n                           Подробнее\r\n                        "
+                  "\n                           Подробнее\n                        "
                 ),
               ]
             ),
@@ -48604,13 +48903,13 @@ var staticRenderFns = [
           _c("div", { staticClass: "question-tab__txt" }, [
             _c("h5", { staticClass: "question-tab__title" }, [
               _vm._v(
-                "\r\n                           Тренировки при менструации\r\n                        "
+                "\n                           Тренировки при менструации\n                        "
               ),
             ]),
             _vm._v(" "),
             _c("p", { staticClass: "question-tab__prg" }, [
               _vm._v(
-                "\r\n                           Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\r\n                           через приблизительно равные промежутки времени...\r\n                        "
+                "\n                           Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\n                           через приблизительно равные промежутки времени...\n                        "
               ),
             ]),
             _vm._v(" "),
@@ -48619,7 +48918,7 @@ var staticRenderFns = [
               { staticClass: "question-tab__link-more", attrs: { href: "#" } },
               [
                 _vm._v(
-                  "\r\n                           Подробнее\r\n                        "
+                  "\n                           Подробнее\n                        "
                 ),
               ]
             ),
@@ -48634,15 +48933,27 @@ var staticRenderFns = [
           attrs: { id: "about-motivations" },
         },
         [
-          _c("h5", { staticClass: "question-tab__title" }, [
-            _vm._v(
-              "\r\n                        О мотивации\r\n                     "
-            ),
-          ]),
-          _vm._v(" "),
-          _c("p", { staticClass: "question-tab__prg" }, [
-            _vm._v(
-              "\r\n                        Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\r\n                        через приблизительно равные промежутки времени. Характеризуется циклическими изменениями в\r\n                        организме женщины, особенно выраженными в яичниках и в матке, завершается кровянистыми\r\n                        выделениями из половых органов. Циклические процессы, происходящие в организме женщины,\r\n                        осуществляются при участии центральной нервной системы (кора головного мозга, гипоталамус,\r\n                        гипофиз). Биологическая цель менструального цикла — подготовка организма женщины к\r\n                        возможной\r\n                        беременности. Нормальная продолжительность менструального цикла составляет от 21 до 35\r\n                        дней.\r\n                        Отсчет менструального цикла начинается с первого дня кровотечения.\r\n                        Менструальный цикл делится на две фазы, между которыми происходит овуляция.\r\n                        - Первая фаза называется фолликулярной. Именно в этой фазе развивается фолликул, из\r\n                        которого\r\n                        выйдет яйцеклетка, которая потом может превратиться в развивающийся плод и, наконец,\r\n                        ребенка.\r\n                        Она начинается в самый первый день начала менструации (менструального кровотечения) и\r\n                        заканчивается когда происходит овуляция. Занимает примерно половину\r\n                     "
+          _c("div", { staticClass: "question-tab__txt" }, [
+            _c("h5", { staticClass: "question-tab__title" }, [
+              _vm._v(
+                "\n                              Тренировки при менструации\n                          "
+              ),
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "question-tab__prg" }, [
+              _vm._v(
+                "\n                              Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\n                              через приблизительно равные промежутки времени...\n                          "
+              ),
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              { staticClass: "question-tab__link-more", attrs: { href: "#" } },
+              [
+                _vm._v(
+                  "\n                              Подробнее\n                          "
+                ),
+              ]
             ),
           ]),
         ]
@@ -48652,15 +48963,27 @@ var staticRenderFns = [
         "div",
         { staticClass: "question-tab__content", attrs: { id: "about-diet" } },
         [
-          _c("h5", { staticClass: "question-tab__title" }, [
-            _vm._v(
-              "\r\n                        О питании\r\n                     "
-            ),
-          ]),
-          _vm._v(" "),
-          _c("p", { staticClass: "question-tab__prg" }, [
-            _vm._v(
-              "\r\n                        Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\r\n                        через приблизительно равные промежутки времени. Характеризуется циклическими изменениями в\r\n                        организме женщины, особенно выраженными в яичниках и в матке, завершается кровянистыми\r\n                        выделениями из половых органов. Циклические процессы, происходящие в организме женщины,\r\n                        осуществляются при участии центральной нервной системы (кора головного мозга, гипоталамус,\r\n                        гипофиз). Биологическая цель менструального цикла — подготовка организма женщины к\r\n                        возможной\r\n                        беременности. Нормальная продолжительность менструального цикла составляет от 21 до 35\r\n                        дней.\r\n                        Отсчет менструального цикла начинается с первого дня кровотечения.\r\n                        Менструальный цикл делится на две фазы, между которыми происходит овуляция.\r\n                        - Первая фаза называется фолликулярной. Именно в этой фазе развивается фолликул, из\r\n                        которого\r\n                        выйдет яйцеклетка, которая потом может превратиться в развивающийся плод и, наконец,\r\n                        ребенка.\r\n                        Она начинается в самый первый день начала менструации (менструального кровотечения) и\r\n                        заканчивается когда происходит овуляция. Занимает примерно половину\r\n                     "
+          _c("div", { staticClass: "question-tab__txt" }, [
+            _c("h5", { staticClass: "question-tab__title" }, [
+              _vm._v(
+                "\n                              Тренировки при менструации\n                          "
+              ),
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "question-tab__prg" }, [
+              _vm._v(
+                "\n                              Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\n                              через приблизительно равные промежутки времени...\n                          "
+              ),
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              { staticClass: "question-tab__link-more", attrs: { href: "#" } },
+              [
+                _vm._v(
+                  "\n                              Подробнее\n                          "
+                ),
+              ]
             ),
           ]),
         ]
@@ -48670,15 +48993,27 @@ var staticRenderFns = [
         "div",
         { staticClass: "question-tab__content", attrs: { id: "about-body" } },
         [
-          _c("h5", { staticClass: "question-tab__title" }, [
-            _vm._v(
-              "\r\n                        О теле\r\n                     "
-            ),
-          ]),
-          _vm._v(" "),
-          _c("p", { staticClass: "question-tab__prg" }, [
-            _vm._v(
-              "\r\n                        Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\r\n                        через приблизительно равные промежутки времени. Характеризуется циклическими изменениями в\r\n                        организме женщины, особенно выраженными в яичниках и в матке, завершается кровянистыми\r\n                        выделениями из половых органов. Циклические процессы, происходящие в организме женщины,\r\n                        осуществляются при участии центральной нервной системы (кора головного мозга, гипоталамус,\r\n                        гипофиз). Биологическая цель менструального цикла — подготовка организма женщины к\r\n                        возможной\r\n                        беременности. Нормальная продолжительность менструального цикла составляет от 21 до 35\r\n                        дней.\r\n                        Отсчет менструального цикла начинается с первого дня кровотечения.\r\n                        Менструальный цикл делится на две фазы, между которыми происходит овуляция.\r\n                        - Первая фаза называется фолликулярной. Именно в этой фазе развивается фолликул, из\r\n                        которого\r\n                        выйдет яйцеклетка, которая потом может превратиться в развивающийся плод и, наконец,\r\n                        ребенка.\r\n                        Она начинается в самый первый день начала менструации (менструального кровотечения) и\r\n                        заканчивается когда происходит овуляция. Занимает примерно половину\r\n                     "
+          _c("div", { staticClass: "question-tab__txt" }, [
+            _c("h5", { staticClass: "question-tab__title" }, [
+              _vm._v(
+                "\n                              Тренировки при менструации\n                          "
+              ),
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "question-tab__prg" }, [
+              _vm._v(
+                "\n                              Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\n                              через приблизительно равные промежутки времени...\n                          "
+              ),
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              { staticClass: "question-tab__link-more", attrs: { href: "#" } },
+              [
+                _vm._v(
+                  "\n                              Подробнее\n                          "
+                ),
+              ]
             ),
           ]),
         ]

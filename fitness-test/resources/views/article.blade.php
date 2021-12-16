@@ -1,6 +1,5 @@
 @extends('layouts/account')
 
 @section('content')
-    <questions></questions>
+    <Question></Question>
 @endsection
-
