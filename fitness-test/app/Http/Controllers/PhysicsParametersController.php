@@ -16,13 +16,13 @@ class PhysicsParametersController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user()->id;
-        $physicsParameters = PhysicsParameter::where('user_id','=',$user);
-        return new PhysicsParameterCollection($physicsParameters);
+        $physicsParameters = PhysicsParameters::where('user_id','=',$user)->first();
+        return response()->json($physicsParameters);
     }
 
     public function store(PhysicsParametersStoreRequest $request)
     {
-        $physicsParameter = PhysicsParameter::create($request->validated());
+        $physicsParameter = PhysicsParameters::create($request->validated());
         return new PhysicsParameterResource($physicsParameter);
     }
 
@@ -38,7 +38,7 @@ class PhysicsParametersController extends Controller
     public function update(PhysicsParametersUpdateRequest $request, $physicsParameterID)
     {
         $user = Auth::user()->id;
-        $physicsParameters = PhysicsParameter::find($physicsParameterID);
+        $physicsParameters = PhysicsParameters::find($physicsParameterID);
         if($physicsParameters->user_id==$user)
         {
             $physicsParameter->update($request->validated());
@@ -50,7 +50,7 @@ class PhysicsParametersController extends Controller
     public function destroy(Request $request, PhysicsParameter $physicsParameter)
     {
         $user = Auth::user()->id;
-        $physicsParameters = PhysicsParameter::find($physicsParameterID);
+        $physicsParameters = PhysicsParameters::find($physicsParameterID);
         if($physicsParameters->user_id==$user)
             $physicsParameter->delete();
         return response()->noContent();

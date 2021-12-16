@@ -3029,6 +3029,20 @@ __webpack_require__.r(__webpack_exports__);
       selectedTab: "1"
     };
   },
+  computed: {
+    User: function User() {
+      return this.$store.getters.GetPersonalAccount;
+    },
+    Physics: function Physics() {
+      return this.$store.getters.GetPhysicsParameters;
+    }
+  },
+  mounted: function mounted() {
+    if (userInfo) {
+      this.$store.dispatch('fetchPhysicsParameters');
+      this.$store.dispatch('fetchPersonalAccount');
+    }
+  },
   methods: {
     selectTab: function selectTab() {
       this.selectedTab = this.tab.title;
@@ -4493,6 +4507,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -4507,21 +4545,21 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         img: "3"
       }],
-      info: [{
-        title: "Вес",
-        value: "|"
-      }, {
-        title: "Бёдра",
-        value: "120"
-      }, {
-        title: "Талия",
-        value: "80"
-      }, {
-        title: "Грудь",
-        value: "100"
-      }],
       selectedTab: "1"
     };
+  },
+  computed: {
+    Physics: function Physics() {
+      return this.$store.getters.GetPhysicsParameters;
+    },
+    info: function info() {
+      return [];
+    }
+  },
+  mounted: function mounted() {
+    if (userInfo) {
+      this.$store.dispatch('fetchPhysicsParameters');
+    }
   },
   methods: {
     selectTab: function selectTab() {
@@ -5927,6 +5965,12 @@ try {
 } catch (e) {}
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+window.userInfo = document.head.querySelector('meta[name="userInfo"]');
+
+if (window.userInfo != null) {
+  window.userInfo = window.userInfo.content;
+}
+
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
@@ -7193,7 +7237,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   actions: {
-    fetchPersonalAccount: function fetchPersonalAccount(_ref, PersonalAccountId) {
+    fetchPersonalAccount: function fetchPersonalAccount(_ref) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         var commit;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
@@ -7201,7 +7245,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 commit = _ref.commit;
-                axios.get('/api/personal-account/show/' + PersonalAccountId).then(function (response) {
+                axios.get('/api/personal-account/list').then(function (response) {
                   commit('LoadUpdatePersonalAccount', response.data);
                 })["catch"](function (error) {
                   console.log("LoadUpdatePersonalAccount:", error.response);
@@ -7315,6 +7359,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         'weight': PhysicsParameter.weight,
         'height': PhysicsParameter.height,
         'dream_weight': PhysicsParameter.dream_weight,
+        'current_weight': PhysicsParameter.current_weight,
         'hips_cm': PhysicsParameter.hips_cm,
         'waist_cm': PhysicsParameter.waist_cm,
         'chest_cm': PhysicsParameter.chest_cm
@@ -7331,6 +7376,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         'weight': PhysicsParameter.weight,
         'height': PhysicsParameter.height,
         'dream_weight': PhysicsParameter.dream_weight,
+        'current_weight': PhysicsParameter.current_weight,
         'hips_cm': PhysicsParameter.hips_cm,
         'waist_cm': PhysicsParameter.waist_cm,
         'chest_cm': PhysicsParameter.chest_cm
@@ -46861,415 +46907,445 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("main", { staticClass: "main account-main" }, [
-    _c("header", { staticClass: "account-header home" }, [_c("MenuOffice")], 1),
-    _vm._v(" "),
-    _c("section", { attrs: { id: "account-head" } }, [
-      _c("div", { staticClass: "account-container" }, [
-        _c("div", { staticClass: "account-head__row" }, [
-          _c("div", { staticClass: "account-search" }, [
-            _c("input", {
-              staticClass: "account-search__input",
-              attrs: { type: "text", placeholder: "Поиск" },
-            }),
-            _vm._v(" "),
-            _c(
-              "svg",
-              {
-                attrs: {
-                  width: "20",
-                  height: "16",
-                  viewBox: "0 0 20 16",
-                  fill: "none",
-                  xmlns: "http://www.w3.org/2000/svg",
-                },
-              },
-              [
-                _c("path", {
-                  attrs: {
-                    d: "M14.362 9.80581H13.517L13.2176 9.57249C14.2657 8.58737 14.8967 7.30843 14.8967 5.91716C14.8967 2.81489 11.7844 0.300232 7.94476 0.300232C4.10514 0.300232 0.992798 2.81489 0.992798 5.91716C0.992798 9.01944 4.10514 11.5341 7.94476 11.5341C9.66671 11.5341 11.2496 11.0243 12.4689 10.1774L12.7577 10.4194V11.102L18.1053 15.4141L19.6989 14.1265L14.362 9.80581ZM7.94476 9.80581C5.28163 9.80581 3.13186 8.06888 3.13186 5.91716C3.13186 3.76545 5.28163 2.02852 7.94476 2.02852C10.6079 2.02852 12.7577 3.76545 12.7577 5.91716C12.7577 8.06888 10.6079 9.80581 7.94476 9.80581Z",
-                    fill: "#BEBEBE",
-                  },
+  return _vm.User
+    ? _c("main", { staticClass: "main account-main" }, [
+        _c(
+          "header",
+          { staticClass: "account-header home" },
+          [_c("MenuOffice")],
+          1
+        ),
+        _vm._v(" "),
+        _c("section", { attrs: { id: "account-head" } }, [
+          _c("div", { staticClass: "account-container" }, [
+            _c("div", { staticClass: "account-head__row" }, [
+              _c("div", { staticClass: "account-search" }, [
+                _c("input", {
+                  staticClass: "account-search__input",
+                  attrs: { type: "text", placeholder: "Поиск" },
                 }),
-              ]
-            ),
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "account-head__mob-row" },
-            [
-              _c("Notifications"),
+                _vm._v(" "),
+                _c(
+                  "svg",
+                  {
+                    attrs: {
+                      width: "20",
+                      height: "16",
+                      viewBox: "0 0 20 16",
+                      fill: "none",
+                      xmlns: "http://www.w3.org/2000/svg",
+                    },
+                  },
+                  [
+                    _c("path", {
+                      attrs: {
+                        d: "M14.362 9.80581H13.517L13.2176 9.57249C14.2657 8.58737 14.8967 7.30843 14.8967 5.91716C14.8967 2.81489 11.7844 0.300232 7.94476 0.300232C4.10514 0.300232 0.992798 2.81489 0.992798 5.91716C0.992798 9.01944 4.10514 11.5341 7.94476 11.5341C9.66671 11.5341 11.2496 11.0243 12.4689 10.1774L12.7577 10.4194V11.102L18.1053 15.4141L19.6989 14.1265L14.362 9.80581ZM7.94476 9.80581C5.28163 9.80581 3.13186 8.06888 3.13186 5.91716C3.13186 3.76545 5.28163 2.02852 7.94476 2.02852C10.6079 2.02852 12.7577 3.76545 12.7577 5.91716C12.7577 8.06888 10.6079 9.80581 7.94476 9.80581Z",
+                        fill: "#BEBEBE",
+                      },
+                    }),
+                  ]
+                ),
+              ]),
               _vm._v(" "),
               _c(
-                "a",
-                {
-                  staticClass: "account-head__exit",
-                  on: {
-                    click: function ($event) {
-                      return _vm.logout()
-                    },
-                  },
-                },
+                "div",
+                { staticClass: "account-head__mob-row" },
                 [
-                  _c(
-                    "svg",
-                    {
-                      staticClass: "account-head__mob-svg",
-                      attrs: {
-                        width: "20",
-                        height: "20",
-                        viewBox: "0 0 20 20",
-                        fill: "none",
-                        xmlns: "http://www.w3.org/2000/svg",
-                      },
-                    },
-                    [
-                      _c("path", {
-                        attrs: {
-                          "fill-rule": "evenodd",
-                          "clip-rule": "evenodd",
-                          d: "M14.99 11.2413V8.74375H9.99375V6.24375H14.99V3.7475L19.9875 7.495L14.99 11.2425V11.2413ZM12.4925 14.9887H7.495V3.74625L2.5 1.24875H12.4937V4.99625H13.7437V1.24875C13.7437 0.56125 13.1812 0 12.4937 0H1.24875C0.917764 0.000660653 0.600523 0.132437 0.36648 0.36648C0.132437 0.600523 0.000660653 0.917764 0 1.24875L0 15.4637C0 15.9512 0.275 16.3762 0.6875 16.6012L7.495 19.9987V16.2387H12.4925C13.18 16.2387 13.7425 15.6762 13.7425 14.9887V9.99375H12.4925V14.9913V14.9887Z",
-                          fill: "#FF144A",
-                        },
-                      }),
-                    ]
-                  ),
+                  _c("Notifications"),
                   _vm._v(" "),
-                  _c("span", [_vm._v("Выход")]),
-                ]
-              ),
-            ],
-            1
-          ),
-        ]),
-      ]),
-    ]),
-    _vm._v(" "),
-    _c("section", { staticClass: "home", attrs: { id: "progress" } }, [
-      _c("div", { staticClass: "account-container" }, [
-        _c("div", { staticClass: "progress__container" }, [
-          _c("div", { staticClass: "progress__col-first" }, [
-            _c("div", { staticClass: "progress__row" }, [
-              _c("div", { staticClass: "progress-level" }, [
-                _vm._m(0),
-                _vm._v(" "),
-                _c("div", { staticClass: "level__chart" }, [
                   _c(
-                    "svg",
+                    "a",
                     {
-                      staticClass: "radial-progress",
-                      attrs: { "data-percentage": "75", viewBox: "0 0 86 86" },
+                      staticClass: "account-head__exit",
+                      on: {
+                        click: function ($event) {
+                          return _vm.logout()
+                        },
+                      },
                     },
                     [
                       _c(
-                        "defs",
+                        "svg",
+                        {
+                          staticClass: "account-head__mob-svg",
+                          attrs: {
+                            width: "20",
+                            height: "20",
+                            viewBox: "0 0 20 20",
+                            fill: "none",
+                            xmlns: "http://www.w3.org/2000/svg",
+                          },
+                        },
+                        [
+                          _c("path", {
+                            attrs: {
+                              "fill-rule": "evenodd",
+                              "clip-rule": "evenodd",
+                              d: "M14.99 11.2413V8.74375H9.99375V6.24375H14.99V3.7475L19.9875 7.495L14.99 11.2425V11.2413ZM12.4925 14.9887H7.495V3.74625L2.5 1.24875H12.4937V4.99625H13.7437V1.24875C13.7437 0.56125 13.1812 0 12.4937 0H1.24875C0.917764 0.000660653 0.600523 0.132437 0.36648 0.36648C0.132437 0.600523 0.000660653 0.917764 0 1.24875L0 15.4637C0 15.9512 0.275 16.3762 0.6875 16.6012L7.495 19.9987V16.2387H12.4925C13.18 16.2387 13.7425 15.6762 13.7425 14.9887V9.99375H12.4925V14.9913V14.9887Z",
+                              fill: "#FF144A",
+                            },
+                          }),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("Выход")]),
+                    ]
+                  ),
+                ],
+                1
+              ),
+            ]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("section", { staticClass: "home", attrs: { id: "progress" } }, [
+          _c("div", { staticClass: "account-container" }, [
+            _c("div", { staticClass: "progress__container" }, [
+              _c("div", { staticClass: "progress__col-first" }, [
+                _c("div", { staticClass: "progress__row" }, [
+                  _c("div", { staticClass: "progress-level" }, [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "level__chart" }, [
+                      _c(
+                        "svg",
+                        {
+                          staticClass: "radial-progress",
+                          attrs: {
+                            "data-percentage": "75",
+                            viewBox: "0 0 86 86",
+                          },
+                        },
                         [
                           _c(
-                            "linearGradient",
-                            {
-                              attrs: {
-                                id: "linear",
-                                x1: "0%",
-                                y1: "0%",
-                                x2: "100%",
-                                y2: "0%",
-                              },
-                            },
+                            "defs",
                             [
-                              _c("stop", {
-                                attrs: {
-                                  offset: "0%",
-                                  "stop-color": "#FF7E83",
+                              _c(
+                                "linearGradient",
+                                {
+                                  attrs: {
+                                    id: "linear",
+                                    x1: "0%",
+                                    y1: "0%",
+                                    x2: "100%",
+                                    y2: "0%",
+                                  },
                                 },
-                              }),
-                              _vm._v(" "),
-                              _c("stop", {
-                                attrs: {
-                                  offset: "100%",
-                                  "stop-color": "#FF144A",
-                                },
-                              }),
+                                [
+                                  _c("stop", {
+                                    attrs: {
+                                      offset: "0%",
+                                      "stop-color": "#FF7E83",
+                                    },
+                                  }),
+                                  _vm._v(" "),
+                                  _c("stop", {
+                                    attrs: {
+                                      offset: "100%",
+                                      "stop-color": "#FF144A",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
                             ],
                             1
                           ),
-                        ],
-                        1
+                          _vm._v(" "),
+                          _c("circle", {
+                            staticClass: "incomplete",
+                            attrs: { cx: "43", cy: "43", r: "35" },
+                          }),
+                          _vm._v(" "),
+                          _c("circle", {
+                            staticClass: "complete",
+                            attrs: {
+                              cx: "43",
+                              cy: "43",
+                              r: "35",
+                              stroke: "url(#linear)",
+                            },
+                          }),
+                        ]
                       ),
                       _vm._v(" "),
-                      _c("circle", {
-                        staticClass: "incomplete",
-                        attrs: { cx: "43", cy: "43", r: "35" },
-                      }),
-                      _vm._v(" "),
-                      _c("circle", {
-                        staticClass: "complete",
-                        attrs: {
-                          cx: "43",
-                          cy: "43",
-                          r: "35",
-                          stroke: "url(#linear)",
-                        },
-                      }),
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _vm._m(1),
-                ]),
-              ]),
-              _vm._v(" "),
-              _vm._m(2),
-            ]),
-            _vm._v(" "),
-            _vm._m(3),
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "progress__col-second" },
-            [
-              _c("div", { staticClass: "progress-block" }, [
-                _c("div", { staticClass: "progress-block__svg-elem" }, [
-                  _c(
-                    "svg",
-                    {
-                      attrs: {
-                        width: "280",
-                        height: "322",
-                        viewBox: "0 0 280 322",
-                        fill: "none",
-                        xmlns: "http://www.w3.org/2000/svg",
-                      },
-                    },
-                    [
-                      _c("ellipse", {
-                        attrs: {
-                          opacity: "0.13",
-                          rx: "164.341",
-                          ry: "156.191",
-                          transform:
-                            "matrix(-0.969532 -0.244963 0.273341 -0.961917 202.027 131.5)",
-                          fill: "white",
-                        },
-                      }),
-                      _vm._v(" "),
-                      _c("ellipse", {
-                        attrs: {
-                          opacity: "0.13",
-                          rx: "138.392",
-                          ry: "131.529",
-                          transform:
-                            "matrix(-0.969532 -0.244963 0.273341 -0.961917 220.71 114.066)",
-                          fill: "white",
-                        },
-                      }),
-                    ]
-                  ),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "progress-block__head" }, [
-                  _c("h5", { staticClass: "progress-block__title" }, [
-                    _vm._v(
-                      "\n                        Мой прогресс\n                     "
-                    ),
+                      _vm._m(1),
+                    ]),
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "select__wrap" }, [
-                    _vm._m(4),
+                  _c("div", { staticClass: "progress-result" }, [
+                    _c("div", { staticClass: "progress-result__title" }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(
+                            _vm.Physics.current_weight - _vm.Physics.weight
+                          ) +
+                          " кг\n                     "
+                      ),
+                    ]),
                     _vm._v(" "),
-                    _c("ul", { staticClass: "select__ul" }, [
-                      _c("li", [
+                    _vm._m(2),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _vm._m(3),
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "progress__col-second" },
+                [
+                  _c("div", { staticClass: "progress-block" }, [
+                    _c("div", { staticClass: "progress-block__svg-elem" }, [
+                      _c(
+                        "svg",
+                        {
+                          attrs: {
+                            width: "280",
+                            height: "322",
+                            viewBox: "0 0 280 322",
+                            fill: "none",
+                            xmlns: "http://www.w3.org/2000/svg",
+                          },
+                        },
+                        [
+                          _c("ellipse", {
+                            attrs: {
+                              opacity: "0.13",
+                              rx: "164.341",
+                              ry: "156.191",
+                              transform:
+                                "matrix(-0.969532 -0.244963 0.273341 -0.961917 202.027 131.5)",
+                              fill: "white",
+                            },
+                          }),
+                          _vm._v(" "),
+                          _c("ellipse", {
+                            attrs: {
+                              opacity: "0.13",
+                              rx: "138.392",
+                              ry: "131.529",
+                              transform:
+                                "matrix(-0.969532 -0.244963 0.273341 -0.961917 220.71 114.066)",
+                              fill: "white",
+                            },
+                          }),
+                        ]
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "progress-block__head" }, [
+                      _c("h5", { staticClass: "progress-block__title" }, [
                         _vm._v(
-                          "\n                              1 уровень\n                           "
+                          "\n                        Мой прогресс\n                     "
                         ),
                       ]),
                       _vm._v(" "),
-                      _c("li", { staticClass: "disabled" }, [
-                        _vm._v(
-                          "\n                              2 уровень\n                              "
-                        ),
+                      _c("div", { staticClass: "select__wrap" }, [
+                        _vm._m(4),
+                        _vm._v(" "),
+                        _c("ul", { staticClass: "select__ul" }, [
+                          _c("li", [
+                            _vm._v(
+                              "\n                              1 уровень\n                           "
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("li", { staticClass: "disabled" }, [
+                            _vm._v(
+                              "\n                              2 уровень\n                              "
+                            ),
+                            _c(
+                              "svg",
+                              {
+                                staticClass: "icon",
+                                attrs: {
+                                  width: "14",
+                                  height: "14",
+                                  viewBox: "0 0 14 14",
+                                  fill: "none",
+                                  xmlns: "http://www.w3.org/2000/svg",
+                                },
+                              },
+                              [
+                                _c(
+                                  "g",
+                                  { attrs: { "clip-path": "url(#clip0)" } },
+                                  [
+                                    _c("path", {
+                                      attrs: {
+                                        d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
+                                        fill: "#BEBEBE",
+                                      },
+                                    }),
+                                    _vm._v(" "),
+                                    _c("path", {
+                                      attrs: {
+                                        d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
+                                        fill: "#BEBEBE",
+                                      },
+                                    }),
+                                    _vm._v(" "),
+                                    _c("path", {
+                                      attrs: {
+                                        d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
+                                        fill: "#BEBEBE",
+                                      },
+                                    }),
+                                    _vm._v(" "),
+                                    _c("path", {
+                                      attrs: {
+                                        d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
+                                        fill: "#BEBEBE",
+                                      },
+                                    }),
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("defs", [
+                                  _c("clipPath", { attrs: { id: "clip0" } }, [
+                                    _c("rect", {
+                                      attrs: {
+                                        width: "14",
+                                        height: "14",
+                                        fill: "white",
+                                      },
+                                    }),
+                                  ]),
+                                ]),
+                              ]
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("li", { staticClass: "disabled" }, [
+                            _vm._v(
+                              "\n                              3 уровень\n                              "
+                            ),
+                            _c(
+                              "svg",
+                              {
+                                staticClass: "icon",
+                                attrs: {
+                                  width: "14",
+                                  height: "14",
+                                  viewBox: "0 0 14 14",
+                                  fill: "none",
+                                  xmlns: "http://www.w3.org/2000/svg",
+                                },
+                              },
+                              [
+                                _c(
+                                  "g",
+                                  { attrs: { "clip-path": "url(#clip0)" } },
+                                  [
+                                    _c("path", {
+                                      attrs: {
+                                        d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
+                                        fill: "#BEBEBE",
+                                      },
+                                    }),
+                                    _vm._v(" "),
+                                    _c("path", {
+                                      attrs: {
+                                        d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
+                                        fill: "#BEBEBE",
+                                      },
+                                    }),
+                                    _vm._v(" "),
+                                    _c("path", {
+                                      attrs: {
+                                        d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
+                                        fill: "#BEBEBE",
+                                      },
+                                    }),
+                                    _vm._v(" "),
+                                    _c("path", {
+                                      attrs: {
+                                        d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
+                                        fill: "#BEBEBE",
+                                      },
+                                    }),
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("defs", [
+                                  _c("clipPath", { attrs: { id: "clip0" } }, [
+                                    _c("rect", {
+                                      attrs: {
+                                        width: "14",
+                                        height: "14",
+                                        fill: "white",
+                                      },
+                                    }),
+                                  ]),
+                                ]),
+                              ]
+                            ),
+                          ]),
+                        ]),
+                        _vm._v(" "),
                         _c(
                           "svg",
                           {
-                            staticClass: "icon",
+                            staticClass: "select__svg",
                             attrs: {
-                              width: "14",
-                              height: "14",
-                              viewBox: "0 0 14 14",
+                              width: "17",
+                              height: "9",
+                              viewBox: "0 0 17 9",
                               fill: "none",
                               xmlns: "http://www.w3.org/2000/svg",
                             },
                           },
                           [
-                            _c("g", { attrs: { "clip-path": "url(#clip0)" } }, [
-                              _c("path", {
-                                attrs: {
-                                  d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
-                                  fill: "#BEBEBE",
-                                },
-                              }),
-                              _vm._v(" "),
-                              _c("path", {
-                                attrs: {
-                                  d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
-                                  fill: "#BEBEBE",
-                                },
-                              }),
-                              _vm._v(" "),
-                              _c("path", {
-                                attrs: {
-                                  d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
-                                  fill: "#BEBEBE",
-                                },
-                              }),
-                              _vm._v(" "),
-                              _c("path", {
-                                attrs: {
-                                  d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
-                                  fill: "#BEBEBE",
-                                },
-                              }),
-                            ]),
-                            _vm._v(" "),
-                            _c("defs", [
-                              _c("clipPath", { attrs: { id: "clip0" } }, [
-                                _c("rect", {
-                                  attrs: {
-                                    width: "14",
-                                    height: "14",
-                                    fill: "white",
-                                  },
-                                }),
-                              ]),
-                            ]),
-                          ]
-                        ),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "disabled" }, [
-                        _vm._v(
-                          "\n                              3 уровень\n                              "
-                        ),
-                        _c(
-                          "svg",
-                          {
-                            staticClass: "icon",
-                            attrs: {
-                              width: "14",
-                              height: "14",
-                              viewBox: "0 0 14 14",
-                              fill: "none",
-                              xmlns: "http://www.w3.org/2000/svg",
-                            },
-                          },
-                          [
-                            _c("g", { attrs: { "clip-path": "url(#clip0)" } }, [
-                              _c("path", {
-                                attrs: {
-                                  d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
-                                  fill: "#BEBEBE",
-                                },
-                              }),
-                              _vm._v(" "),
-                              _c("path", {
-                                attrs: {
-                                  d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
-                                  fill: "#BEBEBE",
-                                },
-                              }),
-                              _vm._v(" "),
-                              _c("path", {
-                                attrs: {
-                                  d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
-                                  fill: "#BEBEBE",
-                                },
-                              }),
-                              _vm._v(" "),
-                              _c("path", {
-                                attrs: {
-                                  d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
-                                  fill: "#BEBEBE",
-                                },
-                              }),
-                            ]),
-                            _vm._v(" "),
-                            _c("defs", [
-                              _c("clipPath", { attrs: { id: "clip0" } }, [
-                                _c("rect", {
-                                  attrs: {
-                                    width: "14",
-                                    height: "14",
-                                    fill: "white",
-                                  },
-                                }),
-                              ]),
-                            ]),
+                            _c("path", {
+                              attrs: {
+                                d: "M16.0543 0.602247C16.0544 0.681312 16.0388 0.759609 16.0086 0.832666C15.9783 0.905724 15.934 0.97211 15.878 1.02804L8.45314 8.44784C8.34019 8.56069 8.18701 8.62408 8.02729 8.62408C7.86757 8.62408 7.71439 8.56069 7.60143 8.44784L0.176538 1.02804C0.120587 0.972146 0.0761993 0.905792 0.0459089 0.832759C0.0156185 0.759727 1.86629e-05 0.681447 1.67352e-08 0.602389C-1.86294e-05 0.523332 0.0155444 0.445045 0.0458003 0.371998C0.0760563 0.298951 0.120413 0.232574 0.176337 0.176659C0.232261 0.120743 0.298658 0.0763845 0.371737 0.046113C0.444816 0.0158415 0.523145 0.000250816 0.602253 0.000231743C0.68136 0.000213623 0.759697 0.0157671 0.83279 0.0460043C0.905883 0.0762405 0.972301 0.120569 1.02825 0.176458L8.02709 7.17087L15.0259 0.176458C15.1102 0.0922174 15.2175 0.0348415 15.3344 0.0115919C15.4513 -0.0116568 15.5724 0.000263214 15.6825 0.0458469C15.7926 0.0914307 15.8867 0.16863 15.9529 0.267672C16.0191 0.366714 16.0544 0.48315 16.0543 0.602247Z",
+                                fill: "white",
+                              },
+                            }),
                           ]
                         ),
                       ]),
                     ]),
                     _vm._v(" "),
                     _c(
-                      "svg",
-                      {
-                        staticClass: "select__svg",
-                        attrs: {
-                          width: "17",
-                          height: "9",
-                          viewBox: "0 0 17 9",
-                          fill: "none",
-                          xmlns: "http://www.w3.org/2000/svg",
-                        },
-                      },
-                      [
-                        _c("path", {
-                          attrs: {
-                            d: "M16.0543 0.602247C16.0544 0.681312 16.0388 0.759609 16.0086 0.832666C15.9783 0.905724 15.934 0.97211 15.878 1.02804L8.45314 8.44784C8.34019 8.56069 8.18701 8.62408 8.02729 8.62408C7.86757 8.62408 7.71439 8.56069 7.60143 8.44784L0.176538 1.02804C0.120587 0.972146 0.0761993 0.905792 0.0459089 0.832759C0.0156185 0.759727 1.86629e-05 0.681447 1.67352e-08 0.602389C-1.86294e-05 0.523332 0.0155444 0.445045 0.0458003 0.371998C0.0760563 0.298951 0.120413 0.232574 0.176337 0.176659C0.232261 0.120743 0.298658 0.0763845 0.371737 0.046113C0.444816 0.0158415 0.523145 0.000250816 0.602253 0.000231743C0.68136 0.000213623 0.759697 0.0157671 0.83279 0.0460043C0.905883 0.0762405 0.972301 0.120569 1.02825 0.176458L8.02709 7.17087L15.0259 0.176458C15.1102 0.0922174 15.2175 0.0348415 15.3344 0.0115919C15.4513 -0.0116568 15.5724 0.000263214 15.6825 0.0458469C15.7926 0.0914307 15.8867 0.16863 15.9529 0.267672C16.0191 0.366714 16.0544 0.48315 16.0543 0.602247Z",
-                            fill: "white",
+                      "ul",
+                      { staticClass: "progress-block__steps" },
+                      _vm._l(_vm.tabs, function (tab) {
+                        return _c(
+                          "li",
+                          {
+                            key: tab.title,
+                            staticClass: "progress-block__step",
+                            class: { active: _vm.selectedTab == tab.title },
+                            on: {
+                              click: function ($event) {
+                                _vm.selectedTab = tab.title
+                              },
+                            },
                           },
-                        }),
-                      ]
+                          [
+                            _vm._v(
+                              "\n                     " +
+                                _vm._s(tab.title) +
+                                " Этап\n                     "
+                            ),
+                          ]
+                        )
+                      }),
+                      0
                     ),
                   ]),
-                ]),
-                _vm._v(" "),
-                _c(
-                  "ul",
-                  { staticClass: "progress-block__steps" },
-                  _vm._l(_vm.tabs, function (tab) {
-                    return _c(
-                      "li",
-                      {
-                        key: tab.title,
-                        staticClass: "progress-block__step",
-                        class: { active: _vm.selectedTab == tab.title },
-                        on: {
-                          click: function ($event) {
-                            _vm.selectedTab = tab.title
-                          },
-                        },
-                      },
-                      [
-                        _vm._v(
-                          "\n                     " +
-                            _vm._s(tab.title) +
-                            " Этап\n                     "
-                        ),
-                      ]
-                    )
-                  }),
-                  0
-                ),
-              ]),
-              _vm._v(" "),
-              _c("HomeData", { attrs: { selectedTab: _vm.selectedTab } }),
-            ],
-            1
-          ),
+                  _vm._v(" "),
+                  _c("HomeData", { attrs: { selectedTab: _vm.selectedTab } }),
+                ],
+                1
+              ),
+            ]),
+          ]),
         ]),
-      ]),
-    ]),
-  ])
+      ])
+    : _vm._e()
 }
 var staticRenderFns = [
   function () {
@@ -47303,27 +47379,21 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "progress-result" }, [
-      _c("div", { staticClass: "progress-result__title" }, [
-        _vm._v("\n                        -8 кг\n                     "),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "progress-result__caption" }, [
-        _c("span", [_vm._v("Мой")]),
-        _vm._v(" результат\n                        "),
-        _c(
-          "p",
-          {
-            staticClass:
-              "progress-level__chart-level progress-level__chart-level-mob",
-          },
-          [
-            _vm._v(
-              "\n                           1 уровень\n                        "
-            ),
-          ]
-        ),
-      ]),
+    return _c("div", { staticClass: "progress-result__caption" }, [
+      _c("span", [_vm._v("Мой")]),
+      _vm._v(" результат\n                        "),
+      _c(
+        "p",
+        {
+          staticClass:
+            "progress-level__chart-level progress-level__chart-level-mob",
+        },
+        [
+          _vm._v(
+            "\n                           1 уровень\n                        "
+          ),
+        ]
+      ),
     ])
   },
   function () {
@@ -49824,52 +49894,133 @@ var render = function () {
     "div",
     { staticClass: "progres-data__list" },
     [
-      _c(
-        "div",
-        { staticClass: "progres-data__item progres__group" },
-        [
-          _vm._l(_vm.info, function (date, index) {
-            return _c("div", { key: index, staticClass: "progres__elem" }, [
-              _c("div", { staticClass: "progres__elem-contain" }, [
-                _c("p", { staticClass: "progres__elem-prg" }, [
-                  _vm._v(
-                    "\n               " + _vm._s(date.title) + "\n            "
-                  ),
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: date.value,
-                      expression: "date.value",
-                    },
-                  ],
-                  staticClass: "progres-data__input",
-                  attrs: { type: "text" },
-                  domProps: { value: date.value },
-                  on: {
-                    input: function ($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(date, "value", $event.target.value)
-                    },
-                  },
-                }),
-              ]),
-            ])
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "progres__btn-data", attrs: { type: "submit" } },
-            [_vm._v("Сохранить")]
-          ),
-        ],
-        2
-      ),
+      _c("div", { staticClass: "progres-data__item progres__group" }, [
+        _c("div", { staticClass: "progres__elem" }, [
+          _c("div", { staticClass: "progres__elem-contain" }, [
+            _c("p", { staticClass: "progres__elem-prg" }, [
+              _vm._v("\n               Вес\n            "),
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.Physics.current_weight,
+                  expression: "Physics.current_weight",
+                },
+              ],
+              staticClass: "progres-data__input",
+              attrs: { type: "text" },
+              domProps: { value: _vm.Physics.current_weight },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.Physics, "current_weight", $event.target.value)
+                },
+              },
+            }),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "progres__elem" }, [
+          _c("div", { staticClass: "progres__elem-contain" }, [
+            _c("p", { staticClass: "progres__elem-prg" }, [
+              _vm._v("\n               Бёдра\n            "),
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.Physics.hips_cm,
+                  expression: "Physics.hips_cm",
+                },
+              ],
+              staticClass: "progres-data__input",
+              attrs: { type: "text" },
+              domProps: { value: _vm.Physics.hips_cm },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.Physics, "hips_cm", $event.target.value)
+                },
+              },
+            }),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "progres__elem" }, [
+          _c("div", { staticClass: "progres__elem-contain" }, [
+            _c("p", { staticClass: "progres__elem-prg" }, [
+              _vm._v("\n               Талия\n            "),
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.Physics.waist_cm,
+                  expression: "Physics.waist_cm",
+                },
+              ],
+              staticClass: "progres-data__input",
+              attrs: { type: "text" },
+              domProps: { value: _vm.Physics.waist_cm },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.Physics, "waist_cm", $event.target.value)
+                },
+              },
+            }),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "progres__elem" }, [
+          _c("div", { staticClass: "progres__elem-contain" }, [
+            _c("p", { staticClass: "progres__elem-prg" }, [
+              _vm._v("\n               Грудь\n            "),
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.Physics.chest_cm,
+                  expression: "Physics.chest_cm",
+                },
+              ],
+              staticClass: "progres-data__input",
+              attrs: { type: "text" },
+              domProps: { value: _vm.Physics.chest_cm },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.Physics, "chest_cm", $event.target.value)
+                },
+              },
+            }),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "progres__btn-data", attrs: { type: "submit" } },
+          [_vm._v("Сохранить")]
+        ),
+      ]),
       _vm._v(" "),
       _vm._l(_vm.imgs, function (img, index) {
         return _c("HomeDataImg", { key: index })

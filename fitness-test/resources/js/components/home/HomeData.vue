@@ -1,12 +1,36 @@
 <template>
    <div class="progres-data__list">
       <div class="progres-data__item progres__group">
-         <div class="progres__elem" v-for="(date, index) in info" :key="index">
+         <div class="progres__elem">
             <div class="progres__elem-contain">
                <p class="progres__elem-prg">
-                  {{date.title}}
+                  Вес
                </p>
-               <input v-model="date.value" type="text" class="progres-data__input">
+               <input v-model="Physics.current_weight" type="text" class="progres-data__input">
+            </div>
+         </div>
+         <div class="progres__elem">
+            <div class="progres__elem-contain">
+               <p class="progres__elem-prg">
+                  Бёдра
+               </p>
+               <input v-model="Physics.hips_cm" type="text" class="progres-data__input">
+            </div>
+         </div>
+         <div class="progres__elem">
+            <div class="progres__elem-contain">
+               <p class="progres__elem-prg">
+                  Талия
+               </p>
+               <input v-model="Physics.waist_cm" type="text" class="progres-data__input">
+            </div>
+         </div>
+         <div class="progres__elem">
+            <div class="progres__elem-contain">
+               <p class="progres__elem-prg">
+                  Грудь
+               </p>
+               <input v-model="Physics.chest_cm" type="text" class="progres-data__input">
             </div>
          </div>
          <button type="submit" class="progres__btn-data">Сохранить</button>
@@ -35,26 +59,21 @@ export default {
         img: "3",
       },
     ],
-    info: [
-      {
-        title: "Вес",
-        value: "|"
-      },
-      {
-        title: "Бёдра",
-        value: "120"
-      },
-      {
-        title: "Талия",
-        value: "80"
-      },
-      {
-        title: "Грудь",
-        value: "100"
-      },
-    ],
     selectedTab: "1",
   }),
+  computed:{
+     Physics(){
+        return this.$store.getters.GetPhysicsParameters;
+     },
+     info(){
+       return []
+      }
+  },
+  mounted(){
+      if (userInfo){
+         this.$store.dispatch('fetchPhysicsParameters');
+      }
+   },
   methods: {
    selectTab() {
       this.selectedTab = this.tab.title;
