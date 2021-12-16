@@ -3234,7 +3234,7 @@ footer {
 .select__wrap .select__ul {
   position: absolute;
   top: 32px;
-  left: 0;
+  right: 0;
   width: 100%;
   min-width: 147px;
   display: none;
@@ -3840,6 +3840,20 @@ svg.radial-progress {
 
 .account-head__mob-svg, .account-head__mob-row .sidebar__notifications {
   display: none;
+}
+
+.overflow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.notifications__accardion-container {
+  position: relative;
+  z-index: 99;
 }
 
 @media only screen and (max-width: 1470px) {
@@ -5143,6 +5157,10 @@ svg.radial-progress {
   .calendar__slider-diet, .calendar__slider-workout {
     width: 219px;
   }
+
+  .calendar__slider-workout {
+    width: 196px;
+  }
 }
 @media only screen and (max-width: 689px) {
   .diet .progress__col-second {
@@ -5403,6 +5421,19 @@ svg.radial-progress {
 .question-tab__social-txt a:active, .question-tab__social-txt a:hover, .question-tab__social-txt a:focus {
   text-decoration: underline;
   color: #464646;
+}
+
+.question-tab__txt-container {
+  height: auto;
+}
+@media only screen and (max-width: 648px) {
+  .question-tab__txt-container {
+    margin-top: 30px;
+  }
+}
+
+.question-tab__body {
+  height: 100%;
 }
 
 @media only screen and (max-width: 1200px) {
@@ -6805,6 +6836,12 @@ svg.radial-progress {
 .workout-video__img-preview img {
   width: 100%;
   height: 100%;
+}
+@media only screen and (max-width: 998px) {
+  .workout-video__img-preview {
+    box-shadow: 0px 8px 24px rgba(129, 135, 189, 0.25);
+    filter: none;
+  }
 }
 
 .workout-video__btn {

@@ -189,7 +189,7 @@
    .select__ul {
       position: absolute;
       top: 32px;
-      left: 0;
+      right: 0;
       width: 100%;
       min-width: 147px;
       display: none;
@@ -771,6 +771,18 @@ svg.radial-progress {
 }
 .account-head__mob-svg, .account-head__mob-row .sidebar__notifications {
    display: none;
+}
+.overflow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+.notifications__accardion-container {
+    position: relative;
+    z-index: 99;
 }
 @media only screen and (max-width: 1470px) {
    .account-container {
