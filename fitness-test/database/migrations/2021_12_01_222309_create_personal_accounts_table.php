@@ -22,7 +22,7 @@ class CreatePersonalAccountsTable extends Migration
             $table->foreignId('life_style_id')->constrained();
             $table->foreignId('problem_zone_id')->constrained();
             $table->foreignId('training_location_id')->constrained();
-            $table->foreignId('menu_calories_id')->constrained('menu_calory');
+            $table->foreignId('menu_calories_id')->constrained();
             $table->json('photos');
             $table->timestamps();
         });

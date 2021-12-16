@@ -19,6 +19,7 @@ class PhysicsParameters extends Model
         'weight',
         'height',
         'dream_weight',
+        'current_weight',
         'hips_cm',
         'waist_cm',
         'chest_cm',

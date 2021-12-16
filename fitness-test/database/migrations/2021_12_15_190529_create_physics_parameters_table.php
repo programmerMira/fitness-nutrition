@@ -21,6 +21,7 @@ class CreatePhysicsParametersTable extends Migration
             $table->float('weight');
             $table->float('height');
             $table->float('dream_weight');
+            $table->float('current_weight');
             $table->float('hips_cm');
             $table->float('waist_cm');
             $table->float('chest_cm');
