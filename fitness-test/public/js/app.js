@@ -4569,6 +4569,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -4589,9 +4593,6 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     Physics: function Physics() {
       return this.$store.getters.GetPhysicsParameters;
-    },
-    info: function info() {
-      return [];
     }
   },
   mounted: function mounted() {
@@ -4602,6 +4603,22 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     selectTab: function selectTab() {
       this.selectedTab = this.tab.title;
+    },
+    disabled: function disabled() {
+      if (this.Physics == null) return true;
+      var updated_at = new Date(Date.parse(this.Physics.updated_at));
+      updated_at.setDate(updated_at.getDate() + 10);
+      var today = new Date();
+
+      if (this.Physics.updated_at == null || updated_at < today) {
+        return false;
+      }
+
+      return true;
+    },
+    savePhysics: function savePhysics() {
+      this.$store.dispatch('setPhysicsParameter', this.Physics);
+      this.$store.dispatch('fetchPhysicsParameters');
     }
   }
 });
@@ -12691,7 +12708,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.slide-fade-enter-active {\n  transition: all .3s ease;\n}\n.slide-fade-leave-active {\n  transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter, .slide-fade-leave-to\n/* .slide-fade-leave-active до версии 2.1.8 */ {\n  transform: translateX(10px);\n  opacity: 0;\n}\n.fade-enter-active,\n.fade-leave-active {\n  transition: opacity 0.5s ease;\n}\n.fade-enter-from,\n.fade-leave-to {\n  opacity: 0;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.slide-fade-enter-active {\r\n  transition: all .3s ease;\n}\n.slide-fade-leave-active {\r\n  transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter, .slide-fade-leave-to\r\n/* .slide-fade-leave-active до версии 2.1.8 */ {\r\n  transform: translateX(10px);\r\n  opacity: 0;\n}\n.fade-enter-active,\r\n.fade-leave-active {\r\n  transition: opacity 0.5s ease;\n}\n.fade-enter-from,\r\n.fade-leave-to {\r\n  opacity: 0;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -46425,9 +46442,9 @@ var render = function () {
             [
               _c("div", { staticClass: "notifications__title" }, [
                 _vm._v(
-                  "\n            " + _vm._s(info.title) + "\n            "
+                  "\r\n            " + _vm._s(info.title) + "\r\n            "
                 ),
-                _c("span", [_vm._v("\n               now\n            ")]),
+                _c("span", [_vm._v("\r\n               now\r\n            ")]),
               ]),
               _vm._v(" "),
               _c(
@@ -46462,15 +46479,17 @@ var render = function () {
               ? _c("div", { staticClass: "notifications__body" }, [
                   _c("p", { staticClass: "notifications__subtitle" }, [
                     _vm._v(
-                      "\n              " +
+                      "\r\n              " +
                         _vm._s(info.subtitle) +
-                        "\n            "
+                        "\r\n            "
                     ),
                   ]),
                   _vm._v(" "),
                   _c("p", { staticClass: "notifications__txt" }, [
                     _vm._v(
-                      "\n              " + _vm._s(info.text) + "\n            "
+                      "\r\n              " +
+                        _vm._s(info.text) +
+                        "\r\n            "
                     ),
                   ]),
                 ])
@@ -48636,7 +48655,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\n                     Инструкция пользователя\n                     "
+                      "\r\n                     Инструкция пользователя\r\n                     "
                     ),
                     _c(
                       "svg",
@@ -48671,7 +48690,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\n                     Помощь\n                     "
+                      "\r\n                     Помощь\r\n                     "
                     ),
                     _c(
                       "svg",
@@ -48706,7 +48725,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\n                     О тренировках\n                     "
+                      "\r\n                     О тренировках\r\n                     "
                     ),
                     _c(
                       "svg",
@@ -48741,7 +48760,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\n                     О мотивации\n                     "
+                      "\r\n                     О мотивации\r\n                     "
                     ),
                     _c(
                       "svg",
@@ -48776,7 +48795,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\n                     О питании\n                     "
+                      "\r\n                     О питании\r\n                     "
                     ),
                     _c(
                       "svg",
@@ -48811,7 +48830,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\n                     О теле\n                     "
+                      "\r\n                     О теле\r\n                     "
                     ),
                     _c(
                       "svg",
@@ -48857,13 +48876,13 @@ var staticRenderFns = [
     return _c("div", { staticClass: "question-tab__social-txt" }, [
       _c("b", [
         _vm._v(
-          "\n                        Остались вопросы?\n                     "
+          "\r\n                        Остались вопросы?\r\n                     "
         ),
       ]),
       _vm._v(" "),
       _c("p", [
         _vm._v(
-          "\n                        Найдите ответ на свой вопрос в разделе "
+          "\r\n                        Найдите ответ на свой вопрос в разделе "
         ),
         _c("a", { attrs: { href: "#" } }, [_vm._v("помощь")]),
         _vm._v(" или напишите в наш "),
@@ -48883,13 +48902,13 @@ var staticRenderFns = [
           _c("div", { staticClass: "question-tab__txt" }, [
             _c("h5", { staticClass: "question-tab__title" }, [
               _vm._v(
-                "\n                              Тренировки при менструации\n                          "
+                "\r\n                              Тренировки при менструации\r\n                          "
               ),
             ]),
             _vm._v(" "),
             _c("p", { staticClass: "question-tab__prg" }, [
               _vm._v(
-                "\n                              Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\n                              через приблизительно равные промежутки времени...\n                          "
+                "\r\n                              Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\r\n                              через приблизительно равные промежутки времени...\r\n                          "
               ),
             ]),
             _vm._v(" "),
@@ -48898,7 +48917,7 @@ var staticRenderFns = [
               { staticClass: "question-tab__link-more", attrs: { href: "#" } },
               [
                 _vm._v(
-                  "\n                              Подробнее\n                          "
+                  "\r\n                              Подробнее\r\n                          "
                 ),
               ]
             ),
@@ -48913,13 +48932,13 @@ var staticRenderFns = [
           _c("div", { staticClass: "question-tab__txt" }, [
             _c("h5", { staticClass: "question-tab__title" }, [
               _vm._v(
-                "\n                              Тренировки при менструации\n                          "
+                "\r\n                              Тренировки при менструации\r\n                          "
               ),
             ]),
             _vm._v(" "),
             _c("p", { staticClass: "question-tab__prg" }, [
               _vm._v(
-                "\n                              Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\n                              через приблизительно равные промежутки времени...\n                          "
+                "\r\n                              Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\r\n                              через приблизительно равные промежутки времени...\r\n                          "
               ),
             ]),
             _vm._v(" "),
@@ -48928,7 +48947,7 @@ var staticRenderFns = [
               { staticClass: "question-tab__link-more", attrs: { href: "#" } },
               [
                 _vm._v(
-                  "\n                              Подробнее\n                          "
+                  "\r\n                              Подробнее\r\n                          "
                 ),
               ]
             ),
@@ -48946,13 +48965,13 @@ var staticRenderFns = [
           _c("div", { staticClass: "question-tab__txt" }, [
             _c("h5", { staticClass: "question-tab__title" }, [
               _vm._v(
-                "\n                           Тренировки при менструации\n                        "
+                "\r\n                           Тренировки при менструации\r\n                        "
               ),
             ]),
             _vm._v(" "),
             _c("p", { staticClass: "question-tab__prg" }, [
               _vm._v(
-                "\n                           Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\n                           через приблизительно равные промежутки времени...\n                        "
+                "\r\n                           Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\r\n                           через приблизительно равные промежутки времени...\r\n                        "
               ),
             ]),
             _vm._v(" "),
@@ -48961,7 +48980,7 @@ var staticRenderFns = [
               { staticClass: "question-tab__link-more", attrs: { href: "#" } },
               [
                 _vm._v(
-                  "\n                           Подробнее\n                        "
+                  "\r\n                           Подробнее\r\n                        "
                 ),
               ]
             ),
@@ -48970,13 +48989,13 @@ var staticRenderFns = [
           _c("div", { staticClass: "question-tab__txt" }, [
             _c("h5", { staticClass: "question-tab__title" }, [
               _vm._v(
-                "\n                           Тренировки при менструации\n                        "
+                "\r\n                           Тренировки при менструации\r\n                        "
               ),
             ]),
             _vm._v(" "),
             _c("p", { staticClass: "question-tab__prg" }, [
               _vm._v(
-                "\n                           Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\n                           через приблизительно равные промежутки времени...\n                        "
+                "\r\n                           Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\r\n                           через приблизительно равные промежутки времени...\r\n                        "
               ),
             ]),
             _vm._v(" "),
@@ -48985,7 +49004,7 @@ var staticRenderFns = [
               { staticClass: "question-tab__link-more", attrs: { href: "#" } },
               [
                 _vm._v(
-                  "\n                           Подробнее\n                        "
+                  "\r\n                           Подробнее\r\n                        "
                 ),
               ]
             ),
@@ -48994,13 +49013,13 @@ var staticRenderFns = [
           _c("div", { staticClass: "question-tab__txt" }, [
             _c("h5", { staticClass: "question-tab__title" }, [
               _vm._v(
-                "\n                           Тренировки при менструации\n                        "
+                "\r\n                           Тренировки при менструации\r\n                        "
               ),
             ]),
             _vm._v(" "),
             _c("p", { staticClass: "question-tab__prg" }, [
               _vm._v(
-                "\n                           Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\n                           через приблизительно равные промежутки времени...\n                        "
+                "\r\n                           Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\r\n                           через приблизительно равные промежутки времени...\r\n                        "
               ),
             ]),
             _vm._v(" "),
@@ -49009,7 +49028,7 @@ var staticRenderFns = [
               { staticClass: "question-tab__link-more", attrs: { href: "#" } },
               [
                 _vm._v(
-                  "\n                           Подробнее\n                        "
+                  "\r\n                           Подробнее\r\n                        "
                 ),
               ]
             ),
@@ -49018,13 +49037,13 @@ var staticRenderFns = [
           _c("div", { staticClass: "question-tab__txt" }, [
             _c("h5", { staticClass: "question-tab__title" }, [
               _vm._v(
-                "\n                           Тренировки при менструации\n                        "
+                "\r\n                           Тренировки при менструации\r\n                        "
               ),
             ]),
             _vm._v(" "),
             _c("p", { staticClass: "question-tab__prg" }, [
               _vm._v(
-                "\n                           Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\n                           через приблизительно равные промежутки времени...\n                        "
+                "\r\n                           Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\r\n                           через приблизительно равные промежутки времени...\r\n                        "
               ),
             ]),
             _vm._v(" "),
@@ -49033,7 +49052,7 @@ var staticRenderFns = [
               { staticClass: "question-tab__link-more", attrs: { href: "#" } },
               [
                 _vm._v(
-                  "\n                           Подробнее\n                        "
+                  "\r\n                           Подробнее\r\n                        "
                 ),
               ]
             ),
@@ -49051,13 +49070,13 @@ var staticRenderFns = [
           _c("div", { staticClass: "question-tab__txt" }, [
             _c("h5", { staticClass: "question-tab__title" }, [
               _vm._v(
-                "\n                              Тренировки при менструации\n                          "
+                "\r\n                              Тренировки при менструации\r\n                          "
               ),
             ]),
             _vm._v(" "),
             _c("p", { staticClass: "question-tab__prg" }, [
               _vm._v(
-                "\n                              Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\n                              через приблизительно равные промежутки времени...\n                          "
+                "\r\n                              Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\r\n                              через приблизительно равные промежутки времени...\r\n                          "
               ),
             ]),
             _vm._v(" "),
@@ -49066,7 +49085,7 @@ var staticRenderFns = [
               { staticClass: "question-tab__link-more", attrs: { href: "#" } },
               [
                 _vm._v(
-                  "\n                              Подробнее\n                          "
+                  "\r\n                              Подробнее\r\n                          "
                 ),
               ]
             ),
@@ -49081,13 +49100,13 @@ var staticRenderFns = [
           _c("div", { staticClass: "question-tab__txt" }, [
             _c("h5", { staticClass: "question-tab__title" }, [
               _vm._v(
-                "\n                              Тренировки при менструации\n                          "
+                "\r\n                              Тренировки при менструации\r\n                          "
               ),
             ]),
             _vm._v(" "),
             _c("p", { staticClass: "question-tab__prg" }, [
               _vm._v(
-                "\n                              Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\n                              через приблизительно равные промежутки времени...\n                          "
+                "\r\n                              Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\r\n                              через приблизительно равные промежутки времени...\r\n                          "
               ),
             ]),
             _vm._v(" "),
@@ -49096,7 +49115,7 @@ var staticRenderFns = [
               { staticClass: "question-tab__link-more", attrs: { href: "#" } },
               [
                 _vm._v(
-                  "\n                              Подробнее\n                          "
+                  "\r\n                              Подробнее\r\n                          "
                 ),
               ]
             ),
@@ -49111,13 +49130,13 @@ var staticRenderFns = [
           _c("div", { staticClass: "question-tab__txt" }, [
             _c("h5", { staticClass: "question-tab__title" }, [
               _vm._v(
-                "\n                              Тренировки при менструации\n                          "
+                "\r\n                              Тренировки при менструации\r\n                          "
               ),
             ]),
             _vm._v(" "),
             _c("p", { staticClass: "question-tab__prg" }, [
               _vm._v(
-                "\n                              Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\n                              через приблизительно равные промежутки времени...\n                          "
+                "\r\n                              Менструальный цикл — сложный биологический процесс, происходящий в половых органах женщины\r\n                              через приблизительно равные промежутки времени...\r\n                          "
               ),
             ]),
             _vm._v(" "),
@@ -49126,7 +49145,7 @@ var staticRenderFns = [
               { staticClass: "question-tab__link-more", attrs: { href: "#" } },
               [
                 _vm._v(
-                  "\n                              Подробнее\n                          "
+                  "\r\n                              Подробнее\r\n                          "
                 ),
               ]
             ),
@@ -50236,27 +50255,57 @@ var render = function () {
               _vm._v("\n               Вес\n            "),
             ]),
             _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.Physics.current_weight,
-                  expression: "Physics.current_weight",
-                },
-              ],
-              staticClass: "progres-data__input",
-              attrs: { type: "text" },
-              domProps: { value: _vm.Physics.current_weight },
-              on: {
-                input: function ($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.Physics, "current_weight", $event.target.value)
-                },
-              },
-            }),
+            !_vm.disabled()
+              ? _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.Physics.current_weight,
+                      expression: "Physics.current_weight",
+                    },
+                  ],
+                  staticClass: "progres-data__input",
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.Physics.current_weight },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.Physics,
+                        "current_weight",
+                        $event.target.value
+                      )
+                    },
+                  },
+                })
+              : _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.Physics.current_weight,
+                      expression: "Physics.current_weight",
+                    },
+                  ],
+                  staticClass: "progres-data__input",
+                  attrs: { type: "text", readonly: "" },
+                  domProps: { value: _vm.Physics.current_weight },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.Physics,
+                        "current_weight",
+                        $event.target.value
+                      )
+                    },
+                  },
+                }),
           ]),
         ]),
         _vm._v(" "),
@@ -50266,27 +50315,49 @@ var render = function () {
               _vm._v("\n               Бёдра\n            "),
             ]),
             _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.Physics.hips_cm,
-                  expression: "Physics.hips_cm",
-                },
-              ],
-              staticClass: "progres-data__input",
-              attrs: { type: "text" },
-              domProps: { value: _vm.Physics.hips_cm },
-              on: {
-                input: function ($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.Physics, "hips_cm", $event.target.value)
-                },
-              },
-            }),
+            !_vm.disabled()
+              ? _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.Physics.hips_cm,
+                      expression: "Physics.hips_cm",
+                    },
+                  ],
+                  staticClass: "progres-data__input",
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.Physics.hips_cm },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.Physics, "hips_cm", $event.target.value)
+                    },
+                  },
+                })
+              : _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.Physics.hips_cm,
+                      expression: "Physics.hips_cm",
+                    },
+                  ],
+                  staticClass: "progres-data__input",
+                  attrs: { type: "text", readonly: "" },
+                  domProps: { value: _vm.Physics.hips_cm },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.Physics, "hips_cm", $event.target.value)
+                    },
+                  },
+                }),
           ]),
         ]),
         _vm._v(" "),
@@ -50296,27 +50367,49 @@ var render = function () {
               _vm._v("\n               Талия\n            "),
             ]),
             _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.Physics.waist_cm,
-                  expression: "Physics.waist_cm",
-                },
-              ],
-              staticClass: "progres-data__input",
-              attrs: { type: "text" },
-              domProps: { value: _vm.Physics.waist_cm },
-              on: {
-                input: function ($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.Physics, "waist_cm", $event.target.value)
-                },
-              },
-            }),
+            !_vm.disabled()
+              ? _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.Physics.waist_cm,
+                      expression: "Physics.waist_cm",
+                    },
+                  ],
+                  staticClass: "progres-data__input",
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.Physics.waist_cm },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.Physics, "waist_cm", $event.target.value)
+                    },
+                  },
+                })
+              : _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.Physics.waist_cm,
+                      expression: "Physics.waist_cm",
+                    },
+                  ],
+                  staticClass: "progres-data__input",
+                  attrs: { type: "text", readonly: "" },
+                  domProps: { value: _vm.Physics.waist_cm },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.Physics, "waist_cm", $event.target.value)
+                    },
+                  },
+                }),
           ]),
         ]),
         _vm._v(" "),
@@ -50326,35 +50419,67 @@ var render = function () {
               _vm._v("\n               Грудь\n            "),
             ]),
             _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.Physics.chest_cm,
-                  expression: "Physics.chest_cm",
-                },
-              ],
-              staticClass: "progres-data__input",
-              attrs: { type: "text" },
-              domProps: { value: _vm.Physics.chest_cm },
-              on: {
-                input: function ($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.Physics, "chest_cm", $event.target.value)
-                },
-              },
-            }),
+            !_vm.disabled()
+              ? _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.Physics.chest_cm,
+                      expression: "Physics.chest_cm",
+                    },
+                  ],
+                  staticClass: "progres-data__input",
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.Physics.chest_cm },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.Physics, "chest_cm", $event.target.value)
+                    },
+                  },
+                })
+              : _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.Physics.chest_cm,
+                      expression: "Physics.chest_cm",
+                    },
+                  ],
+                  staticClass: "progres-data__input",
+                  attrs: { type: "text", readonly: "" },
+                  domProps: { value: _vm.Physics.chest_cm },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.Physics, "chest_cm", $event.target.value)
+                    },
+                  },
+                }),
           ]),
         ]),
         _vm._v(" "),
-        _c(
-          "button",
-          { staticClass: "progres__btn-data", attrs: { type: "submit" } },
-          [_vm._v("Сохранить")]
-        ),
+        !_vm.disabled()
+          ? _c(
+              "button",
+              {
+                staticClass: "progres__btn-data",
+                attrs: { type: "submit" },
+                on: {
+                  click: function ($event) {
+                    return _vm.savePhysics()
+                  },
+                },
+              },
+              [_vm._v("Сохранить")]
+            )
+          : _vm._e(),
       ]),
       _vm._v(" "),
       _vm._l(_vm.imgs, function (img, index) {
