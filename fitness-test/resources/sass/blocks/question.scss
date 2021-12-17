@@ -156,8 +156,15 @@
       }
    }
 }
-// Calendar
-
+.question-tab__txt-container {
+    height: auto;
+    @media only screen and (max-width: 648px) {
+        margin-top: 30px;
+    }
+}
+.question-tab__body {
+    height: 100%;
+}
 @media only screen and (max-width: 1200px) {
    .question-tab__btn {
       font-size: 18px;
@@ -171,7 +178,7 @@
       display: grid;
       grid-template-columns: 1fr 1.8fr;
       align-items: center;
-  }  
+  }
 }
 @media only screen and (max-width: 998px) {
    .question-tab__prg {
@@ -323,7 +330,7 @@
    }
    #account-head.question {
       padding-bottom: 7px;
-   } 
+   }
 }
 @media only screen and (max-width: 598px) {
    .question__container {

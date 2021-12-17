@@ -18,6 +18,7 @@ Route::view("/diet","diet");
 Route::view("/workout","workout");
 Route::view("/plugin","plugin");
 Route::view("/question","question");
+Route::view("/article","article");
 
 Auth::routes();
 

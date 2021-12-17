@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="notifications__accardion-container">
    <div class="notifications__accardion" v-for="(info, index) in content" :key="index">
       <div class="notifications__head" @click="info.accardion = !info.accardion">
          <div class="notifications__title">
@@ -15,10 +15,10 @@
       <transition name="slide-fade">
          <div class="notifications__body" v-if="info.accardion">
             <p class="notifications__subtitle">
-              {{info.subtitle}} 
+              {{info.subtitle}}
             </p>
             <p class="notifications__txt">
-              {{info.text}} 
+              {{info.text}}
             </p>
          </div>
       </transition>
