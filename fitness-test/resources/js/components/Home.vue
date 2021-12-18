@@ -211,14 +211,14 @@ export default {
      User(){
         return this.$store.getters.GetPersonalAccount;
      },
-     Physics(){
-        return this.$store.getters.GetPhysicsParameters;
+     ActivityCalendar(){
+        return this.$store.getters.GetActivityCalendars;
      }
   },
   mounted(){
       if (userInfo){
-         this.$store.dispatch('fetchPhysicsParameters');
          this.$store.dispatch('fetchPersonalAccount');
+         this.$store.dispatch('fetchActivityCalendars');
       }
    },
   methods: {
