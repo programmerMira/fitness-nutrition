@@ -1,5 +1,5 @@
 <template>
-   <main class="main account-main">
+   <main v-if="User" class="main account-main">
       <header class="account-header home">
          <MenuOffice></MenuOffice>
       </header>
@@ -60,7 +60,7 @@
                      </div>
                      <div class="progress-result">
                         <div class="progress-result__title">
-                           -8 кг
+                           {{Physics.current_weight - Physics.weight}} кг
                         </div>
                         <div class="progress-result__caption">
                            <span>Мой</span> результат
@@ -207,6 +207,20 @@ export default {
     ],
     selectedTab: "1",
   }),
+  computed:{
+     User(){
+        return this.$store.getters.GetPersonalAccount;
+     },
+     Physics(){
+        return this.$store.getters.GetPhysicsParameters;
+     }
+  },
+  mounted(){
+      if (userInfo){
+         this.$store.dispatch('fetchPhysicsParameters');
+         this.$store.dispatch('fetchPersonalAccount');
+      }
+   },
   methods: {
    selectTab() {
       this.selectedTab = this.tab.title;

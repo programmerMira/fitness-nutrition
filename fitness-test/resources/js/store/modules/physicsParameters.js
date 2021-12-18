@@ -20,6 +20,7 @@ export default {
                 'weight': PhysicsParameter.weight,
                 'height': PhysicsParameter.height,
                 'dream_weight': PhysicsParameter.dream_weight,
+                'current_weight': PhysicsParameter.current_weight,
                 'hips_cm': PhysicsParameter.hips_cm,
                 'waist_cm': PhysicsParameter.waist_cm,
                 'chest_cm': PhysicsParameter.chest_cm
@@ -35,6 +36,7 @@ export default {
                 'weight': PhysicsParameter.weight,
                 'height': PhysicsParameter.height,
                 'dream_weight': PhysicsParameter.dream_weight,
+                'current_weight': PhysicsParameter.current_weight,
                 'hips_cm': PhysicsParameter.hips_cm,
                 'waist_cm': PhysicsParameter.waist_cm,
                 'chest_cm': PhysicsParameter.chest_cm

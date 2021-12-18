@@ -20,6 +20,7 @@ class PhysicsParameterResource extends JsonResource
             'weight' => $this->weight,
             'height' => $this->height,
             'dream_weight' => $this->dream_weight,
+            'current_weight' => $this->current_weight,
             'hips_cm' => $this->hips_cm,
             'waist_cm' => $this->waist_cm,
             'chest_cm' => $this->chest_cm,

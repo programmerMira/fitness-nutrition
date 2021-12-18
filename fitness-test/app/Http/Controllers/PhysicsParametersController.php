@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PhysicsParametersStoreRequest;
-use App\Http\Requests\PhysicsParametersUpdateRequest;
+use App\Http\Requests\PhysicsParameterStoreRequest;
+use App\Http\Requests\PhysicsParameterUpdateRequest;
 use App\Http\Resources\PhysicsParameterCollection;
 use App\Http\Resources\PhysicsParameterResource;
 use App\Models\PhysicsParameters;
@@ -16,13 +16,13 @@ class PhysicsParametersController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user()->id;
-        $physicsParameters = PhysicsParameter::where('user_id','=',$user);
-        return new PhysicsParameterCollection($physicsParameters);
+        $physicsParameters = PhysicsParameters::where('user_id','=',$user)->first();
+        return response()->json($physicsParameters);
     }
 
-    public function store(PhysicsParametersStoreRequest $request)
+    public function store(PhysicsParameterStoreRequest $request)
     {
-        $physicsParameter = PhysicsParameter::create($request->validated());
+        $physicsParameter = PhysicsParameters::create($request->validated());
         return new PhysicsParameterResource($physicsParameter);
     }
 
@@ -35,22 +35,21 @@ class PhysicsParametersController extends Controller
         return new PhysicsParameterResource();
     }
 
-    public function update(PhysicsParametersUpdateRequest $request, $physicsParameterID)
+    public function update(PhysicsParameterUpdateRequest $request, $physicsParameterID)
     {
         $user = Auth::user()->id;
-        $physicsParameters = PhysicsParameter::find($physicsParameterID);
+        $physicsParameters = PhysicsParameters::find($physicsParameterID);
         if($physicsParameters->user_id==$user)
         {
-            $physicsParameter->update($request->validated());
-            return new PhysicsParameterResource($physicsParameter);
+            $physicsParameters->update($request->validated());
         }
-        return new PhysicsParameterResource();
+        return response()->noContent();
     }
 
-    public function destroy(Request $request, PhysicsParameter $physicsParameter)
+    public function destroy(Request $request, $physicsParameterID)
     {
         $user = Auth::user()->id;
-        $physicsParameters = PhysicsParameter::find($physicsParameterID);
+        $physicsParameters = PhysicsParameters::find($physicsParameterID);
         if($physicsParameters->user_id==$user)
             $physicsParameter->delete();
         return response()->noContent();

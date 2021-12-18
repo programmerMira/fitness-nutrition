@@ -28,6 +28,7 @@ class PhysicsParametersFactory extends Factory
             'weight' => $this->faker->randomFloat(0, 0, 9999999999.),
             'height' => $this->faker->randomFloat(0, 0, 9999999999.),
             'dream_weight' => $this->faker->randomFloat(0, 0, 9999999999.),
+            'current_weight' => $this->faker->randomFloat(0, 0, 9999999999.),
             'hips_cm' => $this->faker->randomFloat(0, 0, 9999999999.),
             'waist_cm' => $this->faker->randomFloat(0, 0, 9999999999.),
             'chest_cm' => $this->faker->randomFloat(0, 0, 9999999999.),

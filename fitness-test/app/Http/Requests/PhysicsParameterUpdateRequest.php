@@ -28,6 +28,7 @@ class PhysicsParameterUpdateRequest extends FormRequest
             'weight' => ['required', 'numeric'],
             'height' => ['required', 'numeric'],
             'dream_weight' => ['required', 'numeric'],
+            'current_weight' => ['required', 'numeric'],
             'hips_cm' => ['required', 'numeric'],
             'waist_cm' => ['required', 'numeric'],
             'chest_cm' => ['required', 'numeric'],
