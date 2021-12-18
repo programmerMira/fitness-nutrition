@@ -68,7 +68,7 @@ export default {
   computed:{
      Physics(){
         return this.$store.getters.GetPhysicsParameters;
-     }
+     },
   },
   mounted(){
       if (userInfo){
