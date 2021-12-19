@@ -15,6 +15,7 @@ models:
     name: string:50
     description: string:300
     level: integer
+    problem_zone_id: id foreign:ProblemZone.id
   TrainingUser:
     user_id: id foreign:User.id
     training_id: id foreign:Training.id

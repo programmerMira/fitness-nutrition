@@ -29,6 +29,7 @@ class TrainingStoreRequest extends FormRequest
             'description' => ['required', 'string', 'max:300'],
             'level' => ['required', 'integer'],
             'training_price' => ['required', 'double'],
+            'problem_zone_id' =>['required', 'integer', 'exists:problem_zones,id'],
         ];
     }
 }

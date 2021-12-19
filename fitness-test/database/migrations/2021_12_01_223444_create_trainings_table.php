@@ -22,6 +22,7 @@ class CreateTrainingsTable extends Migration
             $table->string('description', 300);
             $table->double('training_price');
             $table->level('integer');
+            $table->foreignId('problem_zone_id')->constrained();
             $table->timestamps();
         });
 
