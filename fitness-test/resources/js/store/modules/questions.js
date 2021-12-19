@@ -16,6 +16,7 @@ export default {
         },
         storeQuestion({ commit }, Question){
             axios.post('/api/question/create',{
+                topic_id: Question.topic_id,
                 name:Question.name,
                 answer:Question.answer,
             }).then(response => {
@@ -26,6 +27,7 @@ export default {
         },
         setQuestion({ commit }, Question){
             axios.put('/api/question/update/'+Question.id,{
+                topic_id: Question.topic_id,
                 name:Question.name,
                 answer:Question.answer,
             }).then(response => {

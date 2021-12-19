@@ -3026,7 +3026,7 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         title: "3"
       }],
-      selectedTab: "1"
+      selectedTab: null
     };
   },
   computed: {
@@ -3035,17 +3035,21 @@ __webpack_require__.r(__webpack_exports__);
     },
     Physics: function Physics() {
       return this.$store.getters.GetPhysicsParameters;
+    },
+    ActivityCalendar: function ActivityCalendar() {
+      return this.$store, getters.GetActivityCalendars;
     }
   },
   mounted: function mounted() {
     if (userInfo) {
       this.$store.dispatch('fetchPhysicsParameters');
       this.$store.dispatch('fetchPersonalAccount');
+      this.$store.dispatch('fetchActivityCalendars');
     }
   },
   methods: {
     selectTab: function selectTab() {
-      this.selectedTab = this.tab.title;
+      if (this.ActivityCalendar != null) this.selectedTab = this.tab.title;
     },
     logout: function logout() {
       var _this = this;
@@ -4580,24 +4584,24 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      imgs: [{
-        img: "1"
-      }, {
-        img: "2"
-      }, {
-        img: "3"
-      }],
       selectedTab: "1"
     };
   },
   computed: {
     Physics: function Physics() {
       return this.$store.getters.GetPhysicsParameters;
+    },
+    User: function User() {
+      return this.$store.getters.GetPersonalAccount;
+    },
+    imgs: function imgs() {
+      return this.$store.getters.GetPersonalAccount.photos;
     }
   },
   mounted: function mounted() {
     if (userInfo) {
       this.$store.dispatch('fetchPhysicsParameters');
+      this.$store.dispatch('fetchPersonalAccount');
     }
   },
   methods: {
@@ -4619,6 +4623,9 @@ __webpack_require__.r(__webpack_exports__);
     savePhysics: function savePhysics() {
       this.$store.dispatch('setPhysicsParameter', this.Physics);
       this.$store.dispatch('fetchPhysicsParameters');
+    },
+    OnChangeChild: function OnChangeChild(value) {
+      console.log(value);
     }
   }
 });
@@ -4648,18 +4655,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["img"],
   data: function data() {
     return {
-      imageData: ""
+      imageData: "",
+      changeImg: false
     };
   },
   methods: {
     previewImage: function previewImage(event) {
       var _this = this;
 
+      this.$emit('changed', this.imageData);
+      this.changeImg = true;
       var input = event.target;
 
       if (input.files && input.files[0]) {
@@ -50483,7 +50492,11 @@ var render = function () {
       ]),
       _vm._v(" "),
       _vm._l(_vm.imgs, function (img, index) {
-        return _c("HomeDataImg", { key: index })
+        return _c("HomeDataImg", {
+          key: index,
+          attrs: { img: img.img },
+          on: { change: _vm.OnChangeChild },
+        })
       }),
     ],
     2
@@ -50521,14 +50534,9 @@ var render = function () {
         on: { change: _vm.previewImage },
       }),
       _vm._v(" "),
-      _vm.imageData.length > 0
-        ? _c("div", [
-            _c("img", {
-              staticClass: "preview",
-              attrs: { src: _vm.imageData },
-            }),
-          ])
-        : _vm._e(),
+      !_vm.changeImg
+        ? _c("img", { staticClass: "preview", attrs: { src: _vm.img } })
+        : _c("img", { staticClass: "preview", attrs: { src: _vm.imageData } }),
     ]
   )
 }

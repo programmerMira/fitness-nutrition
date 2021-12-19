@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Question extends Model
+class Topic extends Model
 {
     use HasFactory;
 
@@ -15,9 +15,7 @@ class Question extends Model
      * @var array
      */
     protected $fillable = [
-        'topic_id',
         'name',
-        'answer',
     ];
 
     /**
@@ -27,12 +25,5 @@ class Question extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'topic_id' => 'integer',
     ];
-
-
-    public function topic()
-    {
-        return $this->belongsTo(\App\Models\Topic::class);
-    }
 }

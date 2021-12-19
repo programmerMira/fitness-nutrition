@@ -13,6 +13,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MenuTypeController;
 use App\Http\Controllers\MenuCaloryController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\TopicController;
 #endregion
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -77,6 +78,13 @@ Route::prefix('training')->group(function () {
     Route::put('/update/{id}', [TrainingController::class,'update']);
     Route::delete('/delete/{id}', [TrainingController::class,'destroy']);
 });
+Route::prefix('topic')->group(function () {
+    Route::get('/list', [TopicController::class,'index']);
+    Route::get('/show/{id}', [TopicController::class,'show']);
+    Route::post('/create', [TopicController::class,'store']);
+    Route::put('/update/{id}', [TopicController::class,'update']);
+    Route::delete('/delete/{id}', [TopicController::class,'destroy']);
+});
 Route::prefix('question')->group(function () {
     Route::get('/list', [QuestionController::class,'index']);
     Route::get('/show/{id}', [QuestionController::class,'show']);
@@ -102,3 +110,8 @@ Route::apiResource('notification', App\Http\Controllers\NotificationController::
 Route::apiResource('question', App\Http\Controllers\QuestionController::class);
 Route::apiResource('physics-parameters', App\Http\Controllers\PhysicsParametersController::class);*/
 #endregion
+
+Route::apiResource('topic', App\Http\Controllers\TopicController::class);
+
+
+Route::apiResource('question', App\Http\Controllers\QuestionController::class);

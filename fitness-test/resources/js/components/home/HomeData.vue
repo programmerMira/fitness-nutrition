@@ -41,7 +41,7 @@
       </div>
       <HomeDataImg
       v-for="(img, index) in imgs"
-      :key="index"
+      :key="index" v-bind:img="img.img" @change="OnChangeChild"
       ></HomeDataImg>
    </div>
 </template>
@@ -52,27 +52,23 @@ export default {
     HomeDataImg
   },
   data: () => ({
-   imgs: [
-      {
-        img: "1",
-      },
-      {
-        img: "2",
-      },
-      {
-        img: "3",
-      },
-    ],
     selectedTab: "1",
   }),
   computed:{
      Physics(){
         return this.$store.getters.GetPhysicsParameters;
      },
+     User(){
+        return this.$store.getters.GetPersonalAccount;
+     },
+     imgs(){
+        return this.$store.getters.GetPersonalAccount.photos;
+     }
   },
   mounted(){
       if (userInfo){
          this.$store.dispatch('fetchPhysicsParameters');
+         this.$store.dispatch('fetchPersonalAccount');
       }
   },
   methods: {
@@ -89,11 +85,14 @@ export default {
         return false;
       }
       return true;
-    },
-    savePhysics(){
-      this.$store.dispatch('setPhysicsParameter',this.Physics);
-      this.$store.dispatch('fetchPhysicsParameters');
-    },
+   },
+   savePhysics(){
+   this.$store.dispatch('setPhysicsParameter',this.Physics);
+   this.$store.dispatch('fetchPhysicsParameters');
+   },
+   OnChangeChild(value){
+      console.log(value);
+   }
   }
 };
 </script> 

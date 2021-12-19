@@ -205,7 +205,7 @@ export default {
         title: "3",
       },
     ],
-    selectedTab: "1",
+    selectedTab: null,
   }),
   computed:{
      User(){
@@ -213,17 +213,22 @@ export default {
      },
      Physics(){
         return this.$store.getters.GetPhysicsParameters;
+     },
+     ActivityCalendar(){
+        return this.$store,getters.GetActivityCalendars;
      }
   },
   mounted(){
       if (userInfo){
          this.$store.dispatch('fetchPhysicsParameters');
          this.$store.dispatch('fetchPersonalAccount');
+         this.$store.dispatch('fetchActivityCalendars')
       }
    },
   methods: {
    selectTab() {
-      this.selectedTab = this.tab.title;
+      if(this.ActivityCalendar!=null)
+         this.selectedTab = this.tab.title;
    },
    logout() {
       axios.post('/logout').then(response => {

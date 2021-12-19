@@ -14,15 +14,12 @@ use Illuminate\Support\Facades\Auth;
 
 class ActivityCalendarController extends Controller
 {
-    /*
-        Returns activityCalendars only for currently logged-in user
-    */
     public function index(Request $request)
     {
         $user = Auth::user()->id;
-        $training_user = TrainingUser::where('user_id','=',$user);
-        $activityCalendars = ActivityCalendar::where('training_user_id','=',$training_user);
-        return new ActivityCalendarCollection($activityCalendars);
+        $training_user = TrainingUser::where('user_id','=',$user)->first();
+        $activityCalendars = ActivityCalendar::where('training_user_id','=',$training_user)->first();
+        return response()->json($activityCalendars);
     }
 
     public function store(ActivityCalendarStoreRequest $request)
@@ -38,10 +35,10 @@ class ActivityCalendarController extends Controller
         foreach($training_user as $item){
             if($item->id == $activityCalendarId){
                 $activityCalendar = ActivityCalendar::find($activityCalendarId);
-                return new ActivityCalendarResource($activityCalendar);
+                return response()->json($activityCalendar);
             }
         }
-        return new ActivityCalendarResource();
+        return response()->noContent();
     }
 
     public function update(ActivityCalendarUpdateRequest $request, $activityCalendarId)
