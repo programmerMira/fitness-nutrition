@@ -27,7 +27,7 @@ class TrainingStoreRequest extends FormRequest
             'training_location_id' => ['required', 'integer', 'exists:training_locations,id'],
             'name' => ['required', 'string', 'max:50'],
             'description' => ['required', 'string', 'max:300'],
-            'training_days' => ['required', 'json'],
+            'level' => ['required', 'integer'],
             'training_price' => ['required', 'double'],
         ];
     }

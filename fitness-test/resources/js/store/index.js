@@ -9,6 +9,7 @@ import menuCalories from './modules/menuCalories'
 import menuTypes from './modules/menuType'
 import menus from './modules/menus'
 import trainings from './modules/trainings'
+import topics from './modules/topics'
 import questions from './modules/questions'
 import notifications from './modules/notifications'
 import physicsParameters from './modules/physicsParameters'
@@ -38,5 +39,6 @@ export default new Vuex.Store({
         questions,
         notifications,
         physicsParameters,
+        topics,
     }
 })

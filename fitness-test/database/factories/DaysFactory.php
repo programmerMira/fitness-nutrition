@@ -4,17 +4,17 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use App\Models\Days;
 use App\Models\Training;
-use App\Models\TrainingLocation;
 
-class TrainingFactory extends Factory
+class DaysFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Training::class;
+    protected $model = Days::class;
 
     /**
      * Define the model's default state.
@@ -24,11 +24,11 @@ class TrainingFactory extends Factory
     public function definition()
     {
         return [
-            'training_location_id' => TrainingLocation::factory(),
+            'training_id' => Training::factory(),
+            'day_number' => $this->faker->numberBetween(-10000, 10000),
             'name' => $this->faker->name,
             'description' => $this->faker->text,
-            'level' => $this->faker->random_int(0,99999),
-            'training_price' => $this->faker->randomFloat(0, 0, 9999999999.),
+            'videos' => '{}',
         ];
     }
 }

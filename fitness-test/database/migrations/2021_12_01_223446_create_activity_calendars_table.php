@@ -18,7 +18,6 @@ class CreateActivityCalendarsTable extends Migration
         Schema::create('activity_calendars', function (Blueprint $table) {
             $table->id();
             $table->foreignId('training_user_id')->constrained();
-            $table->integer('level');
             $table->integer('day');
             $table->timestamps();
         });

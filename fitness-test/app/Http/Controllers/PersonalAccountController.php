@@ -17,6 +17,7 @@ class PersonalAccountController extends Controller
     {
         $user = Auth::user()->id;
         $personalAccount = PersonalAccount::where('user_id','=',$user)->first();
+        $personalAccount=$personalAccount::with('user')->first();
         return response()->json($personalAccount);
     }
 

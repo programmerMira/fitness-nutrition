@@ -16,8 +16,8 @@ class NotificationController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user()->id;
-        $notifications = Notification::where('user_id','=',$user);
-        return new NotificationCollection($notifications);
+        $notifications = Notification::where('user_id','=',$user)->get();
+        return response()->json($notifications);
     }
 
     public function store(NotificationStoreRequest $request)

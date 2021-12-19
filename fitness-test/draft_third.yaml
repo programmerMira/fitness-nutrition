@@ -14,13 +14,12 @@ models:
     training_location_id: id foreign:TrainingLocation.id
     name: string:50
     description: string:300
-    training_days: json
+    level: integer
   TrainingUser:
     user_id: id foreign:User.id
     training_id: id foreign:Training.id
   ActivityCalendar:
     training_user_id: id foreign:TrainingUser.id
-    level: integer
     day: integer
 controllers:
   Menu:

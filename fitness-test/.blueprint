@@ -1,10 +1,14 @@
 created:
-    - app/Http/Controllers/QuestionController.php
-    - database/factories/QuestionFactory.php
-    - database/migrations/2021_12_19_110510_create_questions_table.php
-    - app/Models/Question.php
-    - database/seeders/QuestionSeeder.php
-    - tests/Feature/Http/Controllers/QuestionControllerTest.php
+    - app/Http/Controllers/DaysController.php
+    - database/factories/DaysFactory.php
+    - database/migrations/2021_12_19_194426_create_days_table.php
+    - app/Models/Days.php
+    - database/seeders/DaysSeeder.php
+    - tests/Feature/Http/Controllers/DaysControllerTest.php
+    - app/Http/Requests/DayStoreRequest.php
+    - app/Http/Requests/DayUpdateRequest.php
+    - app/Http/Resources/DayCollection.php
+    - app/Http/Resources/DayResource.php
 updated:
     - routes/api.php
 models:
@@ -24,3 +28,4 @@ models:
     Question: { topic_id: 'id foreign:Topic.id', name: 'string:50', answer: 'string:5000' }
     PhysicsParameters: { user_id: 'id foreign:User.id', weight: float, height: float, dream_weight: float, hips_cm: float, waist_cm: float, chest_cm: float }
     Topic: { name: 'string:50' }
+    Days: { training_id: 'id foreign:Training', day_number: integer, name: 'string:50', description: 'string:1000', videos: json }

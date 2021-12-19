@@ -16,6 +16,7 @@ Vue.component('Diet', require('./components/Diet.vue').default);
 Vue.component('Plugin', require('./components/Plugin.vue').default);
 Vue.component('Questions', require('./components/Questions.vue').default);
 Vue.component('Question', require('./components/Question.vue').default);
+Vue.component('Logout', require('./components/Logout.vue').default);
 
 const app = new Vue({
     el: '#app',
