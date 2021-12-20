@@ -18786,3 +18786,99 @@ h3 {
 .click-file {
   cursor: pointer;
 }
+
+.users-btn {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.users-btn svg {
+  width: 15px;
+  height: 15px;
+}
+.users-btn svg path, .users-btn svg rect {
+  fill: #FFFFFF;
+}
+
+.edit-svg svg {
+  width: 14px;
+  height: 14px;
+}
+.edit-svg svg path, .edit-svg svg rect {
+  fill: #768192;
+}
+
+.edit-buy-svg {
+  padding: 0.375rem 0.6rem;
+}
+.edit-buy-svg svg {
+  width: 18px;
+  height: 18px;
+}
+
+.btns-edit {
+  display: flex;
+  align-items: center;
+}
+.btns-edit .users-btn {
+  margin: 0 3px;
+}
+
+.card-footer-edit {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.program__body {
+  padding: 20px;
+}
+
+.program__promo b {
+  margin-right: 5px;
+}
+
+.program__icon {
+  width: 32px;
+  height: 32px;
+  background: #3c4b64;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.program__icon svg path, .program__icon svg rect {
+  fill: #FFFFFF;
+}
+
+.program__list {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+.program__fork {
+  display: flex;
+}
+
+.program__item {
+  display: grid;
+  grid-template-columns: 35px 1fr;
+}
+
+.program__group {
+  padding: 10px 0;
+  font-size: 16px;
+  border-bottom: 1px solid #3c4b64;
+}
+
+.program__card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.program__card-header h3 {
+  margin: 0;
+}
