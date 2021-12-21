@@ -1,5 +1,6 @@
 {
     "/js/app.js": "/js/app.js",
+    "/js/admin/admin-app.js": "/js/admin/admin-app.js",
     "/js/admin/menu-create.js": "/js/admin/menu-create.js",
     "/js/admin/menu-edit.js": "/js/admin/menu-edit.js",
     "/js/admin/media.js": "/js/admin/media.js",
@@ -12,7 +13,7 @@
     "/js/admin/axios.min.js": "/js/admin/axios.min.js",
     "/js/admin/coreui.bundle.min.js": "/js/admin/coreui.bundle.min.js",
     "/js/admin/Chart.min.js": "/js/admin/Chart.min.js",
-    "/js/admin-/coreui-chartjs.bundle.js": "/js/admin-/coreui-chartjs.bundle.js",
+    "/js/admin/coreui-chartjs.bundle.js": "/js/admin/coreui-chartjs.bundle.js",
     "/js/admin/cropper.js": "/js/admin/cropper.js",
     "/js/admin/main.js": "/js/admin/main.js",
     "/js/admin/colors.js": "/js/admin/colors.js",

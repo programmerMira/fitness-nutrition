@@ -13,6 +13,7 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/main.js', 'public/js/app.js')
+    .js('resources/js/admin-app.js', 'public/js/admin')
     .vue()
     .sass('resources/sass/app.sass', 'public/css')
     .options({
@@ -34,7 +35,7 @@ mix.copy('node_modules/axios/dist/axios.min.js', 'public/js/admin');
 mix.copy('node_modules/@coreui/coreui/dist/js/coreui.bundle.min.js', 'public/js/admin');
 // views scripts
 mix.copy('node_modules/chart.js/dist/Chart.min.js', 'public/js/admin');
-mix.copy('node_modules/@coreui/chartjs/dist/js/coreui-chartjs.bundle.js', 'public/js/admin-');
+mix.copy('node_modules/@coreui/chartjs/dist/js/coreui-chartjs.bundle.js', 'public/js/admin');
 
 mix.copy('node_modules/cropperjs/dist/cropper.js', 'public/js/admin');
 // details scripts

@@ -39,7 +39,6 @@
     <link href="{{ asset('css/admin/flag-icon.min.css') }}" rel="stylesheet"> <!-- icons -->
     <!-- Main styles for this application-->
     <link href="{{ asset('css/admin/style.css') }}" rel="stylesheet">
-
     @yield('css')
 
     <!-- Global site tag (gtag.js) - Google Analytics-->
@@ -85,6 +84,7 @@
     <!-- CoreUI and necessary plugins-->
     <script src="{{ asset('js/admin/coreui.bundle.min.js') }}"></script>
     <script src="{{ asset('js/admin/coreui-utils.js') }}"></script>
+    <script src="{{ asset('js/admin/admin-app.js') }}"></script>
     @yield('javascript')
 
 
