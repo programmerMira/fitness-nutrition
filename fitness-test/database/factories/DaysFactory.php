@@ -4,17 +4,17 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\Question;
-use App\Models\Topic;
+use App\Models\Days;
+use App\Models\Training;
 
-class QuestionFactory extends Factory
+class DaysFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Question::class;
+    protected $model = Days::class;
 
     /**
      * Define the model's default state.
@@ -24,9 +24,11 @@ class QuestionFactory extends Factory
     public function definition()
     {
         return [
-            'topic_id' => Topic::factory(),
+            'training_id' => Training::factory(),
+            'day_number' => $this->faker->numberBetween(-10000, 10000),
             'name' => $this->faker->name,
-            'answer' => $this->faker->regexify('[A-Za-z0-9]{5000}'),
+            'description' => $this->faker->text,
+            'videos' => '{}',
         ];
     }
 }

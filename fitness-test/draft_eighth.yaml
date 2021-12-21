@@ -1,0 +1,7 @@
+models:
+  Topic:
+    name: string:50
+controllers:
+  Topic:
+    resource: api
+seeders: Topic

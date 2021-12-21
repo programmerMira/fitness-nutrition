@@ -4,17 +4,16 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\Question;
 use App\Models\Topic;
 
-class QuestionFactory extends Factory
+class TopicFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Question::class;
+    protected $model = Topic::class;
 
     /**
      * Define the model's default state.
@@ -24,9 +23,7 @@ class QuestionFactory extends Factory
     public function definition()
     {
         return [
-            'topic_id' => Topic::factory(),
             'name' => $this->faker->name,
-            'answer' => $this->faker->regexify('[A-Za-z0-9]{5000}'),
         ];
     }
 }

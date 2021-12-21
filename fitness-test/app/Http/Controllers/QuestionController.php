@@ -11,31 +11,32 @@ use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
+
     public function index(Request $request)
     {
-        $questions = Question::all();
+        $questions = Question::with('topic')->get();
 
-        return new QuestionCollection($questions);
+        return response()->json($questions);
     }
 
     public function store(QuestionStoreRequest $request)
     {
         $question = Question::create($request->validated());
 
-        return new QuestionResource($question);
+        return response()->json($question);
     }
 
     public function show(Request $request, $questionID)
     {
         $question = Question::find($questionID);
-        return new QuestionResource($question);
+        return response()->json($question);
     }
 
     public function update(QuestionUpdateRequest $request, $questionID)
     {
         $question = Question::find($questionID);
         $question->update($request->validated());
-        return new QuestionResource($question);
+        return response()->noContent();
     }
 
     public function destroy(Request $request, $questionID)

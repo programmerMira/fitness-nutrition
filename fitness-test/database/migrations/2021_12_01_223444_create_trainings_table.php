@@ -20,8 +20,8 @@ class CreateTrainingsTable extends Migration
             $table->foreignId('training_location_id')->constrained();
             $table->string('name', 50);
             $table->string('description', 300);
-            $table->json('training_days');
             $table->double('training_price');
+            $table->level('integer');
             $table->timestamps();
         });
 

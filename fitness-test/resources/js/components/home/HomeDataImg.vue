@@ -6,9 +6,8 @@
          @change="previewImage"
          accept="image/*"
       />
-      <div v-if="imageData.length > 0">
-         <img class="preview" :src="imageData" />
-      </div>
+      <img v-if="!changeImg" class="preview" :src="img" />
+      <img v-else class="preview" :src="imageData" />
    </div>
 </template>
 <script>
@@ -16,9 +15,12 @@ export default {
   props: ["img"],
   data: () => ({
     imageData: "",
+    changeImg: false,
   }),
   methods: {
     previewImage: function (event) {
+      this.$emit('changed', this.imageData)
+      this.changeImg=true;
       var input = event.target;
       if (input.files && input.files[0]) {
         var reader = new FileReader();

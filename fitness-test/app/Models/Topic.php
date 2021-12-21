@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Training extends Model
+class Topic extends Model
 {
     use HasFactory;
 
@@ -15,12 +15,7 @@ class Training extends Model
      * @var array
      */
     protected $fillable = [
-        'training_location_id',
         'name',
-        'description',
-        'training_days',
-        'level',
-        'training_price',
     ];
 
     /**
@@ -30,15 +25,5 @@ class Training extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'training_location_id' => 'integer',
-        'training_days' => 'array',
-        'level' => 'integer',
-        'training_price' => 'double',
     ];
-
-
-    public function trainingLocation()
-    {
-        return $this->belongsTo(\App\Models\TrainingLocation::class);
-    }
 }

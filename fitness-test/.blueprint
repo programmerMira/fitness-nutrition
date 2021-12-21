@@ -1,14 +1,14 @@
 created:
-    - app/Http/Controllers/PhysicsParametersController.php
-    - database/factories/PhysicsParametersFactory.php
-    - database/migrations/2021_12_15_190529_create_physics_parameters_table.php
-    - app/Models/PhysicsParameters.php
-    - database/seeders/PhysicsParametersSeeder.php
-    - tests/Feature/Http/Controllers/PhysicsParametersControllerTest.php
-    - app/Http/Requests/PhysicsParameterStoreRequest.php
-    - app/Http/Requests/PhysicsParameterUpdateRequest.php
-    - app/Http/Resources/PhysicsParameterCollection.php
-    - app/Http/Resources/PhysicsParameterResource.php
+    - app/Http/Controllers/DaysController.php
+    - database/factories/DaysFactory.php
+    - database/migrations/2021_12_19_194426_create_days_table.php
+    - app/Models/Days.php
+    - database/seeders/DaysSeeder.php
+    - tests/Feature/Http/Controllers/DaysControllerTest.php
+    - app/Http/Requests/DayStoreRequest.php
+    - app/Http/Requests/DayUpdateRequest.php
+    - app/Http/Resources/DayCollection.php
+    - app/Http/Resources/DayResource.php
 updated:
     - routes/api.php
 models:
@@ -25,5 +25,7 @@ models:
     TrainingUser: { user_id: 'id foreign:User.id', training_id: 'id foreign:Training.id' }
     ActivityCalendar: { training_user_id: 'id foreign:TrainingUser.id', level: integer, day: integer }
     Notification: { user_id: 'id foreign:User.id', name: 'string:50', description: 'string:300' }
-    Question: { name: 'string:50', answer: 'string:5000' }
+    Question: { topic_id: 'id foreign:Topic.id', name: 'string:50', answer: 'string:5000' }
     PhysicsParameters: { user_id: 'id foreign:User.id', weight: float, height: float, dream_weight: float, hips_cm: float, waist_cm: float, chest_cm: float }
+    Topic: { name: 'string:50' }
+    Days: { training_id: 'id foreign:Training', day_number: integer, name: 'string:50', description: 'string:1000', videos: json }

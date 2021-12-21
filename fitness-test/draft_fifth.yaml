@@ -1,5 +1,6 @@
 models:
   Question:
+    topic_id: id foreign:Topic.id
     name: string:50
     answer: string:5000
 controllers:

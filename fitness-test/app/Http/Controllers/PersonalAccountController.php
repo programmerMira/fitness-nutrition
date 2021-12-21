@@ -17,6 +17,7 @@ class PersonalAccountController extends Controller
     {
         $user = Auth::user()->id;
         $personalAccount = PersonalAccount::where('user_id','=',$user)->first();
+        $personalAccount=$personalAccount::with('user')->first();
         return response()->json($personalAccount);
     }
 
@@ -29,22 +30,15 @@ class PersonalAccountController extends Controller
     public function show(Request $request, $personalAccountId)
     {
         $user = Auth::user()->id;
-        $personalAccount = PersonalAccount::where('user_id','=',$user);
+        $personalAccount = PersonalAccount::where('user_id','=',$user)->first();
         return new PersonalAccountCollection($personalAccount);
-    }
-    /*
-        User can update their parameters once in 10 days
-    */
-    public function updateParameters(PersonalAccountUpdateRequest $request, $personalAccountId)
-    {
-
     }
 
     public function update(PersonalAccountUpdateRequest $request, $personalAccountId)
     {
-        $personalAccount = PersonalAccount::find($personalAccountId);
+        $personalAccount = PersonalAccount::find($personalAccountId)->first();
         $personalAccount->update($request->validated());
-        return new PersonalAccountResource($personalAccount);
+        return response()->noContent();
     }
 
     public function destroy(Request $request, $personalAccountId)

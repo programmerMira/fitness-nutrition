@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Models\Question;
 use App\Models\Topic;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -10,9 +9,9 @@ use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
 /**
- * @see \App\Http\Controllers\QuestionController
+ * @see \App\Http\Controllers\TopicController
  */
-class QuestionControllerTest extends TestCase
+class TopicControllerTest extends TestCase
 {
     use AdditionalAssertions, RefreshDatabase, WithFaker;
 
@@ -21,9 +20,9 @@ class QuestionControllerTest extends TestCase
      */
     public function index_behaves_as_expected()
     {
-        $questions = Question::factory()->count(3)->create();
+        $topics = Topic::factory()->count(3)->create();
 
-        $response = $this->get(route('question.index'));
+        $response = $this->get(route('topic.index'));
 
         $response->assertOk();
         $response->assertJsonStructure([]);
@@ -36,9 +35,9 @@ class QuestionControllerTest extends TestCase
     public function store_uses_form_request_validation()
     {
         $this->assertActionUsesFormRequest(
-            \App\Http\Controllers\QuestionController::class,
+            \App\Http\Controllers\TopicController::class,
             'store',
-            \App\Http\Requests\QuestionStoreRequest::class
+            \App\Http\Requests\TopicStoreRequest::class
         );
     }
 
@@ -47,23 +46,17 @@ class QuestionControllerTest extends TestCase
      */
     public function store_saves()
     {
-        $topic = Topic::factory()->create();
         $name = $this->faker->name;
-        $answer = $this->faker->word;
 
-        $response = $this->post(route('question.store'), [
-            'topic_id' => $topic->id,
+        $response = $this->post(route('topic.store'), [
             'name' => $name,
-            'answer' => $answer,
         ]);
 
-        $questions = Question::query()
-            ->where('topic_id', $topic->id)
+        $topics = Topic::query()
             ->where('name', $name)
-            ->where('answer', $answer)
             ->get();
-        $this->assertCount(1, $questions);
-        $question = $questions->first();
+        $this->assertCount(1, $topics);
+        $topic = $topics->first();
 
         $response->assertCreated();
         $response->assertJsonStructure([]);
@@ -75,9 +68,9 @@ class QuestionControllerTest extends TestCase
      */
     public function show_behaves_as_expected()
     {
-        $question = Question::factory()->create();
+        $topic = Topic::factory()->create();
 
-        $response = $this->get(route('question.show', $question));
+        $response = $this->get(route('topic.show', $topic));
 
         $response->assertOk();
         $response->assertJsonStructure([]);
@@ -90,9 +83,9 @@ class QuestionControllerTest extends TestCase
     public function update_uses_form_request_validation()
     {
         $this->assertActionUsesFormRequest(
-            \App\Http\Controllers\QuestionController::class,
+            \App\Http\Controllers\TopicController::class,
             'update',
-            \App\Http\Requests\QuestionUpdateRequest::class
+            \App\Http\Requests\TopicUpdateRequest::class
         );
     }
 
@@ -101,25 +94,19 @@ class QuestionControllerTest extends TestCase
      */
     public function update_behaves_as_expected()
     {
-        $question = Question::factory()->create();
         $topic = Topic::factory()->create();
         $name = $this->faker->name;
-        $answer = $this->faker->word;
 
-        $response = $this->put(route('question.update', $question), [
-            'topic_id' => $topic->id,
+        $response = $this->put(route('topic.update', $topic), [
             'name' => $name,
-            'answer' => $answer,
         ]);
 
-        $question->refresh();
+        $topic->refresh();
 
         $response->assertOk();
         $response->assertJsonStructure([]);
 
-        $this->assertEquals($topic->id, $question->topic_id);
-        $this->assertEquals($name, $question->name);
-        $this->assertEquals($answer, $question->answer);
+        $this->assertEquals($name, $topic->name);
     }
 
 
@@ -128,12 +115,12 @@ class QuestionControllerTest extends TestCase
      */
     public function destroy_deletes_and_responds_with()
     {
-        $question = Question::factory()->create();
+        $topic = Topic::factory()->create();
 
-        $response = $this->delete(route('question.destroy', $question));
+        $response = $this->delete(route('topic.destroy', $topic));
 
         $response->assertNoContent();
 
-        $this->assertDeleted($question);
+        $this->assertDeleted($topic);
     }
 }
