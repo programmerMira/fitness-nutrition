@@ -2159,8 +2159,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _modules_problemZones__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/problemZones */ "./resources/js/store/modules/problemZones.js");
 /* harmony import */ var _modules_lifeStyles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/lifeStyles */ "./resources/js/store/modules/lifeStyles.js");
 /* harmony import */ var _modules_trainingLocations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/trainingLocations */ "./resources/js/store/modules/trainingLocations.js");
@@ -2168,16 +2168,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_menuType__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/menuType */ "./resources/js/store/modules/menuType.js");
 /* harmony import */ var _modules_menus__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/menus */ "./resources/js/store/modules/menus.js");
 /* harmony import */ var _modules_trainings__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/trainings */ "./resources/js/store/modules/trainings.js");
-/* harmony import */ var _modules_questions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/questions */ "./resources/js/store/modules/questions.js");
-/* harmony import */ var _modules_notifications__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/notifications */ "./resources/js/store/modules/notifications.js");
-/* harmony import */ var _modules_physicsParameters__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/physicsParameters */ "./resources/js/store/modules/physicsParameters.js");
-/* harmony import */ var _modules_personalAccount__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/personalAccount */ "./resources/js/store/modules/personalAccount.js");
-/* harmony import */ var _modules_userMenus__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/userMenus */ "./resources/js/store/modules/userMenus.js");
-/* harmony import */ var _modules_foodCalendars__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modules/foodCalendars */ "./resources/js/store/modules/foodCalendars.js");
-/* harmony import */ var _modules_trainingUsers__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./modules/trainingUsers */ "./resources/js/store/modules/trainingUsers.js");
-/* harmony import */ var _modules_activityCalendars__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./modules/activityCalendars */ "./resources/js/store/modules/activityCalendars.js");
+/* harmony import */ var _modules_topics__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/topics */ "./resources/js/store/modules/topics.js");
+/* harmony import */ var _modules_questions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/questions */ "./resources/js/store/modules/questions.js");
+/* harmony import */ var _modules_notifications__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/notifications */ "./resources/js/store/modules/notifications.js");
+/* harmony import */ var _modules_physicsParameters__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/physicsParameters */ "./resources/js/store/modules/physicsParameters.js");
+/* harmony import */ var _modules_personalAccount__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/personalAccount */ "./resources/js/store/modules/personalAccount.js");
+/* harmony import */ var _modules_userMenus__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modules/userMenus */ "./resources/js/store/modules/userMenus.js");
+/* harmony import */ var _modules_foodCalendars__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./modules/foodCalendars */ "./resources/js/store/modules/foodCalendars.js");
+/* harmony import */ var _modules_trainingUsers__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./modules/trainingUsers */ "./resources/js/store/modules/trainingUsers.js");
+/* harmony import */ var _modules_activityCalendars__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./modules/activityCalendars */ "./resources/js/store/modules/activityCalendars.js");
 
  //#region import modules
+
 
 
 
@@ -2205,24 +2207,25 @@ __webpack_require__.r(__webpack_exports__);
 
  //#endregion
 
-vue__WEBPACK_IMPORTED_MODULE_15__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_16__["default"]);
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_16__["default"].Store({
+vue__WEBPACK_IMPORTED_MODULE_16__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_17__["default"]);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_17__["default"].Store({
   modules: {
     problemZones: _modules_problemZones__WEBPACK_IMPORTED_MODULE_0__["default"],
     lifeStyles: _modules_lifeStyles__WEBPACK_IMPORTED_MODULE_1__["default"],
     trainingLocations: _modules_trainingLocations__WEBPACK_IMPORTED_MODULE_2__["default"],
     menuCalories: _modules_menuCalories__WEBPACK_IMPORTED_MODULE_3__["default"],
     menuTypes: _modules_menuType__WEBPACK_IMPORTED_MODULE_4__["default"],
-    personalAccount: _modules_personalAccount__WEBPACK_IMPORTED_MODULE_10__["default"],
+    personalAccount: _modules_personalAccount__WEBPACK_IMPORTED_MODULE_11__["default"],
     menus: _modules_menus__WEBPACK_IMPORTED_MODULE_5__["default"],
-    userMenus: _modules_userMenus__WEBPACK_IMPORTED_MODULE_11__["default"],
-    foodCalendars: _modules_foodCalendars__WEBPACK_IMPORTED_MODULE_12__["default"],
+    userMenus: _modules_userMenus__WEBPACK_IMPORTED_MODULE_12__["default"],
+    foodCalendars: _modules_foodCalendars__WEBPACK_IMPORTED_MODULE_13__["default"],
     trainings: _modules_trainings__WEBPACK_IMPORTED_MODULE_6__["default"],
-    trainingUsers: _modules_trainingUsers__WEBPACK_IMPORTED_MODULE_13__["default"],
-    activityCalendars: _modules_activityCalendars__WEBPACK_IMPORTED_MODULE_14__["default"],
-    questions: _modules_questions__WEBPACK_IMPORTED_MODULE_7__["default"],
-    notifications: _modules_notifications__WEBPACK_IMPORTED_MODULE_8__["default"],
-    physicsParameters: _modules_physicsParameters__WEBPACK_IMPORTED_MODULE_9__["default"]
+    trainingUsers: _modules_trainingUsers__WEBPACK_IMPORTED_MODULE_14__["default"],
+    activityCalendars: _modules_activityCalendars__WEBPACK_IMPORTED_MODULE_15__["default"],
+    questions: _modules_questions__WEBPACK_IMPORTED_MODULE_8__["default"],
+    notifications: _modules_notifications__WEBPACK_IMPORTED_MODULE_9__["default"],
+    physicsParameters: _modules_physicsParameters__WEBPACK_IMPORTED_MODULE_10__["default"],
+    topics: _modules_topics__WEBPACK_IMPORTED_MODULE_7__["default"]
   }
 }));
 
@@ -3621,6 +3624,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     storeQuestion: function storeQuestion(_ref3, Question) {
       var commit = _ref3.commit;
       axios.post('/api/question/create', {
+        topic_id: Question.topic_id,
         name: Question.name,
         answer: Question.answer
       }).then(function (response) {
@@ -3632,6 +3636,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setQuestion: function setQuestion(_ref4, Question) {
       var commit = _ref4.commit;
       axios.put('/api/question/update/' + Question.id, {
+        topic_id: Question.topic_id,
         name: Question.name,
         answer: Question.answer
       }).then(function (response) {
@@ -3685,6 +3690,142 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     GetQuestion: function GetQuestion(state) {
       return state.Question;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/topics.js":
+/*!**********************************************!*\
+  !*** ./resources/js/store/modules/topics.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  actions: {
+    fetchTopics: function fetchTopics(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit;
+                axios.get('/api/topic/list').then(function (response) {
+                  commit('LoadTopics', response.data);
+                })["catch"](function (error) {
+                  console.log("fetchTopics:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    fetchTopic: function fetchTopic(_ref2, TopicId) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit;
+                axios.get('/api/topic/show/' + TopicId).then(function (response) {
+                  commit('LoadTopic', response.data);
+                })["catch"](function (error) {
+                  console.log("LoadTopic:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    storeTopic: function storeTopic(_ref3, Topic) {
+      var commit = _ref3.commit;
+      axios.post('/api/topic/create', {
+        name: Topic.name
+      }).then(function (response) {
+        commit('CreateTopic', Topic);
+      })["catch"](function (error) {
+        console.log("storeTopic:", error.response);
+      });
+    },
+    setTopic: function setTopic(_ref4, Topic) {
+      var commit = _ref4.commit;
+      axios.put('/api/topic/update/' + Topic.id, {
+        name: Topic.name
+      }).then(function (response) {
+        commit('UpdateTopic', Topic);
+      })["catch"](function (error) {
+        console.log("setTopic:", error.response);
+      });
+    },
+    delTopic: function delTopic(_ref5, Topic) {
+      var commit = _ref5.commit;
+      axios["delete"]('/api/topic/delete/' + Topic.id).then(function (response) {
+        commit('DeleteTopic', Topic);
+      })["catch"](function (error) {
+        console.log("delTopic:", error.response);
+      });
+    }
+  },
+  mutations: {
+    LoadTopics: function LoadTopics(state, Topics) {
+      state.Topics = Topics;
+    },
+    LoadTopic: function LoadTopic(state, Topic) {
+      state.Topic = Topic;
+    },
+    CreateTopic: function CreateTopic(state, Topic) {
+      var index = state.Topics.findIndex(function (Topic) {
+        return Topic.id == id;
+      });
+      state.Topics.unshift(index);
+    },
+    UpdateTopic: function UpdateTopic(state, Topic) {
+      var index = state.Topics.findIndex(function (p) {
+        return p.id === Topic.id;
+      });
+      state.Topics[index] = Topic;
+    },
+    DeleteTopic: function DeleteTopic(state, Topic) {
+      var index = state.Topics.findIndex(function (Topic) {
+        return Topic.id == id;
+      });
+      state.Topics.splice(index, 1);
+    }
+  },
+  state: {
+    Topics: [],
+    Topic: null
+  },
+  getters: {
+    GetTopics: function GetTopics(state) {
+      return state.Topics;
+    },
+    GetTopic: function GetTopic(state) {
+      return state.Topic;
     }
   }
 });

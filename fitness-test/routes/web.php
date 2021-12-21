@@ -48,6 +48,10 @@ Route::prefix('program')->group(function () {  // word: "icons" - not working as
     Route::get('/program', function(){         return view('admin.dashboard.program.programList'); });
     Route::get('/edit', function(){         return view('admin.dashboard.program.programEditForm'); });
 });
+Route::prefix('main')->group(function () {  // word: "icons" - not working as part of adress
+    Route::get('/main', function(){         return view('admin.dashboard.main.mainList'); });
+    Route::get('/edit', function(){         return view('admin.dashboard.main.mainEditForm'); });
+});
 
 
 
