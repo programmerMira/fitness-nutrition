@@ -18,6 +18,8 @@ Vue.component('Questions', require('./components/Questions.vue').default);
 Vue.component('Question', require('./components/Question.vue').default);
 Vue.component('Logout', require('./components/Logout.vue').default);
 
+Vue.component('Todolist', require('./components/TodoList.vue').default);
+
 const app = new Vue({
     el: '#app',
     store
