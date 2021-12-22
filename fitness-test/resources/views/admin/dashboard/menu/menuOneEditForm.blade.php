@@ -20,7 +20,3 @@
     </div>
 
 @endsection
-
-        @section('javascript')
-            <script src="{{ asset('js/admin/admin-app.js') }}"></script>
-@endsection

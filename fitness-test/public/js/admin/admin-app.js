@@ -40545,7 +40545,7 @@ var render = function () {
     _c(
       "ul",
       _vm._l(_vm.items, function (item, index) {
-        return _c("li", { staticClass: "panel-block" }, [
+        return _c("li", { key: index, staticClass: "panel-block" }, [
           _c("span", {
             staticClass: "item",
             domProps: { textContent: _vm._s(item) },

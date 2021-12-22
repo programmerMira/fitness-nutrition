@@ -4,7 +4,7 @@
             Todo list
         </p>
         <ul>
-            <li class="panel-block" v-for="(item, index) in items">
+            <li class="panel-block" v-for="(item, index) in items" :key="index">
                 <span class="item" v-text="item"></span>
                 <div @click="removeTodo" class="icon is-pulled-right">
                     <i class="fa fa-times" id="fuzzyindex" aria-hidden="true">DELETE</i>
