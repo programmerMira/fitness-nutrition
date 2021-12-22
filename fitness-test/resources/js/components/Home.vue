@@ -10,17 +10,16 @@
          <div class="account-container">
             <div class="progress__container">
                <div class="progress__col-first">
-
                   <div class="progress__row">
                      <div class="progress-level">
                         <div class="progress-level__title">
                            {{User.user.name}}
-                           <div class="progress-level__mob">
-                              1 уровень
+                           <div v-if="selectedTraining!=null" class="progress-level__mob">
+                              {{selectedTraining.training.level}} уровень
                            </div>
                         </div>
                         <div class="level__chart">
-                           <svg class="radial-progress" data-percentage="75" viewBox="0 0 86 86">
+                           <svg class="radial-progress" :data-percentage="find_percentage()" viewBox="0 0 86 86">
                               <defs>
                                  <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
                                     <stop offset="0%" stop-color="#FF7E83" />
@@ -31,8 +30,8 @@
                               <circle class="complete" cx="43" cy="43" r="35" stroke="url(#linear)"></circle>
                            </svg>
                            <div class="progress-level__chart-txt">
-                              <p class="progress-level__chart-level">
-                                 1 уровень
+                              <p v-if="selectedTraining!=null" class="progress-level__chart-level">
+                                 {{selectedTraining.training.level}} уровень
                               </p>
                               <div class="progress-level__current"></div>
                            </div>
@@ -44,8 +43,8 @@
                         </div>
                         <div class="progress-result__caption">
                            <span>Мой</span> результат
-                           <p class="progress-level__chart-level progress-level__chart-level-mob">
-                              1 уровень
+                           <p v-if="selectedTraining!=null" class="progress-level__chart-level progress-level__chart-level-mob">
+                              {{selectedTraining.training.level}} уровень
                            </p>
                         </div>
                      </div>
@@ -77,13 +76,13 @@
                         </h5>
                         <div class="select__wrap">
                            <ul class="default__option">
-                              <li class="option selected">
-                                 1 уровень
+                              <li v-if="selectedTraining!=null" class="option selected">
+                                 {{selectedTraining.training.level}} уровень
                               </li>
                            </ul>
-                           <ul class="select__ul">/*без иконки - доступные, с иконкой, что недоступны,но есть*/
-                              <li>
-                                 1 уровень
+                           <ul class="select__ul">
+                              <li v-for="(item,index) in TrainingUser" :key="index" v-on:click="selectedTraining=item">
+                                 {{item.training.level}} уровень
                               </li>
                               <li class="disabled">
                                  2 уровень
@@ -145,13 +144,10 @@
                         </div>
                      </div>
                      <ul class="progress-block__steps">
-                        <li class="progress-block__step"
-                        v-for="tab in tabs"
-                        @click="selectedTab = tab.title"
-                        :key="tab.title"
-                        :class="{ active: selectedTab == tab.title }"
+                        <li v-for="tab in tabs" v-on:click="selectedTab = tab.title"
+                        :key="tab.title" :class="show(tab.title)"
                         >
-                        {{ tab.title }} Этап
+                           {{ tab.title }} Этап
                         </li>
                      </ul>
                   </div>
@@ -186,30 +182,54 @@ export default {
       },
     ],
     selectedTab: null,
+    selectedTraining: null,
   }),
-  computed:{
-     User(){
-        return this.$store.getters.GetPersonalAccount;
-     },
-     Physics(){
-        return this.$store.getters.GetPhysicsParameters;
-     },
-     ActivityCalendar(){
-        return this.$store,getters.GetActivityCalendars;
-     }
+   computed:{
+      User(){
+         return this.$store.getters.GetPersonalAccount;
+      },
+      Physics(){
+         return this.$store.getters.GetPhysicsParameters;
+      },
+      TrainingUser(){
+         this.selectedTab = this.tabs[0];
+         this.selectedTraining = this.$store.getters.GetTrainingUsers[0];
+         return this.$store.getters.GetTrainingUsers;
+      },
   },
   mounted(){
       if (userInfo){
          this.$store.dispatch('fetchPhysicsParameters');
          this.$store.dispatch('fetchPersonalAccount');
-         this.$store.dispatch('fetchActivityCalendars');
+         this.$store.dispatch('fetchTrainingUsers');
       }
    },
-  methods: {
-   selectTab() {
-      if(this.ActivityCalendar!=null)
-         this.selectedTab = this.tab.title;
-   }
-  },
+   methods: {
+      find_percentage(){
+         if(this.selectedTraining==null)
+            return 0;
+         var date1 = new Date(this.selectedTraining.created_at);
+         var date2 = new Date();
+         var Difference_In_Time = date2.getTime() - date1.getTime();
+         var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+         var percent = (Difference_In_Days*100)/30;
+         return parseInt(percent);
+      },
+      /*tabs_for_current_train(){
+         if(this.selectedTraining==null)
+            return 1;
+         var date1 = new Date(this.selectedTraining.created_at);
+         var date2 = new Date(this.selectedTraining.deactevated_at);
+         var Difference_In_Time = date2.getTime() - date1.getTime();
+         var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+         console.log(parseInt(Difference_In_Days/10));
+         return parseInt(Difference_In_Days/10);
+      }*/
+      show(item){
+         if(parseInt(item) == parseInt(this.selectedTab))
+            return 'progress-block__step active';
+         return 'progress-block__step';
+      }
+   },
 };
 </script>

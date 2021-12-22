@@ -2676,10 +2676,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 
 
@@ -2698,7 +2694,8 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         title: "3"
       }],
-      selectedTab: null
+      selectedTab: null,
+      selectedTraining: null
     };
   },
   computed: {
@@ -2708,20 +2705,43 @@ __webpack_require__.r(__webpack_exports__);
     Physics: function Physics() {
       return this.$store.getters.GetPhysicsParameters;
     },
-    ActivityCalendar: function ActivityCalendar() {
-      return this.$store, getters.GetActivityCalendars;
+    TrainingUser: function TrainingUser() {
+      this.selectedTab = this.tabs[0];
+      this.selectedTraining = this.$store.getters.GetTrainingUsers[0];
+      return this.$store.getters.GetTrainingUsers;
     }
   },
   mounted: function mounted() {
     if (userInfo) {
       this.$store.dispatch('fetchPhysicsParameters');
       this.$store.dispatch('fetchPersonalAccount');
-      this.$store.dispatch('fetchActivityCalendars');
+      this.$store.dispatch('fetchTrainingUsers');
     }
   },
   methods: {
-    selectTab: function selectTab() {
-      if (this.ActivityCalendar != null) this.selectedTab = this.tab.title;
+    find_percentage: function find_percentage() {
+      if (this.selectedTraining == null) return 0;
+      var date1 = new Date(this.selectedTraining.created_at);
+      var date2 = new Date();
+      var Difference_In_Time = date2.getTime() - date1.getTime();
+      var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+      var percent = Difference_In_Days * 100 / 30;
+      return parseInt(percent);
+    },
+
+    /*tabs_for_current_train(){
+       if(this.selectedTraining==null)
+          return 1;
+       var date1 = new Date(this.selectedTraining.created_at);
+       var date2 = new Date(this.selectedTraining.deactevated_at);
+       var Difference_In_Time = date2.getTime() - date1.getTime();
+       var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+       console.log(parseInt(Difference_In_Days/10));
+       return parseInt(Difference_In_Days/10);
+    }*/
+    show: function show(item) {
+      if (parseInt(item) == parseInt(this.selectedTab)) return 'progress-block__step active';
+      return 'progress-block__step';
     }
   }
 });
@@ -46739,11 +46759,15 @@ var render = function () {
                           _vm._s(_vm.User.user.name) +
                           "\n                        "
                       ),
-                      _c("div", { staticClass: "progress-level__mob" }, [
-                        _vm._v(
-                          "\n                           1 уровень\n                        "
-                        ),
-                      ]),
+                      _vm.selectedTraining != null
+                        ? _c("div", { staticClass: "progress-level__mob" }, [
+                            _vm._v(
+                              "\n                           " +
+                                _vm._s(_vm.selectedTraining.training.level) +
+                                " уровень\n                        "
+                            ),
+                          ])
+                        : _vm._e(),
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "level__chart" }, [
@@ -46752,7 +46776,7 @@ var render = function () {
                         {
                           staticClass: "radial-progress",
                           attrs: {
-                            "data-percentage": "75",
+                            "data-percentage": _vm.find_percentage(),
                             viewBox: "0 0 86 86",
                           },
                         },
@@ -46809,7 +46833,25 @@ var render = function () {
                         ]
                       ),
                       _vm._v(" "),
-                      _vm._m(0),
+                      _c("div", { staticClass: "progress-level__chart-txt" }, [
+                        _vm.selectedTraining != null
+                          ? _c(
+                              "p",
+                              { staticClass: "progress-level__chart-level" },
+                              [
+                                _vm._v(
+                                  "\n                              " +
+                                    _vm._s(
+                                      _vm.selectedTraining.training.level
+                                    ) +
+                                    " уровень\n                           "
+                                ),
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "progress-level__current" }),
+                      ]),
                     ]),
                   ]),
                   _vm._v(" "),
@@ -46824,11 +46866,30 @@ var render = function () {
                       ),
                     ]),
                     _vm._v(" "),
-                    _vm._m(1),
+                    _c("div", { staticClass: "progress-result__caption" }, [
+                      _c("span", [_vm._v("Мой")]),
+                      _vm._v(" результат\n                        "),
+                      _vm.selectedTraining != null
+                        ? _c(
+                            "p",
+                            {
+                              staticClass:
+                                "progress-level__chart-level progress-level__chart-level-mob",
+                            },
+                            [
+                              _vm._v(
+                                "\n                           " +
+                                  _vm._s(_vm.selectedTraining.training.level) +
+                                  " уровень\n                        "
+                              ),
+                            ]
+                          )
+                        : _vm._e(),
+                    ]),
                   ]),
                 ]),
                 _vm._v(" "),
-                _vm._m(2),
+                _vm._m(0),
               ]),
               _vm._v(" "),
               _c(
@@ -46882,150 +46943,179 @@ var render = function () {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "select__wrap" }, [
-                        _vm._m(3),
-                        _vm._v(" "),
-                        _c("ul", { staticClass: "select__ul" }, [
-                          _vm._v(
-                            "/*без иконки - доступные, с иконкой, что недоступны,но есть*/\n                           "
-                          ),
-                          _c("li", [
-                            _vm._v(
-                              "\n                              1 уровень\n                           "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("li", { staticClass: "disabled" }, [
-                            _vm._v(
-                              "\n                              2 уровень\n                              "
-                            ),
-                            _c(
-                              "svg",
-                              {
-                                staticClass: "icon",
-                                attrs: {
-                                  width: "14",
-                                  height: "14",
-                                  viewBox: "0 0 14 14",
-                                  fill: "none",
-                                  xmlns: "http://www.w3.org/2000/svg",
-                                },
-                              },
-                              [
-                                _c(
-                                  "g",
-                                  { attrs: { "clip-path": "url(#clip0)" } },
-                                  [
-                                    _c("path", {
-                                      attrs: {
-                                        d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
-                                        fill: "#BEBEBE",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c("path", {
-                                      attrs: {
-                                        d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
-                                        fill: "#BEBEBE",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c("path", {
-                                      attrs: {
-                                        d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
-                                        fill: "#BEBEBE",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c("path", {
-                                      attrs: {
-                                        d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
-                                        fill: "#BEBEBE",
-                                      },
-                                    }),
-                                  ]
+                        _c("ul", { staticClass: "default__option" }, [
+                          _vm.selectedTraining != null
+                            ? _c("li", { staticClass: "option selected" }, [
+                                _vm._v(
+                                  "\n                              " +
+                                    _vm._s(
+                                      _vm.selectedTraining.training.level
+                                    ) +
+                                    " уровень\n                           "
                                 ),
-                                _vm._v(" "),
-                                _c("defs", [
-                                  _c("clipPath", { attrs: { id: "clip0" } }, [
-                                    _c("rect", {
-                                      attrs: {
-                                        width: "14",
-                                        height: "14",
-                                        fill: "white",
-                                      },
-                                    }),
-                                  ]),
-                                ]),
-                              ]
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("li", { staticClass: "disabled" }, [
-                            _vm._v(
-                              "\n                              3 уровень\n                              "
-                            ),
-                            _c(
-                              "svg",
-                              {
-                                staticClass: "icon",
-                                attrs: {
-                                  width: "14",
-                                  height: "14",
-                                  viewBox: "0 0 14 14",
-                                  fill: "none",
-                                  xmlns: "http://www.w3.org/2000/svg",
-                                },
-                              },
-                              [
-                                _c(
-                                  "g",
-                                  { attrs: { "clip-path": "url(#clip0)" } },
-                                  [
-                                    _c("path", {
-                                      attrs: {
-                                        d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
-                                        fill: "#BEBEBE",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c("path", {
-                                      attrs: {
-                                        d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
-                                        fill: "#BEBEBE",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c("path", {
-                                      attrs: {
-                                        d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
-                                        fill: "#BEBEBE",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c("path", {
-                                      attrs: {
-                                        d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
-                                        fill: "#BEBEBE",
-                                      },
-                                    }),
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c("defs", [
-                                  _c("clipPath", { attrs: { id: "clip0" } }, [
-                                    _c("rect", {
-                                      attrs: {
-                                        width: "14",
-                                        height: "14",
-                                        fill: "white",
-                                      },
-                                    }),
-                                  ]),
-                                ]),
-                              ]
-                            ),
-                          ]),
+                              ])
+                            : _vm._e(),
                         ]),
+                        _vm._v(" "),
+                        _c(
+                          "ul",
+                          { staticClass: "select__ul" },
+                          [
+                            _vm._l(_vm.TrainingUser, function (item, index) {
+                              return _c(
+                                "li",
+                                {
+                                  key: index,
+                                  on: {
+                                    click: function ($event) {
+                                      _vm.selectedTraining = item
+                                    },
+                                  },
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                              " +
+                                      _vm._s(item.training.level) +
+                                      " уровень\n                           "
+                                  ),
+                                ]
+                              )
+                            }),
+                            _vm._v(" "),
+                            _c("li", { staticClass: "disabled" }, [
+                              _vm._v(
+                                "\n                              2 уровень\n                              "
+                              ),
+                              _c(
+                                "svg",
+                                {
+                                  staticClass: "icon",
+                                  attrs: {
+                                    width: "14",
+                                    height: "14",
+                                    viewBox: "0 0 14 14",
+                                    fill: "none",
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                  },
+                                },
+                                [
+                                  _c(
+                                    "g",
+                                    { attrs: { "clip-path": "url(#clip0)" } },
+                                    [
+                                      _c("path", {
+                                        attrs: {
+                                          d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
+                                          fill: "#BEBEBE",
+                                        },
+                                      }),
+                                      _vm._v(" "),
+                                      _c("path", {
+                                        attrs: {
+                                          d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
+                                          fill: "#BEBEBE",
+                                        },
+                                      }),
+                                      _vm._v(" "),
+                                      _c("path", {
+                                        attrs: {
+                                          d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
+                                          fill: "#BEBEBE",
+                                        },
+                                      }),
+                                      _vm._v(" "),
+                                      _c("path", {
+                                        attrs: {
+                                          d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
+                                          fill: "#BEBEBE",
+                                        },
+                                      }),
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("defs", [
+                                    _c("clipPath", { attrs: { id: "clip0" } }, [
+                                      _c("rect", {
+                                        attrs: {
+                                          width: "14",
+                                          height: "14",
+                                          fill: "white",
+                                        },
+                                      }),
+                                    ]),
+                                  ]),
+                                ]
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("li", { staticClass: "disabled" }, [
+                              _vm._v(
+                                "\n                              3 уровень\n                              "
+                              ),
+                              _c(
+                                "svg",
+                                {
+                                  staticClass: "icon",
+                                  attrs: {
+                                    width: "14",
+                                    height: "14",
+                                    viewBox: "0 0 14 14",
+                                    fill: "none",
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                  },
+                                },
+                                [
+                                  _c(
+                                    "g",
+                                    { attrs: { "clip-path": "url(#clip0)" } },
+                                    [
+                                      _c("path", {
+                                        attrs: {
+                                          d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
+                                          fill: "#BEBEBE",
+                                        },
+                                      }),
+                                      _vm._v(" "),
+                                      _c("path", {
+                                        attrs: {
+                                          d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
+                                          fill: "#BEBEBE",
+                                        },
+                                      }),
+                                      _vm._v(" "),
+                                      _c("path", {
+                                        attrs: {
+                                          d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
+                                          fill: "#BEBEBE",
+                                        },
+                                      }),
+                                      _vm._v(" "),
+                                      _c("path", {
+                                        attrs: {
+                                          d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
+                                          fill: "#BEBEBE",
+                                        },
+                                      }),
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("defs", [
+                                    _c("clipPath", { attrs: { id: "clip0" } }, [
+                                      _c("rect", {
+                                        attrs: {
+                                          width: "14",
+                                          height: "14",
+                                          fill: "white",
+                                        },
+                                      }),
+                                    ]),
+                                  ]),
+                                ]
+                              ),
+                            ]),
+                          ],
+                          2
+                        ),
                         _vm._v(" "),
                         _c(
                           "svg",
@@ -47059,8 +47149,7 @@ var render = function () {
                           "li",
                           {
                             key: tab.title,
-                            staticClass: "progress-block__step",
-                            class: { active: _vm.selectedTab == tab.title },
+                            class: _vm.show(tab.title),
                             on: {
                               click: function ($event) {
                                 _vm.selectedTab = tab.title
@@ -47069,7 +47158,7 @@ var render = function () {
                           },
                           [
                             _vm._v(
-                              "\n                     " +
+                              "\n                        " +
                                 _vm._s(tab.title) +
                                 " Этап\n                     "
                             ),
@@ -47091,41 +47180,6 @@ var render = function () {
     : _vm._e()
 }
 var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "progress-level__chart-txt" }, [
-      _c("p", { staticClass: "progress-level__chart-level" }, [
-        _vm._v(
-          "\n                              1 уровень\n                           "
-        ),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "progress-level__current" }),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "progress-result__caption" }, [
-      _c("span", [_vm._v("Мой")]),
-      _vm._v(" результат\n                        "),
-      _c(
-        "p",
-        {
-          staticClass:
-            "progress-level__chart-level progress-level__chart-level-mob",
-        },
-        [
-          _vm._v(
-            "\n                           1 уровень\n                        "
-          ),
-        ]
-      ),
-    ])
-  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
@@ -47154,18 +47208,6 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("a", { staticClass: "workout-info__link", attrs: { href: "#" } }, [
         _vm._v("Заполнить дневник"),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "default__option" }, [
-      _c("li", { staticClass: "option selected" }, [
-        _vm._v(
-          "\n                              1 уровень\n                           "
-        ),
       ]),
     ])
   },

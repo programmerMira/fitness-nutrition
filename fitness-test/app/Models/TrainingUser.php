@@ -28,6 +28,7 @@ class TrainingUser extends Model
         'id' => 'integer',
         'user_id' => 'integer',
         'training_id' => 'integer',
+        'deactevated_at' => 'timestamp',
     ];
 
 

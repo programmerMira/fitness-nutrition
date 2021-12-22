@@ -14,7 +14,6 @@ class TrainingController extends Controller
     public function index(Request $request)
     {
         $trainings = Training::all();
-
         return new TrainingCollection($trainings);
     }
 
