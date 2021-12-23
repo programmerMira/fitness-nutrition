@@ -102,3 +102,28 @@
     margin-top: 5px !important;
     margin-bottom: 5px !important;
 }
+.edit-row {
+    margin: 0;
+    align-items: flex-end;
+}
+.edit-chips {
+    .badge {
+        margin-right: 5px;
+    }
+    .badge-light {
+        color: #4f5d73;
+        background-color: #ebedef;
+        padding: 2px 4px 4px;
+        line-height: 0.8;
+        display: flex;
+        float: right;
+        align-items: center;
+        justify-content: center;
+        margin: 0 0 0 5px;
+    }
+}
+.footer-edit {
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-top: 15px;
+}

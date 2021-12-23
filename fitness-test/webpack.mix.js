@@ -13,7 +13,6 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/main.js', 'public/js/app.js')
-    .js('resources/js/admin-app.js', 'public/js/admin')
     .vue()
     .sass('resources/sass/app.sass', 'public/css')
     .options({
@@ -21,7 +20,8 @@ mix.js('resources/js/app.js', 'public/js')
     });
 //**************** CSS ********************
 //css
-//mix.copy('resources/vendors/pace-progress/css/pace.min.css', 'public/css');
+//    // .js('resources/js/admin-app.js', 'public/js/admin')
+mix.js('resources/js/admin-app.js', 'public/js/admin').vue();
 mix.copy('node_modules/@coreui/chartjs/dist/css/coreui-chartjs.css', 'public/css/admin');
 mix.copy('node_modules/cropperjs/dist/cropper.css', 'public/css/admin');
 //main css

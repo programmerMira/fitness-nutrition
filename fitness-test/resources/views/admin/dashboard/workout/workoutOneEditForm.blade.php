@@ -18,16 +18,19 @@
                                     <div class="card-body">
                                         <form class="form-horizontal form" action="" method="post">
                                             <div class="form-group row">
-                                                <label class="col-md-3 col-form-label" for="hf-email">Название</label>
+                                                <label class="col-md-3 col-form-label">Название</label>
                                                 <div class="col-md-9">
-                                                    <input class="form-control" id="hf-email" type="email" placeholder="Название " autocomplete="email">
+                                                    <input class="form-control" type="text" placeholder="Название ">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="col-md-3 col-form-label" for="hf-email">Ссылка на видео</label>
+                                                <label class="col-md-3 col-form-label">Ссылка на видео</label>
                                                 <div class="col-md-9">
-                                                    <input class="form-control" id="hf-email" type="email" placeholder="Ссылка на видео" autocomplete="email">
+                                                    <input class="form-control" type="text" placeholder="Ссылка на видео">
                                                 </div>
+                                            </div>
+                                            <div id="app">
+                                                <Workouttodolist></Workouttodolist>
                                             </div>
                                             <div class="card-footer card-footer-edit">
                                                 <button class="btn btn-sm btn-primary" type="submit"> Сохранить</button>
@@ -44,9 +47,9 @@
                                     <div class="card-body">
                                         <form class="form-horizontal form" action="" method="post">
                                             <div class="form-group row">
-                                                <label class="col-md-3 col-form-label" for="hf-email">Сообщение</label>
+                                                <label class="col-md-3 col-form-label">Сообщение</label>
                                                 <div class="col-md-9">
-                                                    <input class="form-control" id="hf-email" type="email" placeholder="Сообщение" autocomplete="email">
+                                                    <input class="form-control" type="text" placeholder="Сообщение">
                                                 </div>
                                             </div>
                                             <div class="card-footer card-footer-edit">
@@ -66,6 +69,3 @@
 
 @endsection
 
-@section('javascript')
-
-@endsection

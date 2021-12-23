@@ -11,21 +11,21 @@
                         <div class="card-body">
                             <form class="form-horizontal" action="" method="post">
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Название</label>
+                                    <label class="col-md-3 col-form-label">Название</label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" placeholder="Название " autocomplete="email">
+                                        <input class="form-control" placeholder="Название " type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Количесво дней </label>
+                                    <label class="col-md-3 col-form-label">Количесво дней </label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" placeholder="Количесво дней " autocomplete="email">
+                                        <input class="form-control" placeholder="Количесво дней " type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Тренировка для </label>
+                                    <label class="col-md-3 col-form-label">Тренировка для </label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" placeholder="Тренировка для... " autocomplete="email">
+                                        <input class="form-control" placeholder="Тренировка для... " type="text">
                                     </div>
                                 </div>
                                 <div class="card-footer card-footer-edit">
