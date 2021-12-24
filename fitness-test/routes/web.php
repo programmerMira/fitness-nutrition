@@ -14,13 +14,15 @@ use App\Http\Controllers\PhysicsParametersController;
 #endregion
 
 Route::view("/","index")->name('main');
-Route::view("/diet","diet");
-Route::view("/workout","workout");
-Route::view("/plugin","plugin");
-Route::view("/question","question");
-Route::view("/article","article");
+Route::view("/diet","diet")->middleware('auth');
+Route::view("/workout","workout")->middleware('auth');
+Route::view("/plugin","plugin")->middleware('auth');
+Route::view("/question","question")->middleware('auth');
+Route::view("/article","article")->middleware('auth');
 
-Route::get('/admin', function () {           return view('admin.dashboard.homepage'); });
+Route::get('/admin', function () {
+    return view('admin.dashboard.homepage'); 
+});
 
 Route::prefix('users')->group(function () {  // word: "icons" - not working as part of adress
     Route::get('/users', function(){         return view('admin.dashboard.admin.usersList'); });
