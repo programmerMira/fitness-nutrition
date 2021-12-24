@@ -11,15 +11,15 @@
                         <div class="card-body">
                             <form class="form-horizontal" action="" method="post">
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Заголовок</label>
+                                    <label class="col-md-3 col-form-label">Заголовок</label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" placeholder="Заголовок " autocomplete="email">
+                                        <input class="form-control" type="text" placeholder="Заголовок ">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Текст</label>
+                                    <label class="col-md-3 col-form-label">Текст</label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" placeholder="Текст" autocomplete="email">
+                                        <input class="form-control" type="text" placeholder="Текст">
                                     </div>
                                 </div>
                                 <div class="card-footer card-footer-edit">

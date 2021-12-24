@@ -1,43 +1,84 @@
 <template>
-    <div class="panel">
-        <p class="panel-heading">
-            Todo list
-        </p>
-        <ul>
-            <li class="panel-block" v-for="(item, index) in items" :key="index">
-                <span class="item" v-text="item"></span>
-                <div @click="removeTodo" class="icon is-pulled-right">
-                    <i class="fa fa-times" id="fuzzyindex" aria-hidden="true">DELETE</i>
+    <div>
+        <div class="form-group row edit-row">
+            <div class="form-group col-md-5">
+                <label class="col-form-label">Продукт</label>
+                <div>
+                    <input class="form-control" type="text" v-model="new_task.title">
                 </div>
-            </li>
-        </ul>
-        <div class="panel-block">
-            <input @keyup.enter="addTodo" class="input" type='text' id='input'>
+            </div>
+            <div class="form-group col-md-3">
+                <label class="col-form-label">Граммовки</label>
+                <div>
+                    <input class="form-control" type="text" v-model="new_task.desc">
+                </div>
+            </div>
+            <div class="form-group col-md-2">
+                <label class="col-form-label">Измеряется</label>
+                <div>
+                    <select class="form-control" v-model="new_task.measure">
+                        <option disabled value="">гр/шт/литр</option>
+                        <option>гр</option>
+                        <option>шт</option>
+                        <option>литр</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-md-2">
+                <small class="form-text text-muted">{{ "Продуктов: " + tasks.length }}</small>
+                <button class="btn btn-outline-primary" @click="add_task">Добавить</button>
+            </div>
         </div>
-        <div class="panel-block">
-            <button @click="addTodo" class="button is-primary is-outlined is-fullwidth">
-                Add item
-            </button>
+        <div class="col-md-12 edit-chips">
+            <div class="badge badge-pill badge-secondary"
+                 @task_done="delete_task(index)" :key="index" v-for="(data,index) in tasks"
+            >
+                {{ data.title }} / {{ data.desc }}{{ data.measure }}
+                <span class="badge badge-light" @click="delete_task(index)">x</span>
+            </div>
         </div>
     </div>
 </template>
 <script>
 export default {
     data: () => ({
-        items: ['Add validation', 'Update button state']
+        new_task: {
+            title: '',
+            desc: '',
+            measure: ''
+        },
+        tasks: [
+            {
+                title: 'Греча',
+                desc: '100',
+                measure: 'гр',
+            },
+            {
+                title: 'Яблоко',
+                desc: '2',
+                measure: 'шт',
+            }
+        ]
     }),
     methods: {
-        addTodo: function () {
-            let value = document.querySelector('#input').value;
-
-            if (value.length > 0) {
-                this.items.push(value)
-                document.querySelector('#input').value = "";
+        task_done() {
+            this.$emit('task_done')
+        },
+        add_task() {
+            if (this.new_task.title != '', this.new_task.desc != '', this.new_task.measure != '') {
+                this.tasks.push({
+                    title: this.new_task.title,
+                    desc: this.new_task.desc,
+                    measure: this.new_task.measure
+                });
+                this.new_task.title = '';
+                this.new_task.desc = '';
+                this.new_task.measure = '';
             }
         },
-        removeTodo: function (item) {
-            this.items.splice(this.items.indexOf(item), 1)
+        delete_task(index) {
+            this.tasks.splice(index, 1);
         }
-    }
-};
+    },
+}
 </script>

@@ -11,39 +11,39 @@
                         <div class="card-body">
                             <form class="form-horizontal" action="" method="post">
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Название</label>
+                                    <label class="col-md-3 col-form-label">Название</label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" placeholder="Название " autocomplete="email">
+                                        <input class="form-control" type="text" placeholder="Название ">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Количесво дней </label>
+                                    <label class="col-md-3 col-form-label">Количесво дней </label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" placeholder="Количесво дней " autocomplete="email">
+                                        <input class="form-control" type="text" placeholder="Количесво дней ">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Калории </label>
+                                    <label class="col-md-3 col-form-label">Калории </label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" placeholder="Калории " autocomplete="email">
+                                        <input class="form-control" type="text" placeholder="Калории ">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Белки </label>
+                                    <label class="col-md-3 col-form-label">Белки </label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" placeholder="Белки " autocomplete="email">
+                                        <input class="form-control" type="text" placeholder="Белки ">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Жиры </label>
+                                    <label class="col-md-3 col-form-label">Жиры </label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" placeholder="Жиры " autocomplete="email">
+                                        <input class="form-control" type="text" placeholder="Жиры ">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Углеводы </label>
+                                    <label class="col-md-3 col-form-label">Углеводы </label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" placeholder="Углеводы " autocomplete="email">
+                                        <input class="form-control" placeholder="Углеводы " type="text">
                                     </div>
                                 </div>
                                 <div class="card-footer card-footer-edit">

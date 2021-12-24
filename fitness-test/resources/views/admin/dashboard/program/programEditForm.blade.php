@@ -11,27 +11,27 @@
                         <div class="card-body">
                             <form class="form-horizontal" action="" method="post">
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Окончание акции:</label>
+                                    <label class="col-md-3 col-form-label">Окончание акции:</label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" autocomplete="email">
+                                        <input class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Цена без скидки:</label>
+                                    <label class="col-md-3 col-form-label">Цена без скидки:</label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" autocomplete="email">
+                                        <input class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Цена со скидкой:</label>
+                                    <label class="col-md-3 col-form-label">Цена со скидкой:</label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" autocomplete="email">
+                                        <input class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Количество дней:</label>
+                                    <label class="col-md-3 col-form-label">Количество дней:</label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" autocomplete="email">
+                                        <input class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -55,33 +55,33 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Дополнительно о тренировках:</label>
+                                    <label class="col-md-3 col-form-label">Дополнительно о тренировках:</label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" autocomplete="email">
+                                        <input class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Дополнительно о рационе:</label>
+                                    <label class="col-md-3 col-form-label">Дополнительно о рационе:</label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" autocomplete="email">
+                                        <input class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Дополнительно о процедурах:</label>
+                                    <label class="col-md-3 col-form-label">Дополнительно о процедурах:</label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" autocomplete="email">
+                                        <input class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Дополнительно о поддержке:</label>
+                                    <label class="col-md-3 col-form-label">Дополнительно о поддержке:</label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" autocomplete="email">
+                                        <input class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="hf-email">Дополнительно о мотивации:</label>
+                                    <label class="col-md-3 col-form-label">Дополнительно о мотивации:</label>
                                     <div class="col-md-9">
-                                        <input class="form-control" id="hf-email" type="email" autocomplete="email">
+                                        <input class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="card-footer card-footer-edit">
