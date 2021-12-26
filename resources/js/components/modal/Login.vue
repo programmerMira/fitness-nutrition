@@ -33,7 +33,7 @@
                                 fill="#9180FF" fill-opacity="0.75"/>
                         </svg>
                         <input type="email" class="modal-input" placeholder="Email"
-                               v-model.trim="email"
+                               v-model="email"
                                :class="{invalid: ($v.email.$dirty && !$v.email.required) || ($v.email.$dirty && !$v.email.email)}">
                     </div>
                     <div class="modal-input__group">
@@ -54,7 +54,7 @@
                             </defs>
                         </svg>
                         <input type="password" class="modal-input" placeholder="Password"
-                               v-model.trim="password"
+                               v-model="password"
                                :class="{invalid: ($v.password.$dirty && !$v.password.required) || ($v.password.$dirty && !$v.password.minLength)}">
                     </div>
                     <button type="button" class="modal__btn-lose" data-toggle="modal" data-target="#lose">
