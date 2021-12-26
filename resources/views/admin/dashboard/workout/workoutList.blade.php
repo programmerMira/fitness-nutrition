@@ -26,7 +26,7 @@
                                         <td>спины и груди</td>
                                         <td>Зал</td>
                                         <td class="btns-edit">
-                                            <a href="#" class="users-btn btn btn-block btn-success">
+                                            <a href="/admin/workout/show" class="users-btn btn btn-block btn-success">
                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                      xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                      width="512px" height="512px" viewBox="0 0 512 512"
@@ -42,7 +42,7 @@
                                     </g>
                                     </svg>
                                             </a>
-                                            <a href="#" class="users-btn btn btn-block btn-primary">
+                                            <a href="/admin/workout/edit" class="users-btn btn btn-block btn-primary">
                                                 <svg id="Layer_1" style="enable-background:new 0 0 128 128;" version="1.1"
                                                      viewBox="0 0 128 128" xml:space="preserve"
                                                      xmlns="http://www.w3.org/2000/svg"

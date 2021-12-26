@@ -20,39 +20,38 @@ Route::view("/plugin","plugin")->middleware('auth');
 Route::view("/question","question")->middleware('auth');
 Route::view("/article","article")->middleware('auth');
 
-Route::get('/admin', function () {
-    return view('admin.dashboard.homepage'); 
-});
-
-Route::prefix('users')->group(function () {  // word: "icons" - not working as part of adress
-    Route::get('/users', function(){         return view('admin.dashboard.admin.usersList'); });
-    Route::get('/show', function(){         return view('admin.dashboard.admin.userShow'); });
-    Route::get('/edit', function(){         return view('admin.dashboard.admin.userEditForm'); });
-});
-Route::prefix('menu')->group(function () {  // word: "icons" - not working as part of adress
-    Route::get('/menu', function(){         return view('admin.dashboard.menu.menuList'); });
-    Route::get('/show', function(){         return view('admin.dashboard.menu.menuShow'); });
-    Route::get('/edit', function(){         return view('admin.dashboard.menu.menuEditForm'); });
-    Route::get('/one-edit', function(){         return view('admin.dashboard.menu.menuOneEditForm'); });
-});
-Route::prefix('workout')->group(function () {  // word: "icons" - not working as part of adress
-    Route::get('/workout', function(){         return view('admin.dashboard.workout.workoutList'); });
-    Route::get('/show', function(){         return view('admin.dashboard.workout.workoutShow'); });
-    Route::get('/edit', function(){         return view('admin.dashboard.workout.workoutEditForm'); });
-    Route::get('/one-edit', function(){         return view('admin.dashboard.workout.workoutOneEditForm'); });
-});
-Route::prefix('question')->group(function () {  // word: "icons" - not working as part of adress
-    Route::get('/question', function(){         return view('admin.dashboard.question.questionList'); });
-    Route::get('/show', function(){         return view('admin.dashboard.question.questionShow'); });
-    Route::get('/edit', function(){         return view('admin.dashboard.question.questionEditForm'); });
-});
-Route::prefix('program')->group(function () {  // word: "icons" - not working as part of adress
-    Route::get('/program', function(){         return view('admin.dashboard.program.programList'); });
-    Route::get('/edit', function(){         return view('admin.dashboard.program.programEditForm'); });
-});
-Route::prefix('main')->group(function () {  // word: "icons" - not working as part of adress
-    Route::get('/main', function(){         return view('admin.dashboard.main.mainList'); });
-    Route::get('/edit', function(){         return view('admin.dashboard.main.mainEditForm'); });
+Route::prefix('/admin')->group(function () {
+    Route::get('/', function(){ return view('admin.dashboard.homepage'); });
+    Route::prefix('users')->group(function () {  // word: "icons" - not working as part of adress
+        Route::get('/', function(){         return view('admin.dashboard.admin.usersList'); });
+        Route::get('/show', function(){         return view('admin.dashboard.admin.userShow'); });
+        Route::get('/edit', function(){         return view('admin.dashboard.admin.userEditForm'); });
+    });
+    Route::prefix('menu')->group(function () {  // word: "icons" - not working as part of adress
+        Route::get('/', function(){         return view('admin.dashboard.menu.menuList'); });
+        Route::get('/show', function(){         return view('admin.dashboard.menu.menuShow'); });
+        Route::get('/edit', function(){         return view('admin.dashboard.menu.menuEditForm'); });
+        Route::get('/one-edit', function(){         return view('admin.dashboard.menu.menuOneEditForm'); });
+    });
+    Route::prefix('workout')->group(function () {  // word: "icons" - not working as part of adress
+        Route::get('/', function(){         return view('admin.dashboard.workout.workoutList'); });
+        Route::get('/show', function(){         return view('admin.dashboard.workout.workoutShow'); });
+        Route::get('/edit', function(){         return view('admin.dashboard.workout.workoutEditForm'); });
+        Route::get('/one-edit', function(){         return view('admin.dashboard.workout.workoutOneEditForm'); });
+    });
+    Route::prefix('/question')->group(function () {  // word: "icons" - not working as part of adress
+        Route::get('/', function(){         return view('admin.dashboard.question.questionList'); });
+        Route::get('/show', function(){         return view('admin.dashboard.question.questionShow'); });
+        Route::get('/edit', function(){         return view('admin.dashboard.question.questionEditForm'); });
+    });
+    Route::prefix('program')->group(function () {  // word: "icons" - not working as part of adress
+        Route::get('/', function(){         return view('admin.dashboard.program.programList'); });
+        Route::get('/edit', function(){         return view('admin.dashboard.program.programEditForm'); });
+    });
+    Route::prefix('main')->group(function () {  // word: "icons" - not working as part of adress
+        Route::get('/', function(){         return view('admin.dashboard.main.mainList'); });
+        Route::get('/edit', function(){         return view('admin.dashboard.main.mainEditForm'); });
+    });
 });
 
 

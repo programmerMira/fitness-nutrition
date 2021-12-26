@@ -26,7 +26,7 @@
                                         <br> * Рыбный жир(omega) + Витамин D – во время завтрака либо обеда.
                                     </td>
                                     <td class="btns-edit">
-                                        <a href="#" class="users-btn btn btn-block btn-primary">
+                                        <a href="/admin/workout/one-edit" class="users-btn btn btn-block btn-primary">
                                             <svg id="Layer_1" style="enable-background:new 0 0 128 128;" version="1.1"
                                                  viewBox="0 0 128 128" xml:space="preserve"
                                                  xmlns="http://www.w3.org/2000/svg"

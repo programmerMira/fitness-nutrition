@@ -54,7 +54,7 @@ if (!function_exists('renderDropdown')) {
 </div>
 <ul class="c-sidebar-nav">
     <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="#">
+        <a class="c-sidebar-nav-link" href="/admin/users">
             <i class="c-sidebar-nav-icon"></i>
             Пользователи
         </a>
@@ -66,31 +66,31 @@ if (!function_exists('renderDropdown')) {
         </a>
     </li>
     <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="#">
+        <a class="c-sidebar-nav-link" href="/admin/program">
             <i class="c-sidebar-nav-icon"></i>
             Программы/Марафоны
         </a>
     </li>
     <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="#">
+        <a class="c-sidebar-nav-link" href="/admin/main">
             <i class="c-sidebar-nav-icon"></i>
             Главная
         </a>
     </li>
     <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="#">
+        <a class="c-sidebar-nav-link" href="/admin/menu">
             <i class="c-sidebar-nav-icon"></i>
             Меню
         </a>
     </li>
     <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="#">
+        <a class="c-sidebar-nav-link" href="/admin/workout">
             <i class="c-sidebar-nav-icon"></i>
             Тренировки
         </a>
     </li>
     <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="#">
+        <a class="c-sidebar-nav-link" href="/admin/question">
             <i class="c-sidebar-nav-icon"></i>
             Вопросы
         </a>
