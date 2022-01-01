@@ -11,6 +11,7 @@ use App\Http\Controllers\UserMenuController;
 use App\Http\Controllers\PersonalAccountController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PhysicsParametersController;
+use App\Http\Controllers\ArticleController;
 #endregion
 
 Route::view("/","index")->name('main');
@@ -19,6 +20,7 @@ Route::view("/workout","workout")->middleware('auth');
 Route::view("/plugin","plugin")->middleware('auth');
 Route::view("/question","question")->middleware('auth');
 Route::view("/article","article")->middleware('auth');
+Route::get("/article/{id}", [ArticleController::class,'index']);
 
 Route::prefix('/admin')->group(function () {
     Route::get('/', function(){ return view('admin.dashboard.homepage'); });
@@ -53,18 +55,6 @@ Route::prefix('/admin')->group(function () {
         Route::get('/edit', function(){         return view('admin.dashboard.main.mainEditForm'); });
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 Auth::routes();
