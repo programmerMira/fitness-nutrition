@@ -3168,7 +3168,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
  //props: object or id? can and better to pass object
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3178,6 +3177,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {};
+  },
+  computed: {
+    Question: function Question() {
+      return this.$store.getters.GetQuestion;
+    }
+  },
+  mounted: function mounted() {
+    this.$store.dispatch('fetchQuestion', this.question);
   }
 });
 
@@ -48067,42 +48074,45 @@ var render = function () {
     ]),
     _vm._v(" "),
     _c("section", { attrs: { id: "question" } }, [
-      _c("div", { staticClass: "account-container" }, [
-        _c("div", { staticClass: "question-tab__container" }, [
-          _c(
-            "div",
-            { staticClass: "question-tab__txt question-tab__txt-container" },
-            [
-              _c("h5", { staticClass: "question-tab__title" }, [
-                _vm._v(
-                  "\n                        " +
-                    _vm._s(_vm.question.name) +
-                    "\n                    "
-                ),
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "question-tab__prg" }, [
-                _vm._v(
-                  "\n                        {!! question.answer !!}\n                    "
-                ),
-              ]),
-              _vm._v(" "),
+      _vm.Question
+        ? _c("div", { staticClass: "account-container" }, [
+            _c("div", { staticClass: "question-tab__container" }, [
               _c(
-                "a",
+                "div",
                 {
-                  staticClass: "question-tab__link-more",
-                  attrs: { href: "/question" },
+                  staticClass: "question-tab__txt question-tab__txt-container",
                 },
                 [
-                  _vm._v(
-                    "\n                        Назад\n                    "
+                  _c("h5", { staticClass: "question-tab__title" }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(_vm.Question.name) +
+                        "\n                    "
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("p", {
+                    staticClass: "question-tab__prg",
+                    domProps: { innerHTML: _vm._s(_vm.Question.answer) },
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "question-tab__link-more",
+                      attrs: { href: "/question" },
+                    },
+                    [
+                      _vm._v(
+                        "\n                        Назад\n                    "
+                      ),
+                    ]
                   ),
                 ]
               ),
-            ]
-          ),
-        ]),
-      ]),
+            ]),
+          ])
+        : _vm._e(),
     ]),
   ])
 }

@@ -11,14 +11,13 @@
             </div>
         </section>
         <section id="question">
-            <div class="account-container">
+            <div v-if="Question" class="account-container">
                 <div class="question-tab__container">
                     <div class="question-tab__txt question-tab__txt-container">
                         <h5 class="question-tab__title">
-                            {{question.name}}
+                            {{Question.name}}
                         </h5>
-                        <p class="question-tab__prg">
-                            {{ question.answer }}
+                        <p class="question-tab__prg" v-html="Question.answer">
                         </p>
                         <a href="/question" class="question-tab__link-more">
                             Назад
@@ -40,5 +39,14 @@ export default {
     data: () => ({
         
     }),
+    computed:{
+        Question(){
+            return this.$store.getters.GetQuestion;
+        },
+    },
+    mounted(){
+        this.$store.dispatch('fetchQuestion', this.question);
+    },
+
 };
 </script>

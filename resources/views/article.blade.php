@@ -1,5 +1,5 @@
 @extends('layouts/account')
 
 @section('content')
-    <Question :question={{$question}}></Question>
+    <Question :question={{$question->id}}></Question>
 @endsection
