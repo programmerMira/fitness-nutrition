@@ -18,7 +18,7 @@ Route::view("/","index")->name('main');
 Route::view("/diet","diet")->middleware('auth');
 Route::view("/workout","workout")->middleware('auth');
 Route::view("/plugin","plugin")->middleware('auth');
-Route::view("/question","question")->middleware('auth');
+Route::view("/question","question")->middleware('auth')->name('question');
 Route::view("/article","article")->middleware('auth');
 Route::get("/article/{id}", [ArticleController::class,'index']);
 

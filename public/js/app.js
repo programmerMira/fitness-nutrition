@@ -46764,7 +46764,7 @@ var render = function () {
                             _vm._v(
                               "\n                           " +
                                 _vm._s(_vm.selectedTraining.training.level) +
-                                " уровень111111\n                        "
+                                " уровень\n                        "
                             ),
                           ])
                         : _vm._e(),
@@ -48334,7 +48334,7 @@ var render = function () {
                             _vm._v(
                               "\r\n                              " +
                                 _vm._s(question.name) +
-                                "222222\r\n                          "
+                                "\r\n                          "
                             ),
                           ]),
                           _vm._v(" "),

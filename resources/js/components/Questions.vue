@@ -37,7 +37,7 @@
                   <div v-for="(topic) in Topics" :key="topic.id" :class="showQ(topic.id)" :id="topic.id">
                       <div v-for="question in QuestionsForTopic" :key="question.id" class="question-tab__txt">
                           <h5 class="question-tab__title">
-                              {{question.name}}222222
+                              {{question.name}}
                           </h5>
                           <p class="question-tab__prg text-overflow__custom">
                               {{question.answer}}
