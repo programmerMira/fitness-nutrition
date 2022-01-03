@@ -4,11 +4,7 @@
             <MenuOffice></MenuOffice>
         </header>
         <section id="account-head" class="question">
-            <div class="account-container">
-                <div class="account-head__row">
-                    <Logout></Logout>
-                </div>
-            </div>
+            <Logout></Logout>
         </section>
         <section id="question">
             <div v-if="Question" class="account-container">
@@ -39,14 +35,14 @@ export default {
     data: () => ({
         
     }),
+    mounted(){
+        console.log(this.question);
+        this.$store.dispatch('fetchQuestion', this.question);
+    },
     computed:{
         Question(){
             return this.$store.getters.GetQuestion;
         },
     },
-    mounted(){
-        this.$store.dispatch('fetchQuestion', this.question);
-    },
-
 };
 </script>

@@ -10,3 +10,9 @@ controllers:
     resource: api
     resource: api
 seeders: Days
+
+models:
+  MainPage:
+    name: string:50
+    content: string:50
+seeders: MainPage

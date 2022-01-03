@@ -4,7 +4,7 @@
       <MenuOffice></MenuOffice>
     </header>
     <section id="account-head" class="workout">
-        <Logout></Logout>
+      <Logout></Logout>
     </section>
     <section id="progress" class="workout">
       <div class="account-container">
@@ -13,7 +13,7 @@
                 <div class="progress__row">
                   <div class="progress-level">
                       <div class="progress-level__title">
-                        Любовь
+                        {{User.user.name}}
                         <div class="progress-level__mob">1 уровень</div>
                       </div>
                       <div class="level__chart">
@@ -362,6 +362,16 @@ export default {
       ],
     selectedTab: "1",
   }),
+  computed:{
+    User(){
+        return this.$store.getters.GetPersonalAccount;
+    },
+  },
+  mounted(){
+    if (userInfo){
+        this.$store.dispatch('fetchPersonalAccount');
+    }
+   },
   methods: {
     selectTab() {
       this.selectedTab = this.tab.title;

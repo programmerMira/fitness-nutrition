@@ -1,16 +1,8 @@
 created:
-    - app/Http/Controllers/DaysController.php
-    - database/factories/DaysFactory.php
-    - database/migrations/2021_12_19_194426_create_days_table.php
-    - app/Models/Days.php
-    - database/seeders/DaysSeeder.php
-    - tests/Feature/Http/Controllers/DaysControllerTest.php
-    - app/Http/Requests/DayStoreRequest.php
-    - app/Http/Requests/DayUpdateRequest.php
-    - app/Http/Resources/DayCollection.php
-    - app/Http/Resources/DayResource.php
-updated:
-    - routes/api.php
+    - database/factories/MainPageFactory.php
+    - database/migrations/2022_01_03_214317_create_main_pages_table.php
+    - app/Models/MainPage.php
+    - database/seeders/MainPageSeeder.php
 models:
     ProblemZone: { name: 'string:50' }
     LifeStyle: { name: 'string:50' }
@@ -29,3 +21,4 @@ models:
     PhysicsParameters: { user_id: 'id foreign:User.id', weight: float, height: float, dream_weight: float, hips_cm: float, waist_cm: float, chest_cm: float }
     Topic: { name: 'string:50' }
     Days: { training_id: 'id foreign:Training', day_number: integer, name: 'string:50', description: 'string:1000', videos: json }
+    MainPage: { name: 'string:50', content: 'string:50' }

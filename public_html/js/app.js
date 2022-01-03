@@ -3164,10 +3164,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
  //props: object or id? can and better to pass object
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3178,13 +3174,14 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
+  mounted: function mounted() {
+    console.log(this.question);
+    this.$store.dispatch('fetchQuestion', this.question);
+  },
   computed: {
     Question: function Question() {
       return this.$store.getters.GetQuestion;
     }
-  },
-  mounted: function mounted() {
-    this.$store.dispatch('fetchQuestion', this.question);
   }
 });
 
@@ -3203,11 +3200,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _components_Menu_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Menu.vue */ "./resources/js/components/Menu.vue");
 /* harmony import */ var _components_Logout_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Logout.vue */ "./resources/js/components/Logout.vue");
-//
-//
-//
-//
-//
 //
 //
 //
@@ -48067,11 +48059,12 @@ var render = function () {
       1
     ),
     _vm._v(" "),
-    _c("section", { staticClass: "question", attrs: { id: "account-head" } }, [
-      _c("div", { staticClass: "account-container" }, [
-        _c("div", { staticClass: "account-head__row" }, [_c("Logout")], 1),
-      ]),
-    ]),
+    _c(
+      "section",
+      { staticClass: "question", attrs: { id: "account-head" } },
+      [_c("Logout")],
+      1
+    ),
     _vm._v(" "),
     _c("section", { attrs: { id: "question" } }, [
       _vm.Question
@@ -48147,11 +48140,12 @@ var render = function () {
       1
     ),
     _vm._v(" "),
-    _c("section", { staticClass: "question", attrs: { id: "account-head" } }, [
-      _c("div", { staticClass: "account-container" }, [
-        _c("div", { staticClass: "account-head__row" }, [_c("Logout")], 1),
-      ]),
-    ]),
+    _c(
+      "section",
+      { staticClass: "question", attrs: { id: "account-head" } },
+      [_c("Logout")],
+      1
+    ),
     _vm._v(" "),
     _c("section", { attrs: { id: "question" } }, [
       _c("div", { staticClass: "account-container" }, [
@@ -48241,20 +48235,11 @@ var render = function () {
                             ),
                           ]),
                           _vm._v(" "),
-                          _c(
-                            "p",
-                            {
-                              staticClass:
-                                "question-tab__prg text-overflow__custom",
-                            },
-                            [
-                              _vm._v(
-                                "\r\n                              " +
-                                  _vm._s(question.answer) +
-                                  "\r\n                          "
-                              ),
-                            ]
-                          ),
+                          _c("p", {
+                            staticClass:
+                              "question-tab__prg text-overflow__custom",
+                            domProps: { innerHTML: _vm._s(question.answer) },
+                          }),
                           _vm._v(" "),
                           _c(
                             "a",

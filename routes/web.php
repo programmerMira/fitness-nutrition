@@ -12,9 +12,10 @@ use App\Http\Controllers\PersonalAccountController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PhysicsParametersController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\MainPageController;
 #endregion
 
-Route::view("/","index")->name('main');
+Route::get("/", [MainPageController::class,'index'])->name('main');
 Route::view("/diet","diet")->middleware('auth');
 Route::view("/workout","workout")->middleware('auth');
 Route::view("/plugin","plugin")->middleware('auth');
@@ -24,35 +25,39 @@ Route::get("/article/{id}", [ArticleController::class,'index']);
 
 Route::prefix('/admin')->group(function () {
     Route::get('/', function(){ return view('admin.dashboard.homepage'); });
-    Route::prefix('users')->group(function () {  // word: "icons" - not working as part of adress
+    Route::prefix('/users')->group(function () {  // word: "icons" - not working as part of adress
         Route::get('/', function(){         return view('admin.dashboard.admin.usersList'); });
         Route::get('/show', function(){         return view('admin.dashboard.admin.userShow'); });
         Route::get('/edit', function(){         return view('admin.dashboard.admin.userEditForm'); });
     });
-    Route::prefix('menu')->group(function () {  // word: "icons" - not working as part of adress
+    Route::prefix('/menu')->group(function () {  // word: "icons" - not working as part of adress
         Route::get('/', function(){         return view('admin.dashboard.menu.menuList'); });
         Route::get('/show', function(){         return view('admin.dashboard.menu.menuShow'); });
         Route::get('/edit', function(){         return view('admin.dashboard.menu.menuEditForm'); });
         Route::get('/one-edit', function(){         return view('admin.dashboard.menu.menuOneEditForm'); });
     });
-    Route::prefix('workout')->group(function () {  // word: "icons" - not working as part of adress
+    Route::prefix('/workout')->group(function () {  // word: "icons" - not working as part of adress
         Route::get('/', function(){         return view('admin.dashboard.workout.workoutList'); });
         Route::get('/show', function(){         return view('admin.dashboard.workout.workoutShow'); });
         Route::get('/edit', function(){         return view('admin.dashboard.workout.workoutEditForm'); });
         Route::get('/one-edit', function(){         return view('admin.dashboard.workout.workoutOneEditForm'); });
     });
     Route::prefix('/question')->group(function () {  // word: "icons" - not working as part of adress
-        Route::get('/', function(){         return view('admin.dashboard.question.questionList'); });
-        Route::get('/show', function(){         return view('admin.dashboard.question.questionShow'); });
-        Route::get('/edit', function(){         return view('admin.dashboard.question.questionEditForm'); });
+        Route::get('/', [ArticleController::class,'adminArticles'])->name('adminQuestion');
+        Route::get('/show/{id}', [ArticleController::class,'adminArticle']);
+        Route::get('/edit/{id}', [ArticleController::class,'adminShowArticle']);
+        Route::post('/editArticle/{id}', [ArticleController::class,'adminEditArticle'])->name('editArticle');
+        Route::get('/add', [ArticleController::class,'adminAddView']);
+        Route::post('/addArticle', [ArticleController::class,'adminAddArticle'])->name('addArticle');
+        Route::post('/deleteArticle/{id}', [ArticleController::class,'adminDeleteArticle'])->name('deleteArticle');
     });
-    Route::prefix('program')->group(function () {  // word: "icons" - not working as part of adress
+    Route::prefix('/program')->group(function () {  // word: "icons" - not working as part of adress
         Route::get('/', function(){         return view('admin.dashboard.program.programList'); });
         Route::get('/edit', function(){         return view('admin.dashboard.program.programEditForm'); });
     });
-    Route::prefix('main')->group(function () {  // word: "icons" - not working as part of adress
-        Route::get('/', function(){         return view('admin.dashboard.main.mainList'); });
-        Route::get('/edit', function(){         return view('admin.dashboard.main.mainEditForm'); });
+    Route::prefix('/main')->group(function () {  // word: "icons" - not working as part of adress
+        Route::get('/', [ArticleController::class,'adminMagePage'])->name('adminMagePage');
+        Route::post('/edit/{id}', [ArticleController::class,'adminEditContent']);
     });
 });
 

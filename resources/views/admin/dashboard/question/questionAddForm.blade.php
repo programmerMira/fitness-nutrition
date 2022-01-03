@@ -9,13 +9,12 @@
                     <div class="card">
                         <div class="card-header"><strong>Вопрос</strong></div>
                         <div class="card-body">
-                            <form class="form-horizontal" action="{{route('editArticle',['id'=>$article->id])}}" method="post">
+                            <form class="form-horizontal" action="{{route('addArticle')}}" method="post">
                                 @csrf
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Категория</label>
                                     <div class="col-md-9">
                                         <select name="topic_id" class="form-control form-select" aria-label="Категория">
-                                            <option value="{{$article->topic_id}}">{{$topic->name}}</option>
                                             @foreach($topics as $topic)
                                             <option value="{{$topic->id}}">{{$topic->name}}</option>
                                             @endforeach
@@ -25,13 +24,13 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Заголовок</label>
                                     <div class="col-md-9">
-                                        <input name="name" class="form-control" type="text" value="{{$article->name}}" placeholder="Заголовок ">
+                                        <input name="name" class="form-control" type="text" placeholder="Заголовок ">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Текст</label>
                                     <div class="col-md-9">
-                                        <textarea name="answer" class="form-control" type="text" placeholder="Текст">{{$article->answer}}</textarea>
+                                        <textarea name="answer" class="form-control" type="text" placeholder="Текст"></textarea>
                                     </div>
                                 </div>
                                 <div class="card-footer card-footer-edit">

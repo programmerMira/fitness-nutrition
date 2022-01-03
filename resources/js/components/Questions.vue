@@ -4,11 +4,7 @@
       <MenuOffice></MenuOffice>
     </header>
     <section id="account-head" class="question">
-        <div class="account-container">
-          <div class="account-head__row">
-              <Logout></Logout>
-          </div>
-        </div>
+      <Logout></Logout>
     </section>
    <section id="question">
       <div class="account-container">
@@ -39,8 +35,7 @@
                           <h5 class="question-tab__title">
                               {{question.name}}
                           </h5>
-                          <p class="question-tab__prg text-overflow__custom">
-                              {{question.answer}}
+                          <p class="question-tab__prg text-overflow__custom" v-html="question.answer">
                           </p>
                           <a :href="'/article/'+question.id" class="question-tab__link-more">
                               Подробнее
