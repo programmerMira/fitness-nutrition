@@ -10,7 +10,7 @@ class MainPageController extends Controller
     function index(Request $request)
     {
         $data = MainPage::all();
-        return redirect()->route('main')->with(compact('data'));
+        return redirect()->route('main');//->with(compact('data'));
     }
 
     function adminEditContent(Request $request, $id)

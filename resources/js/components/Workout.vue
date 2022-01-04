@@ -80,19 +80,6 @@
             </div>
             <div class="progress__col-second">
                 <div>
-                  <div class="modal fade modal-video" id="video" tabindex="-1" role="dialog"
-                      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content modal-video__content">
-                            <div class="workout__video">
-                              <iframe class="workout-video__embed" width="512" height="288"
-                                  src="https://www.youtube.com/embed/neHA4MJwpnY" frameborder="0"
-                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                  allowfullscreen></iframe>
-                            </div>
-                        </div>
-                      </div>
-                  </div>
                   <div class="progress-block">
                       <div class="progress-block__svg-elem">
                         <svg width="280" height="322" viewBox="0 0 280 322" fill="none"
@@ -148,7 +135,7 @@
                         </div>
                       </div>
                   </div>
-                  <WorkoutVideo :selectedTab="selectedTab"></WorkoutVideo>
+                  <WorkoutVideo :day="selectedTab" :trainingId="selectedTrainingId"></WorkoutVideo>
                 </div>
             </div>
           </div>
@@ -361,6 +348,7 @@ export default {
          },
       ],
     selectedTab: "1",
+    selectedTrainingId: null,
   }),
   computed:{
     User(){

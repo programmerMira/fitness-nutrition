@@ -3679,6 +3679,16 @@ __webpack_require__.r(__webpack_exports__);
       selectedTab: "1"
     };
   },
+  computed: {
+    User: function User() {
+      return this.$store.getters.GetPersonalAccount;
+    }
+  },
+  mounted: function mounted() {
+    if (userInfo) {
+      this.$store.dispatch('fetchPersonalAccount');
+    }
+  },
   methods: {
     selectTab: function selectTab() {
       this.selectedTab = this.tab.title;
@@ -5280,129 +5290,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+//передаю номер дня и id тренировки => возвращаю этот день
+//перед этим при загрузке страницы с тренировками надо прогрузить ищё и дни
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["selectedTab"]
 });
@@ -48429,7 +48318,16 @@ var render = function () {
           _c("div", { staticClass: "progress__col-first" }, [
             _c("div", { staticClass: "progress__row" }, [
               _c("div", { staticClass: "progress-level" }, [
-                _vm._m(0),
+                _c("div", { staticClass: "progress-level__title" }, [
+                  _vm._v(
+                    "\n                      " +
+                      _vm._s(_vm.User.user.name) +
+                      "\n                      "
+                  ),
+                  _c("div", { staticClass: "progress-level__mob" }, [
+                    _vm._v("1 уровень"),
+                  ]),
+                ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "level__chart" }, [
                   _c(
@@ -48501,11 +48399,11 @@ var render = function () {
                     ]
                   ),
                   _vm._v(" "),
-                  _vm._m(1),
+                  _vm._m(0),
                 ]),
               ]),
               _vm._v(" "),
-              _vm._m(2),
+              _vm._m(1),
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "calendar workout" }, [
@@ -48554,7 +48452,7 @@ var render = function () {
                     0
                   ),
                   _vm._v(" "),
-                  _vm._m(3),
+                  _vm._m(2),
                 ]),
               ]),
             ]),
@@ -48564,7 +48462,7 @@ var render = function () {
             _c(
               "div",
               [
-                _vm._m(4),
+                _vm._m(3),
                 _vm._v(" "),
                 _c("div", { staticClass: "progress-block" }, [
                   _c("div", { staticClass: "progress-block__svg-elem" }, [
@@ -48614,7 +48512,7 @@ var render = function () {
                       "div",
                       { staticClass: "select__wrap select-workout__wrap" },
                       [
-                        _vm._m(5),
+                        _vm._m(4),
                         _vm._v(" "),
                         _c("ul", { staticClass: "select__ul" }, [
                           _c("li", [_vm._v("Для дома")]),
@@ -48723,15 +48621,6 @@ var render = function () {
   ])
 }
 var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "progress-level__title" }, [
-      _vm._v("\n                      Любовь\n                      "),
-      _c("div", { staticClass: "progress-level__mob" }, [_vm._v("1 уровень")]),
-    ])
-  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
@@ -51879,94 +51768,34 @@ var render = function () {
               ]),
               _vm._v(" "),
               _vm._m(0),
+              _vm._v(" "),
+              _vm._m(1),
             ]),
           ]
         : _vm._e(),
-      _vm._v(" "),
-      _vm.selectedTab == "2"
-        ? [
-            _c("div", { staticClass: "scroll__contain" }, [
-              _c("div", { staticClass: "workout-video__list" }, [
-                _c("div", { staticClass: "workout-video__item" }, [
-                  _c("div", { staticClass: "workout-video__img-preview" }, [
-                    _c("img", {
-                      attrs: { src: "/images/video/preview4.png", alt: "" },
-                    }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "workout-video__btn" }, [
-                      _c(
-                        "svg",
-                        {
-                          attrs: {
-                            width: "24",
-                            height: "27",
-                            viewBox: "0 0 24 27",
-                            fill: "none",
-                            xmlns: "http://www.w3.org/2000/svg",
-                          },
-                        },
-                        [
-                          _c("path", {
-                            attrs: {
-                              d: "M22.8547 11.8451C24.1738 12.639 24.1388 14.5632 22.7917 15.3086L3.30879 26.0901C1.96169 26.8355 0.312779 25.8431 0.340746 24.3038L0.745229 2.04034C0.773196 0.500993 2.45707 -0.430825 3.7762 0.363069L22.8547 11.8451Z",
-                              fill: "white",
-                            },
-                          }),
-                        ]
-                      ),
-                    ]),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "workout-video__title" }, [
-                    _vm._v("Тренировка спины и груди"),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "workout-video__item" }, [
-                  _c("div", { staticClass: "workout-video__img-preview" }, [
-                    _c("img", {
-                      attrs: { src: "/images/video/preview5.png", alt: "" },
-                    }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "workout-video__btn" }, [
-                      _c(
-                        "svg",
-                        {
-                          attrs: {
-                            width: "24",
-                            height: "27",
-                            viewBox: "0 0 24 27",
-                            fill: "none",
-                            xmlns: "http://www.w3.org/2000/svg",
-                          },
-                        },
-                        [
-                          _c("path", {
-                            attrs: {
-                              d: "M22.8547 11.8451C24.1738 12.639 24.1388 14.5632 22.7917 15.3086L3.30879 26.0901C1.96169 26.8355 0.312779 25.8431 0.340746 24.3038L0.745229 2.04034C0.773196 0.500993 2.45707 -0.430825 3.7762 0.363069L22.8547 11.8451Z",
-                              fill: "white",
-                            },
-                          }),
-                        ]
-                      ),
-                    ]),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "workout-video__title" }, [
-                    _vm._v("Тренировка спины и груди"),
-                  ]),
-                ]),
-              ]),
-            ]),
-          ]
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.selectedTab == "3" ? [_vm._m(1)] : _vm._e(),
     ],
     2
   )
 }
 var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "workout-info__txt-block" }, [
+      _c("div", { staticClass: "workout-info__img" }, [
+        _c("img", { attrs: { src: "/images/luba.png", alt: "" } }),
+      ]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v("\n              Сегодня у тебя "),
+        _c("b", [_vm._v("выходной")]),
+        _vm._v(
+          " от силовых тренировок.\n              Соблюдай рацион питания, не забывай пить воду,а также\n              можешь сделать наш комплекс для борьбы с целлюлитом\n              Выполни минимум 10 000 шагов!\n            "
+        ),
+      ]),
+    ])
+  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
@@ -52007,67 +51836,6 @@ var staticRenderFns = [
             _vm._v(
               "\n                  На сухую чистую кожу нанести питательный крем.\n                "
             ),
-          ]),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "workout-info" }, [
-      _c("div", { staticClass: "workout-info__txt-block" }, [
-        _c("div", { staticClass: "workout-info__img" }, [
-          _c("img", { attrs: { src: "/images/luba.png", alt: "" } }),
-        ]),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v("\n              Сегодня у тебя "),
-          _c("b", [_vm._v("выходной")]),
-          _vm._v(
-            " от силовых тренировок.\n              Соблюдай рацион питания, не забывай пить воду,а также\n              можешь сделать наш комплекс для борьбы с целлюлитом\n              Выполни минимум 10 000 шагов!\n            "
-          ),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "workout-info__block" }, [
-        _c("h5", { staticClass: "workout-info__title" }, [
-          _vm._v(
-            "\n              Комплекс состоит из 12 процедур (6 дней подряд и 1 день выходной), длительность две недели. Затем делаем перерыв.\n              "
-          ),
-          _c("b", [_vm._v("\n                ДЕНЬ №1\n              ")]),
-        ]),
-        _vm._v(" "),
-        _c("ul", { staticClass: "workout-info__list" }, [
-          _c("li", { staticClass: "workout-info__item" }, [
-            _c("b", [_vm._v("\n                  Шаг 1.\n                ")]),
-            _vm._v(" "),
-            _c("p", [
-              _vm._v(
-                "\n                  Выполнить скрабирование в душе на распаренную кожу. Длительность 3-5 минут.\n                "
-              ),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "workout-info__item" }, [
-            _c("b", [_vm._v("\n                  Шаг 2.\n                ")]),
-            _vm._v(" "),
-            _c("p", [
-              _vm._v(
-                "\n                  На сухую кожу нанести горячее/ холодное обертывание. Обернуться пленкой. Длительность 30-50 минут.\n                "
-              ),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "workout-info__item" }, [
-            _c("b", [_vm._v("\n                  Шаг 3.\n                ")]),
-            _vm._v(" "),
-            _c("p", [
-              _vm._v(
-                "\n                  На сухую чистую кожу нанести питательный крем.\n                "
-              ),
-            ]),
           ]),
         ]),
       ]),
