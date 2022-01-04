@@ -8,6 +8,7 @@ use App\Http\Resources\TrainingUserCollection;
 use App\Http\Resources\TrainingUserResource;
 use App\Models\TrainingUser;
 use App\Models\Training;
+use App\Models\Days;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,10 @@ class TrainingUserController extends Controller
     {
         $user = Auth::user()->id;
         $trainingsUser = TrainingUser::with('training')->where('user_id','=',$user)->get();
+        foreach($trainingsUser as $tr_u)
+        {
+            $tr_u->days = Days::all()->where('training_id','=',$tr_u->training_id);
+        }
         return response()->json($trainingsUser);
     }
 

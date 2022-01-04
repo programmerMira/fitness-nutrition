@@ -1,8 +1,8 @@
 <template>
     <div class="workout-video">
-          <template v-if="selectedTab == '1'">
+          <template>
             <div class="scroll__contain">
-              <div class="workout-video__list">
+              <div v-if="!IsDayOff" class="workout-video__list">
                 <div class="workout-video__item">
                   <div class="workout-video__img-preview">
                     <img src="/images/video/video01.jpg" alt="" />
@@ -30,7 +30,7 @@
                 </div>
               </div>
               <!--or <-> or-->
-              <div class="workout-info__txt-block">
+              <div v-else class="workout-info__txt-block">
                 <div class="workout-info__img">
                   <img src="/images/luba.png" alt="" />
                 </div>
@@ -102,6 +102,32 @@
 //при нажатии на видео в переменную show_video_link заносится ссылка на видео и открывается модалка с этим видео
 
 export default {
-  props: ["selectedTab"],
+  props: ["day","trainingId"],
+  data: () => ({
+    current_training: null,
+    current_day: null,
+  }),
+  mounted(){
+    if (userInfo){
+      this.$store.dispatch('fetchTrainingUsers');
+    }
+  },
+  computed:{
+    IsDayOff()
+    {
+      //console.log("this.day:",this.day);
+      //console.log("this.trainingId:",this.trainingId);
+      //console.log("this.current_training:",this.current_training);
+
+      this.current_training = this.$store.getters.GetTrainingUsers.find(element => element.training_id === this.trainingId);
+      if(this.current_training){
+        this.current_day = this.current_training.days.find(element => element.day_number === parseInt(this.day));
+        //console.log("this.current_day:",this.current_day);
+        if(this.current_day.name === "Выходной")
+          return true
+      }
+      return false
+    }
+  },
 };
 </script>

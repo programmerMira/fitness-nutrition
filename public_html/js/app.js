@@ -2703,6 +2703,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.getters.GetPersonalAccount;
     },
     Physics: function Physics() {
+      //{{Physics.current_weight - Physics.weight}}
       return this.$store.getters.GetPhysicsParameters;
     },
     TrainingUser: function TrainingUser() {
@@ -3523,21 +3524,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3549,149 +3535,69 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      slider: [{
-        menutitle: "Уровень №1",
-        days: [{
-          title: "1"
-        }, {
-          title: "2"
-        }, {
-          title: "3"
-        }, {
-          title: "4"
-        }, {
-          title: "5"
-        }, {
-          title: "6"
-        }, {
-          title: "7"
-        }, {
-          title: "8"
-        }, {
-          title: "9"
-        }, {
-          title: "10"
-        }, {
-          title: "11"
-        }, {
-          title: "12"
-        }, {
-          title: "13"
-        }, {
-          title: "14"
-        }, {
-          title: "15"
-        }, {
-          title: "16"
-        }, {
-          title: "17"
-        }, {
-          title: "18"
-        }, {
-          title: "19"
-        }, {
-          title: "20"
-        }, {
-          title: "21"
-        }, {
-          title: "22"
-        }, {
-          title: "23"
-        }, {
-          title: "24"
-        }, {
-          title: "25"
-        }, {
-          title: "26"
-        }, {
-          title: "27"
-        }, {
-          title: "28"
-        }, {
-          title: "29"
-        }, {
-          title: "30"
-        }]
-      }, {
-        menutitle: "Уровень №2",
-        days: [{
-          title: "1"
-        }, {
-          title: "2"
-        }, {
-          title: "3"
-        }, {
-          title: "4"
-        }, {
-          title: "5"
-        }, {
-          title: "6"
-        }, {
-          title: "7"
-        }, {
-          title: "8"
-        }, {
-          title: "9"
-        }, {
-          title: "10"
-        }, {
-          title: "11"
-        }, {
-          title: "12"
-        }, {
-          title: "13"
-        }, {
-          title: "14"
-        }, {
-          title: "15"
-        }, {
-          title: "16"
-        }, {
-          title: "17"
-        }, {
-          title: "18"
-        }, {
-          title: "19"
-        }, {
-          title: "20"
-        }, {
-          title: "21"
-        }, {
-          title: "22"
-        }, {
-          title: "23"
-        }, {
-          title: "24"
-        }, {
-          title: "25"
-        }, {
-          title: "26"
-        }, {
-          title: "27"
-        }, {
-          title: "28"
-        }, {
-          title: "29"
-        }, {
-          title: "30"
-        }]
-      }],
-      selectedTab: "1"
+      slider: [],
+      selectedTab: "1",
+      selectedTrainingId: null
     };
   },
   computed: {
     User: function User() {
       return this.$store.getters.GetPersonalAccount;
+    },
+    UserTrainings: function UserTrainings() {
+      var _this = this;
+
+      return this.$store.getters.GetTrainingUsers.find(function (element) {
+        return element.training_id === _this.selectedTrainingId;
+      });
+    },
+    TrainingTitleAndDays: function TrainingTitleAndDays() {
+      var _this2 = this;
+
+      var tmp = this.$store.getters.GetTrainingUsers;
+      if (!tmp || tmp.length < 1) return this.slider;
+      this.selectedTrainingId = tmp[0].training_id;
+      this.slider = [];
+      tmp.forEach(function (item) {
+        var days = [];
+        item.days.forEach(function (day) {
+          return days.push({
+            title: day.day_number
+          });
+        });
+
+        _this2.slider.push({
+          menutitle: item.training.name,
+          days: days
+        });
+      });
+      console.log("this.slider: ", this.slider);
+      console.log("this.selectedTrainingId:", this.selectedTrainingId);
+      return this.slider;
+    },
+    Physics: function Physics() {
+      return this.$store.getters.GetPhysicsParameters;
     }
   },
   mounted: function mounted() {
     if (userInfo) {
       this.$store.dispatch('fetchPersonalAccount');
+      this.$store.dispatch('fetchPhysicsParameters');
+      this.$store.dispatch('fetchTrainingUsers');
     }
   },
   methods: {
     selectTab: function selectTab() {
       this.selectedTab = this.tab.title;
+    },
+    findPercent: function findPercent() {
+      if (this.UserTrainings == null) return 0;
+      var date1 = new Date(this.UserTrainings.created_at);
+      var date2 = new Date();
+      var Difference_In_Time = date2.getTime() - date1.getTime();
+      var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+      var percent = Difference_In_Days * 100 / 30;
+      return parseInt(percent);
     }
   }
 });
@@ -5290,10 +5196,60 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //передаю номер дня и id тренировки => возвращаю этот день
 //перед этим при загрузке страницы с тренировками надо прогрузить ищё и дни
+//если name == выходной, то выходной!
+//в бд идёт "название_видео":"ссылка_на_видео"
+//при нажатии на видео в переменную show_video_link заносится ссылка на видео и открывается модалка с этим видео
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["selectedTab"]
+  props: ["day", "trainingId"],
+  data: function data() {
+    return {
+      current_training: null,
+      current_day: null
+    };
+  },
+  mounted: function mounted() {
+    if (userInfo) {
+      this.$store.dispatch('fetchTrainingUsers');
+    }
+  },
+  computed: {
+    IsDayOff: function IsDayOff() {
+      var _this = this;
+
+      //console.log("this.day:",this.day);
+      //console.log("this.trainingId:",this.trainingId);
+      //console.log("this.current_training:",this.current_training);
+      this.current_training = this.$store.getters.GetTrainingUsers.find(function (element) {
+        return element.training_id === _this.trainingId;
+      });
+
+      if (this.current_training) {
+        this.current_day = this.current_training.days.find(function (element) {
+          return element.day_number === parseInt(_this.day);
+        }); //console.log("this.current_day:",this.current_day);
+
+        if (this.current_day.name === "Выходной") return true;
+      }
+
+      return false;
+    }
+  }
 });
 
 /***/ }),
@@ -48312,352 +48268,384 @@ var render = function () {
       1
     ),
     _vm._v(" "),
-    _c("section", { staticClass: "workout", attrs: { id: "progress" } }, [
-      _c("div", { staticClass: "account-container" }, [
-        _c("div", { staticClass: "progress__container" }, [
-          _c("div", { staticClass: "progress__col-first" }, [
-            _c("div", { staticClass: "progress__row" }, [
-              _c("div", { staticClass: "progress-level" }, [
-                _c("div", { staticClass: "progress-level__title" }, [
-                  _vm._v(
-                    "\n                      " +
-                      _vm._s(_vm.User.user.name) +
-                      "\n                      "
-                  ),
-                  _c("div", { staticClass: "progress-level__mob" }, [
-                    _vm._v("1 уровень"),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "level__chart" }, [
-                  _c(
-                    "svg",
-                    {
-                      staticClass: "radial-progress",
-                      attrs: { "data-percentage": "75", viewBox: "0 0 86 86" },
-                    },
-                    [
+    _vm.User
+      ? _c("section", { staticClass: "workout", attrs: { id: "progress" } }, [
+          _c("div", { staticClass: "account-container" }, [
+            _c("div", { staticClass: "progress__container" }, [
+              _c("div", { staticClass: "progress__col-first" }, [
+                _c("div", { staticClass: "progress__row" }, [
+                  _c("div", { staticClass: "progress-level" }, [
+                    _c("div", { staticClass: "progress-level__title" }, [
+                      _vm._v(
+                        "\n                      " +
+                          _vm._s(_vm.User.user.name) +
+                          "\n                      "
+                      ),
+                      _vm.UserTrainings
+                        ? _c("div", { staticClass: "progress-level__mob" }, [
+                            _vm._v(
+                              _vm._s(_vm.UserTrainings.training.level) +
+                                " уровень"
+                            ),
+                          ])
+                        : _vm._e(),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "level__chart" }, [
                       _c(
-                        "defs",
+                        "svg",
+                        {
+                          staticClass: "radial-progress",
+                          attrs: {
+                            "data-percentage": _vm.findPercent(),
+                            viewBox: "0 0 86 86",
+                          },
+                        },
                         [
                           _c(
-                            "linearGradient",
-                            {
-                              attrs: {
-                                id: "linear",
-                                x1: "46.2954",
-                                y1: "0",
-                                x2: "46.2954",
-                                y2: "99.0139",
-                                gradientUnits: "userSpaceOnUse",
-                              },
-                            },
+                            "defs",
                             [
-                              _c("stop", {
-                                attrs: { "stop-color": "#A697FF" },
-                              }),
-                              _vm._v(" "),
-                              _c("stop", {
-                                attrs: { offset: "1", "stop-color": "#573DFF" },
-                              }),
+                              _c(
+                                "linearGradient",
+                                {
+                                  attrs: {
+                                    id: "linear",
+                                    x1: "46.2954",
+                                    y1: "0",
+                                    x2: "46.2954",
+                                    y2: "99.0139",
+                                    gradientUnits: "userSpaceOnUse",
+                                  },
+                                },
+                                [
+                                  _c("stop", {
+                                    attrs: { "stop-color": "#A697FF" },
+                                  }),
+                                  _vm._v(" "),
+                                  _c("stop", {
+                                    attrs: {
+                                      offset: "1",
+                                      "stop-color": "#573DFF",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
                             ],
                             1
                           ),
-                        ],
-                        1
+                          _vm._v(" "),
+                          _c("circle", {
+                            staticClass: "incomplete",
+                            attrs: { cx: "43", cy: "43", r: "35" },
+                          }),
+                          _vm._v(" "),
+                          _c("circle", {
+                            staticClass: "complete",
+                            attrs: {
+                              cx: "43",
+                              cy: "43",
+                              r: "35",
+                              stroke: "url(#linear)",
+                            },
+                          }),
+                          _vm._v(" "),
+                          _c("circle", {
+                            staticClass: "incomplete incomplete-mob",
+                            attrs: { cx: "43", cy: "43", r: "35" },
+                          }),
+                          _vm._v(" "),
+                          _c("circle", {
+                            staticClass: "complete complete-mob",
+                            attrs: {
+                              cx: "43",
+                              cy: "43",
+                              r: "35",
+                              stroke: "url(#linear)",
+                            },
+                          }),
+                        ]
                       ),
                       _vm._v(" "),
-                      _c("circle", {
-                        staticClass: "incomplete",
-                        attrs: { cx: "43", cy: "43", r: "35" },
-                      }),
-                      _vm._v(" "),
-                      _c("circle", {
-                        staticClass: "complete",
-                        attrs: {
-                          cx: "43",
-                          cy: "43",
-                          r: "35",
-                          stroke: "url(#linear)",
-                        },
-                      }),
-                      _vm._v(" "),
-                      _c("circle", {
-                        staticClass: "incomplete incomplete-mob",
-                        attrs: { cx: "43", cy: "43", r: "35" },
-                      }),
-                      _vm._v(" "),
-                      _c("circle", {
-                        staticClass: "complete complete-mob",
-                        attrs: {
-                          cx: "43",
-                          cy: "43",
-                          r: "35",
-                          stroke: "url(#linear)",
-                        },
-                      }),
-                    ]
-                  ),
+                      _c("div", { staticClass: "progress-level__chart-txt" }, [
+                        _vm.UserTrainings
+                          ? _c(
+                              "p",
+                              { staticClass: "progress-level__chart-level" },
+                              [
+                                _vm._v(
+                                  _vm._s(_vm.UserTrainings.training.level) +
+                                    " уровень"
+                                ),
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "progress-level__current" }),
+                      ]),
+                    ]),
+                  ]),
                   _vm._v(" "),
-                  _vm._m(0),
+                  _c("div", { staticClass: "progress-result" }, [
+                    _vm.Physics
+                      ? _c("div", { staticClass: "progress-result__title" }, [
+                          _vm._v(
+                            _vm._s(
+                              _vm.Physics.current_weight - _vm.Physics.weight
+                            ) + " кг"
+                          ),
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "progress-result__caption" }, [
+                      _c("span", [_vm._v("Мой")]),
+                      _vm._v(" результат\n                      "),
+                      _vm.UserTrainings
+                        ? _c(
+                            "p",
+                            {
+                              staticClass:
+                                "progress-level__chart-level progress-level__chart-level-mob",
+                            },
+                            [
+                              _vm._v(
+                                "\n                          " +
+                                  _vm._s(_vm.UserTrainings.training.level) +
+                                  " уровень\n                      "
+                              ),
+                            ]
+                          )
+                        : _vm._e(),
+                    ]),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "calendar workout" }, [
+                  _c("div", { staticClass: "calendar__container" }, [
+                    _c("div", { staticClass: "calendar__slider-workout" }, [
+                      _c(
+                        "div",
+                        { staticClass: "swiper-wrapper" },
+                        _vm._l(
+                          _vm.TrainingTitleAndDays,
+                          function (tabs, index) {
+                            return _c(
+                              "div",
+                              { key: index, staticClass: "swiper-slide" },
+                              [
+                                _c("div", { staticClass: "calendar__title" }, [
+                                  _c("span", [_vm._v("Календарь активности")]),
+                                  _vm._v(" "),
+                                  _c("h5", [_vm._v(_vm._s(tabs.menutitle))]),
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "calendar__days" },
+                                  _vm._l(tabs.days, function (tab, index) {
+                                    return _c(
+                                      "div",
+                                      {
+                                        key: index,
+                                        staticClass: "calendar__day",
+                                        class: {
+                                          active: _vm.selectedTab == tab.title,
+                                        },
+                                        on: {
+                                          click: function ($event) {
+                                            _vm.selectedTab = tab.title
+                                          },
+                                        },
+                                      },
+                                      [_c("span", [_vm._v(_vm._s(tab.title))])]
+                                    )
+                                  }),
+                                  0
+                                ),
+                              ]
+                            )
+                          }
+                        ),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _vm._m(0),
+                    ]),
+                  ]),
                 ]),
               ]),
               _vm._v(" "),
-              _vm._m(1),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "calendar workout" }, [
-              _c("div", { staticClass: "calendar__container" }, [
-                _c("div", { staticClass: "calendar__slider-workout" }, [
-                  _c(
-                    "div",
-                    { staticClass: "swiper-wrapper" },
-                    _vm._l(_vm.slider, function (tabs, index) {
-                      return _c(
-                        "div",
-                        { key: index, staticClass: "swiper-slide" },
-                        [
-                          _c("div", { staticClass: "calendar__title" }, [
-                            _c("span", [_vm._v("Календарь активности")]),
-                            _vm._v(" "),
-                            _c("h5", [_vm._v(_vm._s(tabs.menutitle))]),
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "calendar__days" },
-                            _vm._l(tabs.days, function (tab, index) {
-                              return _c(
-                                "div",
-                                {
-                                  key: index,
-                                  staticClass: "calendar__day",
-                                  class: {
-                                    active: _vm.selectedTab == tab.title,
-                                  },
-                                  on: {
-                                    click: function ($event) {
-                                      _vm.selectedTab = tab.title
-                                    },
-                                  },
-                                },
-                                [_c("span", [_vm._v(_vm._s(tab.title))])]
-                              )
-                            }),
-                            0
-                          ),
-                        ]
-                      )
-                    }),
-                    0
-                  ),
-                  _vm._v(" "),
-                  _vm._m(2),
-                ]),
-              ]),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "progress__col-second" }, [
-            _c(
-              "div",
-              [
-                _vm._m(3),
-                _vm._v(" "),
-                _c("div", { staticClass: "progress-block" }, [
-                  _c("div", { staticClass: "progress-block__svg-elem" }, [
-                    _c(
-                      "svg",
-                      {
-                        attrs: {
-                          width: "280",
-                          height: "322",
-                          viewBox: "0 0 280 322",
-                          fill: "none",
-                          xmlns: "http://www.w3.org/2000/svg",
-                        },
-                      },
-                      [
-                        _c("ellipse", {
-                          attrs: {
-                            opacity: "0.13",
-                            rx: "164.341",
-                            ry: "156.191",
-                            transform:
-                              "matrix(-0.969532 -0.244963 0.273341 -0.961917 202.027 131.5)",
-                            fill: "white",
-                          },
-                        }),
-                        _vm._v(" "),
-                        _c("ellipse", {
-                          attrs: {
-                            opacity: "0.13",
-                            rx: "138.392",
-                            ry: "131.529",
-                            transform:
-                              "matrix(-0.969532 -0.244963 0.273341 -0.961917 220.71 114.066)",
-                            fill: "white",
-                          },
-                        }),
-                      ]
-                    ),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "progress-block__head" }, [
-                    _c("h5", { staticClass: "progress-block__title" }, [
-                      _vm._v("Тренировки"),
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "select__wrap select-workout__wrap" },
-                      [
-                        _vm._m(4),
-                        _vm._v(" "),
-                        _c("ul", { staticClass: "select__ul" }, [
-                          _c("li", [_vm._v("Для дома")]),
-                          _vm._v(" "),
-                          _c("li", { staticClass: "disabled" }, [
-                            _vm._v(
-                              "\n                              Для зала\n                              "
-                            ),
-                            _c(
-                              "svg",
-                              {
-                                staticClass: "icon",
-                                attrs: {
-                                  width: "14",
-                                  height: "14",
-                                  viewBox: "0 0 14 14",
-                                  fill: "none",
-                                  xmlns: "http://www.w3.org/2000/svg",
-                                },
-                              },
-                              [
-                                _c(
-                                  "g",
-                                  { attrs: { "clip-path": "url(#clip0)" } },
-                                  [
-                                    _c("path", {
-                                      attrs: {
-                                        d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
-                                        fill: "#BEBEBE",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c("path", {
-                                      attrs: {
-                                        d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
-                                        fill: "#BEBEBE",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c("path", {
-                                      attrs: {
-                                        d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
-                                        fill: "#BEBEBE",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c("path", {
-                                      attrs: {
-                                        d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
-                                        fill: "#BEBEBE",
-                                      },
-                                    }),
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c("defs", [
-                                  _c("clipPath", { attrs: { id: "clip0" } }, [
-                                    _c("rect", {
-                                      attrs: {
-                                        width: "14",
-                                        height: "14",
-                                        fill: "white",
-                                      },
-                                    }),
-                                  ]),
-                                ]),
-                              ]
-                            ),
-                          ]),
-                        ]),
-                        _vm._v(" "),
+              _c("div", { staticClass: "progress__col-second" }, [
+                _c(
+                  "div",
+                  [
+                    _c("div", { staticClass: "progress-block" }, [
+                      _c("div", { staticClass: "progress-block__svg-elem" }, [
                         _c(
                           "svg",
                           {
-                            staticClass: "select__svg",
                             attrs: {
-                              width: "17",
-                              height: "9",
-                              viewBox: "0 0 17 9",
+                              width: "280",
+                              height: "322",
+                              viewBox: "0 0 280 322",
                               fill: "none",
                               xmlns: "http://www.w3.org/2000/svg",
                             },
                           },
                           [
-                            _c("path", {
+                            _c("ellipse", {
                               attrs: {
-                                d: "M16.0543 0.602247C16.0544 0.681312 16.0388 0.759609 16.0086 0.832666C15.9783 0.905724 15.934 0.97211 15.878 1.02804L8.45314 8.44784C8.34019 8.56069 8.18701 8.62408 8.02729 8.62408C7.86757 8.62408 7.71439 8.56069 7.60143 8.44784L0.176538 1.02804C0.120587 0.972146 0.0761993 0.905792 0.0459089 0.832759C0.0156185 0.759727 1.86629e-05 0.681447 1.67352e-08 0.602389C-1.86294e-05 0.523332 0.0155444 0.445045 0.0458003 0.371998C0.0760563 0.298951 0.120413 0.232574 0.176337 0.176659C0.232261 0.120743 0.298658 0.0763845 0.371737 0.046113C0.444816 0.0158415 0.523145 0.000250816 0.602253 0.000231743C0.68136 0.000213623 0.759697 0.0157671 0.83279 0.0460043C0.905883 0.0762405 0.972301 0.120569 1.02825 0.176458L8.02709 7.17087L15.0259 0.176458C15.1102 0.0922174 15.2175 0.0348415 15.3344 0.0115919C15.4513 -0.0116568 15.5724 0.000263214 15.6825 0.0458469C15.7926 0.0914307 15.8867 0.16863 15.9529 0.267672C16.0191 0.366714 16.0544 0.48315 16.0543 0.602247Z",
+                                opacity: "0.13",
+                                rx: "164.341",
+                                ry: "156.191",
+                                transform:
+                                  "matrix(-0.969532 -0.244963 0.273341 -0.961917 202.027 131.5)",
+                                fill: "white",
+                              },
+                            }),
+                            _vm._v(" "),
+                            _c("ellipse", {
+                              attrs: {
+                                opacity: "0.13",
+                                rx: "138.392",
+                                ry: "131.529",
+                                transform:
+                                  "matrix(-0.969532 -0.244963 0.273341 -0.961917 220.71 114.066)",
                                 fill: "white",
                               },
                             }),
                           ]
                         ),
-                      ]
-                    ),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("WorkoutVideo", { attrs: { selectedTab: _vm.selectedTab } }),
-              ],
-              1
-            ),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "progress-block__head" }, [
+                        _c("h5", { staticClass: "progress-block__title" }, [
+                          _vm._v("Тренировки"),
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "select__wrap select-workout__wrap" },
+                          [
+                            _vm._m(1),
+                            _vm._v(" "),
+                            _c("ul", { staticClass: "select__ul" }, [
+                              _c("li", [_vm._v("Для дома")]),
+                              _vm._v(" "),
+                              _c("li", { staticClass: "disabled" }, [
+                                _vm._v(
+                                  "\n                              Для зала\n                              "
+                                ),
+                                _c(
+                                  "svg",
+                                  {
+                                    staticClass: "icon",
+                                    attrs: {
+                                      width: "14",
+                                      height: "14",
+                                      viewBox: "0 0 14 14",
+                                      fill: "none",
+                                      xmlns: "http://www.w3.org/2000/svg",
+                                    },
+                                  },
+                                  [
+                                    _c(
+                                      "g",
+                                      { attrs: { "clip-path": "url(#clip0)" } },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
+                                            fill: "#BEBEBE",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
+                                            fill: "#BEBEBE",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
+                                            fill: "#BEBEBE",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
+                                            fill: "#BEBEBE",
+                                          },
+                                        }),
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("defs", [
+                                      _c(
+                                        "clipPath",
+                                        { attrs: { id: "clip0" } },
+                                        [
+                                          _c("rect", {
+                                            attrs: {
+                                              width: "14",
+                                              height: "14",
+                                              fill: "white",
+                                            },
+                                          }),
+                                        ]
+                                      ),
+                                    ]),
+                                  ]
+                                ),
+                              ]),
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "svg",
+                              {
+                                staticClass: "select__svg",
+                                attrs: {
+                                  width: "17",
+                                  height: "9",
+                                  viewBox: "0 0 17 9",
+                                  fill: "none",
+                                  xmlns: "http://www.w3.org/2000/svg",
+                                },
+                              },
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    d: "M16.0543 0.602247C16.0544 0.681312 16.0388 0.759609 16.0086 0.832666C15.9783 0.905724 15.934 0.97211 15.878 1.02804L8.45314 8.44784C8.34019 8.56069 8.18701 8.62408 8.02729 8.62408C7.86757 8.62408 7.71439 8.56069 7.60143 8.44784L0.176538 1.02804C0.120587 0.972146 0.0761993 0.905792 0.0459089 0.832759C0.0156185 0.759727 1.86629e-05 0.681447 1.67352e-08 0.602389C-1.86294e-05 0.523332 0.0155444 0.445045 0.0458003 0.371998C0.0760563 0.298951 0.120413 0.232574 0.176337 0.176659C0.232261 0.120743 0.298658 0.0763845 0.371737 0.046113C0.444816 0.0158415 0.523145 0.000250816 0.602253 0.000231743C0.68136 0.000213623 0.759697 0.0157671 0.83279 0.0460043C0.905883 0.0762405 0.972301 0.120569 1.02825 0.176458L8.02709 7.17087L15.0259 0.176458C15.1102 0.0922174 15.2175 0.0348415 15.3344 0.0115919C15.4513 -0.0116568 15.5724 0.000263214 15.6825 0.0458469C15.7926 0.0914307 15.8867 0.16863 15.9529 0.267672C16.0191 0.366714 16.0544 0.48315 16.0543 0.602247Z",
+                                    fill: "white",
+                                  },
+                                }),
+                              ]
+                            ),
+                          ]
+                        ),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("WorkoutVideo", {
+                      attrs: {
+                        day: _vm.selectedTab,
+                        trainingId: _vm.selectedTrainingId,
+                      },
+                    }),
+                  ],
+                  1
+                ),
+              ]),
+            ]),
           ]),
-        ]),
-      ]),
-    ]),
+        ])
+      : _vm._e(),
   ])
 }
 var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "progress-level__chart-txt" }, [
-      _c("p", { staticClass: "progress-level__chart-level" }, [
-        _vm._v("1 уровень"),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "progress-level__current" }),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "progress-result" }, [
-      _c("div", { staticClass: "progress-result__title" }, [_vm._v("-8 кг")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "progress-result__caption" }, [
-        _c("span", [_vm._v("Мой")]),
-        _vm._v(" результат\n                      "),
-        _c(
-          "p",
-          {
-            staticClass:
-              "\n                      progress-level__chart-level progress-level__chart-level-mob\n                    ",
-          },
-          [
-            _vm._v(
-              "\n                          1 уровень\n                      "
-            ),
-          ]
-        ),
-      ]),
-    ])
-  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
@@ -48667,51 +48655,6 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("div", { staticClass: "swiper-button-prev" }),
     ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "modal fade modal-video",
-        attrs: {
-          id: "video",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "exampleModalCenterTitle",
-          "aria-hidden": "true",
-        },
-      },
-      [
-        _c(
-          "div",
-          {
-            staticClass: "modal-dialog modal-dialog-centered",
-            attrs: { role: "document" },
-          },
-          [
-            _c("div", { staticClass: "modal-content modal-video__content" }, [
-              _c("div", { staticClass: "workout__video" }, [
-                _c("iframe", {
-                  staticClass: "workout-video__embed",
-                  attrs: {
-                    width: "512",
-                    height: "288",
-                    src: "https://www.youtube.com/embed/neHA4MJwpnY",
-                    frameborder: "0",
-                    allow:
-                      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
-                    allowfullscreen: "",
-                  },
-                }),
-              ]),
-            ]),
-          ]
-        ),
-      ]
-    )
   },
   function () {
     var _vm = this
@@ -51716,10 +51659,10 @@ var render = function () {
     "div",
     { staticClass: "workout-video" },
     [
-      _vm.selectedTab == "1"
-        ? [
-            _c("div", { staticClass: "scroll__contain" }, [
-              _c("div", { staticClass: "workout-video__list" }, [
+      [
+        _c("div", { staticClass: "scroll__contain" }, [
+          !_vm.IsDayOff
+            ? _c("div", { staticClass: "workout-video__list" }, [
                 _c("div", { staticClass: "workout-video__item" }, [
                   _c("div", { staticClass: "workout-video__img-preview" }, [
                     _c("img", {
@@ -51765,14 +51708,18 @@ var render = function () {
                     _vm._v("Тренировка спины и груди"),
                   ]),
                 ]),
+              ])
+            : _c("div", { staticClass: "workout-info__txt-block" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _vm._m(1),
               ]),
-              _vm._v(" "),
-              _vm._m(0),
-              _vm._v(" "),
-              _vm._m(1),
-            ]),
-          ]
-        : _vm._e(),
+          _vm._v(" "),
+          _vm._m(2),
+          _vm._v(" "),
+          _vm._m(3),
+        ]),
+      ],
     ],
     2
   )
@@ -51782,18 +51729,20 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "workout-info__txt-block" }, [
-      _c("div", { staticClass: "workout-info__img" }, [
-        _c("img", { attrs: { src: "/images/luba.png", alt: "" } }),
-      ]),
-      _vm._v(" "),
-      _c("p", [
-        _vm._v("\n              Сегодня у тебя "),
-        _c("b", [_vm._v("выходной")]),
-        _vm._v(
-          " от силовых тренировок.\n              Соблюдай рацион питания, не забывай пить воду,а также\n              можешь сделать наш комплекс для борьбы с целлюлитом\n              Выполни минимум 10 000 шагов!\n            "
-        ),
-      ]),
+    return _c("div", { staticClass: "workout-info__img" }, [
+      _c("img", { attrs: { src: "/images/luba.png", alt: "" } }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("\n              Сегодня у тебя "),
+      _c("b", [_vm._v("выходной")]),
+      _vm._v(
+        " от силовых тренировок.\n              Соблюдай рацион питания, не забывай пить воду,а также\n              можешь сделать наш комплекс для борьбы с целлюлитом\n              Выполни минимум 10 000 шагов!\n            "
+      ),
     ])
   },
   function () {
@@ -51840,6 +51789,51 @@ var staticRenderFns = [
         ]),
       ]),
     ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "modal fade modal-video",
+        attrs: {
+          id: "video",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalCenterTitle",
+          "aria-hidden": "true",
+        },
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-dialog-centered",
+            attrs: { role: "document" },
+          },
+          [
+            _c("div", { staticClass: "modal-content modal-video__content" }, [
+              _c("div", { staticClass: "workout__video" }, [
+                _c("iframe", {
+                  staticClass: "workout-video__embed",
+                  attrs: {
+                    width: "512",
+                    height: "288",
+                    src: "https://www.youtube.com/embed/neHA4MJwpnY",
+                    frameborder: "0",
+                    allow:
+                      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+                    allowfullscreen: "",
+                  },
+                }),
+              ]),
+            ]),
+          ]
+        ),
+      ]
+    )
   },
 ]
 render._withStripped = true

@@ -6,7 +6,7 @@
     <section id="account-head" class="workout">
       <Logout></Logout>
     </section>
-    <section id="progress" class="workout">
+    <section v-if="User" id="progress" class="workout">
       <div class="account-container">
           <div class="progress__container">
             <div class="progress__col-first">
@@ -14,10 +14,10 @@
                   <div class="progress-level">
                       <div class="progress-level__title">
                         {{User.user.name}}
-                        <div class="progress-level__mob">1 уровень</div>
+                        <div v-if="UserTrainings" class="progress-level__mob">{{UserTrainings.training.level}} уровень</div>
                       </div>
                       <div class="level__chart">
-                        <svg class="radial-progress" data-percentage="75" viewBox="0 0 86 86">
+                        <svg class="radial-progress" :data-percentage="findPercent()" viewBox="0 0 86 86">
                             <defs>
                               <linearGradient id="linear" x1="46.2954" y1="0" x2="46.2954" y2="99.0139"
                                   gradientUnits="userSpaceOnUse">
@@ -32,19 +32,17 @@
                             </circle>
                         </svg>
                         <div class="progress-level__chart-txt">
-                            <p class="progress-level__chart-level">1 уровень</p>
+                            <p v-if="UserTrainings" class="progress-level__chart-level">{{UserTrainings.training.level}} уровень</p>
                             <div class="progress-level__current"></div>
                         </div>
                       </div>
                   </div>
                   <div class="progress-result">
-                      <div class="progress-result__title">-8 кг</div>
+                      <div v-if="Physics" class="progress-result__title">{{Physics.current_weight - Physics.weight}} кг</div>
                       <div class="progress-result__caption">
                         <span>Мой</span> результат
-                        <p class="
-                        progress-level__chart-level progress-level__chart-level-mob
-                      ">
-                            1 уровень
+                        <p v-if="UserTrainings" class="progress-level__chart-level progress-level__chart-level-mob">
+                            {{UserTrainings.training.level}} уровень
                         </p>
                       </div>
                   </div>
@@ -53,7 +51,7 @@
                   <div class="calendar__container">
                     <div class="calendar__slider-workout">
                       <div class="swiper-wrapper">
-                        <div class="swiper-slide" v-for="(tabs, index) in slider" :key="index">
+                        <div class="swiper-slide" v-for="(tabs, index) in TrainingTitleAndDays" :key="index">
                             <div class="calendar__title">
                               <span>Календарь активности</span> <h5>{{ tabs.menutitle }}</h5>
                             </div>
@@ -155,215 +153,63 @@ export default {
     Logout
   },
   data: () => ({
-     slider: [
-         {
-            menutitle: "Уровень №1",
-            days: [
-               {
-               title: "1",
-               },
-               {
-               title: "2",
-               },
-               {
-               title: "3",
-               },
-               {
-               title: "4",
-               },
-               {
-               title: "5",
-               },
-               {
-               title: "6",
-               },
-               {
-               title: "7",
-               },
-               {
-               title: "8",
-               },
-               {
-               title: "9",
-               },
-               {
-               title: "10",
-               },
-               {
-               title: "11",
-               },
-               {
-               title: "12",
-               },
-               {
-               title: "13",
-               },
-               {
-               title: "14",
-               },
-               {
-               title: "15",
-               },
-               {
-               title: "16",
-               },
-               {
-               title: "17",
-               },
-               {
-               title: "18",
-               },
-               {
-               title: "19",
-               },
-               {
-               title: "20",
-               },
-               {
-               title: "21",
-               },
-               {
-               title: "22",
-               },
-               {
-               title: "23",
-               },
-               {
-               title: "24",
-               },
-               {
-               title: "25",
-               },
-               {
-               title: "26",
-               },
-               {
-               title: "27",
-               },
-               {
-               title: "28",
-               },
-               {
-               title: "29",
-               },
-               {
-               title: "30",
-               },
-            ],
-         },
-         {
-            menutitle: "Уровень №2",
-            days: [
-               {
-               title: "1",
-               },
-               {
-               title: "2",
-               },
-               {
-               title: "3",
-               },
-               {
-               title: "4",
-               },
-               {
-               title: "5",
-               },
-               {
-               title: "6",
-               },
-               {
-               title: "7",
-               },
-               {
-               title: "8",
-               },
-               {
-               title: "9",
-               },
-               {
-               title: "10",
-               },
-               {
-               title: "11",
-               },
-               {
-               title: "12",
-               },
-               {
-               title: "13",
-               },
-               {
-               title: "14",
-               },
-               {
-               title: "15",
-               },
-               {
-               title: "16",
-               },
-               {
-               title: "17",
-               },
-               {
-               title: "18",
-               },
-               {
-               title: "19",
-               },
-               {
-               title: "20",
-               },
-               {
-               title: "21",
-               },
-               {
-               title: "22",
-               },
-               {
-               title: "23",
-               },
-               {
-               title: "24",
-               },
-               {
-               title: "25",
-               },
-               {
-               title: "26",
-               },
-               {
-               title: "27",
-               },
-               {
-               title: "28",
-               },
-               {
-               title: "29",
-               },
-               {
-               title: "30",
-               },
-            ],
-         },
-      ],
+    slider: [],
     selectedTab: "1",
     selectedTrainingId: null,
   }),
   computed:{
     User(){
-        return this.$store.getters.GetPersonalAccount;
+      return this.$store.getters.GetPersonalAccount;
+    },
+    UserTrainings(){
+      return this.$store.getters.GetTrainingUsers.find(element => element.training_id === this.selectedTrainingId);
+    },
+    TrainingTitleAndDays(){
+      let tmp = this.$store.getters.GetTrainingUsers;
+      if(!tmp||tmp.length<1)
+        return this.slider;
+      this.selectedTrainingId = tmp[0].training_id;
+      this.slider = [];
+      tmp.forEach(item=>{
+        let days=[];
+        item.days.forEach(day=>days.push({title: day.day_number}));
+        this.slider.push(
+          {
+            menutitle: item.training.name,
+            days: days
+          }
+        );
+      });
+      console.log("this.slider: ",this.slider);
+      console.log("this.selectedTrainingId:",this.selectedTrainingId);
+      return this.slider;
+    },
+    Physics(){
+      return this.$store.getters.GetPhysicsParameters;
     },
   },
   mounted(){
     if (userInfo){
-        this.$store.dispatch('fetchPersonalAccount');
+      this.$store.dispatch('fetchPersonalAccount');
+      this.$store.dispatch('fetchPhysicsParameters');
+      this.$store.dispatch('fetchTrainingUsers');
     }
    },
   methods: {
     selectTab() {
       this.selectedTab = this.tab.title;
     },
+    findPercent()
+    {
+      if(this.UserTrainings==null)
+        return 0;
+      var date1 = new Date(this.UserTrainings.created_at);
+      var date2 = new Date();
+      var Difference_In_Time = date2.getTime() - date1.getTime();
+      var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+      var percent = (Difference_In_Days*100)/30;
+      return parseInt(percent);
+    }
   },
 };
 </script>

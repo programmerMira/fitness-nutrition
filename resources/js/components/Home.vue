@@ -189,6 +189,7 @@ export default {
          return this.$store.getters.GetPersonalAccount;
       },
       Physics(){
+         //{{Physics.current_weight - Physics.weight}}
          return this.$store.getters.GetPhysicsParameters;
       },
       TrainingUser(){
