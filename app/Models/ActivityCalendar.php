@@ -16,8 +16,8 @@ class ActivityCalendar extends Model
      */
     protected $fillable = [
         'training_user_id',
-        'level',
         'day',
+        'is_active',
     ];
 
     /**
@@ -28,6 +28,7 @@ class ActivityCalendar extends Model
     protected $casts = [
         'id' => 'integer',
         'training_user_id' => 'integer',
+        'day' => 'integer',
     ];
 
 

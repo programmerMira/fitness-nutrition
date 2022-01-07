@@ -19,6 +19,7 @@ class ActivityCalendarResource extends JsonResource
             'training_user_id' => $this->training_user_id,
             'level' => $this->level,
             'day' => $this->day,
+            'is_active' => $this->is_active,
         ];
     }
 }

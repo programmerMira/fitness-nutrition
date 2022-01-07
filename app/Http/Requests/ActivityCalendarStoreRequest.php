@@ -25,8 +25,8 @@ class ActivityCalendarStoreRequest extends FormRequest
     {
         return [
             'training_user_id' => ['required', 'integer', 'exists:training_users,id'],
-            'level' => ['required', 'integer'],
             'day' => ['required', 'integer'],
+            'is_active' => ['required', 'boolean'],
         ];
     }
 }

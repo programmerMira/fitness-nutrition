@@ -49,23 +49,23 @@
                 </div>
                 <div class="calendar workout">
                   <div class="calendar__container">
-                    <div class="calendar__slider-workout">
+                    <div v-if="TrainingTitleAndDays.length>0" class="calendar__slider-workout">
                       <div class="swiper-wrapper">
                         <div class="swiper-slide" v-for="(tabs, index) in TrainingTitleAndDays" :key="index">
-                            <div class="calendar__title">
-                              <span>Календарь активности</span> <h5>{{ tabs.menutitle }}</h5>
+                          <div class="calendar__title">
+                            <span>Календарь активности</span> <h5>{{ tabs.menutitle }}</h5>
+                          </div>
+                          <div class="calendar__days">
+                            <div
+                            class="calendar__day"
+                            v-for="(tab, index) in tabs.days" 
+                            :key="index"
+                            @click="selectedTab = tab.title"
+                            :class="{ active: selectedTab == tab.title }"
+                            >
+                            <span>{{ tab.title }}</span>
                             </div>
-                            <div class="calendar__days">
-                              <div
-                              class="calendar__day"
-                              v-for="(tab, index) in tabs.days" 
-                              :key="index"
-                              @click="selectedTab = tab.title"
-                              :class="{ active: selectedTab == tab.title }"
-                              >
-                              <span>{{ tab.title }}</span>
-                              </div>
-                            </div>
+                          </div>
                         </div>
                       </div> 
                       <div class="calendar__slider-workout-pagination">

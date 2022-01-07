@@ -19,6 +19,7 @@ class CreateActivityCalendarsTable extends Migration
             $table->id();
             $table->foreignId('training_user_id')->constrained();
             $table->integer('day');
+            $table->boolean('is_active');
             $table->timestamps();
         });
 

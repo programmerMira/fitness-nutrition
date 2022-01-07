@@ -5210,9 +5210,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//передаю номер дня и id тренировки => возвращаю этот день
-//перед этим при загрузке страницы с тренировками надо прогрузить ищё и дни
-//если name == выходной, то выходной!
 //в бд идёт "название_видео":"ссылка_на_видео"
 //при нажатии на видео в переменную show_video_link заносится ссылка на видео и открывается модалка с этим видео
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5220,7 +5217,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       current_training: null,
-      current_day: null
+      current_day: null,
+      show_video_link: null
     };
   },
   mounted: function mounted() {
@@ -5248,6 +5246,16 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return false;
+    },
+    VideoLink: function VideoLink() {
+      this.show_video_link = this.current_day.videos[0].link;
+      return this.show_video_link;
+    }
+  },
+  methods: {
+    videoLink: function videoLink(link) {
+      this.show_video_link = link;
+      console.log(this.show_video_link);
     }
   }
 });
@@ -48422,55 +48430,70 @@ var render = function () {
                 _vm._v(" "),
                 _c("div", { staticClass: "calendar workout" }, [
                   _c("div", { staticClass: "calendar__container" }, [
-                    _c("div", { staticClass: "calendar__slider-workout" }, [
-                      _c(
-                        "div",
-                        { staticClass: "swiper-wrapper" },
-                        _vm._l(
-                          _vm.TrainingTitleAndDays,
-                          function (tabs, index) {
-                            return _c(
-                              "div",
-                              { key: index, staticClass: "swiper-slide" },
-                              [
-                                _c("div", { staticClass: "calendar__title" }, [
-                                  _c("span", [_vm._v("Календарь активности")]),
-                                  _vm._v(" "),
-                                  _c("h5", [_vm._v(_vm._s(tabs.menutitle))]),
-                                ]),
-                                _vm._v(" "),
-                                _c(
+                    _vm.TrainingTitleAndDays.length > 0
+                      ? _c("div", { staticClass: "calendar__slider-workout" }, [
+                          _c(
+                            "div",
+                            { staticClass: "swiper-wrapper" },
+                            _vm._l(
+                              _vm.TrainingTitleAndDays,
+                              function (tabs, index) {
+                                return _c(
                                   "div",
-                                  { staticClass: "calendar__days" },
-                                  _vm._l(tabs.days, function (tab, index) {
-                                    return _c(
+                                  { key: index, staticClass: "swiper-slide" },
+                                  [
+                                    _c(
                                       "div",
-                                      {
-                                        key: index,
-                                        staticClass: "calendar__day",
-                                        class: {
-                                          active: _vm.selectedTab == tab.title,
-                                        },
-                                        on: {
-                                          click: function ($event) {
-                                            _vm.selectedTab = tab.title
+                                      { staticClass: "calendar__title" },
+                                      [
+                                        _c("span", [
+                                          _vm._v("Календарь активности"),
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("h5", [
+                                          _vm._v(_vm._s(tabs.menutitle)),
+                                        ]),
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "calendar__days" },
+                                      _vm._l(tabs.days, function (tab, index) {
+                                        return _c(
+                                          "div",
+                                          {
+                                            key: index,
+                                            staticClass: "calendar__day",
+                                            class: {
+                                              active:
+                                                _vm.selectedTab == tab.title,
+                                            },
+                                            on: {
+                                              click: function ($event) {
+                                                _vm.selectedTab = tab.title
+                                              },
+                                            },
                                           },
-                                        },
-                                      },
-                                      [_c("span", [_vm._v(_vm._s(tab.title))])]
-                                    )
-                                  }),
-                                  0
-                                ),
-                              ]
-                            )
-                          }
-                        ),
-                        0
-                      ),
-                      _vm._v(" "),
-                      _vm._m(0),
-                    ]),
+                                          [
+                                            _c("span", [
+                                              _vm._v(_vm._s(tab.title)),
+                                            ]),
+                                          ]
+                                        )
+                                      }),
+                                      0
+                                    ),
+                                  ]
+                                )
+                              }
+                            ),
+                            0
+                          ),
+                          _vm._v(" "),
+                          _vm._m(0),
+                        ])
+                      : _vm._e(),
                   ]),
                 ]),
               ]),
@@ -51661,63 +51684,150 @@ var render = function () {
     [
       [
         _c("div", { staticClass: "scroll__contain" }, [
-          !_vm.IsDayOff
-            ? _c("div", { staticClass: "workout-video__list" }, [
-                _c("div", { staticClass: "workout-video__item" }, [
-                  _c("div", { staticClass: "workout-video__img-preview" }, [
-                    _c("img", {
-                      attrs: { src: "/images/video/video01.jpg", alt: "" },
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "workout-video__btn",
-                        attrs: {
-                          type: "button",
-                          "data-toggle": "modal",
-                          "data-target": "#video",
-                        },
-                      },
-                      [
-                        _c(
-                          "svg",
-                          {
-                            attrs: {
-                              width: "24",
-                              height: "27",
-                              viewBox: "0 0 24 27",
-                              fill: "none",
-                              xmlns: "http://www.w3.org/2000/svg",
-                            },
+          !_vm.IsDayOff && _vm.current_day
+            ? _c(
+                "div",
+                { staticClass: "workout-video__list" },
+                _vm._l(_vm.current_day.videos, function (video, index) {
+                  return _c(
+                    "div",
+                    { key: index, staticClass: "workout-video__item" },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "workout-video__img-preview",
+                          attrs: {
+                            "data-toggle": "modal",
+                            "data-target": "#video-" + video.title,
                           },
-                          [
-                            _c("path", {
+                        },
+                        [
+                          _c("iframe", {
+                            attrs: {
+                              width: "100%",
+                              height: "100%",
+                              src:
+                                video.link +
+                                "?autoplay=0&showinfo=0&controls=0&mute=1",
+                              frameborder: "0",
+                            },
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "workout-video__btn",
                               attrs: {
-                                d: "M22.8547 11.8451C24.1738 12.639 24.1388 14.5632 22.7917 15.3086L3.30879 26.0901C1.96169 26.8355 0.312779 25.8431 0.340746 24.3038L0.745229 2.04034C0.773196 0.500993 2.45707 -0.430825 3.7762 0.363069L22.8547 11.8451Z",
-                                fill: "white",
+                                type: "button",
+                                "data-toggle": "modal",
+                                "data-target": "#video-" + video.title,
                               },
-                            }),
-                          ]
-                        ),
-                      ]
-                    ),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "workout-video__title" }, [
-                    _vm._v("Тренировка спины и груди"),
-                  ]),
-                ]),
-              ])
+                            },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  attrs: {
+                                    width: "24",
+                                    height: "27",
+                                    viewBox: "0 0 24 27",
+                                    fill: "none",
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                  },
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      d: "M22.8547 11.8451C24.1738 12.639 24.1388 14.5632 22.7917 15.3086L3.30879 26.0901C1.96169 26.8355 0.312779 25.8431 0.340746 24.3038L0.745229 2.04034C0.773196 0.500993 2.45707 -0.430825 3.7762 0.363069L22.8547 11.8451Z",
+                                      fill: "white",
+                                    },
+                                  }),
+                                ]
+                              ),
+                            ]
+                          ),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "workout-video__title" }, [
+                        _vm._v(_vm._s(video.title)),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "modal fade modal-video",
+                          attrs: {
+                            id: "video-" + video.title,
+                            tabindex: "-1",
+                            role: "dialog",
+                            "aria-labelledby": "exampleModalCenterTitle",
+                            "aria-hidden": "true",
+                          },
+                        },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "modal-dialog modal-dialog-centered",
+                              attrs: { role: "document" },
+                            },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "modal-content modal-video__content",
+                                },
+                                [
+                                  _c("div", { staticClass: "workout__video" }, [
+                                    _c("iframe", {
+                                      staticClass: "workout-video__embed",
+                                      attrs: {
+                                        width: "512",
+                                        height: "288",
+                                        src: video.link,
+                                        frameborder: "0",
+                                        allow:
+                                          "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+                                        allowfullscreen: "",
+                                      },
+                                    }),
+                                  ]),
+                                ]
+                              ),
+                            ]
+                          ),
+                        ]
+                      ),
+                    ]
+                  )
+                }),
+                0
+              )
             : _c("div", { staticClass: "workout-info__txt-block" }, [
                 _vm._m(0),
                 _vm._v(" "),
                 _vm._m(1),
               ]),
           _vm._v(" "),
-          _vm._m(2),
-          _vm._v(" "),
-          _vm._m(3),
+          _c("div", { staticClass: "workout-info__block" }, [
+            _c("h5", { staticClass: "workout-info__title" }, [
+              _vm._v(
+                "\n              Комплекс состоит из 12 процедур (6 дней подряд и 1 день выходной), длительность две недели. Затем делаем перерыв.\n              "
+              ),
+              _c("b", [
+                _vm._v(
+                  "\n                ДЕНЬ №" +
+                    _vm._s(_vm.day) +
+                    "\n              "
+                ),
+              ]),
+            ]),
+            _vm._v(" "),
+            _vm._m(2),
+          ]),
         ]),
       ],
     ],
@@ -51749,91 +51859,37 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "workout-info__block" }, [
-      _c("h5", { staticClass: "workout-info__title" }, [
-        _vm._v(
-          "\n              Комплекс состоит из 12 процедур (6 дней подряд и 1 день выходной), длительность две недели. Затем делаем перерыв.\n              "
-        ),
-        _c("b", [_vm._v("\n                ДЕНЬ №1\n              ")]),
+    return _c("ul", { staticClass: "workout-info__list" }, [
+      _c("li", { staticClass: "workout-info__item" }, [
+        _c("b", [_vm._v("\n                  Шаг 1.\n                ")]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "\n                  Выполнить скрабирование в душе на распаренную кожу. Длительность 3-5 минут.\n                "
+          ),
+        ]),
       ]),
       _vm._v(" "),
-      _c("ul", { staticClass: "workout-info__list" }, [
-        _c("li", { staticClass: "workout-info__item" }, [
-          _c("b", [_vm._v("\n                  Шаг 1.\n                ")]),
-          _vm._v(" "),
-          _c("p", [
-            _vm._v(
-              "\n                  Выполнить скрабирование в душе на распаренную кожу. Длительность 3-5 минут.\n                "
-            ),
-          ]),
-        ]),
+      _c("li", { staticClass: "workout-info__item" }, [
+        _c("b", [_vm._v("\n                  Шаг 2.\n                ")]),
         _vm._v(" "),
-        _c("li", { staticClass: "workout-info__item" }, [
-          _c("b", [_vm._v("\n                  Шаг 2.\n                ")]),
-          _vm._v(" "),
-          _c("p", [
-            _vm._v(
-              "\n                  На сухую кожу нанести горячее/ холодное обертывание. Обернуться пленкой. Длительность 30-50 минут.\n                "
-            ),
-          ]),
+        _c("p", [
+          _vm._v(
+            "\n                  На сухую кожу нанести горячее/ холодное обертывание. Обернуться пленкой. Длительность 30-50 минут.\n                "
+          ),
         ]),
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "workout-info__item" }, [
+        _c("b", [_vm._v("\n                  Шаг 3.\n                ")]),
         _vm._v(" "),
-        _c("li", { staticClass: "workout-info__item" }, [
-          _c("b", [_vm._v("\n                  Шаг 3.\n                ")]),
-          _vm._v(" "),
-          _c("p", [
-            _vm._v(
-              "\n                  На сухую чистую кожу нанести питательный крем.\n                "
-            ),
-          ]),
+        _c("p", [
+          _vm._v(
+            "\n                  На сухую чистую кожу нанести питательный крем.\n                "
+          ),
         ]),
       ]),
     ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "modal fade modal-video",
-        attrs: {
-          id: "video",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "exampleModalCenterTitle",
-          "aria-hidden": "true",
-        },
-      },
-      [
-        _c(
-          "div",
-          {
-            staticClass: "modal-dialog modal-dialog-centered",
-            attrs: { role: "document" },
-          },
-          [
-            _c("div", { staticClass: "modal-content modal-video__content" }, [
-              _c("div", { staticClass: "workout__video" }, [
-                _c("iframe", {
-                  staticClass: "workout-video__embed",
-                  attrs: {
-                    width: "512",
-                    height: "288",
-                    src: "https://www.youtube.com/embed/neHA4MJwpnY",
-                    frameborder: "0",
-                    allow:
-                      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
-                    allowfullscreen: "",
-                  },
-                }),
-              ]),
-            ]),
-          ]
-        ),
-      ]
-    )
   },
 ]
 render._withStripped = true

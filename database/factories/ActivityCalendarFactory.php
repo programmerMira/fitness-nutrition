@@ -25,8 +25,8 @@ class ActivityCalendarFactory extends Factory
     {
         return [
             'training_user_id' => TrainingUser::factory(),
-            'level' => $this->faker->numberBetween(-10000, 10000),
             'day' => $this->faker->numberBetween(-10000, 10000),
+            'is_active' => false,
         ];
     }
 }

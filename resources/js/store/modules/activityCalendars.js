@@ -17,8 +17,8 @@ export default {
         storeActivityCalendar({ commit }, ActivityCalendar){
             axios.post('/api/activity-calendar/create',{
                 training_user_id:ActivityCalendar.training_user_id,
-                level:ActivityCalendar.level,
                 day:ActivityCalendar.day,
+                is_active: ActivityCalendar.is_active,
             }).then(response => {
                 commit('CreateActivityCalendar', ActivityCalendar)
             }).catch((error)=>{
@@ -28,8 +28,8 @@ export default {
         setActivityCalendar({ commit }, ActivityCalendar){
             axios.put('/api/activity-calendar/update/'+ActivityCalendar.id,{
                 training_user_id:ActivityCalendar.training_user_id,
-                level:ActivityCalendar.level,
                 day:ActivityCalendar.day,
+                is_active: ActivityCalendar.is_active,
             }).then(response => {
                 commit('UpdateActivityCalendar', ActivityCalendar)
             }).catch((error)=>{

@@ -2,15 +2,17 @@
     <div class="workout-video">
           <template>
             <div class="scroll__contain">
-              <div v-if="!IsDayOff" class="workout-video__list">
-                <div class="workout-video__item">
-                  <div class="workout-video__img-preview">
-                    <img src="/images/video/video01.jpg" alt="" />
+              <div v-if="!IsDayOff&&current_day" class="workout-video__list">
+                <div v-for="(video, index) in current_day.videos" :key="index" class="workout-video__item">
+                  <div class="workout-video__img-preview" data-toggle="modal" :data-target="'#video-'+video.title">
+                    <iframe width="100%" height="100%"
+                      :src="video.link+'?autoplay=0&showinfo=0&controls=0&mute=1'" frameborder="0"
+                    ></iframe>
                     <button
                       type="button"
                       class="workout-video__btn"
                       data-toggle="modal"
-                      data-target="#video"
+                      :data-target="'#video-'+video.title"
                     >
                       <svg
                         width="24"
@@ -26,10 +28,22 @@
                       </svg>
                     </button>
                   </div>
-                  <div class="workout-video__title">Тренировка спины и груди</div>
+                  <div class="workout-video__title">{{video.title}}</div>
+                  <div class="modal fade modal-video" :id="'video-'+video.title" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content modal-video__content">
+                          <div class="workout__video">
+                            <iframe class="workout-video__embed" width="512" height="288"
+                                :src="video.link" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <!--or <-> or-->
               <div v-else class="workout-info__txt-block">
                 <div class="workout-info__img">
                   <img src="/images/luba.png" alt="" />
@@ -45,7 +59,7 @@
                 <h5 class="workout-info__title">
                   Комплекс состоит из 12 процедур (6 дней подряд и 1 день выходной), длительность две недели. Затем делаем перерыв.
                   <b>
-                    ДЕНЬ №1
+                    ДЕНЬ №{{day}}
                   </b>
                 </h5>
                 <ul class="workout-info__list">
@@ -75,37 +89,21 @@
                   </li>
                 </ul>
               </div>
-
-              <div class="modal fade modal-video" id="video" tabindex="-1" role="dialog"
-                  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content modal-video__content">
-                        <div class="workout__video">
-                          <iframe class="workout-video__embed" width="512" height="288"
-                              src="https://www.youtube.com/embed/neHA4MJwpnY" frameborder="0"
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowfullscreen></iframe>
-                        </div>
-                    </div>
-                  </div>
-              </div>
             </div>
           </template>
         </div>
 </template>
 <script>
 
-//передаю номер дня и id тренировки => возвращаю этот день
-//перед этим при загрузке страницы с тренировками надо прогрузить ищё и дни
-//если name == выходной, то выходной!
-//в бд идёт "название_видео":"ссылка_на_видео"
-//при нажатии на видео в переменную show_video_link заносится ссылка на видео и открывается модалка с этим видео
+//инфа про выходной, описание тренировки + доп.шаги -> raw_html
+//training_day + current_training => save (add to db field is_active bool)
 
 export default {
   props: ["day","trainingId"],
   data: () => ({
     current_training: null,
     current_day: null,
+    show_video_link: null,
   }),
   mounted(){
     if (userInfo){
@@ -115,9 +113,11 @@ export default {
   computed:{
     IsDayOff()
     {
-      //console.log("this.day:",this.day);
-      //console.log("this.trainingId:",this.trainingId);
-      //console.log("this.current_training:",this.current_training);
+      /*
+      console.log("this.day:",this.day);
+      console.log("this.trainingId:",this.trainingId);
+      console.log("this.current_training:",this.current_training);
+      */
 
       this.current_training = this.$store.getters.GetTrainingUsers.find(element => element.training_id === this.trainingId);
       if(this.current_training){
@@ -127,7 +127,17 @@ export default {
           return true
       }
       return false
+    },
+    VideoLink(){
+      this.show_video_link = this.current_day.videos[0].link;
+      return this.show_video_link;
     }
   },
+  methods:{
+    videoLink(link){
+      this.show_video_link = link;
+      console.log(this.show_video_link);
+    }
+  }
 };
 </script>
