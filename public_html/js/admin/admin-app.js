@@ -2486,8 +2486,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var commit = _ref3.commit;
       axios.post('/api/activity-calendar/create', {
         training_user_id: ActivityCalendar.training_user_id,
-        level: ActivityCalendar.level,
-        day: ActivityCalendar.day
+        day: ActivityCalendar.day,
+        is_active: ActivityCalendar.is_active
       }).then(function (response) {
         commit('CreateActivityCalendar', ActivityCalendar);
       })["catch"](function (error) {
@@ -2498,8 +2498,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var commit = _ref4.commit;
       axios.put('/api/activity-calendar/update/' + ActivityCalendar.id, {
         training_user_id: ActivityCalendar.training_user_id,
-        level: ActivityCalendar.level,
-        day: ActivityCalendar.day
+        day: ActivityCalendar.day,
+        is_active: ActivityCalendar.is_active
       }).then(function (response) {
         commit('UpdateActivityCalendar', ActivityCalendar);
       })["catch"](function (error) {

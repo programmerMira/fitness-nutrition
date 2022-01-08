@@ -96,7 +96,6 @@
 <script>
 
 //инфа про выходной, описание тренировки + доп.шаги -> raw_html
-//training_day + current_training => save (add to db field is_active bool)
 
 export default {
   props: ["day","trainingId"],
@@ -113,13 +112,15 @@ export default {
   computed:{
     IsDayOff()
     {
-      /*
-      console.log("this.day:",this.day);
-      console.log("this.trainingId:",this.trainingId);
-      console.log("this.current_training:",this.current_training);
-      */
-
-      this.current_training = this.$store.getters.GetTrainingUsers.find(element => element.training_id === this.trainingId);
+      
+      //console.log("this.day:",this.day);
+      //console.log("this.trainingId:",this.trainingId);
+      
+      
+      if(!this.trainingId)
+        return false;
+      this.current_training = this.$store.getters.GetTrainingUsers.find(element => element.training_id === this.trainingId.training_user.training_id);
+      //console.log("this.current_training:",this.current_training);
       if(this.current_training){
         this.current_day = this.current_training.days.find(element => element.day_number === parseInt(this.day));
         //console.log("this.current_day:",this.current_day);

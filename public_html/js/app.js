@@ -3524,6 +3524,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//training_day + current_training => save
+//
 
 
 
@@ -3536,7 +3538,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       slider: [],
-      selectedTab: "1",
+      selectedTab: null,
       selectedTrainingId: null
     };
   },
@@ -3551,12 +3553,23 @@ __webpack_require__.r(__webpack_exports__);
         return element.training_id === _this.selectedTrainingId;
       });
     },
+    UserActiveCallendar: function UserActiveCallendar() {
+      console.log("UserActiveCallendar:", this.$store.getters.GetActivityCalendars.find(function (element) {
+        return parseInt(element.is_active) == 1;
+      }));
+      return this.$store.getters.GetActivityCalendars.find(function (element) {
+        return parseInt(element.is_active) == 1;
+      });
+    },
     TrainingTitleAndDays: function TrainingTitleAndDays() {
       var _this2 = this;
 
       var tmp = this.$store.getters.GetTrainingUsers;
       if (!tmp || tmp.length < 1) return this.slider;
-      this.selectedTrainingId = tmp[0].training_id;
+      if (this.$store.getters.GetActivityCalendars != null) this.selectedTrainingId = this.$store.getters.GetActivityCalendars.find(function (element) {
+        return element.is_active == 1;
+      });else this.selectedTrainingId = tmp[0].training_id;
+      if (this.selectedTrainingId) this.selectedTab = this.selectedTrainingId.day.toString();else this.selectedTab = "1";
       this.slider = [];
       tmp.forEach(function (item) {
         var days = [];
@@ -3584,6 +3597,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.dispatch('fetchPersonalAccount');
       this.$store.dispatch('fetchPhysicsParameters');
       this.$store.dispatch('fetchTrainingUsers');
+      this.$store.dispatch('fetchActivityCalendars');
     }
   },
   methods: {
@@ -3598,6 +3612,18 @@ __webpack_require__.r(__webpack_exports__);
       var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
       var percent = Difference_In_Days * 100 / 30;
       return parseInt(percent);
+    },
+    changeTabSelection: function changeTabSelection(tabTitle) {
+      this.$store.dispatch('setActivityCalendar', {
+        id: this.UserActiveCallendar.id,
+        training_user_id: this.UserActiveCallendar.training_user_id,
+        day: parseInt(tabTitle),
+        is_active: this.UserActiveCallendar.is_active
+      });
+      this.selectedTab = tabTitle;
+    },
+    changeTabStyle: function changeTabStyle(tabTitle) {
+      if (this.selectedTab != null && this.selectedTab.toString() == tabTitle) return 'active';
     }
   }
 });
@@ -5210,8 +5236,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//в бд идёт "название_видео":"ссылка_на_видео"
-//при нажатии на видео в переменную show_video_link заносится ссылка на видео и открывается модалка с этим видео
+//инфа про выходной, описание тренировки + доп.шаги -> raw_html
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["day", "trainingId"],
   data: function data() {
@@ -5232,10 +5257,10 @@ __webpack_require__.r(__webpack_exports__);
 
       //console.log("this.day:",this.day);
       //console.log("this.trainingId:",this.trainingId);
-      //console.log("this.current_training:",this.current_training);
+      if (!this.trainingId) return false;
       this.current_training = this.$store.getters.GetTrainingUsers.find(function (element) {
-        return element.training_id === _this.trainingId;
-      });
+        return element.training_id === _this.trainingId.training_user.training_id;
+      }); //console.log("this.current_training:",this.current_training);
 
       if (this.current_training) {
         this.current_day = this.current_training.days.find(function (element) {
@@ -5666,8 +5691,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var commit = _ref3.commit;
       axios.post('/api/activity-calendar/create', {
         training_user_id: ActivityCalendar.training_user_id,
-        level: ActivityCalendar.level,
-        day: ActivityCalendar.day
+        day: ActivityCalendar.day,
+        is_active: ActivityCalendar.is_active
       }).then(function (response) {
         commit('CreateActivityCalendar', ActivityCalendar);
       })["catch"](function (error) {
@@ -5678,8 +5703,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var commit = _ref4.commit;
       axios.put('/api/activity-calendar/update/' + ActivityCalendar.id, {
         training_user_id: ActivityCalendar.training_user_id,
-        level: ActivityCalendar.level,
-        day: ActivityCalendar.day
+        day: ActivityCalendar.day,
+        is_active: ActivityCalendar.is_active
       }).then(function (response) {
         commit('UpdateActivityCalendar', ActivityCalendar);
       })["catch"](function (error) {
@@ -48465,13 +48490,14 @@ var render = function () {
                                           {
                                             key: index,
                                             staticClass: "calendar__day",
-                                            class: {
-                                              active:
-                                                _vm.selectedTab == tab.title,
-                                            },
+                                            class: _vm.changeTabStyle(
+                                              tab.title
+                                            ),
                                             on: {
                                               click: function ($event) {
-                                                _vm.selectedTab = tab.title
+                                                return _vm.changeTabSelection(
+                                                  tab.title
+                                                )
                                               },
                                             },
                                           },
@@ -67374,9 +67400,9 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"/public_html/js/app": 0,
-/******/ 			"public_html/css/admin/style": 0,
-/******/ 			"public_html/css/app": 0
+/******/ 			"/js/app": 0,
+/******/ 			"css/admin/style": 0,
+/******/ 			"css/app": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -67426,10 +67452,10 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["public_html/css/admin/style","public_html/css/app"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	__webpack_require__.O(undefined, ["public_html/css/admin/style","public_html/css/app"], () => (__webpack_require__("./resources/js/main.js")))
-/******/ 	__webpack_require__.O(undefined, ["public_html/css/admin/style","public_html/css/app"], () => (__webpack_require__("./resources/sass/app.sass")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["public_html/css/admin/style","public_html/css/app"], () => (__webpack_require__("./resources/sass/admin-sass/style.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/admin/style","css/app"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/admin/style","css/app"], () => (__webpack_require__("./resources/js/main.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/admin/style","css/app"], () => (__webpack_require__("./resources/sass/app.sass")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/admin/style","css/app"], () => (__webpack_require__("./resources/sass/admin-sass/style.scss")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

@@ -60,8 +60,8 @@
                             class="calendar__day"
                             v-for="(tab, index) in tabs.days" 
                             :key="index"
-                            @click="selectedTab = tab.title"
-                            :class="{ active: selectedTab == tab.title }"
+                            v-on:click = "changeTabSelection(tab.title)"
+                            :class="changeTabStyle(tab.title)"
                             >
                             <span>{{ tab.title }}</span>
                             </div>
@@ -142,6 +142,10 @@
   </main>
 </template>
 <script>
+
+//current_training => save
+//
+
 import WorkoutVideo from "../components/workout/WorkoutVideo.vue";
 import Logout from "../components/Logout.vue";
 import MenuOffice from "../components/Menu.vue";
@@ -154,7 +158,7 @@ export default {
   },
   data: () => ({
     slider: [],
-    selectedTab: "1",
+    selectedTab: null,
     selectedTrainingId: null,
   }),
   computed:{
@@ -164,11 +168,22 @@ export default {
     UserTrainings(){
       return this.$store.getters.GetTrainingUsers.find(element => element.training_id === this.selectedTrainingId);
     },
+    UserActiveCallendar(){
+      //console.log("UserActiveCallendar:",this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1))
+      return this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1);
+    },
     TrainingTitleAndDays(){
       let tmp = this.$store.getters.GetTrainingUsers;
       if(!tmp||tmp.length<1)
         return this.slider;
-      this.selectedTrainingId = tmp[0].training_id;
+      if(this.$store.getters.GetActivityCalendars!=null)
+        this.selectedTrainingId = this.$store.getters.GetActivityCalendars.find(element => element.is_active==1);
+      else
+        this.selectedTrainingId = tmp[0].training_id;
+      if(this.selectedTrainingId)
+        this.selectedTab = this.selectedTrainingId.day.toString();
+      else
+        this.selectedTab = "1";
       this.slider = [];
       tmp.forEach(item=>{
         let days=[];
@@ -193,12 +208,10 @@ export default {
       this.$store.dispatch('fetchPersonalAccount');
       this.$store.dispatch('fetchPhysicsParameters');
       this.$store.dispatch('fetchTrainingUsers');
+      this.$store.dispatch('fetchActivityCalendars');
     }
    },
   methods: {
-    selectTab() {
-      this.selectedTab = this.tab.title;
-    },
     findPercent()
     {
       if(this.UserTrainings==null)
@@ -209,6 +222,20 @@ export default {
       var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
       var percent = (Difference_In_Days*100)/30;
       return parseInt(percent);
+    },
+    changeTabSelection(tabTitle){
+      this.$store.dispatch('setActivityCalendar',{
+        id: this.UserActiveCallendar.id,
+        training_user_id: this.UserActiveCallendar.training_user_id,
+        day: parseInt(tabTitle),
+        is_active: this.UserActiveCallendar.is_active
+        });
+      
+      this.selectedTab = tabTitle;
+    },
+    changeTabStyle(tabTitle){
+      if(this.selectedTab!=null&&this.selectedTab.toString()==tabTitle)
+        return 'active';
     }
   },
 };
