@@ -34,7 +34,7 @@ class PersonalAccountFactory extends Factory
             'problem_zone_id' => ProblemZone::factory(),
             'training_location_id' => TrainingLocation::factory(),
             'menu_calories_id' => MenuCalory::factory(),
-            'photos' => '{}',
+            //'deactivated_at' => $this->faker->timestamp();
         ];
     }
 }

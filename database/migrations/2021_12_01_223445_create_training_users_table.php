@@ -20,7 +20,6 @@ class CreateTrainingUsersTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('training_id')->constrained();
             $table->timestamps();
-            $table->timestamp('deactevated_at');
         });
 
         Schema::enableForeignKeyConstraints();

@@ -18,8 +18,8 @@ class CreateFoodCalendarsTable extends Migration
         Schema::create('food_calendars', function (Blueprint $table) {
             $table->id();
             $table->foreignId('users_menus_id')->constrained('user_menu');
-            $table->integer('menu_number');
             $table->integer('day');
+            $table->boolean('is_active');
             $table->timestamps();
         });
 

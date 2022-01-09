@@ -20,6 +20,9 @@ class MenuResource extends JsonResource
             'menu_calories_id' => $this->menu_calories_id,
             'menu_content' => $this->menu_content,
             'menu_price' => $this->menu_price,
+            'proteins' => $this->proteins,
+            'fat' => $this->fat,
+            'carbs' => $this->carbs,
         ];
     }
 }

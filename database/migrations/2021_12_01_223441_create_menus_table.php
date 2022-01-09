@@ -19,8 +19,11 @@ class CreateMenusTable extends Migration
             $table->id();
             $table->foreignId('menu_type_id')->constrained();
             $table->foreignId('menu_calories_id')->constrained('menu_calory');
-            $table->json('menu_content');
+            $table->string('menu_content',50);
             $table->double('menu_price');
+            $table->double('proteins');
+            $table->double('fat');
+            $table->double('carbs');
             $table->timestamps();
         });
 

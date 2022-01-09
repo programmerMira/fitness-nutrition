@@ -27,8 +27,11 @@ class MenuFactory extends Factory
         return [
             'menu_type_id' => MenuType::factory(),
             'menu_calories_id' => MenuCalory::factory(),
-            'menu_content' => '{}',
+            'menu_content' => $this->faker->name,
             'menu_price' => $this->faker->randomFloat(0, 0, 9999999999.),
+            'proteins' => $this->faker->randomFloat(0, 0, 9999999999.),
+            'fat' => $this->faker->randomFloat(0, 0, 9999999999.),
+            'carbs' => $this->faker->randomFloat(0, 0, 9999999999.),
         ];
     }
 }

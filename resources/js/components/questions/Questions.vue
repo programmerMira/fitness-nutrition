@@ -50,8 +50,8 @@
 </main>
 </template>
 <script>
-import MenuOffice from "../components/Menu.vue";
-import Logout from "../components/Logout.vue";
+import MenuOffice from "../general/Menu.vue";
+import Logout from "../general/Logout.vue";
 export default {
   components: {
     MenuOffice,

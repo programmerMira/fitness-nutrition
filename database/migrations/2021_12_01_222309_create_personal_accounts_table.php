@@ -23,8 +23,8 @@ class CreatePersonalAccountsTable extends Migration
             $table->foreignId('problem_zone_id')->constrained();
             $table->foreignId('training_location_id')->constrained();
             $table->foreignId('menu_calories_id')->constrained();
-            $table->json('photos');
             $table->timestamps();
+            $table->timestamp('deactivated_at');
         });
 
         Schema::enableForeignKeyConstraints();

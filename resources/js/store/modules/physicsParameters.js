@@ -16,14 +16,17 @@ export default {
         },
         storePhysicsParameter({ commit }, PhysicsParameter){
             axios.post('/api/physics-parameter/create',{
-                'user_id': PhysicsParameter.user_id,
-                'weight': PhysicsParameter.weight,
-                'height': PhysicsParameter.height,
-                'dream_weight': PhysicsParameter.dream_weight,
-                'current_weight': PhysicsParameter.current_weight,
-                'hips_cm': PhysicsParameter.hips_cm,
-                'waist_cm': PhysicsParameter.waist_cm,
-                'chest_cm': PhysicsParameter.chest_cm
+                user_id: PhysicsParameter.user_id,
+                training_id: PhysicsParameter.training_id,
+                phase_number: PhysicsParameter.phase_number,
+                photoes: PhysicsParameter.photoes,
+                weight: PhysicsParameter.weight,
+                height: PhysicsParameter.height,
+                dream_weight: PhysicsParameter.dream_weight,
+                current_weight: PhysicsParameter.current_weight,
+                hips_cm: PhysicsParameter.hips_cm,
+                waist_cm: PhysicsParameter.waist_cm,
+                chest_cm: PhysicsParameter.chest_cm
             }).then(response => {
                 commit('CreatePhysicsParameter', PhysicsParameter)
             }).catch((error)=>{
@@ -32,14 +35,17 @@ export default {
         },
         setPhysicsParameter({ commit }, PhysicsParameter){
             axios.put('/api/physics-parameter/update/'+PhysicsParameter.id,{
-                'user_id': PhysicsParameter.user_id,
-                'weight': PhysicsParameter.weight,
-                'height': PhysicsParameter.height,
-                'dream_weight': PhysicsParameter.dream_weight,
-                'current_weight': PhysicsParameter.current_weight,
-                'hips_cm': PhysicsParameter.hips_cm,
-                'waist_cm': PhysicsParameter.waist_cm,
-                'chest_cm': PhysicsParameter.chest_cm
+                user_id: PhysicsParameter.user_id,
+                training_id: PhysicsParameter.training_id,
+                phase_number: PhysicsParameter.phase_number,
+                photoes: PhysicsParameter.photoes,
+                weight: PhysicsParameter.weight,
+                height: PhysicsParameter.height,
+                dream_weight: PhysicsParameter.dream_weight,
+                current_weight: PhysicsParameter.current_weight,
+                hips_cm: PhysicsParameter.hips_cm,
+                waist_cm: PhysicsParameter.waist_cm,
+                chest_cm: PhysicsParameter.chest_cm
             }).then(response => {
                 commit('UpdatePhysicsParameter', PhysicsParameter)
             }).catch((error)=>{

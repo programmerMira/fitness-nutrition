@@ -86,7 +86,7 @@
    </div>
 </template>
 <script>
-import Notifications from "../components/Notifications.vue";
+import Notifications from "./Notifications.vue";
 export default {
   components: {
    Notifications

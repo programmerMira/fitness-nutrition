@@ -19,6 +19,9 @@ class Menu extends Model
         'menu_calories_id',
         'menu_content',
         'menu_price',
+        'proteins',
+        'fat',
+        'carbs',
     ];
 
     /**
@@ -30,8 +33,11 @@ class Menu extends Model
         'id' => 'integer',
         'menu_type_id' => 'integer',
         'menu_calories_id' => 'integer',
-        'menu_content' => 'array',
+        'menu_content' => 'string',
         'menu_price' => 'double',
+        'proteins' => 'double',
+        'fat' => 'double',
+        'carbs' => 'double',
     ];
 
 

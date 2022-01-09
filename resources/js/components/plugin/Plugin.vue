@@ -121,12 +121,12 @@
    </main>
 </template>
 <script>
-import SubscriptionModal from "../components/plugin/SubscriptionModal.vue";
-import WorkoutModal from "../components/plugin/WorkoutModal.vue";
-import DietModal from "../components/plugin/DietModal.vue";
-import DietModalSimple from "../components/plugin/DietModalSimple.vue";
-import Logout from "../components/Logout.vue";
-import MenuOffice from "../components/Menu.vue";
+import SubscriptionModal from "./SubscriptionModal.vue";
+import WorkoutModal from "./WorkoutModal.vue";
+import DietModal from "./DietModal.vue";
+import DietModalSimple from "./DietModalSimple.vue";
+import Logout from "../general/Logout.vue";
+import MenuOffice from "../general/Menu.vue";
 
 export default {
   components: {

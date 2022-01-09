@@ -19,6 +19,9 @@ export default {
                 menu_type_id:Menu.menu_type_id,
                 menu_calories_id:Menu.menu_calories_id,
                 menu_content:Menu.menu_content,
+                proteins: Menu.proteins,
+                fat: Menu.fat,
+                carbs: Menu.carbs,
             }).then(response => {
                 commit('CreateMenu', Menu)
             }).catch((error)=>{
@@ -30,6 +33,9 @@ export default {
                 menu_type_id:Menu.menu_type_id,
                 menu_calories_id:Menu.menu_calories_id,
                 menu_content:Menu.menu_content,
+                proteins: Menu.proteins,
+                fat: Menu.fat,
+                carbs: Menu.carbs,
             }).then(response => {
                 commit('UpdateMenu', Menu)
             }).catch((error)=>{

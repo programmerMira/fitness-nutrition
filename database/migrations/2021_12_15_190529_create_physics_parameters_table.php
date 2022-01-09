@@ -18,6 +18,9 @@ class CreatePhysicsParametersTable extends Migration
         Schema::create('physics_parameters', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('training_id')->constrained();
+            $table->integer('phase_number');
+            $table->json('photoes');
             $table->float('weight');
             $table->float('height');
             $table->float('dream_weight');

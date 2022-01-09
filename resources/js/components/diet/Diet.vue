@@ -160,12 +160,12 @@
       </main>
 </template>
 <script>
-import DietMenu from "./diet/DietMenu.vue";
-import Calendar from "../components/Calendar.vue";
-import DietModal from "../components/plugin/DietModal.vue";
-import DietModalSimple from "../components/plugin/DietModalSimple.vue";
-import MenuOffice from "../components/Menu.vue";
-import Logout from "../components/Logout.vue";
+import DietMenu from "./DietMenu.vue";
+import Calendar from "../general/Calendar.vue";
+import DietModal from "../plugin/DietModal.vue";
+import DietModalSimple from "../plugin/DietModalSimple.vue";
+import MenuOffice from "../general/Menu.vue";
+import Logout from "../general/Logout.vue";
 
 export default {
   components: {

@@ -22,7 +22,7 @@
 </div>
 </template>
 <script>
-import Accardion from "../components/Accardion.vue";
+import Accardion from "./Accardion.vue";
 export default {
    components: {
       Accardion

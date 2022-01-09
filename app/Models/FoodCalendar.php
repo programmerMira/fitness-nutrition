@@ -16,8 +16,8 @@ class FoodCalendar extends Model
      */
     protected $fillable = [
         'users_menus_id',
-        'menu_number',
         'day',
+        'is_active'
     ];
 
     /**
@@ -28,6 +28,7 @@ class FoodCalendar extends Model
     protected $casts = [
         'id' => 'integer',
         'users_menus_id' => 'integer',
+        'day' => 'integer',
     ];
 
 

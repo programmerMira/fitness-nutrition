@@ -26,7 +26,6 @@ class TrainingUserStoreRequest extends FormRequest
         return [
             'user_id' => ['required', 'integer', 'exists:users,id'],
             'training_id' => ['required', 'integer', 'exists:trainings,id'],
-            'deactevated_at' => ['required', 'timestamp'],
         ];
     }
 }

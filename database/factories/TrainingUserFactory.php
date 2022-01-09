@@ -27,7 +27,6 @@ class TrainingUserFactory extends Factory
         return [
             'user_id' => User::factory(),
             'training_id' => Training::factory(),
-            'deactevated_at' => 'timestamp',
         ];
     }
 }

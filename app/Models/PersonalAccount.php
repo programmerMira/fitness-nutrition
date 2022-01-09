@@ -21,7 +21,6 @@ class PersonalAccount extends Model
         'problem_zone_id',
         'training_location_id',
         'menu_calories_id',
-        'photos',
     ];
 
     /**
@@ -36,7 +35,7 @@ class PersonalAccount extends Model
         'problem_zone_id' => 'integer',
         'training_location_id' => 'integer',
         'menu_calories_id' => 'integer',
-        'photos' => 'array',
+        'deactivated_at' => 'timestamp',
     ];
 
 

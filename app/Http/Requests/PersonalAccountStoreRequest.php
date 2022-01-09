@@ -30,7 +30,7 @@ class PersonalAccountStoreRequest extends FormRequest
             'problem_zone_id' => ['required', 'integer', 'exists:problem_zones,id'],
             'training_location_id' => ['required', 'integer', 'exists:training_locations,id'],
             'menu_calories_id' => ['required', 'integer', 'exists:menu_calories,id'],
-            'photos' => ['required', 'json'],
+            'deactivated_at' => ['required', 'timestamp'],
         ];
     }
 }

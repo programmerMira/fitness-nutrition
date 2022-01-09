@@ -26,8 +26,11 @@ class MenuStoreRequest extends FormRequest
         return [
             'menu_type_id' => ['required', 'integer', 'exists:menu_types,id'],
             'menu_calories_id' => ['required', 'integer', 'exists:menu_calories,id'],
-            'menu_content' => ['required', 'json'],
+            'menu_content' => ['required', 'string', 'max:50'],
             'menu_price' => ['required', 'double'],
+            'proteins' => ['required', 'double'],
+            'fat' => ['required', 'double'],
+            'carbs' => ['required', 'double'],
         ];
     }
 }

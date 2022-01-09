@@ -16,6 +16,9 @@ class PhysicsParameters extends Model
      */
     protected $fillable = [
         'user_id',
+        'training_id',
+        'phase_number',
+        'photoes',
         'weight',
         'height',
         'dream_weight',
@@ -33,6 +36,9 @@ class PhysicsParameters extends Model
     protected $casts = [
         'id' => 'integer',
         'user_id' => 'integer',
+        'training_id' => 'integer',
+        'phase_number' => 'integer',
+        'photoes' => 'array',
         'weight' => 'float',
         'height' => 'float',
         'dream_weight' => 'float',

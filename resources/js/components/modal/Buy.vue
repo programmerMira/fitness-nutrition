@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import Myselect from "../Select.vue";
+import Myselect from "../general/Select.vue";
 
 export default {
   components: {

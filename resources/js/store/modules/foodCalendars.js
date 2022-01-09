@@ -17,8 +17,8 @@ export default {
         storeFoodCalendar({ commit }, FoodCalendar){
             axios.post('/api/food-calendar/create',{
                 users_menus_id:FoodCalendar.users_menus_id,
-                menu_number:FoodCalendar.menu_number,
                 day:FoodCalendar.day,
+                is_active: FoodCalendar.is_active,
             }).then(response => {
                 commit('CreateFoodCalendar', FoodCalendar)
             }).catch((error)=>{
@@ -28,8 +28,8 @@ export default {
         setFoodCalendar({ commit }, FoodCalendar){
             axios.put('/api/food-calendar/update/'+FoodCalendar.id,{
                 users_menus_id:FoodCalendar.users_menus_id,
-                menu_number:FoodCalendar.menu_number,
                 day:FoodCalendar.day,
+                is_active: FoodCalendar.is_active,
             }).then(response => {
                 commit('UpdateFoodCalendar', FoodCalendar)
             }).catch((error)=>{

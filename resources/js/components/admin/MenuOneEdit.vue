@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import Mytodolist from "../TodoList.vue";
+import Mytodolist from "./TodoList.vue";
 export default {
     components: {
         Mytodolist

@@ -17,8 +17,8 @@ class FoodCalendarResource extends JsonResource
         return [
             'id' => $this->id,
             'users_menus_id' => $this->users_menus_id,
-            'menu_number' => $this->menu_number,
             'day' => $this->day,
+            'is_active' => $this->is_active,
         ];
     }
 }

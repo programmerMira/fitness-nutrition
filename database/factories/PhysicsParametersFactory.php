@@ -25,6 +25,9 @@ class PhysicsParametersFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
+            'training_id' => Training::factory(),
+            'phase_number' => $this->faker->randomInteger(0, 0, 9999999),
+            'photoes' => '{}',
             'weight' => $this->faker->randomFloat(0, 0, 9999999999.),
             'height' => $this->faker->randomFloat(0, 0, 9999999999.),
             'dream_weight' => $this->faker->randomFloat(0, 0, 9999999999.),

@@ -146,9 +146,9 @@
 //current_training => save
 //
 
-import WorkoutVideo from "../components/workout/WorkoutVideo.vue";
-import Logout from "../components/Logout.vue";
-import MenuOffice from "../components/Menu.vue";
+import WorkoutVideo from "./WorkoutVideo.vue";
+import Logout from "../general/Logout.vue";
+import MenuOffice from "../general/Menu.vue";
 
 export default {
   components: {

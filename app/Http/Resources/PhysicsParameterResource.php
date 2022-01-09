@@ -17,6 +17,9 @@ class PhysicsParameterResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
+            'training_id' => $this->training_id,
+            'phase_number' => $this->phase_number,
+            'photoes' => $this->photoes,
             'weight' => $this->weight,
             'height' => $this->height,
             'dream_weight' => $this->dream_weight,

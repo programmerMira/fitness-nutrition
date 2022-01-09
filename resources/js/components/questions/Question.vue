@@ -25,7 +25,7 @@
     </main>
 </template>
 <script>
-import MenuOffice from "../components/Menu.vue";
+import MenuOffice from "../general/Menu.vue";
 //props: object or id? can and better to pass object
 export default {
     props: ["question"],

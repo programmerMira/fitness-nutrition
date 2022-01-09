@@ -25,8 +25,8 @@ class FoodCalendarStoreRequest extends FormRequest
     {
         return [
             'users_menus_id' => ['required', 'integer', 'exists:users_menuses,id'],
-            'menu_number' => ['required', 'integer'],
             'day' => ['required', 'integer'],
+            'is_active' => ['required', 'boolean'],
         ];
     }
 }
