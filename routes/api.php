@@ -118,3 +118,6 @@ Route::apiResource('question', App\Http\Controllers\QuestionController::class);
 
 
 Route::apiResource('days', App\Http\Controllers\DaysController::class);
+
+
+Route::apiResource('menu-days', App\Http\Controllers\MenuDaysController::class);

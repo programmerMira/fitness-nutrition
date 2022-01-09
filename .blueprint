@@ -1,8 +1,16 @@
 created:
-    - database/factories/MainPageFactory.php
-    - database/migrations/2022_01_03_214317_create_main_pages_table.php
-    - app/Models/MainPage.php
-    - database/seeders/MainPageSeeder.php
+    - app/Http/Controllers/MenuDaysController.php
+    - database/factories/MenuDaysFactory.php
+    - database/migrations/2022_01_08_234530_create_menu_days_table.php
+    - app/Models/MenuDays.php
+    - database/seeders/MenuDaysSeeder.php
+    - tests/Feature/Http/Controllers/MenuDaysControllerTest.php
+    - app/Http/Requests/MenuDayStoreRequest.php
+    - app/Http/Requests/MenuDayUpdateRequest.php
+    - app/Http/Resources/MenuDayCollection.php
+    - app/Http/Resources/MenuDayResource.php
+updated:
+    - routes/api.php
 models:
     ProblemZone: { name: 'string:50' }
     LifeStyle: { name: 'string:50' }
@@ -22,3 +30,4 @@ models:
     Topic: { name: 'string:50' }
     Days: { training_id: 'id foreign:Training', day_number: integer, name: 'string:50', description: 'string:1000', videos: json }
     MainPage: { name: 'string:50', content: 'string:50' }
+    MenuDays: { menu_id: 'id foreign:Menu', day_number: integer, name: 'string:50', description: 'string:1000', content: json }

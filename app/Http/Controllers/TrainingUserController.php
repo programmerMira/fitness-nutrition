@@ -9,6 +9,7 @@ use App\Http\Resources\TrainingUserResource;
 use App\Models\TrainingUser;
 use App\Models\Training;
 use App\Models\Days;
+use App\Models\TrainingLocation;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,7 @@ class TrainingUserController extends Controller
         foreach($trainingsUser as $tr_u)
         {
             $tr_u->days = Days::all()->where('training_id','=',$tr_u->training_id);
+            $tr_u->location = TrainingLocation::where('id','=',$tr_u->training->training_location_id)->first();
         }
         return response()->json($trainingsUser);
     }

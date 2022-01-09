@@ -1,0 +1,11 @@
+models:
+  MenuDays:
+    menu_id: id foreign:Menu
+    day_number: integer
+    name: string:50
+    description: string:1000
+    content: json
+controllers:
+  MenuDays:
+    resource: api
+seeders: MenuDays

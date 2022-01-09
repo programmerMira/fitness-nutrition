@@ -35,6 +35,11 @@ class Menu extends Model
     ];
 
 
+    public function menuDays()
+    {
+        return $this->HasMany(\App\Models\MenuDays::class);
+    }
+
     public function menuType()
     {
         return $this->belongsTo(\App\Models\MenuType::class);

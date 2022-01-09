@@ -74,15 +74,15 @@
                         <h5 class="progress-block__title">
                            Мой прогресс
                         </h5>
-                        <div class="select__wrap">
+                        <div v-on:click="show_level()" class="select__wrap">
                            <ul class="default__option">
-                              <li v-if="selectedTraining!=null" class="option selected">
+                              <li v-if="selectedTraining" class="option selected">
                                  {{selectedTraining.training.level}} уровень
                               </li>
                            </ul>
-                           <ul class="select__ul">
-                              <li v-for="(item,index) in TrainingUser" :key="index" v-on:click="selectedTraining=item">
-                                 {{item.training.level}} уровень
+                           <ul :style="show_select_level? 'display: block !important': 'display: none !important'" class="select__ul">
+                              <li>
+                                 1 уровень
                               </li>
                               <li class="disabled">
                                  2 уровень
@@ -170,7 +170,7 @@ export default {
    Logout
   },
   data: () => ({
-      tabs: [
+    tabs: [
       {
         title: "1",
       },
@@ -182,7 +182,8 @@ export default {
       },
     ],
     selectedTab: null,
-    selectedTraining: null,
+    //selectedTraining: null,
+    show_select_level:false,
   }),
    computed:{
       User(){
@@ -192,10 +193,18 @@ export default {
          //{{Physics.current_weight - Physics.weight}}
          return this.$store.getters.GetPhysicsParameters;
       },
-      TrainingUser(){
-         this.selectedTab = this.tabs[0];
-         this.selectedTraining = this.$store.getters.GetTrainingUsers[0];
-         return this.$store.getters.GetTrainingUsers;
+      selectedTraining(){
+         let result=null;
+         let activeTraining = this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1)
+         if(activeTraining)
+            return result = this.$store.getters.GetTrainingUsers.find(element => parseInt(element.training_id) === parseInt(activeTraining.training_user.training_id));
+         return result = this.$store.getters.GetTrainingUsers[0];
+         
+         /*this.selectedTab = this.tabs[0];
+         this.selectedTraining = result;
+         console.log("activeTraining:",activeTraining);
+         console.log("this.selectedTraining:",this.selectedTraining);
+         return this.$store.getters.GetTrainingUsers;*/
       },
   },
   mounted(){
@@ -203,6 +212,7 @@ export default {
          this.$store.dispatch('fetchPhysicsParameters');
          this.$store.dispatch('fetchPersonalAccount');
          this.$store.dispatch('fetchTrainingUsers');
+         this.$store.dispatch('fetchActivityCalendars');
       }
    },
    methods: {
@@ -230,6 +240,9 @@ export default {
          if(parseInt(item) == parseInt(this.selectedTab))
             return 'progress-block__step active';
          return 'progress-block__step';
+      },
+      show_level(){
+         this.show_select_level=!this.show_select_level;
       }
    },
 };

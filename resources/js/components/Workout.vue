@@ -92,11 +92,11 @@
                       </div>
                       <div class="progress-block__head">
                         <h5 class="progress-block__title">Тренировки</h5>
-                        <div class="select__wrap select-workout__wrap">
-                            <ul class="default__option">
-                              <li class="option selected">Для зала</li>
+                        <div v-on:click="show_location()" class="select__wrap select-workout__wrap">
+                            <ul v-if="UserTrainings" class="default__option">
+                              <li class="option selected">Для {{UserTrainings.location.name}}а</li>
                             </ul>
-                            <ul class="select__ul">
+                            <ul :style="show_select_location? 'display: block !important': 'display: none !important'" class="select__ul">
                               <li>Для дома</li>
                               <li class="disabled">
                                 Для зала
@@ -160,13 +160,16 @@ export default {
     slider: [],
     selectedTab: null,
     selectedTrainingId: null,
+    show_select_location:false,
   }),
   computed:{
     User(){
       return this.$store.getters.GetPersonalAccount;
     },
     UserTrainings(){
-      return this.$store.getters.GetTrainingUsers.find(element => element.training_id === this.selectedTrainingId);
+      //console.log("GetTrainingUsers:",this.$store.getters.GetTrainingUsers);
+      if(this.selectedTrainingId)
+        return this.$store.getters.GetTrainingUsers.find(element => parseInt(element.training_id) === parseInt(this.selectedTrainingId.training_user.training_id));
     },
     UserActiveCallendar(){
       //console.log("UserActiveCallendar:",this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1))
@@ -177,9 +180,9 @@ export default {
       if(!tmp||tmp.length<1)
         return this.slider;
       if(this.$store.getters.GetActivityCalendars!=null)
-        this.selectedTrainingId = this.$store.getters.GetActivityCalendars.find(element => element.is_active==1);
+        this.selectedTrainingId = this.UserActiveCallendar;//this.$store.getters.GetActivityCalendars.find(element => element.is_active==1);
       else
-        this.selectedTrainingId = tmp[0].training_id;
+        this.selectedTrainingId = tmp[0];
       if(this.selectedTrainingId)
         this.selectedTab = this.selectedTrainingId.day.toString();
       else
@@ -195,8 +198,8 @@ export default {
           }
         );
       });
-      console.log("this.slider: ",this.slider);
-      console.log("this.selectedTrainingId:",this.selectedTrainingId);
+      //console.log("this.slider: ",this.slider);
+      //console.log("this.selectedTrainingId:",this.selectedTrainingId);
       return this.slider;
     },
     Physics(){
@@ -236,7 +239,13 @@ export default {
     changeTabStyle(tabTitle){
       if(this.selectedTab!=null&&this.selectedTab.toString()==tabTitle)
         return 'active';
+    },
+    show_location(){
+      this.show_select_location=!this.show_select_location;
     }
   },
 };
 </script>
+<style lang="css">
+  
+</style>

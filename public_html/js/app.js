@@ -2695,7 +2695,8 @@ __webpack_require__.r(__webpack_exports__);
         title: "3"
       }],
       selectedTab: null,
-      selectedTraining: null
+      //selectedTraining: null,
+      show_select_level: false
     };
   },
   computed: {
@@ -2706,10 +2707,20 @@ __webpack_require__.r(__webpack_exports__);
       //{{Physics.current_weight - Physics.weight}}
       return this.$store.getters.GetPhysicsParameters;
     },
-    TrainingUser: function TrainingUser() {
-      this.selectedTab = this.tabs[0];
-      this.selectedTraining = this.$store.getters.GetTrainingUsers[0];
-      return this.$store.getters.GetTrainingUsers;
+    selectedTraining: function selectedTraining() {
+      var result = null;
+      var activeTraining = this.$store.getters.GetActivityCalendars.find(function (element) {
+        return parseInt(element.is_active) == 1;
+      });
+      if (activeTraining) return result = this.$store.getters.GetTrainingUsers.find(function (element) {
+        return parseInt(element.training_id) === parseInt(activeTraining.training_user.training_id);
+      });
+      return result = this.$store.getters.GetTrainingUsers[0];
+      /*this.selectedTab = this.tabs[0];
+      this.selectedTraining = result;
+      console.log("activeTraining:",activeTraining);
+      console.log("this.selectedTraining:",this.selectedTraining);
+      return this.$store.getters.GetTrainingUsers;*/
     }
   },
   mounted: function mounted() {
@@ -2717,6 +2728,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.dispatch('fetchPhysicsParameters');
       this.$store.dispatch('fetchPersonalAccount');
       this.$store.dispatch('fetchTrainingUsers');
+      this.$store.dispatch('fetchActivityCalendars');
     }
   },
   methods: {
@@ -2743,6 +2755,9 @@ __webpack_require__.r(__webpack_exports__);
     show: function show(item) {
       if (parseInt(item) == parseInt(this.selectedTab)) return 'progress-block__step active';
       return 'progress-block__step';
+    },
+    show_level: function show_level() {
+      this.show_select_level = !this.show_select_level;
     }
   }
 });
@@ -3524,7 +3539,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//training_day + current_training => save
+//current_training => save
 //
 
 
@@ -3539,7 +3554,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       slider: [],
       selectedTab: null,
-      selectedTrainingId: null
+      selectedTrainingId: null,
+      show_select_location: false
     };
   },
   computed: {
@@ -3549,14 +3565,13 @@ __webpack_require__.r(__webpack_exports__);
     UserTrainings: function UserTrainings() {
       var _this = this;
 
-      return this.$store.getters.GetTrainingUsers.find(function (element) {
-        return element.training_id === _this.selectedTrainingId;
+      //console.log("GetTrainingUsers:",this.$store.getters.GetTrainingUsers);
+      if (this.selectedTrainingId) return this.$store.getters.GetTrainingUsers.find(function (element) {
+        return parseInt(element.training_id) === parseInt(_this.selectedTrainingId.training_user.training_id);
       });
     },
     UserActiveCallendar: function UserActiveCallendar() {
-      console.log("UserActiveCallendar:", this.$store.getters.GetActivityCalendars.find(function (element) {
-        return parseInt(element.is_active) == 1;
-      }));
+      //console.log("UserActiveCallendar:",this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1))
       return this.$store.getters.GetActivityCalendars.find(function (element) {
         return parseInt(element.is_active) == 1;
       });
@@ -3566,9 +3581,8 @@ __webpack_require__.r(__webpack_exports__);
 
       var tmp = this.$store.getters.GetTrainingUsers;
       if (!tmp || tmp.length < 1) return this.slider;
-      if (this.$store.getters.GetActivityCalendars != null) this.selectedTrainingId = this.$store.getters.GetActivityCalendars.find(function (element) {
-        return element.is_active == 1;
-      });else this.selectedTrainingId = tmp[0].training_id;
+      if (this.$store.getters.GetActivityCalendars != null) this.selectedTrainingId = this.UserActiveCallendar; //this.$store.getters.GetActivityCalendars.find(element => element.is_active==1);
+      else this.selectedTrainingId = tmp[0];
       if (this.selectedTrainingId) this.selectedTab = this.selectedTrainingId.day.toString();else this.selectedTab = "1";
       this.slider = [];
       tmp.forEach(function (item) {
@@ -3583,9 +3597,9 @@ __webpack_require__.r(__webpack_exports__);
           menutitle: item.training.name,
           days: days
         });
-      });
-      console.log("this.slider: ", this.slider);
-      console.log("this.selectedTrainingId:", this.selectedTrainingId);
+      }); //console.log("this.slider: ",this.slider);
+      //console.log("this.selectedTrainingId:",this.selectedTrainingId);
+
       return this.slider;
     },
     Physics: function Physics() {
@@ -3601,9 +3615,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    selectTab: function selectTab() {
-      this.selectedTab = this.tab.title;
-    },
     findPercent: function findPercent() {
       if (this.UserTrainings == null) return 0;
       var date1 = new Date(this.UserTrainings.created_at);
@@ -3624,6 +3635,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     changeTabStyle: function changeTabStyle(tabTitle) {
       if (this.selectedTab != null && this.selectedTab.toString() == tabTitle) return 'active';
+    },
+    show_location: function show_location() {
+      this.show_select_location = !this.show_select_location;
     }
   }
 });
@@ -46789,203 +46803,211 @@ var render = function () {
                         ),
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "select__wrap" }, [
-                        _c("ul", { staticClass: "default__option" }, [
-                          _vm.selectedTraining != null
-                            ? _c("li", { staticClass: "option selected" }, [
-                                _vm._v(
-                                  "\n                              " +
-                                    _vm._s(
-                                      _vm.selectedTraining.training.level
-                                    ) +
-                                    " уровень\n                           "
-                                ),
-                              ])
-                            : _vm._e(),
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "ul",
-                          { staticClass: "select__ul" },
-                          [
-                            _vm._l(_vm.TrainingUser, function (item, index) {
-                              return _c(
-                                "li",
-                                {
-                                  key: index,
-                                  on: {
-                                    click: function ($event) {
-                                      _vm.selectedTraining = item
-                                    },
-                                  },
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                              " +
-                                      _vm._s(item.training.level) +
-                                      " уровень\n                           "
-                                  ),
-                                ]
-                              )
-                            }),
-                            _vm._v(" "),
-                            _c("li", { staticClass: "disabled" }, [
-                              _vm._v(
-                                "\n                              2 уровень\n                              "
-                              ),
-                              _c(
-                                "svg",
-                                {
-                                  staticClass: "icon",
-                                  attrs: {
-                                    width: "14",
-                                    height: "14",
-                                    viewBox: "0 0 14 14",
-                                    fill: "none",
-                                    xmlns: "http://www.w3.org/2000/svg",
-                                  },
-                                },
-                                [
-                                  _c(
-                                    "g",
-                                    { attrs: { "clip-path": "url(#clip0)" } },
-                                    [
-                                      _c("path", {
-                                        attrs: {
-                                          d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
-                                          fill: "#BEBEBE",
-                                        },
-                                      }),
-                                      _vm._v(" "),
-                                      _c("path", {
-                                        attrs: {
-                                          d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
-                                          fill: "#BEBEBE",
-                                        },
-                                      }),
-                                      _vm._v(" "),
-                                      _c("path", {
-                                        attrs: {
-                                          d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
-                                          fill: "#BEBEBE",
-                                        },
-                                      }),
-                                      _vm._v(" "),
-                                      _c("path", {
-                                        attrs: {
-                                          d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
-                                          fill: "#BEBEBE",
-                                        },
-                                      }),
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("defs", [
-                                    _c("clipPath", { attrs: { id: "clip0" } }, [
-                                      _c("rect", {
-                                        attrs: {
-                                          width: "14",
-                                          height: "14",
-                                          fill: "white",
-                                        },
-                                      }),
-                                    ]),
-                                  ]),
-                                ]
-                              ),
-                            ]),
-                            _vm._v(" "),
-                            _c("li", { staticClass: "disabled" }, [
-                              _vm._v(
-                                "\n                              3 уровень\n                              "
-                              ),
-                              _c(
-                                "svg",
-                                {
-                                  staticClass: "icon",
-                                  attrs: {
-                                    width: "14",
-                                    height: "14",
-                                    viewBox: "0 0 14 14",
-                                    fill: "none",
-                                    xmlns: "http://www.w3.org/2000/svg",
-                                  },
-                                },
-                                [
-                                  _c(
-                                    "g",
-                                    { attrs: { "clip-path": "url(#clip0)" } },
-                                    [
-                                      _c("path", {
-                                        attrs: {
-                                          d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
-                                          fill: "#BEBEBE",
-                                        },
-                                      }),
-                                      _vm._v(" "),
-                                      _c("path", {
-                                        attrs: {
-                                          d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
-                                          fill: "#BEBEBE",
-                                        },
-                                      }),
-                                      _vm._v(" "),
-                                      _c("path", {
-                                        attrs: {
-                                          d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
-                                          fill: "#BEBEBE",
-                                        },
-                                      }),
-                                      _vm._v(" "),
-                                      _c("path", {
-                                        attrs: {
-                                          d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
-                                          fill: "#BEBEBE",
-                                        },
-                                      }),
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("defs", [
-                                    _c("clipPath", { attrs: { id: "clip0" } }, [
-                                      _c("rect", {
-                                        attrs: {
-                                          width: "14",
-                                          height: "14",
-                                          fill: "white",
-                                        },
-                                      }),
-                                    ]),
-                                  ]),
-                                ]
-                              ),
-                            ]),
-                          ],
-                          2
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "svg",
-                          {
-                            staticClass: "select__svg",
-                            attrs: {
-                              width: "17",
-                              height: "9",
-                              viewBox: "0 0 17 9",
-                              fill: "none",
-                              xmlns: "http://www.w3.org/2000/svg",
+                      _c(
+                        "div",
+                        {
+                          staticClass: "select__wrap",
+                          on: {
+                            click: function ($event) {
+                              return _vm.show_level()
                             },
                           },
-                          [
-                            _c("path", {
+                        },
+                        [
+                          _c("ul", { staticClass: "default__option" }, [
+                            _vm.selectedTraining
+                              ? _c("li", { staticClass: "option selected" }, [
+                                  _vm._v(
+                                    "\n                              " +
+                                      _vm._s(
+                                        _vm.selectedTraining.training.level
+                                      ) +
+                                      " уровень\n                           "
+                                  ),
+                                ])
+                              : _vm._e(),
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "ul",
+                            {
+                              staticClass: "select__ul",
+                              style: _vm.show_select_level
+                                ? "display: block !important"
+                                : "display: none !important",
+                            },
+                            [
+                              _c("li", [
+                                _vm._v(
+                                  "\n                              1 уровень\n                           "
+                                ),
+                              ]),
+                              _vm._v(" "),
+                              _c("li", { staticClass: "disabled" }, [
+                                _vm._v(
+                                  "\n                              2 уровень\n                              "
+                                ),
+                                _c(
+                                  "svg",
+                                  {
+                                    staticClass: "icon",
+                                    attrs: {
+                                      width: "14",
+                                      height: "14",
+                                      viewBox: "0 0 14 14",
+                                      fill: "none",
+                                      xmlns: "http://www.w3.org/2000/svg",
+                                    },
+                                  },
+                                  [
+                                    _c(
+                                      "g",
+                                      { attrs: { "clip-path": "url(#clip0)" } },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
+                                            fill: "#BEBEBE",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
+                                            fill: "#BEBEBE",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
+                                            fill: "#BEBEBE",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
+                                            fill: "#BEBEBE",
+                                          },
+                                        }),
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("defs", [
+                                      _c(
+                                        "clipPath",
+                                        { attrs: { id: "clip0" } },
+                                        [
+                                          _c("rect", {
+                                            attrs: {
+                                              width: "14",
+                                              height: "14",
+                                              fill: "white",
+                                            },
+                                          }),
+                                        ]
+                                      ),
+                                    ]),
+                                  ]
+                                ),
+                              ]),
+                              _vm._v(" "),
+                              _c("li", { staticClass: "disabled" }, [
+                                _vm._v(
+                                  "\n                              3 уровень\n                              "
+                                ),
+                                _c(
+                                  "svg",
+                                  {
+                                    staticClass: "icon",
+                                    attrs: {
+                                      width: "14",
+                                      height: "14",
+                                      viewBox: "0 0 14 14",
+                                      fill: "none",
+                                      xmlns: "http://www.w3.org/2000/svg",
+                                    },
+                                  },
+                                  [
+                                    _c(
+                                      "g",
+                                      { attrs: { "clip-path": "url(#clip0)" } },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
+                                            fill: "#BEBEBE",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
+                                            fill: "#BEBEBE",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
+                                            fill: "#BEBEBE",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
+                                            fill: "#BEBEBE",
+                                          },
+                                        }),
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("defs", [
+                                      _c(
+                                        "clipPath",
+                                        { attrs: { id: "clip0" } },
+                                        [
+                                          _c("rect", {
+                                            attrs: {
+                                              width: "14",
+                                              height: "14",
+                                              fill: "white",
+                                            },
+                                          }),
+                                        ]
+                                      ),
+                                    ]),
+                                  ]
+                                ),
+                              ]),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "svg",
+                            {
+                              staticClass: "select__svg",
                               attrs: {
-                                d: "M16.0543 0.602247C16.0544 0.681312 16.0388 0.759609 16.0086 0.832666C15.9783 0.905724 15.934 0.97211 15.878 1.02804L8.45314 8.44784C8.34019 8.56069 8.18701 8.62408 8.02729 8.62408C7.86757 8.62408 7.71439 8.56069 7.60143 8.44784L0.176538 1.02804C0.120587 0.972146 0.0761993 0.905792 0.0459089 0.832759C0.0156185 0.759727 1.86629e-05 0.681447 1.67352e-08 0.602389C-1.86294e-05 0.523332 0.0155444 0.445045 0.0458003 0.371998C0.0760563 0.298951 0.120413 0.232574 0.176337 0.176659C0.232261 0.120743 0.298658 0.0763845 0.371737 0.046113C0.444816 0.0158415 0.523145 0.000250816 0.602253 0.000231743C0.68136 0.000213623 0.759697 0.0157671 0.83279 0.0460043C0.905883 0.0762405 0.972301 0.120569 1.02825 0.176458L8.02709 7.17087L15.0259 0.176458C15.1102 0.0922174 15.2175 0.0348415 15.3344 0.0115919C15.4513 -0.0116568 15.5724 0.000263214 15.6825 0.0458469C15.7926 0.0914307 15.8867 0.16863 15.9529 0.267672C16.0191 0.366714 16.0544 0.48315 16.0543 0.602247Z",
-                                fill: "white",
+                                width: "17",
+                                height: "9",
+                                viewBox: "0 0 17 9",
+                                fill: "none",
+                                xmlns: "http://www.w3.org/2000/svg",
                               },
-                            }),
-                          ]
-                        ),
-                      ]),
+                            },
+                            [
+                              _c("path", {
+                                attrs: {
+                                  d: "M16.0543 0.602247C16.0544 0.681312 16.0388 0.759609 16.0086 0.832666C15.9783 0.905724 15.934 0.97211 15.878 1.02804L8.45314 8.44784C8.34019 8.56069 8.18701 8.62408 8.02729 8.62408C7.86757 8.62408 7.71439 8.56069 7.60143 8.44784L0.176538 1.02804C0.120587 0.972146 0.0761993 0.905792 0.0459089 0.832759C0.0156185 0.759727 1.86629e-05 0.681447 1.67352e-08 0.602389C-1.86294e-05 0.523332 0.0155444 0.445045 0.0458003 0.371998C0.0760563 0.298951 0.120413 0.232574 0.176337 0.176659C0.232261 0.120743 0.298658 0.0763845 0.371737 0.046113C0.444816 0.0158415 0.523145 0.000250816 0.602253 0.000231743C0.68136 0.000213623 0.759697 0.0157671 0.83279 0.0460043C0.905883 0.0762405 0.972301 0.120569 1.02825 0.176458L8.02709 7.17087L15.0259 0.176458C15.1102 0.0922174 15.2175 0.0348415 15.3344 0.0115919C15.4513 -0.0116568 15.5724 0.000263214 15.6825 0.0458469C15.7926 0.0914307 15.8867 0.16863 15.9529 0.267672C16.0191 0.366714 16.0544 0.48315 16.0543 0.602247Z",
+                                  fill: "white",
+                                },
+                              }),
+                            ]
+                          ),
+                        ]
+                      ),
                     ]),
                     _vm._v(" "),
                     _c(
@@ -48574,83 +48596,113 @@ var render = function () {
                         _vm._v(" "),
                         _c(
                           "div",
-                          { staticClass: "select__wrap select-workout__wrap" },
+                          {
+                            staticClass: "select__wrap select-workout__wrap",
+                            on: {
+                              click: function ($event) {
+                                return _vm.show_location()
+                              },
+                            },
+                          },
                           [
-                            _vm._m(1),
-                            _vm._v(" "),
-                            _c("ul", { staticClass: "select__ul" }, [
-                              _c("li", [_vm._v("Для дома")]),
-                              _vm._v(" "),
-                              _c("li", { staticClass: "disabled" }, [
-                                _vm._v(
-                                  "\n                              Для зала\n                              "
-                                ),
-                                _c(
-                                  "svg",
-                                  {
-                                    staticClass: "icon",
-                                    attrs: {
-                                      width: "14",
-                                      height: "14",
-                                      viewBox: "0 0 14 14",
-                                      fill: "none",
-                                      xmlns: "http://www.w3.org/2000/svg",
-                                    },
-                                  },
-                                  [
-                                    _c(
-                                      "g",
-                                      { attrs: { "clip-path": "url(#clip0)" } },
-                                      [
-                                        _c("path", {
-                                          attrs: {
-                                            d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
-                                            fill: "#BEBEBE",
-                                          },
-                                        }),
-                                        _vm._v(" "),
-                                        _c("path", {
-                                          attrs: {
-                                            d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
-                                            fill: "#BEBEBE",
-                                          },
-                                        }),
-                                        _vm._v(" "),
-                                        _c("path", {
-                                          attrs: {
-                                            d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
-                                            fill: "#BEBEBE",
-                                          },
-                                        }),
-                                        _vm._v(" "),
-                                        _c("path", {
-                                          attrs: {
-                                            d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
-                                            fill: "#BEBEBE",
-                                          },
-                                        }),
-                                      ]
+                            _vm.UserTrainings
+                              ? _c("ul", { staticClass: "default__option" }, [
+                                  _c("li", { staticClass: "option selected" }, [
+                                    _vm._v(
+                                      "Для " +
+                                        _vm._s(
+                                          _vm.UserTrainings.location.name
+                                        ) +
+                                        "а"
                                     ),
-                                    _vm._v(" "),
-                                    _c("defs", [
+                                  ]),
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c(
+                              "ul",
+                              {
+                                staticClass: "select__ul",
+                                style: _vm.show_select_location
+                                  ? "display: block !important"
+                                  : "display: none !important",
+                              },
+                              [
+                                _c("li", [_vm._v("Для дома")]),
+                                _vm._v(" "),
+                                _c("li", { staticClass: "disabled" }, [
+                                  _vm._v(
+                                    "\n                              Для зала\n                              "
+                                  ),
+                                  _c(
+                                    "svg",
+                                    {
+                                      staticClass: "icon",
+                                      attrs: {
+                                        width: "14",
+                                        height: "14",
+                                        viewBox: "0 0 14 14",
+                                        fill: "none",
+                                        xmlns: "http://www.w3.org/2000/svg",
+                                      },
+                                    },
+                                    [
                                       _c(
-                                        "clipPath",
-                                        { attrs: { id: "clip0" } },
+                                        "g",
+                                        {
+                                          attrs: { "clip-path": "url(#clip0)" },
+                                        },
                                         [
-                                          _c("rect", {
+                                          _c("path", {
                                             attrs: {
-                                              width: "14",
-                                              height: "14",
-                                              fill: "white",
+                                              d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
+                                              fill: "#BEBEBE",
+                                            },
+                                          }),
+                                          _vm._v(" "),
+                                          _c("path", {
+                                            attrs: {
+                                              d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
+                                              fill: "#BEBEBE",
+                                            },
+                                          }),
+                                          _vm._v(" "),
+                                          _c("path", {
+                                            attrs: {
+                                              d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
+                                              fill: "#BEBEBE",
+                                            },
+                                          }),
+                                          _vm._v(" "),
+                                          _c("path", {
+                                            attrs: {
+                                              d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
+                                              fill: "#BEBEBE",
                                             },
                                           }),
                                         ]
                                       ),
-                                    ]),
-                                  ]
-                                ),
-                              ]),
-                            ]),
+                                      _vm._v(" "),
+                                      _c("defs", [
+                                        _c(
+                                          "clipPath",
+                                          { attrs: { id: "clip0" } },
+                                          [
+                                            _c("rect", {
+                                              attrs: {
+                                                width: "14",
+                                                height: "14",
+                                                fill: "white",
+                                              },
+                                            }),
+                                          ]
+                                        ),
+                                      ]),
+                                    ]
+                                  ),
+                                ]),
+                              ]
+                            ),
                             _vm._v(" "),
                             _c(
                               "svg",
@@ -48703,14 +48755,6 @@ var staticRenderFns = [
       _c("div", { staticClass: "swiper-button-next" }),
       _vm._v(" "),
       _c("div", { staticClass: "swiper-button-prev" }),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "default__option" }, [
-      _c("li", { staticClass: "option selected" }, [_vm._v("Для зала")]),
     ])
   },
 ]
