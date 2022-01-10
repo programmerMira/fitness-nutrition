@@ -59,8 +59,13 @@ Route::prefix('/admin')->group(function () {
         Route::get('/', [ArticleController::class,'adminMagePage'])->name('adminMagePage');
         Route::post('/edit/{id}', [ArticleController::class,'adminEditContent']);
     });
+	Route::prefix('/notification')->group(function () {  // word: "icons" - not working as part of adress
+		Route::get('/', [NotificationController::class,'list']);
+		Route::get('/create', [NotificationController::class,'create'])->name('notification.create');
+		Route::put('/update/{id}', [NotificationController::class,'edit'])->name('notification.edit');
+		Route::delete('/delete/{id}', [NotificationController::class,'destroy'])->name('notification.destroy');
+	});
 });
-
 
 Auth::routes();
 
