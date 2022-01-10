@@ -24,7 +24,7 @@ class FoodCalendarStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'users_menus_id' => ['required', 'integer', 'exists:users_menuses,id'],
+            'users_menus_id' => ['required', 'integer', 'exists:user_menus,id'],
             'day' => ['required', 'integer'],
             'is_active' => ['required', 'boolean'],
         ];
