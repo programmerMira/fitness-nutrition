@@ -22,6 +22,7 @@ class Menu extends Model
         'proteins',
         'fat',
         'carbs',
+        'info',
     ];
 
     /**
@@ -38,6 +39,7 @@ class Menu extends Model
         'proteins' => 'double',
         'fat' => 'double',
         'carbs' => 'double',
+        'info' => 'array',
     ];
 
 

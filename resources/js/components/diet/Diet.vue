@@ -6,55 +6,52 @@
          <section id="account-head" class="diet">
             <Logout></Logout>
          </section>
-         <section id="progress" class="diet">
+         <section v-if="User" id="progress" class="diet">
             <div class="account-container">
                <div class="progress__container">
                <div class="progress__col-first">
                   <div class="progress__row">
                      <div class="progress-level">
                         <div class="progress-level__title">
-                           Любовь
-                           <p class="progress-level__chart-level-mob">
-                              1 уровень
-                           </p>
+                           {{User.user.name}}
+                           <div v-if="UserTrainings" class="progress-level__mob">{{UserTrainings.training.level}} уровень</div>
                         </div>
                         <div class="level__chart">
-                           <svg class="radial-progress" data-percentage="75" viewBox="0 0 86 86">
+                           <svg class="radial-progress" :data-percentage="findPercent()" viewBox="0 0 86 86">
                               <defs>
-                                 <linearGradient id="linear" x1="93.5" y1="0" x2="93.5" y2="195.791"
+                                 <linearGradient id="linear" x1="46.2954" y1="0" x2="46.2954" y2="99.0139"
                                     gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#81CE9A" />
-                                    <stop offset="1" stop-color="#00AB8C" />
+                                    <stop stop-color="#A697FF" />
+                                    <stop offset="1" stop-color="#573DFF" />
                                  </linearGradient>
                               </defs>
                               <circle class="incomplete" cx="43" cy="43" r="35"></circle>
                               <circle class="complete" cx="43" cy="43" r="35" stroke="url(#linear)"></circle>
+                              <circle class="incomplete incomplete-mob" cx="43" cy="43" r="35"></circle>
+                              <circle class="complete complete-mob" cx="43" cy="43" r="35" stroke="url(#linear)">
+                              </circle>
                            </svg>
                            <div class="progress-level__chart-txt">
-                              <p class="progress-level__chart-level">
-                                 1 уровень
-                              </p>
+                              <p v-if="UserTrainings" class="progress-level__chart-level">{{UserTrainings.training.level}} уровень</p>
                               <div class="progress-level__current"></div>
                            </div>
                         </div>
                      </div>
                      <div class="progress-result">
-                        <div class="progress-result__title">
-                           -8 кг
-                        </div>
-                        <div class="progress-result__caption">
-                           <span>Мой</span> результат
-                           <p class="progress-level__chart-level progress-level__chart-level-mob">
-                              1 уровень
-                           </p>
-                        </div>
+                      <div v-if="Physics" class="progress-result__title">{{Physics.current_weight - Physics.weight}} кг</div>
+                      <div class="progress-result__caption">
+                        <span>Мой</span> результат
+                        <p v-if="UserTrainings" class="progress-level__chart-level progress-level__chart-level-mob">
+                            {{UserTrainings.training.level}} уровень
+                        </p>
+                      </div>
                      </div>
                   </div>
                      <div class="calendar diet">
                      <div class="calendar__container">
-                        <div class="calendar__slider-diet">
+                        <div v-if="MenuTitleAndDays.length>0" class="calendar__slider-diet">
                            <div class="swiper-wrapper">
-                              <div class="swiper-slide" v-for="(tabs, index) in slider" :key="index">
+                              <div class="swiper-slide" v-for="(tabs, index) in MenuTitleAndDays" :key="index">
                                  <div class="calendar__title">
                                     <span>Календарь питания</span> <h5>{{ tabs.menutitle }}</h5>
                                  </div>
@@ -63,29 +60,13 @@
                                     class="calendar__day"
                                     v-for="(tab, index) in tabs.days" 
                                     :key="index"
-                                    @click="selectedTab = tab.title"
-                                    :class="{ active: selectedTab == tab.title }"
+                                    v-on:click = "changeTabSelection(tab.title)"
+                                    :class="changeTabStyle(tab.title)"
                                     >
                                     <span>{{ tab.title }}</span>
                                     </div>
                                  </div>
                               </div>
-                              <!-- <div class="swiper-slide">
-                                 <div class="calendar__title">
-                                    <span>Календарь питания</span> <h5>Меню 30 дней №1 на 1300-1400</h5>
-                                 </div>
-                                 <div class="calendar__days">
-                                    <div
-                                    class="calendar__day"
-                                    v-for="tab in tabs"
-                                    @click="selectedTab = tab.title"
-                                    :key="tab.title"
-                                    :class="{ active: selectedTab == tab.title }"
-                                    >
-                                    <span>{{ tab.title }}</span>
-                                    </div>
-                                 </div>
-                              </div> -->
                            </div> 
                            <div class="calendar__slider-diet-pagination">
                               <div class="swiper-button-next"></div>
@@ -103,7 +84,7 @@
                            <ellipse opacity="0.13" rx="138.392" ry="131.529" transform="matrix(-0.969532 -0.244963 0.273341 -0.961917 220.71 114.066)" fill="white"/>
                         </svg>
                      </div>
-                     <div class="progress-block__head">
+                     <div v-on:click="show_types()" class="progress-block__head">
                         <h5 class="progress-block__title">
                            План питания
                         </h5>
@@ -113,11 +94,11 @@
                                  Разнообразное меню
                               </li>
                            </ul>
-                           <ul class="select__ul">
+                           <ul :style="show_select_types? 'display: block !important': 'display: none !important'" class="select__ul">
                               <li>
                                  Разнообразное меню
                               </li>
-                           <li>
+                              <li>
                                  Простое меню
                               </li>
                            </ul>
@@ -129,28 +110,28 @@
                            </svg>
                         </div>
                      </div>
-                     <ul class="progress-block__steps progress-diet__plan-list">
+                     <ul v-if="UserMenu" class="progress-block__steps progress-diet__plan-list">
                         <li class="progress-diet__plan-item">
                            Белки
                            <b>
-                              100 гр
+                              {{UserMenu.proteins}} гр
                            </b>
                         </li>
                         <li class="progress-diet__plan-item">
                            Жиры
                            <b>
-                              100 гр
+                              {{UserMenu.fat}} гр
                            </b>
                         </li>
                         <li class="progress-diet__plan-item">
                            Углеводы
                            <b>
-                              100 гр
+                              {{UserMenu.carbs}} гр
                            </b>
                         </li>
                      </ul>
                   </div>
-                     <DietMenu :selectedTab="selectedTab"></DietMenu>
+                     <DietMenu :day="selectedTab" :menuId="selectedMenuId"></DietMenu>
                </div>
             </div>
                <DietModal></DietModal>
@@ -177,204 +158,98 @@ export default {
     Logout
   },
   data: () => ({
-   slider: [
-         {
-            menutitle: "Меню 30 дней №1 на 1300-1400",
-            days: [
+      slider: [],
+      selectedTab: null,
+      show_select_types:false,
+      selectedMenuId:null,
+   }),
+   computed:{
+      User(){
+         return this.$store.getters.GetPersonalAccount;
+      },
+      UserTrainings(){
+         //console.log("GetTrainingUsers:",this.$store.getters.GetTrainingUsers);
+         if(this.selectedTrainingId)
+            return this.$store.getters.GetTrainingUsers[0];
+      },
+      UserMenu(){
+         console.log("usersmenus:",this.$store.getters.GetUserMenus);
+         if(this.selectedMenuId)
+            return this.$store.getters.GetUserMenus.find(element=>element.menu_id === this.selectedMenuId.users_menus.menu_id);
+      },
+      Physics(){
+         return this.$store.getters.GetPhysicsParameters;
+      },
+      UserFoodCallendar(){
+         //console.log("UserFoodCallendar:",this.$store.getters.GetFoodCalendars.find(element=>parseInt(element.is_active)==1))
+         return this.$store.getters.GetFoodCalendars.find(element=>parseInt(element.is_active)==1);
+      },
+      MenuTitleAndDays(){
+         let tmp = this.$store.getters.GetUserMenus;
+         if(!tmp||tmp.length<1)
+            return this.slider;
+         if(this.$store.getters.GetFoodCalendars!=null)
+            this.selectedMenuId = this.UserFoodCallendar;
+         else
+            this.selectedMenuId = tmp[0];
+         if(this.selectedMenuId)
+            this.selectedTab = this.selectedMenuId.day.toString();
+         else
+            this.selectedTab = "1";
+         this.slider = [];
+         tmp.forEach(item=>{
+            let days=[];
+            item.days.forEach(day=>days.push({title: day.day_number}));
+            this.slider.push(
                {
-               title: "1",
-               },
-               {
-               title: "2",
-               },
-               {
-               title: "3",
-               },
-               {
-               title: "4",
-               },
-               {
-               title: "5",
-               },
-               {
-               title: "6",
-               },
-               {
-               title: "7",
-               },
-               {
-               title: "8",
-               },
-               {
-               title: "9",
-               },
-               {
-               title: "10",
-               },
-               {
-               title: "11",
-               },
-               {
-               title: "12",
-               },
-               {
-               title: "13",
-               },
-               {
-               title: "14",
-               },
-               {
-               title: "15",
-               },
-               {
-               title: "16",
-               },
-               {
-               title: "17",
-               },
-               {
-               title: "18",
-               },
-               {
-               title: "19",
-               },
-               {
-               title: "20",
-               },
-               {
-               title: "21",
-               },
-               {
-               title: "22",
-               },
-               {
-               title: "23",
-               },
-               {
-               title: "24",
-               },
-               {
-               title: "25",
-               },
-               {
-               title: "26",
-               },
-               {
-               title: "27",
-               },
-               {
-               title: "28",
-               },
-               {
-               title: "29",
-               },
-               {
-               title: "30",
-               },
-            ],
-         },
-         {
-            menutitle: "Меню 30 дней №2 на 1300-1400",
-            days: [
-               {
-               title: "1",
-               },
-               {
-               title: "2",
-               },
-               {
-               title: "3",
-               },
-               {
-               title: "4",
-               },
-               {
-               title: "5",
-               },
-               {
-               title: "6",
-               },
-               {
-               title: "7",
-               },
-               {
-               title: "8",
-               },
-               {
-               title: "9",
-               },
-               {
-               title: "10",
-               },
-               {
-               title: "11",
-               },
-               {
-               title: "12",
-               },
-               {
-               title: "13",
-               },
-               {
-               title: "14",
-               },
-               {
-               title: "15",
-               },
-               {
-               title: "16",
-               },
-               {
-               title: "17",
-               },
-               {
-               title: "18",
-               },
-               {
-               title: "19",
-               },
-               {
-               title: "20",
-               },
-               {
-               title: "21",
-               },
-               {
-               title: "22",
-               },
-               {
-               title: "23",
-               },
-               {
-               title: "24",
-               },
-               {
-               title: "25",
-               },
-               {
-               title: "26",
-               },
-               {
-               title: "27",
-               },
-               {
-               title: "28",
-               },
-               {
-               title: "29",
-               },
-               {
-               title: "30",
-               },
-            ],
-         },
-      ],
-    selectedTab: "1",
-  }),
-  methods: {
-    selectTab() {
-      this.selectedTab = this.tab.title;
-    },
-  },
+                  menutitle: item.menu.menu_content,
+                  days: days
+               }
+            );
+         });
+         console.log("this.slider: ",this.slider);
+         console.log("this.selectedMenuId:",this.selectedMenuId);
+         return this.slider;
+      },
+   },
+   mounted(){
+      if(userInfo){
+         this.$store.dispatch('fetchPersonalAccount');
+         this.$store.dispatch('fetchPhysicsParameters');
+         this.$store.dispatch('fetchTrainingUsers');
+         this.$store.dispatch('fetchUserMenus');
+         this.$store.dispatch('fetchFoodCalendars');
+      }
+   },
+   methods: {
+      findPercent()
+      {
+         if(this.UserTrainings==null)
+            return 0;
+         var date1 = new Date(this.UserTrainings.created_at);
+         var date2 = new Date();
+         var Difference_In_Time = date2.getTime() - date1.getTime();
+         var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+         var percent = (Difference_In_Days*100)/30;
+         return parseInt(percent);
+      },
+      show_types(){
+         this.show_select_types=!this.show_select_types;
+      },
+      changeTabSelection(tabTitle){
+         this.$store.dispatch('setFoodCalendar',{
+            id: this.UserFoodCallendar.id,
+            users_menus_id: this.UserFoodCallendar.users_menus_id,
+            day: parseInt(tabTitle),
+            is_active: this.UserFoodCallendar.is_active
+         });
+         
+         this.selectedTab = tabTitle;
+      },
+      changeTabStyle(tabTitle){
+         if(this.selectedTab!=null&&this.selectedTab.toString()==tabTitle)
+            return 'active';
+      },
+   },
 };
 </script>

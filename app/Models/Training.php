@@ -22,6 +22,7 @@ class Training extends Model
         'level',
         'training_price',
         'problem_zone_id',
+        'info',
     ];
 
     /**
@@ -36,6 +37,7 @@ class Training extends Model
         'level' => 'integer',
         'training_price' => 'double',
         'problem_zone_id'=>'integer',
+        'info'=>'array',
     ];
 
 

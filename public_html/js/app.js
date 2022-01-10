@@ -2224,25 +2224,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -2260,139 +2241,96 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      slider: [{
-        menutitle: "Меню 30 дней №1 на 1300-1400",
-        days: [{
-          title: "1"
-        }, {
-          title: "2"
-        }, {
-          title: "3"
-        }, {
-          title: "4"
-        }, {
-          title: "5"
-        }, {
-          title: "6"
-        }, {
-          title: "7"
-        }, {
-          title: "8"
-        }, {
-          title: "9"
-        }, {
-          title: "10"
-        }, {
-          title: "11"
-        }, {
-          title: "12"
-        }, {
-          title: "13"
-        }, {
-          title: "14"
-        }, {
-          title: "15"
-        }, {
-          title: "16"
-        }, {
-          title: "17"
-        }, {
-          title: "18"
-        }, {
-          title: "19"
-        }, {
-          title: "20"
-        }, {
-          title: "21"
-        }, {
-          title: "22"
-        }, {
-          title: "23"
-        }, {
-          title: "24"
-        }, {
-          title: "25"
-        }, {
-          title: "26"
-        }, {
-          title: "27"
-        }, {
-          title: "28"
-        }, {
-          title: "29"
-        }, {
-          title: "30"
-        }]
-      }, {
-        menutitle: "Меню 30 дней №2 на 1300-1400",
-        days: [{
-          title: "1"
-        }, {
-          title: "2"
-        }, {
-          title: "3"
-        }, {
-          title: "4"
-        }, {
-          title: "5"
-        }, {
-          title: "6"
-        }, {
-          title: "7"
-        }, {
-          title: "8"
-        }, {
-          title: "9"
-        }, {
-          title: "10"
-        }, {
-          title: "11"
-        }, {
-          title: "12"
-        }, {
-          title: "13"
-        }, {
-          title: "14"
-        }, {
-          title: "15"
-        }, {
-          title: "16"
-        }, {
-          title: "17"
-        }, {
-          title: "18"
-        }, {
-          title: "19"
-        }, {
-          title: "20"
-        }, {
-          title: "21"
-        }, {
-          title: "22"
-        }, {
-          title: "23"
-        }, {
-          title: "24"
-        }, {
-          title: "25"
-        }, {
-          title: "26"
-        }, {
-          title: "27"
-        }, {
-          title: "28"
-        }, {
-          title: "29"
-        }, {
-          title: "30"
-        }]
-      }],
-      selectedTab: "1"
+      slider: [],
+      selectedTab: null,
+      show_select_types: false,
+      selectedMenuId: null
     };
   },
+  computed: {
+    User: function User() {
+      return this.$store.getters.GetPersonalAccount;
+    },
+    UserTrainings: function UserTrainings() {
+      //console.log("GetTrainingUsers:",this.$store.getters.GetTrainingUsers);
+      if (this.selectedTrainingId) return this.$store.getters.GetTrainingUsers[0];
+    },
+    UserMenu: function UserMenu() {
+      var _this = this;
+
+      console.log("usersmenus:", this.$store.getters.GetUserMenus);
+      if (this.selectedMenuId) return this.$store.getters.GetUserMenus.find(function (element) {
+        return element.menu_id === _this.selectedMenuId.users_menus.menu_id;
+      });
+    },
+    Physics: function Physics() {
+      return this.$store.getters.GetPhysicsParameters;
+    },
+    UserFoodCallendar: function UserFoodCallendar() {
+      //console.log("UserFoodCallendar:",this.$store.getters.GetFoodCalendars.find(element=>parseInt(element.is_active)==1))
+      return this.$store.getters.GetFoodCalendars.find(function (element) {
+        return parseInt(element.is_active) == 1;
+      });
+    },
+    MenuTitleAndDays: function MenuTitleAndDays() {
+      var _this2 = this;
+
+      var tmp = this.$store.getters.GetUserMenus;
+      if (!tmp || tmp.length < 1) return this.slider;
+      if (this.$store.getters.GetFoodCalendars != null) this.selectedMenuId = this.UserFoodCallendar;else this.selectedMenuId = tmp[0];
+      if (this.selectedMenuId) this.selectedTab = this.selectedMenuId.day.toString();else this.selectedTab = "1";
+      this.slider = [];
+      tmp.forEach(function (item) {
+        var days = [];
+        item.days.forEach(function (day) {
+          return days.push({
+            title: day.day_number
+          });
+        });
+
+        _this2.slider.push({
+          menutitle: item.menu.menu_content,
+          days: days
+        });
+      });
+      console.log("this.slider: ", this.slider);
+      console.log("this.selectedMenuId:", this.selectedMenuId);
+      return this.slider;
+    }
+  },
+  mounted: function mounted() {
+    if (userInfo) {
+      this.$store.dispatch('fetchPersonalAccount');
+      this.$store.dispatch('fetchPhysicsParameters');
+      this.$store.dispatch('fetchTrainingUsers');
+      this.$store.dispatch('fetchUserMenus');
+      this.$store.dispatch('fetchFoodCalendars');
+    }
+  },
   methods: {
-    selectTab: function selectTab() {
-      this.selectedTab = this.tab.title;
+    findPercent: function findPercent() {
+      if (this.UserTrainings == null) return 0;
+      var date1 = new Date(this.UserTrainings.created_at);
+      var date2 = new Date();
+      var Difference_In_Time = date2.getTime() - date1.getTime();
+      var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+      var percent = Difference_In_Days * 100 / 30;
+      return parseInt(percent);
+    },
+    show_types: function show_types() {
+      this.show_select_types = !this.show_select_types;
+    },
+    changeTabSelection: function changeTabSelection(tabTitle) {
+      this.$store.dispatch('setFoodCalendar', {
+        id: this.UserFoodCallendar.id,
+        users_menus_id: this.UserFoodCallendar.users_menus_id,
+        day: parseInt(tabTitle),
+        is_active: this.UserFoodCallendar.is_active
+      });
+      this.selectedTab = tabTitle;
+    },
+    changeTabStyle: function changeTabStyle(tabTitle) {
+      if (this.selectedTab != null && this.selectedTab.toString() == tabTitle) return 'active';
     }
   }
 });
@@ -2468,190 +2406,50 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["selectedTab"]
+  props: ["day", "menuId"],
+  data: function data() {
+    return {
+      current_menu: null,
+      current_day: null,
+      show_video_link: null,
+      show_modal: false
+    };
+  },
+  mounted: function mounted() {
+    if (userInfo) {
+      this.$store.dispatch('fetchUserMenus');
+    }
+  },
+  computed: {
+    UserMenus: function UserMenus() {
+      var _this = this;
+
+      console.log('this.menuId:', this.menuId);
+      console.log('this.day:', this.day);
+      if (!this.menuId) return false;
+      this.current_menu = this.$store.getters.GetUserMenus.find(function (element) {
+        return parseInt(element.menu_id) === parseInt(_this.menuId.users_menus.menu_id);
+      });
+      console.log('this.current_menu:', this.current_menu);
+
+      if (this.current_menu) {
+        this.current_day = this.current_menu.days.find(function (element) {
+          return parseInt(element.day_number) === parseInt(_this.day);
+        });
+        console.log('this.current_day:', this.current_day);
+        if (this.current_day) return true;
+      }
+
+      return false;
+    }
+  },
+  methods: {
+    show_video: function show_video(link) {
+      if (link[0] != null) this.show_video_link = link[0].link;
+      this.show_modal = true;
+    }
+  }
 });
 
 /***/ }),
@@ -5098,8 +4896,8 @@ __webpack_require__.r(__webpack_exports__);
           days: days
         });
       }); //console.log("this.slider: ",this.slider);
-      //console.log("this.selectedTrainingId:",this.selectedTrainingId);
 
+      console.log("this.selectedTrainingId:", this.selectedTrainingId);
       return this.slider;
     },
     Physics: function Physics() {
@@ -5229,28 +5027,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//инфа про выходной, описание тренировки + доп.шаги -> raw_html
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["day", "trainingId"],
   data: function data() {
@@ -5325,8 +5101,7 @@ Vue.component('Home', (__webpack_require__(/*! ./components/home/Home.vue */ "./
 Vue.component('Diet', (__webpack_require__(/*! ./components/diet/Diet.vue */ "./resources/js/components/diet/Diet.vue")["default"]));
 Vue.component('Plugin', (__webpack_require__(/*! ./components/plugin/Plugin.vue */ "./resources/js/components/plugin/Plugin.vue")["default"]));
 Vue.component('Questions', (__webpack_require__(/*! ./components/questions/Questions.vue */ "./resources/js/components/questions/Questions.vue")["default"]));
-Vue.component('Question', (__webpack_require__(/*! ./components/questions/Question.vue */ "./resources/js/components/questions/Question.vue")["default"])); //Vue.component('Logout', require('./components/general/Logout.vue').default);
-
+Vue.component('Question', (__webpack_require__(/*! ./components/questions/Question.vue */ "./resources/js/components/questions/Question.vue")["default"]));
 var app = new Vue({
   el: '#app',
   store: _store__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -46073,289 +45848,439 @@ var render = function () {
       1
     ),
     _vm._v(" "),
-    _c("section", { staticClass: "diet", attrs: { id: "progress" } }, [
-      _c(
-        "div",
-        { staticClass: "account-container" },
-        [
-          _c("div", { staticClass: "progress__container" }, [
-            _c("div", { staticClass: "progress__col-first" }, [
-              _c("div", { staticClass: "progress__row" }, [
-                _c("div", { staticClass: "progress-level" }, [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "level__chart" }, [
-                    _c(
-                      "svg",
-                      {
-                        staticClass: "radial-progress",
-                        attrs: {
-                          "data-percentage": "75",
-                          viewBox: "0 0 86 86",
-                        },
-                      },
-                      [
+    _vm.User
+      ? _c("section", { staticClass: "diet", attrs: { id: "progress" } }, [
+          _c(
+            "div",
+            { staticClass: "account-container" },
+            [
+              _c("div", { staticClass: "progress__container" }, [
+                _c("div", { staticClass: "progress__col-first" }, [
+                  _c("div", { staticClass: "progress__row" }, [
+                    _c("div", { staticClass: "progress-level" }, [
+                      _c("div", { staticClass: "progress-level__title" }, [
+                        _vm._v(
+                          "\n                         " +
+                            _vm._s(_vm.User.user.name) +
+                            "\n                         "
+                        ),
+                        _vm.UserTrainings
+                          ? _c("div", { staticClass: "progress-level__mob" }, [
+                              _vm._v(
+                                _vm._s(_vm.UserTrainings.training.level) +
+                                  " уровень"
+                              ),
+                            ])
+                          : _vm._e(),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "level__chart" }, [
                         _c(
-                          "defs",
+                          "svg",
+                          {
+                            staticClass: "radial-progress",
+                            attrs: {
+                              "data-percentage": _vm.findPercent(),
+                              viewBox: "0 0 86 86",
+                            },
+                          },
                           [
                             _c(
-                              "linearGradient",
-                              {
-                                attrs: {
-                                  id: "linear",
-                                  x1: "93.5",
-                                  y1: "0",
-                                  x2: "93.5",
-                                  y2: "195.791",
-                                  gradientUnits: "userSpaceOnUse",
-                                },
-                              },
+                              "defs",
                               [
-                                _c("stop", {
-                                  attrs: { "stop-color": "#81CE9A" },
-                                }),
-                                _vm._v(" "),
-                                _c("stop", {
-                                  attrs: {
-                                    offset: "1",
-                                    "stop-color": "#00AB8C",
+                                _c(
+                                  "linearGradient",
+                                  {
+                                    attrs: {
+                                      id: "linear",
+                                      x1: "46.2954",
+                                      y1: "0",
+                                      x2: "46.2954",
+                                      y2: "99.0139",
+                                      gradientUnits: "userSpaceOnUse",
+                                    },
                                   },
-                                }),
+                                  [
+                                    _c("stop", {
+                                      attrs: { "stop-color": "#A697FF" },
+                                    }),
+                                    _vm._v(" "),
+                                    _c("stop", {
+                                      attrs: {
+                                        offset: "1",
+                                        "stop-color": "#573DFF",
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
                               ],
                               1
                             ),
-                          ],
-                          1
+                            _vm._v(" "),
+                            _c("circle", {
+                              staticClass: "incomplete",
+                              attrs: { cx: "43", cy: "43", r: "35" },
+                            }),
+                            _vm._v(" "),
+                            _c("circle", {
+                              staticClass: "complete",
+                              attrs: {
+                                cx: "43",
+                                cy: "43",
+                                r: "35",
+                                stroke: "url(#linear)",
+                              },
+                            }),
+                            _vm._v(" "),
+                            _c("circle", {
+                              staticClass: "incomplete incomplete-mob",
+                              attrs: { cx: "43", cy: "43", r: "35" },
+                            }),
+                            _vm._v(" "),
+                            _c("circle", {
+                              staticClass: "complete complete-mob",
+                              attrs: {
+                                cx: "43",
+                                cy: "43",
+                                r: "35",
+                                stroke: "url(#linear)",
+                              },
+                            }),
+                          ]
                         ),
                         _vm._v(" "),
-                        _c("circle", {
-                          staticClass: "incomplete",
-                          attrs: { cx: "43", cy: "43", r: "35" },
-                        }),
-                        _vm._v(" "),
-                        _c("circle", {
-                          staticClass: "complete",
-                          attrs: {
-                            cx: "43",
-                            cy: "43",
-                            r: "35",
-                            stroke: "url(#linear)",
-                          },
-                        }),
-                      ]
-                    ),
+                        _c(
+                          "div",
+                          { staticClass: "progress-level__chart-txt" },
+                          [
+                            _vm.UserTrainings
+                              ? _c(
+                                  "p",
+                                  {
+                                    staticClass: "progress-level__chart-level",
+                                  },
+                                  [
+                                    _vm._v(
+                                      _vm._s(_vm.UserTrainings.training.level) +
+                                        " уровень"
+                                    ),
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c("div", {
+                              staticClass: "progress-level__current",
+                            }),
+                          ]
+                        ),
+                      ]),
+                    ]),
                     _vm._v(" "),
-                    _vm._m(1),
+                    _c("div", { staticClass: "progress-result" }, [
+                      _vm.Physics
+                        ? _c("div", { staticClass: "progress-result__title" }, [
+                            _vm._v(
+                              _vm._s(
+                                _vm.Physics.current_weight - _vm.Physics.weight
+                              ) + " кг"
+                            ),
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "progress-result__caption" }, [
+                        _c("span", [_vm._v("Мой")]),
+                        _vm._v(" результат\n                      "),
+                        _vm.UserTrainings
+                          ? _c(
+                              "p",
+                              {
+                                staticClass:
+                                  "progress-level__chart-level progress-level__chart-level-mob",
+                              },
+                              [
+                                _vm._v(
+                                  "\n                          " +
+                                    _vm._s(_vm.UserTrainings.training.level) +
+                                    " уровень\n                      "
+                                ),
+                              ]
+                            )
+                          : _vm._e(),
+                      ]),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "calendar diet" }, [
+                    _c("div", { staticClass: "calendar__container" }, [
+                      _vm.MenuTitleAndDays.length > 0
+                        ? _c("div", { staticClass: "calendar__slider-diet" }, [
+                            _c(
+                              "div",
+                              { staticClass: "swiper-wrapper" },
+                              _vm._l(
+                                _vm.MenuTitleAndDays,
+                                function (tabs, index) {
+                                  return _c(
+                                    "div",
+                                    { key: index, staticClass: "swiper-slide" },
+                                    [
+                                      _c(
+                                        "div",
+                                        { staticClass: "calendar__title" },
+                                        [
+                                          _c("span", [
+                                            _vm._v("Календарь питания"),
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("h5", [
+                                            _vm._v(_vm._s(tabs.menutitle)),
+                                          ]),
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        { staticClass: "calendar__days" },
+                                        _vm._l(
+                                          tabs.days,
+                                          function (tab, index) {
+                                            return _c(
+                                              "div",
+                                              {
+                                                key: index,
+                                                staticClass: "calendar__day",
+                                                class: _vm.changeTabStyle(
+                                                  tab.title
+                                                ),
+                                                on: {
+                                                  click: function ($event) {
+                                                    return _vm.changeTabSelection(
+                                                      tab.title
+                                                    )
+                                                  },
+                                                },
+                                              },
+                                              [
+                                                _c("span", [
+                                                  _vm._v(_vm._s(tab.title)),
+                                                ]),
+                                              ]
+                                            )
+                                          }
+                                        ),
+                                        0
+                                      ),
+                                    ]
+                                  )
+                                }
+                              ),
+                              0
+                            ),
+                            _vm._v(" "),
+                            _vm._m(0),
+                          ])
+                        : _vm._e(),
+                    ]),
                   ]),
                 ]),
                 _vm._v(" "),
-                _vm._m(2),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "calendar diet" }, [
-                _c("div", { staticClass: "calendar__container" }, [
-                  _c("div", { staticClass: "calendar__slider-diet" }, [
-                    _c(
-                      "div",
-                      { staticClass: "swiper-wrapper" },
-                      _vm._l(_vm.slider, function (tabs, index) {
-                        return _c(
-                          "div",
-                          { key: index, staticClass: "swiper-slide" },
+                _c(
+                  "div",
+                  { staticClass: "progress__col-second" },
+                  [
+                    _c("div", { staticClass: "progress-block" }, [
+                      _c("div", { staticClass: "progress-block__svg-elem" }, [
+                        _c(
+                          "svg",
+                          {
+                            attrs: {
+                              width: "280",
+                              height: "322",
+                              viewBox: "0 0 280 322",
+                              fill: "none",
+                              xmlns: "http://www.w3.org/2000/svg",
+                            },
+                          },
                           [
-                            _c("div", { staticClass: "calendar__title" }, [
-                              _c("span", [_vm._v("Календарь питания")]),
-                              _vm._v(" "),
-                              _c("h5", [_vm._v(_vm._s(tabs.menutitle))]),
-                            ]),
+                            _c("ellipse", {
+                              attrs: {
+                                opacity: "0.13",
+                                rx: "164.341",
+                                ry: "156.191",
+                                transform:
+                                  "matrix(-0.969532 -0.244963 0.273341 -0.961917 202.027 131.5)",
+                                fill: "white",
+                              },
+                            }),
                             _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "calendar__days" },
-                              _vm._l(tabs.days, function (tab, index) {
-                                return _c(
-                                  "div",
-                                  {
-                                    key: index,
-                                    staticClass: "calendar__day",
-                                    class: {
-                                      active: _vm.selectedTab == tab.title,
-                                    },
-                                    on: {
-                                      click: function ($event) {
-                                        _vm.selectedTab = tab.title
-                                      },
-                                    },
-                                  },
-                                  [_c("span", [_vm._v(_vm._s(tab.title))])]
-                                )
-                              }),
-                              0
-                            ),
+                            _c("ellipse", {
+                              attrs: {
+                                opacity: "0.13",
+                                rx: "138.392",
+                                ry: "131.529",
+                                transform:
+                                  "matrix(-0.969532 -0.244963 0.273341 -0.961917 220.71 114.066)",
+                                fill: "white",
+                              },
+                            }),
                           ]
-                        )
-                      }),
-                      0
-                    ),
-                    _vm._v(" "),
-                    _vm._m(3),
-                  ]),
-                ]),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "progress__col-second" },
-              [
-                _c("div", { staticClass: "progress-block" }, [
-                  _c("div", { staticClass: "progress-block__svg-elem" }, [
-                    _c(
-                      "svg",
-                      {
-                        attrs: {
-                          width: "280",
-                          height: "322",
-                          viewBox: "0 0 280 322",
-                          fill: "none",
-                          xmlns: "http://www.w3.org/2000/svg",
-                        },
-                      },
-                      [
-                        _c("ellipse", {
-                          attrs: {
-                            opacity: "0.13",
-                            rx: "164.341",
-                            ry: "156.191",
-                            transform:
-                              "matrix(-0.969532 -0.244963 0.273341 -0.961917 202.027 131.5)",
-                            fill: "white",
-                          },
-                        }),
-                        _vm._v(" "),
-                        _c("ellipse", {
-                          attrs: {
-                            opacity: "0.13",
-                            rx: "138.392",
-                            ry: "131.529",
-                            transform:
-                              "matrix(-0.969532 -0.244963 0.273341 -0.961917 220.71 114.066)",
-                            fill: "white",
-                          },
-                        }),
-                      ]
-                    ),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "progress-block__head" }, [
-                    _c("h5", { staticClass: "progress-block__title" }, [
-                      _vm._v(
-                        "\n                         План питания\n                      "
-                      ),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "select__wrap" }, [
-                      _vm._m(4),
-                      _vm._v(" "),
-                      _vm._m(5),
+                        ),
+                      ]),
                       _vm._v(" "),
                       _c(
-                        "svg",
+                        "div",
                         {
-                          staticClass: "select__svg",
-                          attrs: {
-                            width: "17",
-                            height: "9",
-                            viewBox: "0 0 17 9",
-                            fill: "none",
-                            xmlns: "http://www.w3.org/2000/svg",
+                          staticClass: "progress-block__head",
+                          on: {
+                            click: function ($event) {
+                              return _vm.show_types()
+                            },
                           },
                         },
                         [
-                          _c("path", {
-                            attrs: {
-                              d: "M16.0543 0.602247C16.0544 0.681312 16.0388 0.759609 16.0086 0.832666C15.9783 0.905724 15.934 0.97211 15.878 1.02804L8.45314 8.44784C8.34019 8.56069 8.18701 8.62408 8.02729 8.62408C7.86757 8.62408 7.71439 8.56069 7.60143 8.44784L0.176538 1.02804C0.120587 0.972146 0.0761993 0.905792 0.0459089 0.832759C0.0156185 0.759727 1.86629e-05 0.681447 1.67352e-08 0.602389C-1.86294e-05 0.523332 0.0155444 0.445045 0.0458003 0.371998C0.0760563 0.298951 0.120413 0.232574 0.176337 0.176659C0.232261 0.120743 0.298658 0.0763845 0.371737 0.046113C0.444816 0.0158415 0.523145 0.000250816 0.602253 0.000231743C0.68136 0.000213623 0.759697 0.0157671 0.83279 0.0460043C0.905883 0.0762405 0.972301 0.120569 1.02825 0.176458L8.02709 7.17087L15.0259 0.176458C15.1102 0.0922174 15.2175 0.0348415 15.3344 0.0115919C15.4513 -0.0116568 15.5724 0.000263214 15.6825 0.0458469C15.7926 0.0914307 15.8867 0.16863 15.9529 0.267672C16.0191 0.366714 16.0544 0.48315 16.0543 0.602247Z",
-                              fill: "white",
-                            },
-                          }),
+                          _c("h5", { staticClass: "progress-block__title" }, [
+                            _vm._v(
+                              "\n                         План питания\n                      "
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "select__wrap" }, [
+                            _vm._m(1),
+                            _vm._v(" "),
+                            _c(
+                              "ul",
+                              {
+                                staticClass: "select__ul",
+                                style: _vm.show_select_types
+                                  ? "display: block !important"
+                                  : "display: none !important",
+                              },
+                              [
+                                _c("li", [
+                                  _vm._v(
+                                    "\n                               Разнообразное меню\n                            "
+                                  ),
+                                ]),
+                                _vm._v(" "),
+                                _c("li", [
+                                  _vm._v(
+                                    "\n                               Простое меню\n                            "
+                                  ),
+                                ]),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "svg",
+                              {
+                                staticClass: "select__svg",
+                                attrs: {
+                                  width: "17",
+                                  height: "9",
+                                  viewBox: "0 0 17 9",
+                                  fill: "none",
+                                  xmlns: "http://www.w3.org/2000/svg",
+                                },
+                              },
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    d: "M16.0543 0.602247C16.0544 0.681312 16.0388 0.759609 16.0086 0.832666C15.9783 0.905724 15.934 0.97211 15.878 1.02804L8.45314 8.44784C8.34019 8.56069 8.18701 8.62408 8.02729 8.62408C7.86757 8.62408 7.71439 8.56069 7.60143 8.44784L0.176538 1.02804C0.120587 0.972146 0.0761993 0.905792 0.0459089 0.832759C0.0156185 0.759727 1.86629e-05 0.681447 1.67352e-08 0.602389C-1.86294e-05 0.523332 0.0155444 0.445045 0.0458003 0.371998C0.0760563 0.298951 0.120413 0.232574 0.176337 0.176659C0.232261 0.120743 0.298658 0.0763845 0.371737 0.046113C0.444816 0.0158415 0.523145 0.000250816 0.602253 0.000231743C0.68136 0.000213623 0.759697 0.0157671 0.83279 0.0460043C0.905883 0.0762405 0.972301 0.120569 1.02825 0.176458L8.02709 7.17087L15.0259 0.176458C15.1102 0.0922174 15.2175 0.0348415 15.3344 0.0115919C15.4513 -0.0116568 15.5724 0.000263214 15.6825 0.0458469C15.7926 0.0914307 15.8867 0.16863 15.9529 0.267672C16.0191 0.366714 16.0544 0.48315 16.0543 0.602247Z",
+                                    fill: "white",
+                                  },
+                                }),
+                              ]
+                            ),
+                          ]),
                         ]
                       ),
+                      _vm._v(" "),
+                      _vm.UserMenu
+                        ? _c(
+                            "ul",
+                            {
+                              staticClass:
+                                "progress-block__steps progress-diet__plan-list",
+                            },
+                            [
+                              _c(
+                                "li",
+                                { staticClass: "progress-diet__plan-item" },
+                                [
+                                  _vm._v(
+                                    "\n                         Белки\n                         "
+                                  ),
+                                  _c("b", [
+                                    _vm._v(
+                                      "\n                            " +
+                                        _vm._s(_vm.UserMenu.proteins) +
+                                        " гр\n                         "
+                                    ),
+                                  ]),
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "li",
+                                { staticClass: "progress-diet__plan-item" },
+                                [
+                                  _vm._v(
+                                    "\n                         Жиры\n                         "
+                                  ),
+                                  _c("b", [
+                                    _vm._v(
+                                      "\n                            " +
+                                        _vm._s(_vm.UserMenu.fat) +
+                                        " гр\n                         "
+                                    ),
+                                  ]),
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "li",
+                                { staticClass: "progress-diet__plan-item" },
+                                [
+                                  _vm._v(
+                                    "\n                         Углеводы\n                         "
+                                  ),
+                                  _c("b", [
+                                    _vm._v(
+                                      "\n                            " +
+                                        _vm._s(_vm.UserMenu.carbs) +
+                                        " гр\n                         "
+                                    ),
+                                  ]),
+                                ]
+                              ),
+                            ]
+                          )
+                        : _vm._e(),
                     ]),
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(6),
-                ]),
-                _vm._v(" "),
-                _c("DietMenu", { attrs: { selectedTab: _vm.selectedTab } }),
-              ],
-              1
-            ),
-          ]),
-          _vm._v(" "),
-          _c("DietModal"),
-          _vm._v(" "),
-          _c("DietModalSimple"),
-        ],
-        1
-      ),
-    ]),
+                    _vm._v(" "),
+                    _c("DietMenu", {
+                      attrs: {
+                        day: _vm.selectedTab,
+                        menuId: _vm.selectedMenuId,
+                      },
+                    }),
+                  ],
+                  1
+                ),
+              ]),
+              _vm._v(" "),
+              _c("DietModal"),
+              _vm._v(" "),
+              _c("DietModalSimple"),
+            ],
+            1
+          ),
+        ])
+      : _vm._e(),
   ])
 }
 var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "progress-level__title" }, [
-      _vm._v("\n                         Любовь\n                         "),
-      _c("p", { staticClass: "progress-level__chart-level-mob" }, [
-        _vm._v(
-          "\n                            1 уровень\n                         "
-        ),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "progress-level__chart-txt" }, [
-      _c("p", { staticClass: "progress-level__chart-level" }, [
-        _vm._v(
-          "\n                               1 уровень\n                            "
-        ),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "progress-level__current" }),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "progress-result" }, [
-      _c("div", { staticClass: "progress-result__title" }, [
-        _vm._v("\n                         -8 кг\n                      "),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "progress-result__caption" }, [
-        _c("span", [_vm._v("Мой")]),
-        _vm._v(" результат\n                         "),
-        _c(
-          "p",
-          {
-            staticClass:
-              "progress-level__chart-level progress-level__chart-level-mob",
-          },
-          [
-            _vm._v(
-              "\n                            1 уровень\n                         "
-            ),
-          ]
-        ),
-      ]),
-    ])
-  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
@@ -46377,63 +46302,6 @@ var staticRenderFns = [
         ),
       ]),
     ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "select__ul" }, [
-      _c("li", [
-        _vm._v(
-          "\n                               Разнообразное меню\n                            "
-        ),
-      ]),
-      _vm._v(" "),
-      _c("li", [
-        _vm._v(
-          "\n                               Простое меню\n                            "
-        ),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "ul",
-      { staticClass: "progress-block__steps progress-diet__plan-list" },
-      [
-        _c("li", { staticClass: "progress-diet__plan-item" }, [
-          _vm._v("\n                         Белки\n                         "),
-          _c("b", [
-            _vm._v(
-              "\n                            100 гр\n                         "
-            ),
-          ]),
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "progress-diet__plan-item" }, [
-          _vm._v("\n                         Жиры\n                         "),
-          _c("b", [
-            _vm._v(
-              "\n                            100 гр\n                         "
-            ),
-          ]),
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "progress-diet__plan-item" }, [
-          _vm._v(
-            "\n                         Углеводы\n                         "
-          ),
-          _c("b", [
-            _vm._v(
-              "\n                            100 гр\n                         "
-            ),
-          ]),
-        ]),
-      ]
-    )
   },
 ]
 render._withStripped = true
@@ -46462,138 +46330,196 @@ var render = function () {
     "div",
     { staticClass: "progres-diet__menu" },
     [
-      _vm.selectedTab == "1"
+      _vm.UserMenus
         ? [
             _c("div", { staticClass: "scroll__contain" }, [
-              _c("div", { staticClass: "progres-diet__contain" }, [
-                _vm._m(0),
-                _vm._v(" "),
-                _c("div", { staticClass: "progres-diet__block" }, [
-                  _c("div", { staticClass: "progres-diet__btn-play" }, [
-                    _c(
-                      "svg",
-                      {
-                        attrs: {
-                          width: "20",
-                          height: "22",
-                          viewBox: "0 0 20 22",
-                          fill: "none",
-                          xmlns: "http://www.w3.org/2000/svg",
-                        },
-                      },
-                      [
-                        _c("path", {
-                          attrs: {
-                            d: "M18.8049 9.43913C20.124 10.233 20.0891 12.1572 18.742 12.9027L3.89024 21.1213C2.54314 21.8667 0.894223 20.8744 0.92219 19.335L1.23052 2.36373C1.25849 0.824387 2.94236 -0.107432 4.26149 0.686461L18.8049 9.43913Z",
-                            fill: "white",
-                          },
-                        }),
-                      ]
-                    ),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "progres-diet__title" }, [
-                    _vm._v("\n                  Перекус №1\n               "),
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(1),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "progres-diet__block" }, [
-                  _c("div", { staticClass: "progres-diet__btn-play" }, [
-                    _c(
-                      "svg",
-                      {
-                        attrs: {
-                          width: "20",
-                          height: "22",
-                          viewBox: "0 0 20 22",
-                          fill: "none",
-                          xmlns: "http://www.w3.org/2000/svg",
-                        },
-                      },
-                      [
-                        _c("path", {
-                          attrs: {
-                            d: "M18.8049 9.43913C20.124 10.233 20.0891 12.1572 18.742 12.9027L3.89024 21.1213C2.54314 21.8667 0.894223 20.8744 0.92219 19.335L1.23052 2.36373C1.25849 0.824387 2.94236 -0.107432 4.26149 0.686461L18.8049 9.43913Z",
-                            fill: "white",
-                          },
-                        }),
-                      ]
-                    ),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "progres-diet__title" }, [
-                    _vm._v("\n                  Обед\n               "),
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(2),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "progres-diet__block" }, [
-                  _c("div", { staticClass: "progres-diet__btn-play" }, [
-                    _c(
-                      "svg",
-                      {
-                        attrs: {
-                          width: "20",
-                          height: "22",
-                          viewBox: "0 0 20 22",
-                          fill: "none",
-                          xmlns: "http://www.w3.org/2000/svg",
-                        },
-                      },
-                      [
-                        _c("path", {
-                          attrs: {
-                            d: "M18.8049 9.43913C20.124 10.233 20.0891 12.1572 18.742 12.9027L3.89024 21.1213C2.54314 21.8667 0.894223 20.8744 0.92219 19.335L1.23052 2.36373C1.25849 0.824387 2.94236 -0.107432 4.26149 0.686461L18.8049 9.43913Z",
-                            fill: "white",
-                          },
-                        }),
-                      ]
-                    ),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "progres-diet__title" }, [
-                    _vm._v("\n                  Перекус №2\n               "),
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(3),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "progres-diet__block" }, [
-                  _c("div", { staticClass: "progres-diet__btn-play" }, [
-                    _c(
-                      "svg",
-                      {
-                        attrs: {
-                          width: "20",
-                          height: "22",
-                          viewBox: "0 0 20 22",
-                          fill: "none",
-                          xmlns: "http://www.w3.org/2000/svg",
-                        },
-                      },
-                      [
-                        _c("path", {
-                          attrs: {
-                            d: "M18.8049 9.43913C20.124 10.233 20.0891 12.1572 18.742 12.9027L3.89024 21.1213C2.54314 21.8667 0.894223 20.8744 0.92219 19.335L1.23052 2.36373C1.25849 0.824387 2.94236 -0.107432 4.26149 0.686461L18.8049 9.43913Z",
-                            fill: "white",
-                          },
-                        }),
-                      ]
-                    ),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "progres-diet__title" }, [
-                    _vm._v("\n                  Ужин\n               "),
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(4),
-                ]),
-              ]),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.show_modal,
+                      expression: "show_modal",
+                    },
+                  ],
+                  staticClass: "modal modal-video",
+                  attrs: {
+                    tabindex: "-1",
+                    role: "dialog",
+                    "aria-labelledby": "exampleModalCenterTitle",
+                    "aria-hidden": "true",
+                  },
+                },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "modal-dialog modal-dialog-centered",
+                      attrs: { role: "document" },
+                    },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "modal-content modal-video__content" },
+                        [
+                          _c("div", { staticClass: "workout__video" }, [
+                            _c("iframe", {
+                              staticClass: "workout-video__embed",
+                              attrs: {
+                                width: "512",
+                                height: "288",
+                                src: _vm.show_video_link,
+                                frameborder: "0",
+                                allow:
+                                  "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+                                allowfullscreen: "",
+                              },
+                            }),
+                          ]),
+                        ]
+                      ),
+                    ]
+                  ),
+                ]
+              ),
               _vm._v(" "),
-              _vm._m(5),
+              _vm.current_day
+                ? _c(
+                    "div",
+                    { staticClass: "progres-diet__contain" },
+                    _vm._l(_vm.current_day.content, function (item, index) {
+                      return _c(
+                        "div",
+                        { key: index, staticClass: "progres-diet__block" },
+                        [
+                          item != null && item.videos && item.videos.length > 0
+                            ? _c(
+                                "div",
+                                { staticClass: "progres-diet__btn-play" },
+                                [
+                                  _c(
+                                    "svg",
+                                    {
+                                      attrs: {
+                                        width: "20",
+                                        height: "22",
+                                        viewBox: "0 0 20 22",
+                                        fill: "none",
+                                        xmlns: "http://www.w3.org/2000/svg",
+                                      },
+                                      on: {
+                                        click: function ($event) {
+                                          return _vm.show_video(item.videos)
+                                        },
+                                      },
+                                    },
+                                    [
+                                      _c("path", {
+                                        attrs: {
+                                          d: "M18.8049 9.43913C20.124 10.233 20.0891 12.1572 18.742 12.9027L3.89024 21.1213C2.54314 21.8667 0.894223 20.8744 0.92219 19.335L1.23052 2.36373C1.25849 0.824387 2.94236 -0.107432 4.26149 0.686461L18.8049 9.43913Z",
+                                          fill: "white",
+                                        },
+                                      }),
+                                    ]
+                                  ),
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          item
+                            ? _c(
+                                "div",
+                                { staticClass: "progres-diet__title" },
+                                [
+                                  _vm._v(
+                                    "\n                  " +
+                                      _vm._s(item.name) +
+                                      "\n               "
+                                  ),
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          item
+                            ? _c(
+                                "div",
+                                { staticClass: "progres-diet__list" },
+                                _vm._l(item.foods, function (dish, index) {
+                                  return _c(
+                                    "div",
+                                    {
+                                      key: index,
+                                      staticClass: "progres-diet__item",
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        { staticClass: "progres-diet__txt" },
+                                        [
+                                          _vm._v(
+                                            "\n                        " +
+                                              _vm._s(dish.name) +
+                                              "\n                     "
+                                          ),
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("span", {
+                                        staticClass: "line-dotted",
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass: "progres-diet__caption",
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                        " +
+                                              _vm._s(dish.amount) +
+                                              "\n                     "
+                                          ),
+                                        ]
+                                      ),
+                                    ]
+                                  )
+                                }),
+                                0
+                              )
+                            : _vm._e(),
+                        ]
+                      )
+                    }),
+                    0
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c("div", { staticClass: "diet-info__block" }, [
+                _c("div", { staticClass: "diet-info__title" }, [
+                  _vm._v(
+                    "\n               Дополнительно в течении дня(супер-фуд):\n            "
+                  ),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "ul",
+                  { staticClass: "diet-info__list" },
+                  [
+                    _vm._l(_vm.current_menu.menu.info, function (item, index) {
+                      return _c("li", {
+                        key: index,
+                        staticClass: "diet-info__item",
+                        domProps: { innerHTML: _vm._s(item) },
+                      })
+                    }),
+                    _vm._v(" "),
+                    _vm._m(0),
+                  ],
+                  2
+                ),
+              ]),
             ]),
           ]
         : _vm._e(),
@@ -46606,287 +46532,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "progres-diet__block" }, [
-      _c("div", { staticClass: "progres-diet__title" }, [
-        _vm._v("\n                  Завтрак\n               "),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "progres-diet__list" }, [
-        _c("div", { staticClass: "progres-diet__item" }, [
-          _c("div", { staticClass: "progres-diet__txt" }, [
-            _vm._v("\n                        Гречка\n                     "),
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "line-dotted" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "progres-diet__caption" }, [
-            _vm._v("\n                        40 гр\n                     "),
-          ]),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "progres-diet__item" }, [
-          _c("div", { staticClass: "progres-diet__txt" }, [
-            _vm._v(
-              "\n                        Яйцо отварное\n                     "
-            ),
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "line-dotted" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "progres-diet__caption" }, [
-            _vm._v("\n                        2 шт\n                     "),
-          ]),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "progres-diet__item" }, [
-          _c("div", { staticClass: "progres-diet__txt" }, [
-            _vm._v(
-              "\n                        Салат овощной\n                     "
-            ),
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "line-dotted" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "progres-diet__caption" }, [
-            _vm._v("\n                        100 гр\n                     "),
-          ]),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "progres-diet__list" }, [
-      _c("div", { staticClass: "progres-diet__item" }, [
-        _c("div", { staticClass: "progres-diet__txt" }, [
-          _vm._v(
-            "\n                        Йогурт домашний 2%\n                     "
-          ),
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "line-dotted" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "progres-diet__caption" }, [
-          _vm._v("\n                        100 гр\n                     "),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "progres-diet__item" }, [
-        _c("div", { staticClass: "progres-diet__txt" }, [
-          _vm._v("\n                        Яблоко\n                     "),
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "line-dotted" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "progres-diet__caption" }, [
-          _vm._v("\n                        100 гр\n                     "),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "progres-diet__item" }, [
-        _c("div", { staticClass: "progres-diet__txt" }, [
-          _vm._v("\n                        Миндаль\n                     "),
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "line-dotted" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "progres-diet__caption" }, [
-          _vm._v("\n                        100 гр\n                     "),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "progres-diet__list" }, [
-      _c("div", { staticClass: "progres-diet__item" }, [
-        _c("div", { staticClass: "progres-diet__txt" }, [
-          _vm._v(
-            "\n                        Йогурт домашний 2%\n                     "
-          ),
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "line-dotted" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "progres-diet__caption" }, [
-          _vm._v("\n                        100 гр\n                     "),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "progres-diet__item" }, [
-        _c("div", { staticClass: "progres-diet__txt" }, [
-          _vm._v("\n                        Яблоко\n                     "),
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "line-dotted" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "progres-diet__caption" }, [
-          _vm._v("\n                        100 гр\n                     "),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "progres-diet__item" }, [
-        _c("div", { staticClass: "progres-diet__txt" }, [
-          _vm._v("\n                        Миндаль\n                     "),
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "line-dotted" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "progres-diet__caption" }, [
-          _vm._v("\n                        100 гр\n                     "),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "progres-diet__list" }, [
-      _c("div", { staticClass: "progres-diet__item" }, [
-        _c("div", { staticClass: "progres-diet__txt" }, [
-          _vm._v(
-            "\n                        Йогурт домашний 2%\n                     "
-          ),
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "line-dotted" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "progres-diet__caption" }, [
-          _vm._v("\n                        100 гр\n                     "),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "progres-diet__item" }, [
-        _c("div", { staticClass: "progres-diet__txt" }, [
-          _vm._v("\n                        Яблоко\n                     "),
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "line-dotted" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "progres-diet__caption" }, [
-          _vm._v("\n                        100 гр\n                     "),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "progres-diet__item" }, [
-        _c("div", { staticClass: "progres-diet__txt" }, [
-          _vm._v("\n                        Миндаль\n                     "),
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "line-dotted" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "progres-diet__caption" }, [
-          _vm._v("\n                        100 гр\n                     "),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "progres-diet__list" }, [
-      _c("div", { staticClass: "progres-diet__item" }, [
-        _c("div", { staticClass: "progres-diet__txt" }, [
-          _vm._v(
-            "\n                        Йогурт домашний 2%\n                     "
-          ),
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "line-dotted" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "progres-diet__caption" }, [
-          _vm._v("\n                        100 гр\n                     "),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "progres-diet__item" }, [
-        _c("div", { staticClass: "progres-diet__txt" }, [
-          _vm._v("\n                        Яблоко\n                     "),
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "line-dotted" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "progres-diet__caption" }, [
-          _vm._v("\n                        100 гр\n                     "),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "progres-diet__item" }, [
-        _c("div", { staticClass: "progres-diet__txt" }, [
-          _vm._v("\n                        Миндаль\n                     "),
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "line-dotted" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "progres-diet__caption" }, [
-          _vm._v("\n                        100 гр\n                     "),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "diet-info__block" }, [
-      _c("div", { staticClass: "diet-info__title" }, [
-        _vm._v(
-          "\n               Дополнительно в течении дня(супер-фуд):\n            "
-        ),
-      ]),
-      _vm._v(" "),
-      _c("ul", { staticClass: "diet-info__list" }, [
-        _c("li", { staticClass: "diet-info__item" }, [
-          _c("b", [_vm._v("* Вода ")]),
-          _vm._v("– 2-2,5 литра (чистая либо с лимоном).\n               "),
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "diet-info__item" }, [
-          _c("b", [_vm._v("* Витамины Active Woman")]),
-          _vm._v(" – после завтрака.\n               "),
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "diet-info__item" }, [
-          _c("b", [_vm._v("* Рыбный жир(omega) + Витамин D")]),
-          _vm._v(" – во время завтрака либо обеда.\n               "),
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "diet-info__item" }, [
-          _c("b", [_vm._v("* Фитнес-батончики/печенье")]),
-          _vm._v(" – в качестве перекуса в течение дня.\n               "),
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "diet-info__item" }, [
-          _c("b", [_vm._v("* L-карнитин")]),
-          _vm._v(
-            " - безвредный жиросжигатель, пить перед тренировкой.\n               "
-          ),
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "diet-info__item" }, [
-          _c("b", [_vm._v("* Протеиновый коктейль")]),
-          _vm._v(
-            " – обязательно после тренировки, либо как замена приема пищи.\n               "
-          ),
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "diet-info__item" }, [
-          _vm._v(
-            "\n                  Заказать оригинальные продукты и подробное описание каждого есть у нас в магазине. Для наших подписчиков по коду "
-          ),
-          _c("b", [_vm._v("GOODIETS")]),
-          _vm._v(" скидка до 42% - "),
-          _c("a", { attrs: { href: "plugin.html" } }, [
-            _vm._v("оформить заказ"),
-          ]),
-        ]),
-      ]),
+    return _c("li", { staticClass: "diet-info__item" }, [
+      _vm._v(
+        "\n                  Заказать оригинальные продукты и подробное описание каждого есть у нас в магазине. Для наших подписчиков по коду "
+      ),
+      _c("b", [_vm._v("GOODIETS")]),
+      _vm._v(" скидка до 42% - "),
+      _c("a", { attrs: { href: "/plugin" } }, [_vm._v("оформить заказ")]),
     ])
   },
 ]
@@ -51894,28 +51546,66 @@ var render = function () {
                 }),
                 0
               )
-            : _c("div", { staticClass: "workout-info__txt-block" }, [
+            : _vm.current_day
+            ? _c("div", { staticClass: "workout-info__txt-block" }, [
                 _vm._m(0),
                 _vm._v(" "),
-                _vm._m(1),
-              ]),
+                _c("p", {
+                  domProps: { innerHTML: _vm._s(_vm.current_day.description) },
+                }),
+              ])
+            : _vm._e(),
           _vm._v(" "),
-          _c("div", { staticClass: "workout-info__block" }, [
-            _c("h5", { staticClass: "workout-info__title" }, [
-              _vm._v(
-                "\n              Комплекс состоит из 12 процедур (6 дней подряд и 1 день выходной), длительность две недели. Затем делаем перерыв.\n              "
-              ),
-              _c("b", [
-                _vm._v(
-                  "\n                ДЕНЬ №" +
-                    _vm._s(_vm.day) +
-                    "\n              "
+          _vm.current_training
+            ? _c("div", { staticClass: "workout-info__block" }, [
+                _c("h5", { staticClass: "workout-info__title" }, [
+                  _vm._v(
+                    "\n              " +
+                      _vm._s(_vm.current_training.training.description) +
+                      "\n              "
+                  ),
+                  _c("b", [
+                    _vm._v(
+                      "\n                ДЕНЬ №" +
+                        _vm._s(_vm.day) +
+                        "\n              "
+                    ),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "ul",
+                  { staticClass: "workout-info__list" },
+                  _vm._l(
+                    _vm.current_training.training.info,
+                    function (step, index) {
+                      return _c(
+                        "li",
+                        { key: index, staticClass: "workout-info__item" },
+                        [
+                          _c("b", [
+                            _vm._v(
+                              "\n                  Шаг " +
+                                _vm._s(index + 1) +
+                                ".\n                "
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v(
+                              "\n                  " +
+                                _vm._s(step) +
+                                "\n                "
+                            ),
+                          ]),
+                        ]
+                      )
+                    }
+                  ),
+                  0
                 ),
-              ]),
-            ]),
-            _vm._v(" "),
-            _vm._m(2),
-          ]),
+              ])
+            : _vm._e(),
         ]),
       ],
     ],
@@ -51929,54 +51619,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "workout-info__img" }, [
       _c("img", { attrs: { src: "/images/luba.png", alt: "" } }),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [
-      _vm._v("\n              Сегодня у тебя "),
-      _c("b", [_vm._v("выходной")]),
-      _vm._v(
-        " от силовых тренировок.\n              Соблюдай рацион питания, не забывай пить воду,а также\n              можешь сделать наш комплекс для борьбы с целлюлитом\n              Выполни минимум 10 000 шагов!\n            "
-      ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "workout-info__list" }, [
-      _c("li", { staticClass: "workout-info__item" }, [
-        _c("b", [_vm._v("\n                  Шаг 1.\n                ")]),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v(
-            "\n                  Выполнить скрабирование в душе на распаренную кожу. Длительность 3-5 минут.\n                "
-          ),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "workout-info__item" }, [
-        _c("b", [_vm._v("\n                  Шаг 2.\n                ")]),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v(
-            "\n                  На сухую кожу нанести горячее/ холодное обертывание. Обернуться пленкой. Длительность 30-50 минут.\n                "
-          ),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "workout-info__item" }, [
-        _c("b", [_vm._v("\n                  Шаг 3.\n                ")]),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v(
-            "\n                  На сухую чистую кожу нанести питательный крем.\n                "
-          ),
-        ]),
-      ]),
     ])
   },
 ]

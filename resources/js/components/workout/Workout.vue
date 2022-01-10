@@ -199,7 +199,7 @@ export default {
         );
       });
       //console.log("this.slider: ",this.slider);
-      //console.log("this.selectedTrainingId:",this.selectedTrainingId);
+      console.log("this.selectedTrainingId:",this.selectedTrainingId);
       return this.slider;
     },
     Physics(){

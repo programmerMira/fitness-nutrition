@@ -44,47 +44,26 @@
                   </div>
                 </div>
               </div>
-              <div v-else class="workout-info__txt-block">
+              <div v-else-if="current_day" class="workout-info__txt-block">
                 <div class="workout-info__img">
                   <img src="/images/luba.png" alt="" />
                 </div>
-                <p>
-                  Сегодня у тебя <b>выходной</b> от силовых тренировок.
-                  Соблюдай рацион питания, не забывай пить воду,а также
-                  можешь сделать наш комплекс для борьбы с целлюлитом
-                  Выполни минимум 10 000 шагов!
-                </p>
+                <p v-html="current_day.description"></p>
               </div>
-              <div class="workout-info__block">
+              <div v-if="current_training" class="workout-info__block">
                 <h5 class="workout-info__title">
-                  Комплекс состоит из 12 процедур (6 дней подряд и 1 день выходной), длительность две недели. Затем делаем перерыв.
+                  {{current_training.training.description}}
                   <b>
                     ДЕНЬ №{{day}}
                   </b>
                 </h5>
                 <ul class="workout-info__list">
-                  <li class="workout-info__item">
+                  <li v-for="(step, index) in current_training.training.info" :key="index" class="workout-info__item">
                     <b>
-                      Шаг 1.
+                      Шаг {{index+1}}.
                     </b>
                     <p>
-                      Выполнить скрабирование в душе на распаренную кожу. Длительность 3-5 минут.
-                    </p>
-                  </li>
-                   <li class="workout-info__item">
-                    <b>
-                      Шаг 2.
-                    </b>
-                    <p>
-                      На сухую кожу нанести горячее/ холодное обертывание. Обернуться пленкой. Длительность 30-50 минут.
-                    </p>
-                  </li>
-                   <li class="workout-info__item">
-                    <b>
-                      Шаг 3.
-                    </b>
-                    <p>
-                      На сухую чистую кожу нанести питательный крем.
+                      {{step}}
                     </p>
                   </li>
                 </ul>
@@ -94,8 +73,6 @@
         </div>
 </template>
 <script>
-
-//инфа про выходной, описание тренировки + доп.шаги -> raw_html
 
 export default {
   props: ["day","trainingId"],
@@ -112,11 +89,8 @@ export default {
   computed:{
     IsDayOff()
     {
-      
       //console.log("this.day:",this.day);
       //console.log("this.trainingId:",this.trainingId);
-      
-      
       if(!this.trainingId)
         return false;
       this.current_training = this.$store.getters.GetTrainingUsers.find(element => element.training_id === this.trainingId.training_user.training_id);

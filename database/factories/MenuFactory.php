@@ -32,6 +32,7 @@ class MenuFactory extends Factory
             'proteins' => $this->faker->randomFloat(0, 0, 9999999999.),
             'fat' => $this->faker->randomFloat(0, 0, 9999999999.),
             'carbs' => $this->faker->randomFloat(0, 0, 9999999999.),
+            'info' => '{}',
         ];
     }
 }
