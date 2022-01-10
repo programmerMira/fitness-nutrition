@@ -62,8 +62,10 @@ Route::prefix('/admin')->group(function () {
 	Route::prefix('/notification')->group(function () {  // word: "icons" - not working as part of adress
 		Route::get('/', [NotificationController::class,'list']);
 		Route::get('/create', [NotificationController::class,'create'])->name('notification.create');
-		Route::put('/update/{id}', [NotificationController::class,'edit'])->name('notification.edit');
-		Route::delete('/delete/{id}', [NotificationController::class,'destroy'])->name('notification.destroy');
+        Route::post('/createNotification', [NotificationController::class,'....'])->name('notification.store');
+        Route::get('/update/{id}', [NotificationController::class,'edit'])->name('notification.edit');
+		Route::post('/updateNotification/{id}', [NotificationController::class,'edit'])->name('notification.update');
+		Route::post('/delete/{id}', [NotificationController::class,'destroy'])->name('notification.destroy');
 	});
 });
 

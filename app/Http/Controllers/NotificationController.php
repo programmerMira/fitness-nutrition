@@ -18,8 +18,6 @@ class NotificationController extends Controller
         $user = Auth::user()->id;
         $notifications = Notification::where('user_id', '=', $user)->get();
         return response()->json($notifications);
-
-
     }
     public function list()
     {
@@ -36,7 +34,6 @@ class NotificationController extends Controller
     public function edit($id)
     {
         $notification = Notification::find($id);
-
         return view('admin.dashboard.notification.notificationEditForm', compact('notification'));
     }
 

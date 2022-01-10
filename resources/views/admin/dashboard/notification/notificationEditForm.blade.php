@@ -9,9 +9,8 @@
                     <div class="card">
                         <div class="card-header"><strong>Редактировать уведомление</strong></div>
                         <div class="card-body">
-                            <form class="form-horizontal" action="{{ route('admin.dashboard.notification.notificationEditForm', $notification) }}" method="post">
+                            <form class="form-horizontal" action="{{ route('notification.update',['id'=>$notification->id]) }}" method="post">
                                 @csrf
-                                @method('PATCH')
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Название:</label>
                                     <div class="col-md-9">
