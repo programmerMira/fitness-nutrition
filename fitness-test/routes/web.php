@@ -21,7 +21,7 @@ Route::view("/question","question")->middleware('auth');
 Route::view("/article","article")->middleware('auth');
 
 Route::get('/admin', function () {
-    return view('admin.dashboard.homepage'); 
+    return view('admin.dashboard.homepage');
 });
 
 Route::prefix('users')->group(function () {  // word: "icons" - not working as part of adress
@@ -50,6 +50,23 @@ Route::prefix('program')->group(function () {  // word: "icons" - not working as
     Route::get('/program', function(){         return view('admin.dashboard.program.programList'); });
     Route::get('/edit', function(){         return view('admin.dashboard.program.programEditForm'); });
 });
+
+
+
+
+
+Route::prefix('notification')->group(function () {  // word: "icons" - not working as part of adress
+    Route::get('/', [NotificationController::class,'list']);
+    Route::get('/create', [NotificationController::class,'create'])->name('notification.create');
+    Route::put('/update/{id}', [NotificationController::class,'edit'])->name('notification.edit');
+    Route::delete('/delete/{id}', [NotificationController::class,'destroy'])->name('notification.destroy');
+});
+
+
+
+
+
+
 Route::prefix('main')->group(function () {  // word: "icons" - not working as part of adress
     Route::get('/main', function(){         return view('admin.dashboard.main.mainList'); });
     Route::get('/edit', function(){         return view('admin.dashboard.main.mainEditForm'); });
@@ -107,13 +124,13 @@ Route::prefix('api/activity-calendar')->group(function () {
     Route::put('/update/{id}', [ActivityCalendarController::class,'update']);
     Route::delete('/delete/{id}', [ActivityCalendarController::class,'destroy']);
 });
-Route::prefix('api/notification')->group(function () {
-    Route::get('/list', [NotificationController::class,'index']);
-    Route::get('/show/{id}', [NotificationController::class,'show']);
-    Route::post('/create', [NotificationController::class,'store']);
-    Route::put('/update/{id}', [NotificationController::class,'update']);
-    Route::delete('/delete/{id}', [NotificationController::class,'destroy']);
-});
+//Route::prefix('api/notification')->group(function () {
+//    Route::get('/list', [NotificationController::class,'index']);
+//    Route::get('/show/{id}', [NotificationController::class,'show']);
+//    Route::post('/create', [NotificationController::class,'store']);
+//    Route::put('/update/{id}', [NotificationController::class,'update']);
+//    Route::delete('/delete/{id}', [NotificationController::class,'destroy']);
+//});
 Route::prefix('api/physics-parameter')->group(function () {
     Route::get('/list', [PhysicsParametersController::class,'index']);
     Route::get('/show/{id}', [PhysicsParametersController::class,'show']);

@@ -16,6 +16,7 @@
                                         <th>Количесво дней</th>
                                         <th>Тренировка для</th>
                                         <th>Зал/Дом</th>
+                                        <th>Цена руб.</th>
                                         <th>Настройки</th>
                                     </tr>
                                     </thead>
@@ -25,6 +26,7 @@
                                         <td>14</td>
                                         <td>спины и груди</td>
                                         <td>Зал</td>
+                                        <td>1000</td>
                                         <td class="btns-edit">
                                             <a href="#" class="users-btn btn btn-block btn-success">
                                                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -87,6 +89,7 @@
                                         <td>14</td>
                                         <td>спины и груди</td>
                                         <td>Дом</td>
+                                        <td>1000</td>
                                         <td class="btns-edit">
                                             <a href="#" class="users-btn btn btn-block btn-success">
                                                 <svg xmlns="http://www.w3.org/2000/svg"
