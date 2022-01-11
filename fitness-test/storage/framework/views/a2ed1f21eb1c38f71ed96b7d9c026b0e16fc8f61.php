@@ -1,0 +1,1 @@
+<?php /**PATH D:\Desktop\fit\fitness-nutrition\fitness-test\resources\views/admin/dashboard/shared/footer.blade.php ENDPATH**/ ?>

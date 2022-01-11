@@ -1,0 +1,11 @@
+models:
+  Days:
+    training_id: id foreign:Training
+    day_number: integer
+    name: string:50
+    description: string:1000
+    videos: json
+controllers:
+  Days:
+    resource: api
+seeders: Days
