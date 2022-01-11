@@ -5,12 +5,7 @@
         <div class="animated fadeIn">
             <div class="row">
                 <div class="col-sm-12 col-md-12">
-                    <form method="POST" action="{{ route('notification.create') }}">
-                        @csrf
-                        @method('PUT')
-                        <button type="submit" class="btn btn-primary btn-lg mb-3">Добавить</button>
-                    </form>
-                    <a href="{{ route('notification.create') }}" class="btn btn-primary btn-lg mb-3">Добавить</a>
+                    <a  href="/admin/notification/add" class="btn btn-primary btn-lg mb-3">Добавить</a>
                 </div>
                 @foreach($notifications as $notification)
                     <div class="col-sm-6 col-md-4">
@@ -22,7 +17,7 @@
                                 <div class="card-header-actions">
                                     <div class="btns-edit">
                                         <a
-                                           href="{{ route('notification.edit', $notification) }}"
+                                           href="/admin/notification/edit/{{$notification->id}}"
                                             class="users-btn btn btn-block btn-primary">
                                             <svg id="Layer_1" style="enable-background:new 0 0 128 128;" version="1.1"
                                                  viewBox="0 0 128 128" xml:space="preserve"

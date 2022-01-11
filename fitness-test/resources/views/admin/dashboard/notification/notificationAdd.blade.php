@@ -20,9 +20,8 @@
                                     </div>
                                 @endif
                             @endisset
-                            <form class="form-horizontal" action="{{ route('notification.createnotification.story') }}" method="POST">
+                            <form class="form-horizontal" action="{{route('addNotification')}}" method="POST">
                                 @csrf
-                                @method('PUT')
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Название:</label>
                                     <div class="col-md-9">
@@ -37,7 +36,7 @@
                                 </div>
                                 <div class="card-footer card-footer-edit">
                                     <button class="btn btn-sm btn-primary" type="submit"> Добавить</button>
-                                    <button class="btn btn-sm btn-danger" type="reset"> Назад</button>
+                                    <a class="btn btn-sm btn-danger" href="/admin/question"> Назад</a>
                                 </div>
                             </form>
                         </div>

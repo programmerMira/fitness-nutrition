@@ -9,9 +9,8 @@
                     <div class="card">
                         <div class="card-header"><strong>Редактировать уведомление</strong></div>
                         <div class="card-body">
-                            <form class="form-horizontal" action="{{ route('admin.dashboard.notification.notificationEditForm', $notification) }}" method="post">
+                            <form class="form-horizontal" action="{{route('editNotification',['id'=>$notification->id])}}" method="post">
                                 @csrf
-                                @method('PATCH')
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Название:</label>
                                     <div class="col-md-9">
@@ -25,8 +24,8 @@
                                     </div>
                                 </div>
                                 <div class="card-footer card-footer-edit">
-                                    <button class="btn btn-sm btn-primary" type="submit"> Сохранить</button>
-                                    <button class="btn btn-sm btn-danger" type="reset"> Назад</button>
+                                    <button class="btn btn-sm btn-primary" type="submit"> Добавить</button>
+                                    <a class="btn btn-sm btn-danger" href="/admin/question"> Назад</a>
                                 </div>
                             </form>
                         </div>
