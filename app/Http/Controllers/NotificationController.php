@@ -19,6 +19,7 @@ class NotificationController extends Controller
         $notifications = Notification::where('user_id', '=', $user)->get();
         return response()->json($notifications);
     }
+
     public function list()
     {
         $notifications = Notification::all();
@@ -26,57 +27,10 @@ class NotificationController extends Controller
         return view('admin.dashboard.notification.notificationList')->with(compact('notifications'));
     }
 
-    public function create(NotificationStoreRequest $request)
-    {
-        return view('admin.dashboard.notification.notificationAdd');
-    }
-
-    public function edit($id)
-    {
-        $notification = Notification::find($id);
-        return view('admin.dashboard.notification.notificationEditForm', compact('notification'));
-    }
-
-    public function upgrade(NotificationStoreRequest $request)
-    {
-        $validate = $request->validate([
-            'name' => 'required|max:50',
-            'description' => 'required|max:300',
-        ]);
-
-        $notification = Notification::find($id);
-
-        $notification -> name = $request->get('name');
-        $notification -> description = $request->get('description');
-
-        $notification -> save();
-
-        return redirect('admin.dashboard.notification.notificationList')->with('success', 'Edit!');
-    }
     public function store(NotificationStoreRequest $request)
     {
         $notification = Notification::create($request->validated());
         return new NotificationResource($notification);
-
-        $validate = $request->validate([
-            'name' => 'required|max:50',
-            'description' => 'required|max:300',
-        ]);
-
-        if ($validate->fails()) {
-            return route('notification.create')
-                ->withErrors($validate);
-        }
-
-        $notification = new Notification([
-            'name' => $request->get('name'),
-            'description' => $request->get('description'),
-        ]);
-
-        $notification->save();
-
-        return redirect('notification')->with('success', 'Saved!');
-
     }
 
     public function show(Request $request, $notificationId)
@@ -115,4 +69,47 @@ class NotificationController extends Controller
             ->with('success', 'Deleted successfully');
     }
 
+    function adminShowNotification(Request $request, $notificationId)
+    {
+        $user = Auth::user()->id;
+        $notification = Notification::where('id', '!=', $user->user_id)->get();
+
+        return view('admin.dashboard.notification.notificationEditForm')->with(compact('notification'));
+    }
+
+    function adminEditNotification(Request $request, $id)
+    {
+        $name = $request->name;
+        $description = $request->description;
+
+        if ($name != null && $description != null) {
+            Question::whereId($id)->update([
+                'name' => $name,
+                'description' => $description
+            ]);
+        }
+        return redirect()->route('notification');
+    }
+
+    function adminAddView(Request $request)
+    {
+        $notifications = Notification::all();
+        return view('admin.dashboard.notification.notificationAdd')->with(compact('notifications'));
+    }
+
+    function adminAddNotification(Request $request)
+    {
+        $name = $request->name;
+        $description = $request->description;
+
+        if ($name != null && $description != null) {
+            {
+                Notification::create([
+                    'name' => $name,
+                    'description' => $description
+                ]);
+            }
+            return redirect()->route('notification');
+        }
+    }
 }

@@ -12,12 +12,12 @@
                         <div class="card">
                             <div class="card-header program__card-header">
                                 <h3><b>
-                                    Уведомление {{ $notification->id }}
-                                </b></h3>
+                                        Уведомление {{ $notification->id }}
+                                    </b></h3>
                                 <div class="card-header-actions">
                                     <div class="btns-edit">
                                         <a
-                                           href="/admin/notification/edit/{{$notification->id}}"
+                                            href="/admin/notification/edit/{{$notification->id}}"
                                             class="users-btn btn btn-block btn-primary">
                                             <svg id="Layer_1" style="enable-background:new 0 0 128 128;" version="1.1"
                                                  viewBox="0 0 128 128" xml:space="preserve"
