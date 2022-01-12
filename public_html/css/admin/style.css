@@ -18913,3 +18913,13 @@ h3 {
   padding-right: 30px;
   margin-top: 15px;
 }
+
+.notification__group {
+  padding: 10px 0;
+  font-size: 18px;
+}
+
+.notification__txt {
+  padding: 10px 0 0;
+  font-size: 16px;
+}
