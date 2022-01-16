@@ -2592,10 +2592,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Notifications: _Notifications_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      search_text: ""
+    };
   },
   methods: {
     logout: function logout() {
@@ -2605,6 +2612,15 @@ __webpack_require__.r(__webpack_exports__);
         _this.$router.push("/");
       })["catch"](function (error) {
         location.reload();
+      });
+    },
+    onSubmit: function onSubmit() {
+      axios.post('/searchQuestions', {
+        question: this.search_text
+      }).then(function (response) {
+        console.log("response: ", response.data); //this.$router.push({ path: '/search', params: { question: response.data } })
+      })["catch"](function (error) {
+        console.log("error: ", error); //location.reload();
       });
     }
   }
@@ -3017,10 +3033,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 
 
@@ -3039,33 +3051,77 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         title: "3"
       }],
-      selectedTab: null,
-      //selectedTraining: null,
-      show_select_level: false
+      selectedTab: "1",
+      show_select_level: false,
+      selected_level: null,
+      available_levels: [],
+      disabled_levels: []
     };
   },
   computed: {
     User: function User() {
       return this.$store.getters.GetPersonalAccount;
     },
-    Physics: function Physics() {
-      //{{Physics.current_weight - Physics.weight}}
-      return this.$store.getters.GetPhysicsParameters;
-    },
     selectedTraining: function selectedTraining() {
-      var result = null;
       var activeTraining = this.$store.getters.GetActivityCalendars.find(function (element) {
         return parseInt(element.is_active) == 1;
       });
-      if (activeTraining) return result = this.$store.getters.GetTrainingUsers.find(function (element) {
-        return parseInt(element.training_id) === parseInt(activeTraining.training_user.training_id);
-      });
-      return result = this.$store.getters.GetTrainingUsers[0];
-      /*this.selectedTab = this.tabs[0];
-      this.selectedTraining = result;
-      console.log("activeTraining:",activeTraining);
-      console.log("this.selectedTraining:",this.selectedTraining);
-      return this.$store.getters.GetTrainingUsers;*/
+
+      if (activeTraining) {
+        var _tmp = this.$store.getters.GetTrainingUsers.find(function (element) {
+          return parseInt(element.training_id) === parseInt(activeTraining.training_user.training_id);
+        });
+
+        this.selected_level = _tmp.training.level;
+        console.log(_tmp);
+        return _tmp;
+      }
+
+      var tmp = this.$store.getters.GetTrainingUsers[0];
+
+      if (tmp) {
+        this.selected_level = tmp.training.level;
+        return tmp;
+      }
+    },
+    Available_levels: function Available_levels() {
+      var _this = this;
+
+      this.available_levels = [];
+
+      if (this.selectedTraining && this.$store.getters.GetTrainingUsers) {
+        this.$store.getters.GetTrainingUsers.forEach(function (element) {
+          if (_this.selectedTraining.training.problem_zone_id == element.training.problem_zone_id) _this.available_levels.push(element.training.level);
+        });
+        return this.available_levels;
+      }
+    },
+    Disabled_levels: function Disabled_levels() {
+      var _this2 = this;
+
+      this.disabled_levels = [];
+
+      if (this.selectedTraining && this.$store.getters.GetTrainingUsers) {
+        this.$store.getters.GetTrainings.forEach(function (element1) {
+          var tmp = _this2.available_levels.find(function (element2) {
+            return parseInt(element2) == parseInt(element1.level);
+          });
+
+          console.log(tmp);
+          if (_this2.selectedTraining.training.problem_zone_id == element1.problem_zone_id && !tmp) _this2.disabled_levels.push(element1.level);
+        });
+        return this.disabled_levels;
+      }
+    },
+    Physics: function Physics() {
+      var _this3 = this;
+
+      if (this.selectedTraining) {
+        var tmp = this.$store.getters.GetPhysicsParameters.filter(function (element) {
+          return element.training_id == _this3.selectedTraining.training_id;
+        });
+        if (tmp) return tmp[tmp.length - 1];
+      }
     }
   },
   mounted: function mounted() {
@@ -3074,6 +3130,8 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.dispatch('fetchPersonalAccount');
       this.$store.dispatch('fetchTrainingUsers');
       this.$store.dispatch('fetchActivityCalendars');
+      this.$store.dispatch('fetchTrainings');
+      this.$store.dispatch('fetchTrainings');
     }
   },
   methods: {
@@ -3086,23 +3144,105 @@ __webpack_require__.r(__webpack_exports__);
       var percent = Difference_In_Days * 100 / 30;
       return parseInt(percent);
     },
-
-    /*tabs_for_current_train(){
-       if(this.selectedTraining==null)
-          return 1;
-       var date1 = new Date(this.selectedTraining.created_at);
-       var date2 = new Date(this.selectedTraining.deactevated_at);
-       var Difference_In_Time = date2.getTime() - date1.getTime();
-       var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-       console.log(parseInt(Difference_In_Days/10));
-       return parseInt(Difference_In_Days/10);
-    }*/
     show: function show(item) {
       if (parseInt(item) == parseInt(this.selectedTab)) return 'progress-block__step active';
       return 'progress-block__step';
     },
+    change_show_tab: function change_show_tab(item) {
+      this.selectedTab = item;
+    },
     show_level: function show_level() {
       this.show_select_level = !this.show_select_level;
+    },
+    canEdit: function canEdit() {
+      //check days for training if 30 or 14
+      //let training = this.$store.getters.GetTrainings.filter(element=>element.id==this.selectedTraining.training_id);
+      //if(training){
+      //   if(training.days.length==30){
+      //
+      if (this.selectedTraining != null) {
+        var updated_at = new Date(Date.parse(this.selectedTraining.created_at));
+        var today = new Date();
+
+        if (parseInt(this.selectedTab) == 1) {
+          updated_at.setDate(updated_at.getDate() + 10);
+          if (updated_at < today) return true;
+          return false;
+        }
+
+        if (parseInt(this.selectedTab) == 2) {
+          updated_at.setDate(updated_at.getDate() + 20);
+          if (updated_at < today) return true;
+          return false;
+        }
+
+        if (parseInt(this.selectedTab) == 3) {
+          updated_at.setDate(updated_at.getDate() + 29);
+          if (updated_at < today) return true;
+          return false;
+        }
+      } //    }
+      //    if(training.days.length==14){
+      //       if(this.selectedTraining!=null){
+      //    var updated_at = new Date(Date.parse(this.selectedTraining.created_at));
+      //    var today = new Date();
+      //    if(parseInt(this.selectedTab)==1){
+      //       updated_at.setDate(updated_at.getDate() + 4)
+      //       if(updated_at<today)
+      //          return true;
+      //       return false;
+      //    }
+      //    if(parseInt(this.selectedTab)==2){
+      //       updated_at.setDate(updated_at.getDate() + 4)
+      //       if(updated_at<today)
+      //          return true;
+      //       return false;
+      //    }
+      //    if(parseInt(this.selectedTab)==3){
+      //       updated_at.setDate(updated_at.getDate() + 3)
+      //       if(updated_at<today)
+      //          return true;
+      //       return false;
+      //    }
+      // }
+      //    }
+      //}
+
+    },
+    changeTraining: function changeTraining(level) {
+      var _this4 = this;
+
+      if (this.$store.getters.GetTrainingUsers) {
+        this.$store.getters.GetTrainingUsers.forEach(function (element) {
+          if (_this4.selectedTraining.training.problem_zone_id == element.training.problem_zone_id && element.training.level == level) {
+            _this4.changeActiveTraining(element);
+          }
+        });
+        return this.available_levels;
+      }
+    },
+    changeActiveTraining: function changeActiveTraining(training) {
+      var selected = this.$store.getters.GetActivityCalendars.find(function (element) {
+        return parseInt(element.is_active) == 1;
+      });
+      var new_one = this.$store.getters.GetActivityCalendars.find(function (element) {
+        return element.training_user.training_id == training.training_id;
+      });
+      console.log(this.$store.getters.GetActivityCalendars, training, selected, new_one);
+      this.$store.dispatch('setActivityCalendar', {
+        id: selected.id,
+        training_user_id: selected.training_user_id,
+        day: selected.day,
+        is_active: 0
+      });
+      this.$store.dispatch('setActivityCalendar', {
+        id: new_one.id,
+        training_user_id: new_one.training_user_id,
+        day: new_one.day,
+        is_active: 1
+      });
+      this.selectedTab = "1";
+      this.$store.dispatch('fetchActivityCalendars');
     }
   }
 });
@@ -3170,6 +3310,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ["training_id", "phase_number", "can_edit"],
   components: {
     HomeDataImg: _home_HomeDataImg_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
@@ -3180,35 +3321,22 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     Physics: function Physics() {
-      return this.$store.getters.GetPhysicsParameters;
-    },
-    User: function User() {
-      return this.$store.getters.GetPersonalAccount;
-    },
-    imgs: function imgs() {
-      return this.$store.getters.GetPersonalAccount.photos;
+      var _this = this;
+
+      console.log("this.phase_number:", this.phase_number);
+      return this.$store.getters.GetPhysicsParameters.find(function (element) {
+        return element.phase_number === parseInt(_this.phase_number) && element.training_id == parseInt(_this.training_id);
+      });
     }
   },
   mounted: function mounted() {
     if (userInfo) {
       this.$store.dispatch('fetchPhysicsParameters');
-      this.$store.dispatch('fetchPersonalAccount');
     }
   },
   methods: {
-    selectTab: function selectTab() {
-      this.selectedTab = this.tab.title;
-    },
     disabled: function disabled() {
-      if (this.Physics == null) return true;
-      var updated_at = new Date(Date.parse(this.Physics.updated_at));
-      updated_at.setDate(updated_at.getDate() + 10);
-      var today = new Date();
-
-      if (this.Physics.updated_at == null || updated_at < today) {
-        return false;
-      }
-
+      if (this.can_edit != undefined) return !this.can_edit;
       return true;
     },
     savePhysics: function savePhysics() {
@@ -3272,7 +3400,8 @@ __webpack_require__.r(__webpack_exports__);
 
         reader.readAsDataURL(input.files[0]);
       }
-    }
+    },
+    saveImg: function saveImg() {}
   }
 });
 
@@ -4548,7 +4677,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
- //props: object or id? can and better to pass object
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["question"],
@@ -4559,7 +4687,6 @@ __webpack_require__.r(__webpack_exports__);
     return {};
   },
   mounted: function mounted() {
-    console.log(this.question);
     this.$store.dispatch('fetchQuestion', this.question);
   },
   computed: {
@@ -4638,6 +4765,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ["search_flag", "questions"],
   components: {
     MenuOffice: _general_Menu_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     Logout: _general_Logout_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -4651,11 +4779,9 @@ __webpack_require__.r(__webpack_exports__);
     QuestionsForTopic: function QuestionsForTopic() {
       var _this = this;
 
-      var tmp = this.$store.getters.GetQuestions.filter(function (question) {
+      if (!this.search_flag) return this.$store.getters.GetQuestions.filter(function (question) {
         return question.topic_id === parseInt(_this.currentTab);
-      }); //console.log(tmp);
-
-      return tmp;
+      });else return this.questions;
     },
     Topics: function Topics() {
       return this.$store.getters.GetTopics;
@@ -4667,12 +4793,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     show: function show(item) {
-      //console.log(item, parseInt(this.currentTab), item===parseInt(this.currentTab));
       if (item === parseInt(this.currentTab)) return 'question-tab__btn active';
       return 'question-tab__btn';
     },
     showQ: function showQ(item) {
-      //console.log(item, parseInt(this.currentTab), item===parseInt(this.currentTab));
       if (item === parseInt(this.currentTab)) return 'question-tab__content active';
       return 'question-tab__content';
     }
@@ -4838,8 +4962,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//current_training => save
 //
+//current_training => save
 
 
 
@@ -4880,8 +5004,17 @@ __webpack_require__.r(__webpack_exports__);
 
       var tmp = this.$store.getters.GetTrainingUsers;
       if (!tmp || tmp.length < 1) return this.slider;
-      if (this.$store.getters.GetActivityCalendars != null) this.selectedTrainingId = this.UserActiveCallendar; //this.$store.getters.GetActivityCalendars.find(element => element.is_active==1);
-      else this.selectedTrainingId = tmp[0];
+
+      if (this.$store.getters.GetActivityCalendars != null) {
+        console.log("this.UserActiveCallendar:", this.UserActiveCallendar);
+        this.selectedTrainingId = this.$store.getters.GetActivityCalendars.find(function (element) {
+          return element.is_active == 1;
+        });
+      } else {
+        console.log("Default this.selectedTrainingId");
+        this.selectedTrainingId = tmp[0];
+      }
+
       if (this.selectedTrainingId) this.selectedTab = this.selectedTrainingId.day.toString();else this.selectedTab = "1";
       this.slider = [];
       tmp.forEach(function (item) {
@@ -4897,12 +5030,20 @@ __webpack_require__.r(__webpack_exports__);
           days: days
         });
       }); //console.log("this.slider: ",this.slider);
+      //console.log("this.selectedTrainingId:",this.selectedTrainingId);
 
-      console.log("this.selectedTrainingId:", this.selectedTrainingId);
       return this.slider;
     },
     Physics: function Physics() {
-      return this.$store.getters.GetPhysicsParameters;
+      var _this3 = this;
+
+      if (this.selectedTrainingId) {
+        console.log();
+        var tmp = this.$store.getters.GetPhysicsParameters.filter(function (element) {
+          return element.training_id == _this3.selectedTrainingId.training_user.training_id;
+        });
+        if (tmp) return tmp[tmp.length - 1];
+      }
     }
   },
   mounted: function mounted() {
@@ -5058,7 +5199,7 @@ __webpack_require__.r(__webpack_exports__);
           return element.day_number === parseInt(_this.day);
         }); //console.log("this.current_day:",this.current_day);
 
-        if (this.current_day.name === "Выходной") return true;
+        if (this.current_day && this.current_day.name === "Выходной") return true;
       }
 
       return false;
@@ -11973,6 +12114,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.slide-fade-enter-active {\r\n  transition: all .3s ease;\n}\n.slide-fade-leave-active {\r\n  transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter, .slide-fade-leave-to\r\n/* .slide-fade-leave-active до версии 2.1.8 */ {\r\n  transform: translateX(10px);\r\n  opacity: 0;\n}\n.fade-enter-active,\r\n.fade-leave-active {\r\n  transition: opacity 0.5s ease;\n}\n.fade-enter-from,\r\n.fade-leave-to {\r\n  opacity: 0;\n}\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/home/Home.vue?vue&type=style&index=0&lang=css&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/home/Home.vue?vue&type=style&index=0&lang=css& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.progress-block__steps {\n   z-index: 1000;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -43828,6 +43993,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/home/Home.vue?vue&type=style&index=0&lang=css&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/home/Home.vue?vue&type=style&index=0&lang=css& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Home.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/home/Home.vue?vue&type=style&index=0&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-13[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-13[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-13[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/questions/Questions.vue?vue&type=style&index=0&lang=scss&":
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-13[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-13[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-13[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/questions/Questions.vue?vue&type=style&index=0&lang=scss& ***!
@@ -44464,15 +44659,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Home_vue_vue_type_template_id_1f26c2f4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Home.vue?vue&type=template&id=1f26c2f4& */ "./resources/js/components/home/Home.vue?vue&type=template&id=1f26c2f4&");
 /* harmony import */ var _Home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Home.vue?vue&type=script&lang=js& */ "./resources/js/components/home/Home.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _Home_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Home.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/home/Home.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _Home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _Home_vue_vue_type_template_id_1f26c2f4___WEBPACK_IMPORTED_MODULE_0__.render,
   _Home_vue_vue_type_template_id_1f26c2f4___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
@@ -45415,6 +45612,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Notifications_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Notifications.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/general/Notifications.vue?vue&type=style&index=0&lang=css&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/home/Home.vue?vue&type=style&index=0&lang=css&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/home/Home.vue?vue&type=style&index=0&lang=css& ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Home.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/home/Home.vue?vue&type=style&index=0&lang=css&");
 
 
 /***/ }),
@@ -46725,31 +46935,50 @@ var render = function () {
   return _c("div", { staticClass: "account-container" }, [
     _c("div", { staticClass: "account-head__row" }, [
       _c("div", { staticClass: "account-search" }, [
-        _c("input", {
-          staticClass: "account-search__input",
-          attrs: { type: "text", placeholder: "Поиск" },
-        }),
-        _vm._v(" "),
-        _c(
-          "svg",
-          {
-            attrs: {
-              width: "20",
-              height: "16",
-              viewBox: "0 0 20 16",
-              fill: "none",
-              xmlns: "http://www.w3.org/2000/svg",
-            },
-          },
-          [
-            _c("path", {
-              attrs: {
-                d: "M14.362 9.80581H13.517L13.2176 9.57249C14.2657 8.58737 14.8967 7.30843 14.8967 5.91716C14.8967 2.81489 11.7844 0.300232 7.94476 0.300232C4.10514 0.300232 0.992798 2.81489 0.992798 5.91716C0.992798 9.01944 4.10514 11.5341 7.94476 11.5341C9.66671 11.5341 11.2496 11.0243 12.4689 10.1774L12.7577 10.4194V11.102L18.1053 15.4141L19.6989 14.1265L14.362 9.80581ZM7.94476 9.80581C5.28163 9.80581 3.13186 8.06888 3.13186 5.91716C3.13186 3.76545 5.28163 2.02852 7.94476 2.02852C10.6079 2.02852 12.7577 3.76545 12.7577 5.91716C12.7577 8.06888 10.6079 9.80581 7.94476 9.80581Z",
-                fill: "#BEBEBE",
+        _c("form", { on: { submit: _vm.onSubmit } }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.search_text,
+                expression: "search_text",
               },
-            }),
-          ]
-        ),
+            ],
+            staticClass: "account-search__input",
+            attrs: { type: "text", placeholder: "Поиск" },
+            domProps: { value: _vm.search_text },
+            on: {
+              input: function ($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.search_text = $event.target.value
+              },
+            },
+          }),
+          _vm._v(" "),
+          _c(
+            "svg",
+            {
+              attrs: {
+                width: "20",
+                height: "16",
+                viewBox: "0 0 20 16",
+                fill: "none",
+                xmlns: "http://www.w3.org/2000/svg",
+              },
+            },
+            [
+              _c("path", {
+                attrs: {
+                  d: "M14.362 9.80581H13.517L13.2176 9.57249C14.2657 8.58737 14.8967 7.30843 14.8967 5.91716C14.8967 2.81489 11.7844 0.300232 7.94476 0.300232C4.10514 0.300232 0.992798 2.81489 0.992798 5.91716C0.992798 9.01944 4.10514 11.5341 7.94476 11.5341C9.66671 11.5341 11.2496 11.0243 12.4689 10.1774L12.7577 10.4194V11.102L18.1053 15.4141L19.6989 14.1265L14.362 9.80581ZM7.94476 9.80581C5.28163 9.80581 3.13186 8.06888 3.13186 5.91716C3.13186 3.76545 5.28163 2.02852 7.94476 2.02852C10.6079 2.02852 12.7577 3.76545 12.7577 5.91716C12.7577 8.06888 10.6079 9.80581 7.94476 9.80581Z",
+                  fill: "#BEBEBE",
+                },
+              }),
+            ]
+          ),
+        ]),
       ]),
       _vm._v(" "),
       _c(
@@ -47305,441 +47534,552 @@ var render = function () {
         _c("section", { attrs: { id: "account-head" } }, [_c("Logout")], 1),
         _vm._v(" "),
         _c("section", { staticClass: "home", attrs: { id: "progress" } }, [
-          _c("div", { staticClass: "account-container" }, [
-            _c("div", { staticClass: "progress__container" }, [
-              _c("div", { staticClass: "progress__col-first" }, [
-                _c("div", { staticClass: "progress__row" }, [
-                  _c("div", { staticClass: "progress-level" }, [
-                    _c("div", { staticClass: "progress-level__title" }, [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(_vm.User.user.name) +
-                          "\n                        "
-                      ),
-                      _vm.selectedTraining != null
-                        ? _c("div", { staticClass: "progress-level__mob" }, [
-                            _vm._v(
-                              "\n                           " +
-                                _vm._s(_vm.selectedTraining.training.level) +
-                                " уровень\n                        "
-                            ),
-                          ])
-                        : _vm._e(),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "level__chart" }, [
-                      _c(
-                        "svg",
-                        {
-                          staticClass: "radial-progress",
-                          attrs: {
-                            "data-percentage": _vm.find_percentage(),
-                            viewBox: "0 0 86 86",
-                          },
-                        },
-                        [
-                          _c(
-                            "defs",
-                            [
-                              _c(
-                                "linearGradient",
-                                {
-                                  attrs: {
-                                    id: "linear",
-                                    x1: "0%",
-                                    y1: "0%",
-                                    x2: "100%",
-                                    y2: "0%",
-                                  },
-                                },
-                                [
-                                  _c("stop", {
-                                    attrs: {
-                                      offset: "0%",
-                                      "stop-color": "#FF7E83",
-                                    },
-                                  }),
-                                  _vm._v(" "),
-                                  _c("stop", {
-                                    attrs: {
-                                      offset: "100%",
-                                      "stop-color": "#FF144A",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                            ],
-                            1
+          _vm.User
+            ? _c("div", { staticClass: "account-container" }, [
+                _c("div", { staticClass: "progress__container" }, [
+                  _c("div", { staticClass: "progress__col-first" }, [
+                    _c("div", { staticClass: "progress__row" }, [
+                      _c("div", { staticClass: "progress-level" }, [
+                        _c("div", { staticClass: "progress-level__title" }, [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(_vm.User.user.name) +
+                              "\n                        "
                           ),
-                          _vm._v(" "),
-                          _c("circle", {
-                            staticClass: "incomplete",
-                            attrs: { cx: "43", cy: "43", r: "35" },
-                          }),
-                          _vm._v(" "),
-                          _c("circle", {
-                            staticClass: "complete",
-                            attrs: {
-                              cx: "43",
-                              cy: "43",
-                              r: "35",
-                              stroke: "url(#linear)",
-                            },
-                          }),
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "progress-level__chart-txt" }, [
-                        _vm.selectedTraining != null
-                          ? _c(
-                              "p",
-                              { staticClass: "progress-level__chart-level" },
-                              [
-                                _vm._v(
-                                  "\n                              " +
-                                    _vm._s(
-                                      _vm.selectedTraining.training.level
-                                    ) +
-                                    " уровень\n                           "
-                                ),
-                              ]
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "progress-level__current" }),
-                      ]),
-                    ]),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "progress-result" }, [
-                    _c("div", { staticClass: "progress-result__title" }, [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(
-                            _vm.Physics.current_weight - _vm.Physics.weight
-                          ) +
-                          " кг\n                     "
-                      ),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "progress-result__caption" }, [
-                      _c("span", [_vm._v("Мой")]),
-                      _vm._v(" результат\n                        "),
-                      _vm.selectedTraining != null
-                        ? _c(
-                            "p",
-                            {
-                              staticClass:
-                                "progress-level__chart-level progress-level__chart-level-mob",
-                            },
-                            [
-                              _vm._v(
-                                "\n                           " +
-                                  _vm._s(_vm.selectedTraining.training.level) +
-                                  " уровень\n                        "
-                              ),
-                            ]
-                          )
-                        : _vm._e(),
-                    ]),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _vm._m(0),
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "progress__col-second" },
-                [
-                  _c("div", { staticClass: "progress-block" }, [
-                    _c("div", { staticClass: "progress-block__svg-elem" }, [
-                      _c(
-                        "svg",
-                        {
-                          attrs: {
-                            width: "280",
-                            height: "322",
-                            viewBox: "0 0 280 322",
-                            fill: "none",
-                            xmlns: "http://www.w3.org/2000/svg",
-                          },
-                        },
-                        [
-                          _c("ellipse", {
-                            attrs: {
-                              opacity: "0.13",
-                              rx: "164.341",
-                              ry: "156.191",
-                              transform:
-                                "matrix(-0.969532 -0.244963 0.273341 -0.961917 202.027 131.5)",
-                              fill: "white",
-                            },
-                          }),
-                          _vm._v(" "),
-                          _c("ellipse", {
-                            attrs: {
-                              opacity: "0.13",
-                              rx: "138.392",
-                              ry: "131.529",
-                              transform:
-                                "matrix(-0.969532 -0.244963 0.273341 -0.961917 220.71 114.066)",
-                              fill: "white",
-                            },
-                          }),
-                        ]
-                      ),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "progress-block__head" }, [
-                      _c("h5", { staticClass: "progress-block__title" }, [
-                        _vm._v(
-                          "\n                        Мой прогресс\n                     "
-                        ),
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "select__wrap",
-                          on: {
-                            click: function ($event) {
-                              return _vm.show_level()
-                            },
-                          },
-                        },
-                        [
-                          _c("ul", { staticClass: "default__option" }, [
-                            _vm.selectedTraining
-                              ? _c("li", { staticClass: "option selected" }, [
+                          _vm.selectedTraining != null
+                            ? _c(
+                                "div",
+                                { staticClass: "progress-level__mob" },
+                                [
                                   _vm._v(
-                                    "\n                              " +
+                                    "\n                           " +
                                       _vm._s(
                                         _vm.selectedTraining.training.level
                                       ) +
-                                      " уровень\n                           "
+                                      " уровень\n                        "
                                   ),
-                                ])
-                              : _vm._e(),
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "ul",
-                            {
-                              staticClass: "select__ul",
-                              style: _vm.show_select_level
-                                ? "display: block !important"
-                                : "display: none !important",
-                            },
-                            [
-                              _c("li", [
-                                _vm._v(
-                                  "\n                              1 уровень\n                           "
-                                ),
-                              ]),
-                              _vm._v(" "),
-                              _c("li", { staticClass: "disabled" }, [
-                                _vm._v(
-                                  "\n                              2 уровень\n                              "
-                                ),
-                                _c(
-                                  "svg",
-                                  {
-                                    staticClass: "icon",
-                                    attrs: {
-                                      width: "14",
-                                      height: "14",
-                                      viewBox: "0 0 14 14",
-                                      fill: "none",
-                                      xmlns: "http://www.w3.org/2000/svg",
-                                    },
+                                ]
+                              )
+                            : _vm._e(),
+                        ]),
+                        _vm._v(" "),
+                        _vm.Physics != null
+                          ? _c("div", { staticClass: "level__chart" }, [
+                              _c(
+                                "svg",
+                                {
+                                  staticClass: "radial-progress",
+                                  attrs: {
+                                    "data-percentage": _vm.find_percentage(),
+                                    viewBox: "0 0 86 86",
                                   },
-                                  [
-                                    _c(
-                                      "g",
-                                      { attrs: { "clip-path": "url(#clip0)" } },
-                                      [
-                                        _c("path", {
-                                          attrs: {
-                                            d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
-                                            fill: "#BEBEBE",
-                                          },
-                                        }),
-                                        _vm._v(" "),
-                                        _c("path", {
-                                          attrs: {
-                                            d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
-                                            fill: "#BEBEBE",
-                                          },
-                                        }),
-                                        _vm._v(" "),
-                                        _c("path", {
-                                          attrs: {
-                                            d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
-                                            fill: "#BEBEBE",
-                                          },
-                                        }),
-                                        _vm._v(" "),
-                                        _c("path", {
-                                          attrs: {
-                                            d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
-                                            fill: "#BEBEBE",
-                                          },
-                                        }),
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("defs", [
+                                },
+                                [
+                                  _c(
+                                    "defs",
+                                    [
                                       _c(
-                                        "clipPath",
-                                        { attrs: { id: "clip0" } },
+                                        "linearGradient",
+                                        {
+                                          attrs: {
+                                            id: "linear",
+                                            x1: "0%",
+                                            y1: "0%",
+                                            x2: "100%",
+                                            y2: "0%",
+                                          },
+                                        },
                                         [
-                                          _c("rect", {
+                                          _c("stop", {
                                             attrs: {
-                                              width: "14",
-                                              height: "14",
-                                              fill: "white",
+                                              offset: "0%",
+                                              "stop-color": "#FF7E83",
                                             },
                                           }),
-                                        ]
-                                      ),
-                                    ]),
-                                  ]
-                                ),
-                              ]),
-                              _vm._v(" "),
-                              _c("li", { staticClass: "disabled" }, [
-                                _vm._v(
-                                  "\n                              3 уровень\n                              "
-                                ),
-                                _c(
-                                  "svg",
-                                  {
-                                    staticClass: "icon",
-                                    attrs: {
-                                      width: "14",
-                                      height: "14",
-                                      viewBox: "0 0 14 14",
-                                      fill: "none",
-                                      xmlns: "http://www.w3.org/2000/svg",
-                                    },
-                                  },
-                                  [
-                                    _c(
-                                      "g",
-                                      { attrs: { "clip-path": "url(#clip0)" } },
-                                      [
-                                        _c("path", {
-                                          attrs: {
-                                            d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
-                                            fill: "#BEBEBE",
-                                          },
-                                        }),
-                                        _vm._v(" "),
-                                        _c("path", {
-                                          attrs: {
-                                            d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
-                                            fill: "#BEBEBE",
-                                          },
-                                        }),
-                                        _vm._v(" "),
-                                        _c("path", {
-                                          attrs: {
-                                            d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
-                                            fill: "#BEBEBE",
-                                          },
-                                        }),
-                                        _vm._v(" "),
-                                        _c("path", {
-                                          attrs: {
-                                            d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
-                                            fill: "#BEBEBE",
-                                          },
-                                        }),
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("defs", [
-                                      _c(
-                                        "clipPath",
-                                        { attrs: { id: "clip0" } },
-                                        [
-                                          _c("rect", {
+                                          _vm._v(" "),
+                                          _c("stop", {
                                             attrs: {
-                                              width: "14",
-                                              height: "14",
-                                              fill: "white",
+                                              offset: "100%",
+                                              "stop-color": "#FF144A",
                                             },
                                           }),
-                                        ]
+                                        ],
+                                        1
                                       ),
-                                    ]),
-                                  ]
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("circle", {
+                                    staticClass: "incomplete",
+                                    attrs: { cx: "43", cy: "43", r: "35" },
+                                  }),
+                                  _vm._v(" "),
+                                  _c("circle", {
+                                    staticClass: "complete",
+                                    attrs: {
+                                      cx: "43",
+                                      cy: "43",
+                                      r: "35",
+                                      stroke: "url(#linear)",
+                                    },
+                                  }),
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "progress-level__chart-txt" },
+                                [
+                                  _vm.selectedTraining != null
+                                    ? _c(
+                                        "p",
+                                        {
+                                          staticClass:
+                                            "progress-level__chart-level",
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                              " +
+                                              _vm._s(
+                                                _vm.selectedTraining.training
+                                                  .level
+                                              ) +
+                                              " уровень\n                           "
+                                          ),
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _c("div", {
+                                    staticClass: "progress-level__current",
+                                  }),
+                                ]
+                              ),
+                            ])
+                          : _c("div", { staticClass: "level__chart" }, [
+                              _c(
+                                "svg",
+                                {
+                                  staticClass: "radial-progress",
+                                  attrs: {
+                                    "data-percentage": 0,
+                                    viewBox: "0 0 86 86",
+                                  },
+                                },
+                                [
+                                  _c(
+                                    "defs",
+                                    [
+                                      _c(
+                                        "linearGradient",
+                                        {
+                                          attrs: {
+                                            id: "linear",
+                                            x1: "0%",
+                                            y1: "0%",
+                                            x2: "100%",
+                                            y2: "0%",
+                                          },
+                                        },
+                                        [
+                                          _c("stop", {
+                                            attrs: {
+                                              offset: "0%",
+                                              "stop-color": "#FF7E83",
+                                            },
+                                          }),
+                                          _vm._v(" "),
+                                          _c("stop", {
+                                            attrs: {
+                                              offset: "100%",
+                                              "stop-color": "#FF144A",
+                                            },
+                                          }),
+                                        ],
+                                        1
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("circle", {
+                                    staticClass: "incomplete",
+                                    attrs: { cx: "43", cy: "43", r: "35" },
+                                  }),
+                                  _vm._v(" "),
+                                  _c("circle", {
+                                    staticClass: "complete",
+                                    attrs: {
+                                      cx: "43",
+                                      cy: "43",
+                                      r: "35",
+                                      stroke: "url(#linear)",
+                                    },
+                                  }),
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "progress-level__chart-txt" },
+                                [
+                                  _vm.selectedTraining != null
+                                    ? _c(
+                                        "p",
+                                        {
+                                          staticClass:
+                                            "progress-level__chart-level",
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                              " +
+                                              _vm._s(
+                                                _vm.selectedTraining.training
+                                                  .level
+                                              ) +
+                                              " уровень\n                           "
+                                          ),
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _c("div", {
+                                    staticClass: "progress-level__current",
+                                  }),
+                                ]
+                              ),
+                            ]),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "progress-result" }, [
+                        _vm.Physics != null
+                          ? _c(
+                              "div",
+                              { staticClass: "progress-result__title" },
+                              [
+                                _vm._v(
+                                  "\n                        " +
+                                    _vm._s(
+                                      _vm.Physics.current_weight -
+                                        _vm.Physics.weight
+                                    ) +
+                                    " кг\n                     "
                                 ),
-                              ]),
-                            ]
-                          ),
-                          _vm._v(" "),
+                              ]
+                            )
+                          : _c(
+                              "div",
+                              { staticClass: "progress-result__title" },
+                              [
+                                _vm._v(
+                                  "\n                        -0 кг\n                     "
+                                ),
+                              ]
+                            ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "progress-result__caption" }, [
+                          _c("span", [_vm._v("Мой")]),
+                          _vm._v(" результат\n                        "),
+                          _vm.selectedTraining != null
+                            ? _c(
+                                "p",
+                                {
+                                  staticClass:
+                                    "progress-level__chart-level progress-level__chart-level-mob",
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                           " +
+                                      _vm._s(
+                                        _vm.selectedTraining.training.level
+                                      ) +
+                                      " уровень\n                        "
+                                  ),
+                                ]
+                              )
+                            : _vm._e(),
+                        ]),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(0),
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "progress__col-second" },
+                    [
+                      _c("div", { staticClass: "progress-block" }, [
+                        _c("div", { staticClass: "progress-block__svg-elem" }, [
                           _c(
                             "svg",
                             {
-                              staticClass: "select__svg",
                               attrs: {
-                                width: "17",
-                                height: "9",
-                                viewBox: "0 0 17 9",
+                                width: "280",
+                                height: "322",
+                                viewBox: "0 0 280 322",
                                 fill: "none",
                                 xmlns: "http://www.w3.org/2000/svg",
                               },
                             },
                             [
-                              _c("path", {
+                              _c("ellipse", {
                                 attrs: {
-                                  d: "M16.0543 0.602247C16.0544 0.681312 16.0388 0.759609 16.0086 0.832666C15.9783 0.905724 15.934 0.97211 15.878 1.02804L8.45314 8.44784C8.34019 8.56069 8.18701 8.62408 8.02729 8.62408C7.86757 8.62408 7.71439 8.56069 7.60143 8.44784L0.176538 1.02804C0.120587 0.972146 0.0761993 0.905792 0.0459089 0.832759C0.0156185 0.759727 1.86629e-05 0.681447 1.67352e-08 0.602389C-1.86294e-05 0.523332 0.0155444 0.445045 0.0458003 0.371998C0.0760563 0.298951 0.120413 0.232574 0.176337 0.176659C0.232261 0.120743 0.298658 0.0763845 0.371737 0.046113C0.444816 0.0158415 0.523145 0.000250816 0.602253 0.000231743C0.68136 0.000213623 0.759697 0.0157671 0.83279 0.0460043C0.905883 0.0762405 0.972301 0.120569 1.02825 0.176458L8.02709 7.17087L15.0259 0.176458C15.1102 0.0922174 15.2175 0.0348415 15.3344 0.0115919C15.4513 -0.0116568 15.5724 0.000263214 15.6825 0.0458469C15.7926 0.0914307 15.8867 0.16863 15.9529 0.267672C16.0191 0.366714 16.0544 0.48315 16.0543 0.602247Z",
+                                  opacity: "0.13",
+                                  rx: "164.341",
+                                  ry: "156.191",
+                                  transform:
+                                    "matrix(-0.969532 -0.244963 0.273341 -0.961917 202.027 131.5)",
+                                  fill: "white",
+                                },
+                              }),
+                              _vm._v(" "),
+                              _c("ellipse", {
+                                attrs: {
+                                  opacity: "0.13",
+                                  rx: "138.392",
+                                  ry: "131.529",
+                                  transform:
+                                    "matrix(-0.969532 -0.244963 0.273341 -0.961917 220.71 114.066)",
                                   fill: "white",
                                 },
                               }),
                             ]
                           ),
-                        ]
-                      ),
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "ul",
-                      { staticClass: "progress-block__steps" },
-                      _vm._l(_vm.tabs, function (tab) {
-                        return _c(
-                          "li",
-                          {
-                            key: tab.title,
-                            class: _vm.show(tab.title),
-                            on: {
-                              click: function ($event) {
-                                _vm.selectedTab = tab.title
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "progress-block__head" }, [
+                          _c("h5", { staticClass: "progress-block__title" }, [
+                            _vm._v(
+                              "\n                        Мой прогресс\n                     "
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "select__wrap",
+                              on: {
+                                click: function ($event) {
+                                  return _vm.show_level()
+                                },
                               },
                             },
-                          },
-                          [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(tab.title) +
-                                " Этап\n                     "
-                            ),
-                          ]
-                        )
-                      }),
-                      0
-                    ),
-                  ]),
-                  _vm._v(" "),
-                  _c("HomeData", { attrs: { selectedTab: _vm.selectedTab } }),
-                ],
-                1
-              ),
-            ]),
-          ]),
+                            [
+                              _c("ul", { staticClass: "default__option" }, [
+                                _vm.selectedTraining
+                                  ? _c(
+                                      "li",
+                                      { staticClass: "option selected" },
+                                      [
+                                        _vm._v(
+                                          "\n                              " +
+                                            _vm._s(
+                                              _vm.selectedTraining.training
+                                                .level
+                                            ) +
+                                            " уровень\n                           "
+                                        ),
+                                      ]
+                                    )
+                                  : _vm._e(),
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "ul",
+                                {
+                                  staticClass: "select__ul",
+                                  style: _vm.show_select_level
+                                    ? "display: block !important"
+                                    : "display: none !important",
+                                },
+                                [
+                                  _vm._l(
+                                    _vm.Available_levels,
+                                    function (level) {
+                                      return _c(
+                                        "li",
+                                        {
+                                          key: level,
+                                          on: {
+                                            click: function ($event) {
+                                              return _vm.changeTraining(level)
+                                            },
+                                          },
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                              " +
+                                              _vm._s(level) +
+                                              " уровень\n                           "
+                                          ),
+                                        ]
+                                      )
+                                    }
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.Disabled_levels, function (level) {
+                                    return _c(
+                                      "li",
+                                      {
+                                        key: level,
+                                        staticClass: "disabled",
+                                        attrs: { href: "/plugin" },
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                              " +
+                                            _vm._s(level) +
+                                            " уровень\n                              "
+                                        ),
+                                        _c(
+                                          "svg",
+                                          {
+                                            staticClass: "icon",
+                                            attrs: {
+                                              width: "14",
+                                              height: "14",
+                                              viewBox: "0 0 14 14",
+                                              fill: "none",
+                                              xmlns:
+                                                "http://www.w3.org/2000/svg",
+                                            },
+                                          },
+                                          [
+                                            _c(
+                                              "g",
+                                              {
+                                                attrs: {
+                                                  "clip-path": "url(#clip0)",
+                                                },
+                                              },
+                                              [
+                                                _c("path", {
+                                                  attrs: {
+                                                    d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
+                                                    fill: "#BEBEBE",
+                                                  },
+                                                }),
+                                                _vm._v(" "),
+                                                _c("path", {
+                                                  attrs: {
+                                                    d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
+                                                    fill: "#BEBEBE",
+                                                  },
+                                                }),
+                                                _vm._v(" "),
+                                                _c("path", {
+                                                  attrs: {
+                                                    d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
+                                                    fill: "#BEBEBE",
+                                                  },
+                                                }),
+                                                _vm._v(" "),
+                                                _c("path", {
+                                                  attrs: {
+                                                    d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
+                                                    fill: "#BEBEBE",
+                                                  },
+                                                }),
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("defs", [
+                                              _c(
+                                                "clipPath",
+                                                { attrs: { id: "clip0" } },
+                                                [
+                                                  _c("rect", {
+                                                    attrs: {
+                                                      width: "14",
+                                                      height: "14",
+                                                      fill: "white",
+                                                    },
+                                                  }),
+                                                ]
+                                              ),
+                                            ]),
+                                          ]
+                                        ),
+                                      ]
+                                    )
+                                  }),
+                                ],
+                                2
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "svg",
+                                {
+                                  staticClass: "select__svg",
+                                  attrs: {
+                                    width: "17",
+                                    height: "9",
+                                    viewBox: "0 0 17 9",
+                                    fill: "none",
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                  },
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      d: "M16.0543 0.602247C16.0544 0.681312 16.0388 0.759609 16.0086 0.832666C15.9783 0.905724 15.934 0.97211 15.878 1.02804L8.45314 8.44784C8.34019 8.56069 8.18701 8.62408 8.02729 8.62408C7.86757 8.62408 7.71439 8.56069 7.60143 8.44784L0.176538 1.02804C0.120587 0.972146 0.0761993 0.905792 0.0459089 0.832759C0.0156185 0.759727 1.86629e-05 0.681447 1.67352e-08 0.602389C-1.86294e-05 0.523332 0.0155444 0.445045 0.0458003 0.371998C0.0760563 0.298951 0.120413 0.232574 0.176337 0.176659C0.232261 0.120743 0.298658 0.0763845 0.371737 0.046113C0.444816 0.0158415 0.523145 0.000250816 0.602253 0.000231743C0.68136 0.000213623 0.759697 0.0157671 0.83279 0.0460043C0.905883 0.0762405 0.972301 0.120569 1.02825 0.176458L8.02709 7.17087L15.0259 0.176458C15.1102 0.0922174 15.2175 0.0348415 15.3344 0.0115919C15.4513 -0.0116568 15.5724 0.000263214 15.6825 0.0458469C15.7926 0.0914307 15.8867 0.16863 15.9529 0.267672C16.0191 0.366714 16.0544 0.48315 16.0543 0.602247Z",
+                                      fill: "white",
+                                    },
+                                  }),
+                                ]
+                              ),
+                            ]
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "ul",
+                          { staticClass: "progress-block__steps" },
+                          _vm._l(_vm.tabs, function (tab) {
+                            return _c(
+                              "li",
+                              {
+                                key: tab.title,
+                                class: [
+                                  "progress-block__step",
+                                  _vm.show(tab.title),
+                                ],
+                                on: {
+                                  click: function ($event) {
+                                    return _vm.change_show_tab(tab.title)
+                                  },
+                                },
+                              },
+                              [
+                                _vm._v(
+                                  "\n                        " +
+                                    _vm._s(tab.title) +
+                                    " Этап\n                     "
+                                ),
+                              ]
+                            )
+                          }),
+                          0
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _vm.selectedTraining != null
+                        ? _c("HomeData", {
+                            attrs: {
+                              phase_number: _vm.selectedTab,
+                              can_edit: _vm.canEdit,
+                              training_id: _vm.selectedTraining.training_id,
+                            },
+                          })
+                        : _vm._e(),
+                    ],
+                    1
+                  ),
+                ]),
+              ])
+            : _vm._e(),
         ]),
       ])
     : _vm._e()
@@ -47799,254 +48139,256 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "progres-data__list" },
-    [
-      _c("div", { staticClass: "progres-data__item progres__group" }, [
-        _c("div", { staticClass: "progres__elem" }, [
-          _c("div", { staticClass: "progres__elem-contain" }, [
-            _c("p", { staticClass: "progres__elem-prg" }, [
-              _vm._v("\n               Вес\n            "),
+  return _vm.Physics
+    ? _c(
+        "div",
+        { staticClass: "progres-data__list" },
+        [
+          _c("div", { staticClass: "progres-data__item progres__group" }, [
+            _c("div", { staticClass: "progres__elem" }, [
+              _c("div", { staticClass: "progres__elem-contain" }, [
+                _c("p", { staticClass: "progres__elem-prg" }, [
+                  _vm._v("\n               Вес\n            "),
+                ]),
+                _vm._v(" "),
+                !_vm.disabled()
+                  ? _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.Physics.current_weight,
+                          expression: "Physics.current_weight",
+                        },
+                      ],
+                      staticClass: "progres-data__input",
+                      attrs: { type: "text" },
+                      domProps: { value: _vm.Physics.current_weight },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.Physics,
+                            "current_weight",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    })
+                  : _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.Physics.current_weight,
+                          expression: "Physics.current_weight",
+                        },
+                      ],
+                      staticClass: "progres-data__input",
+                      attrs: { type: "text", readonly: "" },
+                      domProps: { value: _vm.Physics.current_weight },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.Physics,
+                            "current_weight",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "progres__elem" }, [
+              _c("div", { staticClass: "progres__elem-contain" }, [
+                _c("p", { staticClass: "progres__elem-prg" }, [
+                  _vm._v("\n               Бёдра\n            "),
+                ]),
+                _vm._v(" "),
+                !_vm.disabled()
+                  ? _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.Physics.hips_cm,
+                          expression: "Physics.hips_cm",
+                        },
+                      ],
+                      staticClass: "progres-data__input",
+                      attrs: { type: "text" },
+                      domProps: { value: _vm.Physics.hips_cm },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.Physics, "hips_cm", $event.target.value)
+                        },
+                      },
+                    })
+                  : _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.Physics.hips_cm,
+                          expression: "Physics.hips_cm",
+                        },
+                      ],
+                      staticClass: "progres-data__input",
+                      attrs: { type: "text", readonly: "" },
+                      domProps: { value: _vm.Physics.hips_cm },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.Physics, "hips_cm", $event.target.value)
+                        },
+                      },
+                    }),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "progres__elem" }, [
+              _c("div", { staticClass: "progres__elem-contain" }, [
+                _c("p", { staticClass: "progres__elem-prg" }, [
+                  _vm._v("\n               Талия\n            "),
+                ]),
+                _vm._v(" "),
+                !_vm.disabled()
+                  ? _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.Physics.waist_cm,
+                          expression: "Physics.waist_cm",
+                        },
+                      ],
+                      staticClass: "progres-data__input",
+                      attrs: { type: "text" },
+                      domProps: { value: _vm.Physics.waist_cm },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.Physics, "waist_cm", $event.target.value)
+                        },
+                      },
+                    })
+                  : _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.Physics.waist_cm,
+                          expression: "Physics.waist_cm",
+                        },
+                      ],
+                      staticClass: "progres-data__input",
+                      attrs: { type: "text", readonly: "" },
+                      domProps: { value: _vm.Physics.waist_cm },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.Physics, "waist_cm", $event.target.value)
+                        },
+                      },
+                    }),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "progres__elem" }, [
+              _c("div", { staticClass: "progres__elem-contain" }, [
+                _c("p", { staticClass: "progres__elem-prg" }, [
+                  _vm._v("\n               Грудь\n            "),
+                ]),
+                _vm._v(" "),
+                !_vm.disabled()
+                  ? _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.Physics.chest_cm,
+                          expression: "Physics.chest_cm",
+                        },
+                      ],
+                      staticClass: "progres-data__input",
+                      attrs: { type: "text" },
+                      domProps: { value: _vm.Physics.chest_cm },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.Physics, "chest_cm", $event.target.value)
+                        },
+                      },
+                    })
+                  : _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.Physics.chest_cm,
+                          expression: "Physics.chest_cm",
+                        },
+                      ],
+                      staticClass: "progres-data__input",
+                      attrs: { type: "text", readonly: "" },
+                      domProps: { value: _vm.Physics.chest_cm },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.Physics, "chest_cm", $event.target.value)
+                        },
+                      },
+                    }),
+              ]),
             ]),
             _vm._v(" "),
             !_vm.disabled()
-              ? _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.Physics.current_weight,
-                      expression: "Physics.current_weight",
-                    },
-                  ],
-                  staticClass: "progres-data__input",
-                  attrs: { type: "text" },
-                  domProps: { value: _vm.Physics.current_weight },
-                  on: {
-                    input: function ($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(
-                        _vm.Physics,
-                        "current_weight",
-                        $event.target.value
-                      )
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "progres__btn-data",
+                    attrs: { type: "submit" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.savePhysics()
+                      },
                     },
                   },
-                })
-              : _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.Physics.current_weight,
-                      expression: "Physics.current_weight",
-                    },
-                  ],
-                  staticClass: "progres-data__input",
-                  attrs: { type: "text", readonly: "" },
-                  domProps: { value: _vm.Physics.current_weight },
-                  on: {
-                    input: function ($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(
-                        _vm.Physics,
-                        "current_weight",
-                        $event.target.value
-                      )
-                    },
-                  },
-                }),
+                  [_vm._v("Сохранить")]
+                )
+              : _vm._e(),
           ]),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "progres__elem" }, [
-          _c("div", { staticClass: "progres__elem-contain" }, [
-            _c("p", { staticClass: "progres__elem-prg" }, [
-              _vm._v("\n               Бёдра\n            "),
-            ]),
-            _vm._v(" "),
-            !_vm.disabled()
-              ? _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.Physics.hips_cm,
-                      expression: "Physics.hips_cm",
-                    },
-                  ],
-                  staticClass: "progres-data__input",
-                  attrs: { type: "text" },
-                  domProps: { value: _vm.Physics.hips_cm },
-                  on: {
-                    input: function ($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.Physics, "hips_cm", $event.target.value)
-                    },
-                  },
-                })
-              : _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.Physics.hips_cm,
-                      expression: "Physics.hips_cm",
-                    },
-                  ],
-                  staticClass: "progres-data__input",
-                  attrs: { type: "text", readonly: "" },
-                  domProps: { value: _vm.Physics.hips_cm },
-                  on: {
-                    input: function ($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.Physics, "hips_cm", $event.target.value)
-                    },
-                  },
-                }),
-          ]),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "progres__elem" }, [
-          _c("div", { staticClass: "progres__elem-contain" }, [
-            _c("p", { staticClass: "progres__elem-prg" }, [
-              _vm._v("\n               Талия\n            "),
-            ]),
-            _vm._v(" "),
-            !_vm.disabled()
-              ? _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.Physics.waist_cm,
-                      expression: "Physics.waist_cm",
-                    },
-                  ],
-                  staticClass: "progres-data__input",
-                  attrs: { type: "text" },
-                  domProps: { value: _vm.Physics.waist_cm },
-                  on: {
-                    input: function ($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.Physics, "waist_cm", $event.target.value)
-                    },
-                  },
-                })
-              : _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.Physics.waist_cm,
-                      expression: "Physics.waist_cm",
-                    },
-                  ],
-                  staticClass: "progres-data__input",
-                  attrs: { type: "text", readonly: "" },
-                  domProps: { value: _vm.Physics.waist_cm },
-                  on: {
-                    input: function ($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.Physics, "waist_cm", $event.target.value)
-                    },
-                  },
-                }),
-          ]),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "progres__elem" }, [
-          _c("div", { staticClass: "progres__elem-contain" }, [
-            _c("p", { staticClass: "progres__elem-prg" }, [
-              _vm._v("\n               Грудь\n            "),
-            ]),
-            _vm._v(" "),
-            !_vm.disabled()
-              ? _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.Physics.chest_cm,
-                      expression: "Physics.chest_cm",
-                    },
-                  ],
-                  staticClass: "progres-data__input",
-                  attrs: { type: "text" },
-                  domProps: { value: _vm.Physics.chest_cm },
-                  on: {
-                    input: function ($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.Physics, "chest_cm", $event.target.value)
-                    },
-                  },
-                })
-              : _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.Physics.chest_cm,
-                      expression: "Physics.chest_cm",
-                    },
-                  ],
-                  staticClass: "progres-data__input",
-                  attrs: { type: "text", readonly: "" },
-                  domProps: { value: _vm.Physics.chest_cm },
-                  on: {
-                    input: function ($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.Physics, "chest_cm", $event.target.value)
-                    },
-                  },
-                }),
-          ]),
-        ]),
-        _vm._v(" "),
-        !_vm.disabled()
-          ? _c(
-              "button",
-              {
-                staticClass: "progres__btn-data",
-                attrs: { type: "submit" },
-                on: {
-                  click: function ($event) {
-                    return _vm.savePhysics()
-                  },
-                },
-              },
-              [_vm._v("Сохранить")]
-            )
-          : _vm._e(),
-      ]),
-      _vm._v(" "),
-      _vm._l(_vm.imgs, function (img, index) {
-        return _c("HomeDataImg", {
-          key: index,
-          attrs: { img: img.img },
-          on: { change: _vm.OnChangeChild },
-        })
-      }),
-    ],
-    2
-  )
+          _vm._v(" "),
+          _vm._l(_vm.Physics.photoes, function (img, index) {
+            return _c("HomeDataImg", {
+              key: index,
+              attrs: { img: img.img },
+              on: { change: _vm.OnChangeChild },
+            })
+          }),
+        ],
+        2
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -50791,59 +51133,61 @@ var render = function () {
           },
           [
             _c("div", { staticClass: "question-tab" }, [
-              _c(
-                "div",
-                { staticClass: "question-tab__btns" },
-                [
-                  _vm._l(_vm.Topics, function (topic) {
-                    return _c(
-                      "button",
-                      {
-                        key: topic.id,
-                        class: _vm.show(topic.id),
-                        attrs: { "data-id": topic.id },
-                        on: {
-                          click: function ($event) {
-                            _vm.currentTab = topic.id
-                          },
-                        },
-                      },
-                      [
-                        _vm._v(
-                          "\r\n                     " +
-                            _vm._s(topic.name) +
-                            "\r\n                     "
-                        ),
-                        _c(
-                          "svg",
+              !_vm.search_flag
+                ? _c(
+                    "div",
+                    { staticClass: "question-tab__btns" },
+                    [
+                      _vm._l(_vm.Topics, function (topic) {
+                        return _c(
+                          "button",
                           {
-                            attrs: {
-                              width: "14",
-                              height: "24",
-                              viewBox: "0 0 14 24",
-                              fill: "none",
-                              xmlns: "http://www.w3.org/2000/svg",
+                            key: topic.id,
+                            class: _vm.show(topic.id),
+                            attrs: { "data-id": topic.id },
+                            on: {
+                              click: function ($event) {
+                                _vm.currentTab = topic.id
+                              },
                             },
                           },
                           [
-                            _c("path", {
-                              attrs: {
-                                d: "M1.83798 0.75C1.62365 0.749928 1.41382 0.812479 1.23501 0.930153C1.05612 1.04787 0.91613 1.21563 0.833318 1.41261C0.750488 1.60963 0.728769 1.82665 0.771065 2.03605C0.813355 2.24543 0.917627 2.43723 1.0701 2.58739L10.6217 12.0001L1.07004 21.4129L1.07 21.4129C0.968854 21.5126 0.888432 21.6312 0.833507 21.762C0.778579 21.8927 0.750276 22.033 0.750309 22.1748C0.750342 22.3165 0.778715 22.4568 0.833704 22.5875C0.888691 22.7182 0.969167 22.8368 1.07036 22.9365C1.17155 23.0361 1.29147 23.115 1.42318 23.1687C1.55488 23.2224 1.69591 23.25 1.83824 23.25C1.98057 23.25 2.12159 23.2223 2.25327 23.1685C2.38494 23.1147 2.5048 23.0358 2.60593 22.9361C2.60594 22.9361 2.60596 22.9361 2.60597 22.9361L12.9302 12.7615L12.9303 12.7614C13.1346 12.5601 13.25 12.2862 13.25 11.9998C13.25 11.7135 13.1346 11.4396 12.9303 11.2382L12.9302 11.2382L2.60593 1.06351L2.60587 1.06345C2.50466 0.963781 2.38473 0.884928 2.253 0.831215C2.1213 0.777515 1.98029 0.74995 1.83798 0.75ZM1.83798 0.75C1.83802 0.75 1.83806 0.75 1.8381 0.75L1.83798 1L1.83787 0.75C1.83791 0.75 1.83795 0.75 1.83798 0.75Z",
-                                fill: "#FF3E13",
-                                stroke: "#FF3E13",
-                                "stroke-width": "0.5",
+                            _vm._v(
+                              "\r\n                     " +
+                                _vm._s(topic.name) +
+                                "\r\n                     "
+                            ),
+                            _c(
+                              "svg",
+                              {
+                                attrs: {
+                                  width: "14",
+                                  height: "24",
+                                  viewBox: "0 0 14 24",
+                                  fill: "none",
+                                  xmlns: "http://www.w3.org/2000/svg",
+                                },
                               },
-                            }),
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    d: "M1.83798 0.75C1.62365 0.749928 1.41382 0.812479 1.23501 0.930153C1.05612 1.04787 0.91613 1.21563 0.833318 1.41261C0.750488 1.60963 0.728769 1.82665 0.771065 2.03605C0.813355 2.24543 0.917627 2.43723 1.0701 2.58739L10.6217 12.0001L1.07004 21.4129L1.07 21.4129C0.968854 21.5126 0.888432 21.6312 0.833507 21.762C0.778579 21.8927 0.750276 22.033 0.750309 22.1748C0.750342 22.3165 0.778715 22.4568 0.833704 22.5875C0.888691 22.7182 0.969167 22.8368 1.07036 22.9365C1.17155 23.0361 1.29147 23.115 1.42318 23.1687C1.55488 23.2224 1.69591 23.25 1.83824 23.25C1.98057 23.25 2.12159 23.2223 2.25327 23.1685C2.38494 23.1147 2.5048 23.0358 2.60593 22.9361C2.60594 22.9361 2.60596 22.9361 2.60597 22.9361L12.9302 12.7615L12.9303 12.7614C13.1346 12.5601 13.25 12.2862 13.25 11.9998C13.25 11.7135 13.1346 11.4396 12.9303 11.2382L12.9302 11.2382L2.60593 1.06351L2.60587 1.06345C2.50466 0.963781 2.38473 0.884928 2.253 0.831215C2.1213 0.777515 1.98029 0.74995 1.83798 0.75ZM1.83798 0.75C1.83802 0.75 1.83806 0.75 1.8381 0.75L1.83798 1L1.83787 0.75C1.83791 0.75 1.83795 0.75 1.83798 0.75Z",
+                                    fill: "#FF3E13",
+                                    stroke: "#FF3E13",
+                                    "stroke-width": "0.5",
+                                  },
+                                }),
+                              ]
+                            ),
                           ]
-                        ),
-                      ]
-                    )
-                  }),
-                  _vm._v(" "),
-                  _vm._m(0),
-                ],
-                2
-              ),
+                        )
+                      }),
+                      _vm._v(" "),
+                      _vm._m(0),
+                    ],
+                    2
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _c(
                 "div",
@@ -51081,7 +51425,7 @@ var render = function () {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "progress-result" }, [
-                    _vm.Physics
+                    _vm.Physics != null
                       ? _c("div", { staticClass: "progress-result__title" }, [
                           _vm._v(
                             _vm._s(
@@ -51089,7 +51433,9 @@ var render = function () {
                             ) + " кг"
                           ),
                         ])
-                      : _vm._e(),
+                      : _c("div", { staticClass: "progress-result__title" }, [
+                          _vm._v("-0 кг"),
+                        ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "progress-result__caption" }, [
                       _c("span", [_vm._v("Мой")]),
@@ -51115,9 +51461,9 @@ var render = function () {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "calendar workout" }, [
-                  _c("div", { staticClass: "calendar__container" }, [
-                    _vm.TrainingTitleAndDays.length > 0
-                      ? _c("div", { staticClass: "calendar__slider-workout" }, [
+                  _vm.TrainingTitleAndDays.length > 0
+                    ? _c("div", { staticClass: "calendar__container" }, [
+                        _c("div", { staticClass: "calendar__slider-workout" }, [
                           _c(
                             "div",
                             { staticClass: "swiper-wrapper" },
@@ -51179,9 +51525,9 @@ var render = function () {
                           ),
                           _vm._v(" "),
                           _vm._m(0),
-                        ])
-                      : _vm._e(),
-                  ]),
+                        ]),
+                      ])
+                    : _vm._e(),
                 ]),
               ]),
               _vm._v(" "),

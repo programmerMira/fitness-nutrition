@@ -13,8 +13,8 @@ class TrainingController extends Controller
 {
     public function index(Request $request)
     {
-        $trainings = Training::all();
-        return new TrainingCollection($trainings);
+        $trainings = Training::with('days')->get();
+        return response()->json($trainings);
     }
 
     public function store(TrainingStoreRequest $request)

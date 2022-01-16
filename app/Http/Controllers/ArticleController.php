@@ -10,12 +10,31 @@ class ArticleController extends Controller
 {
     function index(Request $request, $id)
     {
+        $searchFlag = false;
         if($id==null)
             return redirect()->route('question');
         $question = Question::find($id);
         if($question!=NULL)
             return view('article')->with('question', $question);
-        return redirect()->route('question');
+        return redirect()->route('question',compact('searchFlag'));
+    }
+
+    function searchQuestions(Request $request){
+        $searchFlag = true;
+        $search_text = '%'.$request->question.'%';
+        $questions = [];
+        if($search_text){
+            $questions = Question::where('name','like',$search_text)
+                                 ->orWhere('answer','like',$search_text)
+                                 ->get();
+        }
+        return response()->json($questions);
+    }
+
+    function search(Request $request){
+        $searchFlag = true;
+        $questions = $request->questions;
+        return view('search')->with(compact('questions'));
     }
     
     function adminArticle(Request $request, $id)

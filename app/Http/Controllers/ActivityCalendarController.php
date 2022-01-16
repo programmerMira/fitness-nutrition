@@ -22,7 +22,7 @@ class ActivityCalendarController extends Controller
         foreach($training_user as $tr_u){
             $tmp = ActivityCalendar::where('training_user_id','=',$tr_u->id)->with('trainingUser')->get();
             if(sizeof($tmp)>0){
-                $tmp['trainingUser'] = $tr_u;
+                //$tmp['trainingUser'] = $tr_u;
                 array_push($activityCalendars, $tmp);
             }
         }

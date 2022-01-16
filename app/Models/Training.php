@@ -39,7 +39,10 @@ class Training extends Model
         'problem_zone_id'=>'integer',
         'info'=>'array',
     ];
-
+    public function days()
+    {
+        return $this->hasMany(\App\Models\Days::class);
+    }
 
     public function trainingLocation()
     {

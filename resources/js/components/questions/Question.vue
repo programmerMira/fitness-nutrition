@@ -26,7 +26,6 @@
 </template>
 <script>
 import MenuOffice from "../general/Menu.vue";
-//props: object or id? can and better to pass object
 export default {
     props: ["question"],
     components: {
@@ -36,7 +35,6 @@ export default {
         
     }),
     mounted(){
-        console.log(this.question);
         this.$store.dispatch('fetchQuestion', this.question);
     },
     computed:{

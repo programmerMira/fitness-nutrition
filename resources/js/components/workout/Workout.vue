@@ -38,7 +38,8 @@
                       </div>
                   </div>
                   <div class="progress-result">
-                      <div v-if="Physics" class="progress-result__title">{{Physics.current_weight - Physics.weight}} кг</div>
+                      <div v-if="Physics!=null" class="progress-result__title">{{Physics.current_weight - Physics.weight}} кг</div>
+                      <div v-else class="progress-result__title">-0 кг</div>
                       <div class="progress-result__caption">
                         <span>Мой</span> результат
                         <p v-if="UserTrainings" class="progress-level__chart-level progress-level__chart-level-mob">
@@ -48,8 +49,8 @@
                   </div>
                 </div>
                 <div class="calendar workout">
-                  <div class="calendar__container">
-                    <div v-if="TrainingTitleAndDays.length>0" class="calendar__slider-workout">
+                  <div v-if="TrainingTitleAndDays.length>0" class="calendar__container">
+                    <div class="calendar__slider-workout">
                       <div class="swiper-wrapper">
                         <div class="swiper-slide" v-for="(tabs, index) in TrainingTitleAndDays" :key="index">
                           <div class="calendar__title">
@@ -144,7 +145,6 @@
 <script>
 
 //current_training => save
-//
 
 import WorkoutVideo from "./WorkoutVideo.vue";
 import Logout from "../general/Logout.vue";
@@ -179,15 +179,25 @@ export default {
       let tmp = this.$store.getters.GetTrainingUsers;
       if(!tmp||tmp.length<1)
         return this.slider;
+      
       if(this.$store.getters.GetActivityCalendars!=null)
-        this.selectedTrainingId = this.UserActiveCallendar;//this.$store.getters.GetActivityCalendars.find(element => element.is_active==1);
+      {
+        console.log("this.UserActiveCallendar:",this.UserActiveCallendar);
+        this.selectedTrainingId = this.$store.getters.GetActivityCalendars.find(element => element.is_active==1);
+      }
       else
+      {
+        console.log("Default this.selectedTrainingId")
         this.selectedTrainingId = tmp[0];
+      }
+      
       if(this.selectedTrainingId)
         this.selectedTab = this.selectedTrainingId.day.toString();
       else
         this.selectedTab = "1";
+      
       this.slider = [];
+      
       tmp.forEach(item=>{
         let days=[];
         item.days.forEach(day=>days.push({title: day.day_number}));
@@ -198,12 +208,18 @@ export default {
           }
         );
       });
+      
       //console.log("this.slider: ",this.slider);
-      console.log("this.selectedTrainingId:",this.selectedTrainingId);
+      //console.log("this.selectedTrainingId:",this.selectedTrainingId);
       return this.slider;
     },
     Physics(){
-      return this.$store.getters.GetPhysicsParameters;
+      if(this.selectedTrainingId){
+        console.log()
+        let tmp = this.$store.getters.GetPhysicsParameters.filter(element => element.training_id == this.selectedTrainingId.training_user.training_id);
+        if(tmp)
+            return tmp[tmp.length-1];
+      }
     },
   },
   mounted(){
@@ -213,7 +229,7 @@ export default {
       this.$store.dispatch('fetchTrainingUsers');
       this.$store.dispatch('fetchActivityCalendars');
     }
-   },
+  },
   methods: {
     findPercent()
     {

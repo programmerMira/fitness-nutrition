@@ -7,7 +7,7 @@
          <Logout></Logout>
       </section>
       <section id="progress" class="home">
-         <div class="account-container">
+         <div v-if="User" class="account-container">
             <div class="progress__container">
                <div class="progress__col-first">
                   <div class="progress__row">
@@ -18,8 +18,26 @@
                               {{selectedTraining.training.level}} уровень
                            </div>
                         </div>
-                        <div class="level__chart">
+                        <div v-if="Physics!=null" class="level__chart">
                            <svg class="radial-progress" :data-percentage="find_percentage()" viewBox="0 0 86 86">
+                              <defs>
+                                 <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#FF7E83" />
+                                    <stop offset="100%" stop-color="#FF144A" />
+                                 </linearGradient>
+                              </defs>
+                              <circle class="incomplete" cx="43" cy="43" r="35"></circle>
+                              <circle class="complete" cx="43" cy="43" r="35" stroke="url(#linear)"></circle>
+                           </svg>
+                           <div class="progress-level__chart-txt">
+                              <p v-if="selectedTraining!=null" class="progress-level__chart-level">
+                                 {{selectedTraining.training.level}} уровень
+                              </p>
+                              <div class="progress-level__current"></div>
+                           </div>
+                        </div>
+                        <div v-else class="level__chart">
+                           <svg class="radial-progress" :data-percentage="0" viewBox="0 0 86 86">
                               <defs>
                                  <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
                                     <stop offset="0%" stop-color="#FF7E83" />
@@ -38,8 +56,11 @@
                         </div>
                      </div>
                      <div class="progress-result">
-                        <div class="progress-result__title">
+                        <div v-if="Physics!=null" class="progress-result__title">
                            {{Physics.current_weight - Physics.weight}} кг
+                        </div>
+                        <div v-else class="progress-result__title">
+                           -0 кг
                         </div>
                         <div class="progress-result__caption">
                            <span>Мой</span> результат
@@ -81,36 +102,11 @@
                               </li>
                            </ul>
                            <ul :style="show_select_level? 'display: block !important': 'display: none !important'" class="select__ul">
-                              <li>
-                                 1 уровень
+                              <li v-on:click="changeTraining(level)" v-for="(level) in Available_levels" :key="level">
+                                 {{level}} уровень
                               </li>
-                              <li class="disabled">
-                                 2 уровень
-                                 <svg class="icon" width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <g clip-path="url(#clip0)">
-                                       <path
-                                          d="M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z"
-                                          fill="#BEBEBE" />
-                                       <path
-                                          d="M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z"
-                                          fill="#BEBEBE" />
-                                       <path
-                                          d="M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z"
-                                          fill="#BEBEBE" />
-                                       <path
-                                          d="M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z"
-                                          fill="#BEBEBE" />
-                                    </g>
-                                    <defs>
-                                       <clipPath id="clip0">
-                                          <rect width="14" height="14" fill="white" />
-                                       </clipPath>
-                                    </defs>
-                                 </svg>
-                              </li>
-                              <li class="disabled">
-                                 3 уровень
+                              <li href="/plugin" class="disabled" v-for="(level) in Disabled_levels" :key="level">
+                                 {{level}} уровень
                                  <svg class="icon" width="14" height="14" viewBox="0 0 14 14" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g clip-path="url(#clip0)">
@@ -144,14 +140,14 @@
                         </div>
                      </div>
                      <ul class="progress-block__steps">
-                        <li v-for="tab in tabs" v-on:click="selectedTab = tab.title"
-                        :key="tab.title" :class="show(tab.title)"
+                        <li v-for="tab in tabs" v-on:click="change_show_tab(tab.title)"
+                        :key="tab.title" :class="['progress-block__step', show(tab.title)]"
                         >
                            {{ tab.title }} Этап
                         </li>
                      </ul>
                   </div>
-                  <HomeData :selectedTab="selectedTab"></HomeData>
+                  <HomeData v-if="selectedTraining!=null" :phase_number=selectedTab :can_edit=canEdit :training_id=selectedTraining.training_id></HomeData>
                </div>
             </div>
          </div>
@@ -164,55 +160,86 @@ import MenuOffice from "../general/Menu.vue";
 import Logout from "../general/Logout.vue";
 
 export default {
-  components: {
-   HomeData,
-   MenuOffice,
-   Logout
-  },
-  data: () => ({
-    tabs: [
-      {
-        title: "1",
-      },
-      {
-        title: "2",
-      },
-      {
-        title: "3",
-      },
-    ],
-    selectedTab: null,
-    //selectedTraining: null,
-    show_select_level:false,
-  }),
+   components: {
+      HomeData,
+      MenuOffice,
+      Logout
+   },
+   data: () => ({
+      tabs: [
+         {
+         title: "1",
+         },
+         {
+         title: "2",
+         },
+         {
+         title: "3",
+         },
+      ],
+      selectedTab: "1",
+      show_select_level:false,
+      selected_level: null,
+      available_levels: [],
+      disabled_levels: []
+   }),
    computed:{
       User(){
          return this.$store.getters.GetPersonalAccount;
       },
-      Physics(){
-         //{{Physics.current_weight - Physics.weight}}
-         return this.$store.getters.GetPhysicsParameters;
-      },
       selectedTraining(){
-         let result=null;
          let activeTraining = this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1)
-         if(activeTraining)
-            return result = this.$store.getters.GetTrainingUsers.find(element => parseInt(element.training_id) === parseInt(activeTraining.training_user.training_id));
-         return result = this.$store.getters.GetTrainingUsers[0];
-         
-         /*this.selectedTab = this.tabs[0];
-         this.selectedTraining = result;
-         console.log("activeTraining:",activeTraining);
-         console.log("this.selectedTraining:",this.selectedTraining);
-         return this.$store.getters.GetTrainingUsers;*/
+         if(activeTraining){
+            let tmp = this.$store.getters.GetTrainingUsers.find(element => parseInt(element.training_id) === parseInt(activeTraining.training_user.training_id));
+            this.selected_level = tmp.training.level;
+            console.log(tmp);
+            return tmp;
+         }
+         let tmp = this.$store.getters.GetTrainingUsers[0];
+         if(tmp){
+            this.selected_level = tmp.training.level;
+            return tmp;
+         }
       },
-  },
-  mounted(){
+      Available_levels(){
+         this.available_levels=[];
+         if(this.selectedTraining&&this.$store.getters.GetTrainingUsers){
+            this.$store.getters.GetTrainingUsers.forEach(element => {
+               if(this.selectedTraining.training.problem_zone_id == element.training.problem_zone_id)
+                  this.available_levels.push(element.training.level);
+            });
+            return this.available_levels;
+         }
+      },
+      Disabled_levels(){
+         this.disabled_levels=[];
+         if(this.selectedTraining&&this.$store.getters.GetTrainingUsers){
+            this.$store.getters.GetTrainings.forEach(element1 =>{
+               let tmp = this.available_levels.find(element2=>parseInt(element2)==parseInt(element1.level));
+                  console.log(tmp);
+               if(this.selectedTraining.training.problem_zone_id == element1.problem_zone_id &&
+                  !tmp)
+                  this.disabled_levels.push(element1.level);
+            });
+            return this.disabled_levels;
+         }
+      },
+      Physics(){
+         if(this.selectedTraining){
+            let tmp = this.$store.getters.GetPhysicsParameters.filter(element => element.training_id == this.selectedTraining.training_id);
+            if(tmp)
+               return tmp[tmp.length-1];
+         }
+      },
+   },
+   mounted(){
       if (userInfo){
          this.$store.dispatch('fetchPhysicsParameters');
          this.$store.dispatch('fetchPersonalAccount');
          this.$store.dispatch('fetchTrainingUsers');
          this.$store.dispatch('fetchActivityCalendars');
+         this.$store.dispatch('fetchTrainings');
+         this.$store.dispatch('fetchTrainings');
       }
    },
    methods: {
@@ -226,24 +253,107 @@ export default {
          var percent = (Difference_In_Days*100)/30;
          return parseInt(percent);
       },
-      /*tabs_for_current_train(){
-         if(this.selectedTraining==null)
-            return 1;
-         var date1 = new Date(this.selectedTraining.created_at);
-         var date2 = new Date(this.selectedTraining.deactevated_at);
-         var Difference_In_Time = date2.getTime() - date1.getTime();
-         var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-         console.log(parseInt(Difference_In_Days/10));
-         return parseInt(Difference_In_Days/10);
-      }*/
       show(item){
          if(parseInt(item) == parseInt(this.selectedTab))
             return 'progress-block__step active';
          return 'progress-block__step';
       },
+      change_show_tab(item){
+         this.selectedTab = item;
+      },
       show_level(){
          this.show_select_level=!this.show_select_level;
+      },
+      canEdit(){
+         //check days for training if 30 or 14
+         //let training = this.$store.getters.GetTrainings.filter(element=>element.id==this.selectedTraining.training_id);
+         //if(training){
+         //   if(training.days.length==30){
+         //
+         if(this.selectedTraining!=null){
+            var updated_at = new Date(Date.parse(this.selectedTraining.created_at));
+            var today = new Date();
+            if(parseInt(this.selectedTab)==1){
+               updated_at.setDate(updated_at.getDate() + 10)
+               if(updated_at<today)
+                  return true;
+               return false;
+            }
+            if(parseInt(this.selectedTab)==2){
+               updated_at.setDate(updated_at.getDate() + 20)
+               if(updated_at<today)
+                  return true;
+               return false;
+            }
+            if(parseInt(this.selectedTab)==3){
+               updated_at.setDate(updated_at.getDate() + 29)
+               if(updated_at<today)
+                  return true;
+               return false;
+            }
+         }
+         //    }
+         //    if(training.days.length==14){
+         //       if(this.selectedTraining!=null){
+               //    var updated_at = new Date(Date.parse(this.selectedTraining.created_at));
+               //    var today = new Date();
+               //    if(parseInt(this.selectedTab)==1){
+               //       updated_at.setDate(updated_at.getDate() + 4)
+               //       if(updated_at<today)
+               //          return true;
+               //       return false;
+               //    }
+               //    if(parseInt(this.selectedTab)==2){
+               //       updated_at.setDate(updated_at.getDate() + 4)
+               //       if(updated_at<today)
+               //          return true;
+               //       return false;
+               //    }
+               //    if(parseInt(this.selectedTab)==3){
+               //       updated_at.setDate(updated_at.getDate() + 3)
+               //       if(updated_at<today)
+               //          return true;
+               //       return false;
+               //    }
+               // }
+         //    }
+         //}
+      },
+      changeTraining(level){
+         if(this.$store.getters.GetTrainingUsers){
+            this.$store.getters.GetTrainingUsers.forEach(element => {
+               if(this.selectedTraining.training.problem_zone_id == element.training.problem_zone_id&&
+                  element.training.level == level){
+                     this.changeActiveTraining(element)
+                  }
+            });
+            return this.available_levels;
+         }
+      },
+      changeActiveTraining(training){
+         let selected = this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1);
+         let new_one = this.$store.getters.GetActivityCalendars.find(element=>element.training_user.training_id==training.training_id);
+         console.log(this.$store.getters.GetActivityCalendars,training,selected,new_one);
+         this.$store.dispatch('setActivityCalendar',{
+            id: selected.id,
+            training_user_id: selected.training_user_id,
+            day: selected.day,
+            is_active: 0
+         });
+         this.$store.dispatch('setActivityCalendar',{
+            id: new_one.id,
+            training_user_id: new_one.training_user_id,
+            day: new_one.day,
+            is_active: 1
+         });
+         this.selectedTab = "1";
+         this.$store.dispatch('fetchActivityCalendars');
       }
    },
 };
 </script>
+<style>
+   .progress-block__steps {
+      z-index: 1000;
+   }
+</style>

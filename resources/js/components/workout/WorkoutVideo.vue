@@ -98,7 +98,7 @@ export default {
       if(this.current_training){
         this.current_day = this.current_training.days.find(element => element.day_number === parseInt(this.day));
         //console.log("this.current_day:",this.current_day);
-        if(this.current_day.name === "Выходной")
+        if(this.current_day&&this.current_day.name === "Выходной")
           return true
       }
       return false

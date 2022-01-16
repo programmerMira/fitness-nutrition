@@ -16,7 +16,7 @@ class PhysicsParametersController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user()->id;
-        $physicsParameters = PhysicsParameters::where('user_id','=',$user)->first();
+        $physicsParameters = PhysicsParameters::where('user_id','=',$user)->get();
         return response()->json($physicsParameters);
     }
 

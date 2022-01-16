@@ -10,7 +10,7 @@
       <div class="account-container">
          <div id="progress" class="question question__container">
             <div class="question-tab">
-               <div class="question-tab__btns">
+               <div v-if="!search_flag" class="question-tab__btns">
                   <button v-for="(topic) in Topics" :key="topic.id" :class="show(topic.id)" :data-id="topic.id" v-on:click="currentTab=topic.id">
                      {{topic.name}}
                      <svg width="14" height="24" viewBox="0 0 14 24" fill="none"
@@ -53,41 +53,43 @@
 import MenuOffice from "../general/Menu.vue";
 import Logout from "../general/Logout.vue";
 export default {
-  components: {
-    MenuOffice,
-    Logout
-  },
-  data: () => ({
-      currentTab: "1",
-  }),
-  computed:{
-     QuestionsForTopic(){
-        var tmp = this.$store.getters.GetQuestions.filter(question => question.topic_id === parseInt(this.currentTab));
-        //console.log(tmp);
-        return tmp;
-     },
-     Topics(){
-        return this.$store.getters.GetTopics;
-     }
-  },
-  mounted(){
-     this.$store.dispatch('fetchQuestions');
-     this.$store.dispatch('fetchTopics');
-  },
-  methods:{
+   props:["search_flag", "questions"],
+   components: {
+      MenuOffice,
+      Logout
+   },
+   data: () => ({
+         currentTab: "1",
+   }),
+   computed:{
+      QuestionsForTopic(){
+         if(!this.search_flag)
+            return this.$store.getters.GetQuestions.filter(
+               question => question.topic_id === parseInt(this.currentTab)
+            );
+         else
+            return this.questions;
+      },
+      Topics(){
+         return this.$store.getters.GetTopics;
+      }
+   },
+   mounted(){
+      this.$store.dispatch('fetchQuestions');
+      this.$store.dispatch('fetchTopics');
+   },
+   methods:{
       show(item){
-         //console.log(item, parseInt(this.currentTab), item===parseInt(this.currentTab));
          if(item===parseInt(this.currentTab))
             return 'question-tab__btn active';
          return 'question-tab__btn';
       },
       showQ(item){
-         //console.log(item, parseInt(this.currentTab), item===parseInt(this.currentTab));
          if(item===parseInt(this.currentTab))
             return 'question-tab__content active';
          return 'question-tab__content';
       }
-  }
+   }
 };
 </script>
 <style lang="scss">

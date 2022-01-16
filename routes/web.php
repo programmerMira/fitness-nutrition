@@ -19,9 +19,11 @@ Route::get("/", [MainPageController::class,'index'])->name('main');
 Route::view("/diet","diet")->middleware('auth');
 Route::view("/workout","workout")->middleware('auth');
 Route::view("/plugin","plugin")->middleware('auth');
-Route::view("/question","question")->middleware('auth')->name('question');
+Route::view("/question", "question")->middleware('auth')->name('question');
 Route::view("/article","article")->middleware('auth');
 Route::get("/article/{id}", [ArticleController::class,'index']);
+Route::post("/searchQuestions", [ArticleController::class,'searchQuestions'])->middleware('auth')->name('search');
+Route::get("/search", [ArticleController::class,'search'])->middleware('auth');
 
 Route::prefix('/admin')->group(function () {
     Route::get('/', function(){ return view('admin.dashboard.homepage'); });

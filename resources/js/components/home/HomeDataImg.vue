@@ -1,10 +1,10 @@
 <template>
    <div class="progres-data__item-photo progres-data__item">
       <input
-         name="file"
-         type="file"
-         @change="previewImage"
-         accept="image/*"
+        name="file"
+        type="file"
+        @change="previewImage"
+        accept="image/*"
       />
       <img v-if="!changeImg" class="preview" :src="img" />
       <img v-else class="preview" :src="imageData" />
@@ -31,6 +31,9 @@ export default {
         reader.readAsDataURL(input.files[0]);
       }
     },
+    saveImg(){
+      
+    }
   },
 };
 </script>
