@@ -69,10 +69,9 @@ class NotificationController extends Controller
             ->with('success', 'Deleted successfully');
     }
 
-    function adminShowNotification(Request $request, $notificationId)
+    function adminShowNotification(Request $request, $id)
     {
-        $user = Auth::user()->id;
-        $notification = Notification::where('id', '!=', $user->user_id)->get();
+        $notification = Notification::find($id);
 
         return view('admin.dashboard.notification.notificationEditForm')->with(compact('notification'));
     }
@@ -83,7 +82,7 @@ class NotificationController extends Controller
         $description = $request->description;
 
         if ($name != null && $description != null) {
-            Question::whereId($id)->update([
+            Notification::whereId($id)->update([
                 'name' => $name,
                 'description' => $description
             ]);

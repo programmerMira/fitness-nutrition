@@ -26,4 +26,9 @@ class TrainingLocation extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+
+    public function trainings()
+    {
+        return $this->hasMany('\App\Models\Training','training_location_id', 'id');
+    }
 }

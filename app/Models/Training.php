@@ -46,8 +46,18 @@ class Training extends Model
         return $this->belongsTo(\App\Models\TrainingLocation::class);
     }
 
+    public function trainingDays()
+    {
+        return $this->belongsTo(\App\Models\Days::class,"id","training_id");
+    }
+
     public function problemZone()
     {
         return $this->belongsTo(\App\Models\ProblemZone::class);
+    }
+
+    public function trainingUser()
+    {
+        return $this->belongsTo(\App\Models\TrainingUser::class);
     }
 }

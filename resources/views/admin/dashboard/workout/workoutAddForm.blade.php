@@ -7,20 +7,20 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card">
-                        <div class="card-header"><strong>Тренировка {{ $training->name }}</strong></div>
+                        <div class="card-header"><strong>Добавить тренировку</strong></div>
                         <div class="card-body">
-                            <form class="form-horizontal" action="{{route('editTraining',['id'=>$training->id])}}" method="post">
-                                @csrf
+                            <form class="form-horizontal" action="action="{{route('addTraining')}}"" method="post">
+                            @csrf
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Название</label>
                                     <div class="col-md-9">
-                                        <input value="{{ $training->name }}" name="name" class="form-control" placeholder="Название " type="text">
+                                        <input name="name" class="form-control" placeholder="Название " type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Цена</label>
                                     <div class="col-md-9">
-                                        <input value="{{ $training->training_price }}" name="training_price" class="form-control" placeholder="Цена" type="text">
+                                        <input name="training_price" class="form-control" placeholder="Цена" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -33,7 +33,6 @@
                                     <label class="col-md-3 col-form-label">Место:</label>
                                     <div class="col-md-9">
                                         <select name="trainingLocation" class="form-control">
-                                           <option value="{{$training->trainingLocation}}">{{$training->trainingLocation->name}}</option>
                                             @foreach($locations as $location)
                                                 <option value="{{$location->id}}">{{$location->name}}</option>
                                             @endforeach

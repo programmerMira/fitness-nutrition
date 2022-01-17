@@ -16,8 +16,10 @@ document.addEventListener("DOMContentLoaded", function () {
         spaceBetween: 0,
         slidesPerView: 1,
         navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
+            // nextEl: ".swiper-button-next",
+            // prevEl: ".swiper-button-prev",
+            nextEl: ".next",
+            prevEl: ".prev",
         },
     });
     let swiperScrinImg = new Swiper('.office__img-slider', {
