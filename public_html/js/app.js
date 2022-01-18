@@ -3091,7 +3091,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.selectedTraining && this.$store.getters.GetTrainingUsers) {
         this.$store.getters.GetTrainingUsers.forEach(function (element) {
-          if (_this.selectedTraining.training.problem_zone_id == element.training.problem_zone_id) _this.available_levels.push(element.training.level);
+          _this.available_levels.push(element.training.level);
         });
         return this.available_levels;
       }
@@ -3107,8 +3107,7 @@ __webpack_require__.r(__webpack_exports__);
             return parseInt(element2) == parseInt(element1.level);
           });
 
-          console.log(tmp);
-          if (_this2.selectedTraining.training.problem_zone_id == element1.problem_zone_id && !tmp) _this2.disabled_levels.push(element1.level);
+          if (!tmp) _this2.disabled_levels.push(element1.level);
         });
         return this.disabled_levels;
       }
@@ -4009,51 +4008,52 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       disabledBtn: false,
-      calorics: [{
-        value: false,
-        title: '1300-1400'
-      }, {
-        value: false,
-        title: '1500-1600'
-      }, {
-        value: false,
-        title: '1800-1900'
-      }, {
-        value: false,
-        title: '2000-2100'
-      }],
-      diets: [{
-        value: false,
-        menu: ' Меню на 30 дней 1',
-        price: '2 000 р.'
-      }, {
-        value: false,
-        menu: ' Меню на 30 дней 2',
-        price: '2 000 р.'
-      }],
+      calorics_list: [],
+      diets_list: [],
       activeStep: 1,
       formSteps: [],
       selected_calory: null,
       selected_diet: null
     };
+  },
+  mounted: function mounted() {
+    this.$store.dispatch('fetchMenuCalories');
+    this.$store.dispatch('fetchMenus');
+  },
+  computed: {
+    calorics: function calorics() {
+      var _this = this;
+
+      this.calorics_list = [];
+      var cals = this.$store.getters.GetMenuCalories;
+      if (!cals) return [];
+      cals.forEach(function (element) {
+        _this.calorics_list.push({
+          value: false,
+          title: element.name
+        });
+      });
+      return this.calorics_list;
+    },
+    diets: function diets() {
+      var _this2 = this;
+
+      this.diets_list = [];
+      var diets = this.$store.getters.GetMenus;
+      if (!diets) return [];
+      diets.forEach(function (element) {
+        _this2.diets_list.push({
+          value: false,
+          menu: 'Меню на ' + element.menu_days.length + ' дней ' + element.menu_content,
+          price: element.menu_price + ' р.'
+        });
+      });
+      return this.diets_list;
+    }
   },
   methods: {
     prev: function prev() {
@@ -4065,8 +4065,7 @@ __webpack_require__.r(__webpack_exports__);
     disableBtn: function disableBtn() {
       return this.selected_calory != null && this.selected_diet != null;
     }
-  },
-  computed: {}
+  }
 });
 
 /***/ }),
@@ -4321,6 +4320,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -4335,6 +4337,57 @@ __webpack_require__.r(__webpack_exports__);
     DietModalSimple: _DietModalSimple_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     MenuOffice: _general_Menu_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
     Logout: _general_Logout_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+  },
+  computed: {
+    User: function User() {
+      return this.$store.getters.GetPersonalAccount;
+    },
+    selectedTraining: function selectedTraining() {
+      var activeTraining = this.$store.getters.GetActivityCalendars.find(function (element) {
+        return parseInt(element.is_active) == 1;
+      });
+
+      if (activeTraining) {
+        return this.$store.getters.GetTrainingUsers.find(function (element) {
+          return parseInt(element.training_id) === parseInt(activeTraining.training_user.training_id);
+        });
+        ;
+      }
+
+      return this.$store.getters.GetTrainingUsers[0];
+    }
+  },
+  mounted: function mounted() {
+    if (userInfo) {
+      this.$store.dispatch('fetchPersonalAccount');
+      this.$store.dispatch('fetchTrainingUsers');
+      this.$store.dispatch('fetchActivityCalendars');
+    }
+  },
+  methods: {
+    find_percentage: function find_percentage() {
+      if (this.selectedTraining == null) return 0;
+      var date1 = new Date(this.selectedTraining.created_at);
+      var date2 = new Date();
+      var Difference_In_Time = date2.getTime() - date1.getTime();
+      var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+      var percent = Difference_In_Days * 100 / 30;
+      return parseInt(percent);
+    },
+    checkActivity: function checkActivity() {
+      if (this.User == null) return false;
+      var date1 = new Date(this.User.deactivated_at);
+      var date2 = new Date();
+      if (date1.getDate() > date2.getDate()) return true;
+      return false;
+    },
+    daysLeft: function daysLeft() {
+      if (this.User == null) return 0;
+      var date1 = new Date(this.User.deactivated_at);
+      var date2 = new Date();
+      var Difference_In_Date = date1.getDate() - date2.getDate();
+      return parseInt(Difference_In_Date);
+    }
   }
 });
 
@@ -4598,34 +4651,48 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       disabled: false,
-      locations: [{
-        value: false,
-        title: 'Дом'
-      }, {
-        value: false,
-        title: 'Зал'
-      }, {
-        value: false,
-        title: 'Дом+Зал'
-      }],
-      workouts: [{
-        value: false,
-        level: '1',
-        price: '2 000'
-      }, {
-        value: false,
-        level: '2',
-        price: '2 000'
-      }, {
-        value: false,
-        level: '3',
-        price: '2 000'
-      }],
+      locations_list: [],
+      workouts_list: [],
       activeStep: 1,
       formSteps: [],
       selected_location: null,
       selected_workout: null
     };
+  },
+  mounted: function mounted() {
+    this.$store.dispatch('fetchTrainingLocations');
+    this.$store.dispatch('fetchTrainings');
+  },
+  computed: {
+    locations: function locations() {
+      var _this = this;
+
+      this.locations_list = [];
+      var locs = this.$store.getters.GetTrainingLocations;
+      if (!locs) return [];
+      locs.forEach(function (element) {
+        _this.locations_list.push({
+          value: false,
+          title: element.name
+        });
+      });
+      return this.locations_list;
+    },
+    workouts: function workouts() {
+      var _this2 = this;
+
+      this.workouts_list = [];
+      var works = this.$store.getters.GetTrainings;
+      if (!works) return [];
+      works.forEach(function (element) {
+        _this2.workouts_list.push({
+          value: false,
+          level: element.level,
+          price: element.training_price
+        });
+      });
+      return this.workouts_list;
+    }
   },
   methods: {
     prev: function prev() {
@@ -4963,6 +5030,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 //current_training => save
 
 
@@ -4978,7 +5047,9 @@ __webpack_require__.r(__webpack_exports__);
       slider: [],
       selectedTab: null,
       selectedTrainingId: null,
-      show_select_location: false
+      show_select_location: false,
+      available_locations: [],
+      disabled_levels: []
     };
   },
   computed: {
@@ -5012,25 +5083,28 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else {
         console.log("Default this.selectedTrainingId");
-        this.selectedTrainingId = tmp[0];
+        this.selectedTrainingId = null;
       }
 
       if (this.selectedTrainingId) this.selectedTab = this.selectedTrainingId.day.toString();else this.selectedTab = "1";
       this.slider = [];
-      tmp.forEach(function (item) {
+      if (this.selectedTrainingId) tmp.forEach(function (item) {
         var days = [];
         item.days.forEach(function (day) {
           return days.push({
             title: day.day_number
           });
         });
+        var active = false;
+        if (item.training_id == _this2.selectedTrainingId.training_user.training_id) active = true;
 
         _this2.slider.push({
           menutitle: item.training.name,
-          days: days
+          days: days,
+          is_active: active
         });
-      }); //console.log("this.slider: ",this.slider);
-      //console.log("this.selectedTrainingId:",this.selectedTrainingId);
+      });
+      console.log("this.slider: ", this.slider); //console.log("this.selectedTrainingId:",this.selectedTrainingId);
 
       return this.slider;
     },
@@ -5044,6 +5118,12 @@ __webpack_require__.r(__webpack_exports__);
         });
         if (tmp) return tmp[tmp.length - 1];
       }
+    },
+    Available_locations: function Available_locations() {
+      this.available_locations = [];
+    },
+    Disabled_locations: function Disabled_locations() {
+      return [];
     }
   },
   mounted: function mounted() {
@@ -5078,6 +5158,18 @@ __webpack_require__.r(__webpack_exports__);
     },
     show_location: function show_location() {
       this.show_select_location = !this.show_select_location;
+    },
+    changeTraining: function changeTraining(level) {
+      var _this4 = this;
+
+      if (this.$store.getters.GetTrainingUsers) {
+        this.$store.getters.GetTrainingUsers.forEach(function (element) {
+          if (_this4.selectedTraining.training.problem_zone_id == element.training.problem_zone_id && element.training.level == level) {
+            _this4.changeActiveTraining(element);
+          }
+        });
+        return this.available_locations;
+      }
     }
   }
 });
@@ -50111,93 +50203,138 @@ var render = function () {
         _c("div", { staticClass: "account-container" }, [
           _c("div", { staticClass: "plugin__container" }, [
             _c("div", { staticClass: "plugin__row" }, [
-              _c(
-                "div",
-                { staticClass: "progress-block plugin-progress__block" },
-                [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "plugin-progress__btn btn-none",
-                      attrs: {
-                        type: "button",
-                        "data-toggle": "modal",
-                        "data-target": "#subscription",
-                      },
-                    },
+              _vm.User
+                ? _c(
+                    "div",
+                    { staticClass: "progress-block plugin-progress__block" },
                     [
-                      _vm._v(
-                        "\n                     Управлять\n                  "
+                      _c("div", { staticClass: "progress-block__head" }, [
+                        _c("h4", { staticClass: "plugin-progress__title" }, [
+                          _vm._v(
+                            "\n                        Подписка\n                     "
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _vm.checkActivity()
+                          ? _c(
+                              "h6",
+                              { staticClass: "plugin-progress__status" },
+                              [
+                                _vm._v(
+                                  "\n                        Активна\n                     "
+                                ),
+                              ]
+                            )
+                          : _c(
+                              "h6",
+                              { staticClass: "plugin-progress__status" },
+                              [
+                                _vm._v(
+                                  "\n                        Неактивна\n                     "
+                                ),
+                              ]
+                            ),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "plugin-progress__btn btn-none",
+                          attrs: {
+                            type: "button",
+                            "data-toggle": "modal",
+                            "data-target": "#subscription",
+                          },
+                        },
+                        [
+                          _vm._v(
+                            "\n                     Управлять\n                  "
+                          ),
+                        ]
                       ),
+                      _vm._v(" "),
+                      _c("img", {
+                        staticClass: "plugin-progress__img",
+                        attrs: { src: "/images/program.png", alt: "" },
+                      }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "plugin-progress__svg" }, [
+                        _c(
+                          "svg",
+                          {
+                            attrs: {
+                              width: "519",
+                              height: "426",
+                              viewBox: "0 0 519 426",
+                              fill: "none",
+                              xmlns: "http://www.w3.org/2000/svg",
+                            },
+                          },
+                          [
+                            _c("ellipse", {
+                              attrs: {
+                                opacity: "0.13",
+                                rx: "258.295",
+                                ry: "245.486",
+                                transform:
+                                  "matrix(-0.969532 -0.244963 0.273341 -0.961917 259.527 181.408)",
+                                fill: "white",
+                              },
+                            }),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "svg",
+                          {
+                            attrs: {
+                              width: "438",
+                              height: "360",
+                              viewBox: "0 0 438 360",
+                              fill: "none",
+                              xmlns: "http://www.w3.org/2000/svg",
+                            },
+                          },
+                          [
+                            _c("ellipse", {
+                              attrs: {
+                                opacity: "0.13",
+                                rx: "217.512",
+                                ry: "206.725",
+                                transform:
+                                  "matrix(-0.969532 -0.244963 0.273341 -0.961917 218.891 154.008)",
+                                fill: "white",
+                              },
+                            }),
+                          ]
+                        ),
+                      ]),
                     ]
-                  ),
-                  _vm._v(" "),
-                  _c("img", {
-                    staticClass: "plugin-progress__img",
-                    attrs: { src: "/images/program.png", alt: "" },
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "plugin-progress__svg" }, [
-                    _c(
-                      "svg",
-                      {
-                        attrs: {
-                          width: "519",
-                          height: "426",
-                          viewBox: "0 0 519 426",
-                          fill: "none",
-                          xmlns: "http://www.w3.org/2000/svg",
-                        },
-                      },
-                      [
-                        _c("ellipse", {
-                          attrs: {
-                            opacity: "0.13",
-                            rx: "258.295",
-                            ry: "245.486",
-                            transform:
-                              "matrix(-0.969532 -0.244963 0.273341 -0.961917 259.527 181.408)",
-                            fill: "white",
-                          },
-                        }),
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "svg",
-                      {
-                        attrs: {
-                          width: "438",
-                          height: "360",
-                          viewBox: "0 0 438 360",
-                          fill: "none",
-                          xmlns: "http://www.w3.org/2000/svg",
-                        },
-                      },
-                      [
-                        _c("ellipse", {
-                          attrs: {
-                            opacity: "0.13",
-                            rx: "217.512",
-                            ry: "206.725",
-                            transform:
-                              "matrix(-0.969532 -0.244963 0.273341 -0.961917 218.891 154.008)",
-                            fill: "white",
-                          },
-                        }),
-                      ]
-                    ),
-                  ]),
-                ]
-              ),
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _c(
                 "div",
                 { staticClass: "progress-level plugin-progress__level" },
                 [
-                  _vm._m(1),
+                  _vm.User
+                    ? _c("div", { staticClass: "progress-level__title" }, [
+                        _vm._v(
+                          "\n                     " +
+                            _vm._s(_vm.User.user.name) +
+                            "\n                     "
+                        ),
+                        _vm.selectedTraining
+                          ? _c("div", { staticClass: "progress-level__mob" }, [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(_vm.selectedTraining.training.level) +
+                                  " уровень\n                     "
+                              ),
+                            ])
+                          : _vm._e(),
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
                   _c("div", { staticClass: "level__chart" }, [
                     _c(
@@ -50205,7 +50342,7 @@ var render = function () {
                       {
                         staticClass: "radial-progress",
                         attrs: {
-                          "data-percentage": "75",
+                          "data-percentage": _vm.find_percentage(),
                           viewBox: "0 0 86 86",
                         },
                       },
@@ -50260,19 +50397,47 @@ var render = function () {
                       ]
                     ),
                     _vm._v(" "),
-                    _vm._m(2),
+                    _c("div", { staticClass: "progress-level__chart-txt" }, [
+                      _vm.selectedTraining
+                        ? _c(
+                            "p",
+                            { staticClass: "progress-level__chart-level" },
+                            [
+                              _vm._v(
+                                "\n                           " +
+                                  _vm._s(_vm.selectedTraining.training.level) +
+                                  " уровень\n                        "
+                              ),
+                            ]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "progress-level__current" }),
+                    ]),
                   ]),
                 ]
               ),
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "plugin-block__list" }, [
-              _vm._m(3),
+              _c("div", { staticClass: "plugin-block__item" }, [
+                _vm.User
+                  ? _c("h5", { staticClass: "plugin-block__title-caps" }, [
+                      _vm._v(
+                        "\n                     " +
+                          _vm._s(_vm.daysLeft()) +
+                          " дней\n                  "
+                      ),
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm._m(0),
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "plugin-block__item" }, [
                 _c("div", { staticClass: "plugin-block__border" }),
                 _vm._v(" "),
-                _vm._m(4),
+                _vm._m(1),
                 _vm._v(" "),
                 _c(
                   "svg",
@@ -50306,7 +50471,7 @@ var render = function () {
                 ),
               ]),
               _vm._v(" "),
-              _vm._m(5),
+              _vm._m(2),
             ]),
           ]),
         ]),
@@ -50328,55 +50493,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "progress-block__head" }, [
-      _c("h4", { staticClass: "plugin-progress__title" }, [
-        _vm._v("\n                        Подписка\n                     "),
-      ]),
-      _vm._v(" "),
-      _c("h6", { staticClass: "plugin-progress__status" }, [
-        _vm._v("\n                        Активна\n                     "),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "progress-level__title" }, [
-      _vm._v("\n                     Любовь\n                     "),
-      _c("div", { staticClass: "progress-level__mob" }, [
-        _vm._v("\n                        1 уровень\n                     "),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "progress-level__chart-txt" }, [
-      _c("p", { staticClass: "progress-level__chart-level" }, [
-        _vm._v(
-          "\n                           1 уровень\n                        "
-        ),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "progress-level__current" }),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "plugin-block__item" }, [
-      _c("h5", { staticClass: "plugin-block__title-caps" }, [
-        _vm._v("\n                     7 дней\n                  "),
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "plugin-block__prg" }, [
-        _vm._v("\n                     До отключения "),
-        _c("br"),
-        _vm._v("доступа\n                  "),
-      ]),
+    return _c("p", { staticClass: "plugin-block__prg" }, [
+      _vm._v("\n                     До отключения "),
+      _c("br"),
+      _vm._v("доступа\n                  "),
     ])
   },
   function () {
@@ -51613,80 +51733,109 @@ var render = function () {
                                   : "display: none !important",
                               },
                               [
-                                _c("li", [_vm._v("Для дома")]),
-                                _vm._v(" "),
-                                _c("li", { staticClass: "disabled" }, [
-                                  _vm._v(
-                                    "\n                              Для зала\n                              "
-                                  ),
-                                  _c(
-                                    "svg",
-                                    {
-                                      staticClass: "icon",
-                                      attrs: {
-                                        width: "14",
-                                        height: "14",
-                                        viewBox: "0 0 14 14",
-                                        fill: "none",
-                                        xmlns: "http://www.w3.org/2000/svg",
-                                      },
-                                    },
-                                    [
-                                      _c(
-                                        "g",
-                                        {
-                                          attrs: { "clip-path": "url(#clip0)" },
-                                        },
-                                        [
-                                          _c("path", {
-                                            attrs: {
-                                              d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
-                                              fill: "#BEBEBE",
-                                            },
-                                          }),
-                                          _vm._v(" "),
-                                          _c("path", {
-                                            attrs: {
-                                              d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
-                                              fill: "#BEBEBE",
-                                            },
-                                          }),
-                                          _vm._v(" "),
-                                          _c("path", {
-                                            attrs: {
-                                              d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
-                                              fill: "#BEBEBE",
-                                            },
-                                          }),
-                                          _vm._v(" "),
-                                          _c("path", {
-                                            attrs: {
-                                              d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
-                                              fill: "#BEBEBE",
-                                            },
-                                          }),
-                                        ]
+                                _vm._l(
+                                  _vm.Available_locations,
+                                  function (location) {
+                                    return _c("li", { key: location }, [
+                                      _vm._v(
+                                        "\n                              Для " +
+                                          _vm._s(location) +
+                                          "а\n                            "
                                       ),
-                                      _vm._v(" "),
-                                      _c("defs", [
+                                    ])
+                                  }
+                                ),
+                                _vm._v(" "),
+                                _vm._l(
+                                  _vm.Disabled_locations,
+                                  function (location) {
+                                    return _c(
+                                      "li",
+                                      {
+                                        key: location,
+                                        staticClass: "disabled",
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                              Для " +
+                                            _vm._s(location) +
+                                            "а\n                              "
+                                        ),
                                         _c(
-                                          "clipPath",
-                                          { attrs: { id: "clip0" } },
+                                          "svg",
+                                          {
+                                            staticClass: "icon",
+                                            attrs: {
+                                              width: "14",
+                                              height: "14",
+                                              viewBox: "0 0 14 14",
+                                              fill: "none",
+                                              xmlns:
+                                                "http://www.w3.org/2000/svg",
+                                            },
+                                          },
                                           [
-                                            _c("rect", {
-                                              attrs: {
-                                                width: "14",
-                                                height: "14",
-                                                fill: "white",
+                                            _c(
+                                              "g",
+                                              {
+                                                attrs: {
+                                                  "clip-path": "url(#clip0)",
+                                                },
                                               },
-                                            }),
+                                              [
+                                                _c("path", {
+                                                  attrs: {
+                                                    d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
+                                                    fill: "#BEBEBE",
+                                                  },
+                                                }),
+                                                _vm._v(" "),
+                                                _c("path", {
+                                                  attrs: {
+                                                    d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
+                                                    fill: "#BEBEBE",
+                                                  },
+                                                }),
+                                                _vm._v(" "),
+                                                _c("path", {
+                                                  attrs: {
+                                                    d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
+                                                    fill: "#BEBEBE",
+                                                  },
+                                                }),
+                                                _vm._v(" "),
+                                                _c("path", {
+                                                  attrs: {
+                                                    d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
+                                                    fill: "#BEBEBE",
+                                                  },
+                                                }),
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("defs", [
+                                              _c(
+                                                "clipPath",
+                                                { attrs: { id: "clip0" } },
+                                                [
+                                                  _c("rect", {
+                                                    attrs: {
+                                                      width: "14",
+                                                      height: "14",
+                                                      fill: "white",
+                                                    },
+                                                  }),
+                                                ]
+                                              ),
+                                            ]),
                                           ]
                                         ),
-                                      ]),
-                                    ]
-                                  ),
-                                ]),
-                              ]
+                                      ]
+                                    )
+                                  }
+                                ),
+                              ],
+                              2
                             ),
                             _vm._v(" "),
                             _c(

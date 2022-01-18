@@ -98,9 +98,11 @@
                               <li class="option selected">Для {{UserTrainings.location.name}}а</li>
                             </ul>
                             <ul :style="show_select_location? 'display: block !important': 'display: none !important'" class="select__ul">
-                              <li>Для дома</li>
-                              <li class="disabled">
-                                Для зала
+                              <li v-for="(location) in Available_locations" :key="location">
+                                Для {{location}}а
+                              </li>
+                              <li v-for="(location) in Disabled_locations" :key="location" class="disabled">
+                                Для {{location}}а
                                 <svg class="icon" width="14" height="14" viewBox="0 0 14 14" fill="none"
                                   xmlns="http://www.w3.org/2000/svg">
                                   <g clip-path="url(#clip0)">
@@ -161,6 +163,8 @@ export default {
     selectedTab: null,
     selectedTrainingId: null,
     show_select_location:false,
+    available_locations:[],
+    disabled_levels:[]
   }),
   computed:{
     User(){
@@ -188,7 +192,7 @@ export default {
       else
       {
         console.log("Default this.selectedTrainingId")
-        this.selectedTrainingId = tmp[0];
+        this.selectedTrainingId = null;
       }
       
       if(this.selectedTrainingId)
@@ -197,19 +201,23 @@ export default {
         this.selectedTab = "1";
       
       this.slider = [];
+      if(this.selectedTrainingId)
+        tmp.forEach(item=>{
+          let days=[];
+          item.days.forEach(day=>days.push({title: day.day_number}));
+          let active = false;
+          if(item.training_id == this.selectedTrainingId.training_user.training_id)
+            active = true;
+          this.slider.push(
+            {
+              menutitle: item.training.name,
+              days: days,
+              is_active: active
+            }
+          );
+        });
       
-      tmp.forEach(item=>{
-        let days=[];
-        item.days.forEach(day=>days.push({title: day.day_number}));
-        this.slider.push(
-          {
-            menutitle: item.training.name,
-            days: days
-          }
-        );
-      });
-      
-      //console.log("this.slider: ",this.slider);
+      console.log("this.slider: ",this.slider);
       //console.log("this.selectedTrainingId:",this.selectedTrainingId);
       return this.slider;
     },
@@ -220,6 +228,12 @@ export default {
         if(tmp)
             return tmp[tmp.length-1];
       }
+    },
+    Available_locations(){
+      this.available_locations=[];
+    },
+    Disabled_locations(){
+      return [];
     },
   },
   mounted(){
@@ -258,7 +272,18 @@ export default {
     },
     show_location(){
       this.show_select_location=!this.show_select_location;
-    }
+    },
+    changeTraining(level){
+      if(this.$store.getters.GetTrainingUsers){
+        this.$store.getters.GetTrainingUsers.forEach(element => {
+            if(this.selectedTraining.training.problem_zone_id == element.training.problem_zone_id&&
+              element.training.level == level){
+                this.changeActiveTraining(element)
+              }
+        });
+        return this.available_locations;
+      }
+    },
   },
 };
 </script>

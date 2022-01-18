@@ -18,8 +18,7 @@ class TrainingLocationController extends Controller
     public function index(Request $request)
     {
         $trainingLocations = TrainingLocation::all();
-
-        return new TrainingLocationCollection($trainingLocations);
+        return response()->json($trainingLocations);
     }
 
     /**

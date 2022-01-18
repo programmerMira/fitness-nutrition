@@ -14,7 +14,6 @@ class MenuController extends Controller
     public function index(Request $request)
     {
         $menus = Menu::with('menuDays')->get();
-
         return response()->json($menus);
     }
 

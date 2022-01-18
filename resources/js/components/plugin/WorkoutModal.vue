@@ -66,51 +66,59 @@
 </template>
 <script>
    export default {
-   data: () => ({
-      disabled: false,
-      locations: [
-         {
-            value: false,
-            title: 'Дом',
+      data: () => ({
+         disabled: false,
+         locations_list: [],
+         workouts_list: [],
+         activeStep: 1,
+         formSteps: [],
+         selected_location:null,
+         selected_workout:null,
+      }),
+      mounted(){
+         this.$store.dispatch('fetchTrainingLocations');
+         this.$store.dispatch('fetchTrainings');
+      },
+      computed:{
+         locations(){
+            this.locations_list = [];
+            let locs = this.$store.getters.GetTrainingLocations;
+            if(!locs)
+               return [];
+            locs.forEach(element=>{
+               this.locations_list.push(
+                  {
+                     value: false,
+                     title: element.name
+                  }
+               )
+            });
+            return this.locations_list;
          },
-         {
-            value: false,
-            title: 'Зал',
-         },
-         {
-            value: false,
-            title: 'Дом+Зал',
+         workouts(){
+            this.workouts_list = [];
+            let works = this.$store.getters.GetTrainings;
+            if(!works)
+               return [];
+            works.forEach(element=>{
+               this.workouts_list.push(
+                  {
+                     value: false,
+                     level: element.level,
+                     price: element.training_price,
+                  }
+               )
+            });
+            return this.workouts_list;
          }
-      ],
-      workouts: [
-         {
-            value: false,
-            level: '1',
-            price: '2 000',
-         },
-           {
-            value: false,
-            level: '2',
-            price: '2 000',
-         },
-           {
-            value: false,
-            level: '3',
-            price: '2 000',
-         },
-      ],
-      activeStep: 1,
-      formSteps: [],
-      selected_location:null,
-      selected_workout:null,
-   }),
-   methods: {
-      prev() {
-      this.activeStep--;
       },
-      next() {
-      this.activeStep++;
+      methods: {
+         prev() {
+            this.activeStep--;
+         },
+         next() {
+            this.activeStep++;
+         },
       },
-   },
    };
 </script>

@@ -10,13 +10,16 @@
          <div class="account-container">
             <div class="plugin__container">
                <div class="plugin__row">
-                  <div class="progress-block plugin-progress__block">
+                  <div v-if="User" class="progress-block plugin-progress__block">
                      <div class="progress-block__head">
                         <h4 class="plugin-progress__title">
                            Подписка
                         </h4>
-                        <h6 class="plugin-progress__status">
+                        <h6 v-if="checkActivity()" class="plugin-progress__status">
                            Активна
+                        </h6>
+                        <h6 v-else class="plugin-progress__status">
+                           Неактивна
                         </h6>
                      </div>
                      <button class="plugin-progress__btn btn-none" type="button" data-toggle="modal"
@@ -40,14 +43,14 @@
                      </div>
                   </div>
                   <div class="progress-level plugin-progress__level">
-                     <div class="progress-level__title">
-                        Любовь
-                        <div class="progress-level__mob">
-                           1 уровень
+                     <div v-if="User" class="progress-level__title">
+                        {{User.user.name}}
+                        <div v-if="selectedTraining" class="progress-level__mob">
+                           {{selectedTraining.training.level}} уровень
                         </div>
                      </div>
                      <div class="level__chart">
-                        <svg class="radial-progress" data-percentage="75" viewBox="0 0 86 86">
+                        <svg class="radial-progress" :data-percentage="find_percentage()" viewBox="0 0 86 86">
                            <defs>
                               <linearGradient id="linear" x1="107" y1="0" x2="107" y2="223.469"
                                  gradientUnits="userSpaceOnUse">
@@ -59,8 +62,8 @@
                            <circle class="complete" cx="43" cy="43" r="35" stroke="url(#linear)"></circle>
                         </svg>
                         <div class="progress-level__chart-txt">
-                           <p class="progress-level__chart-level">
-                              1 уровень
+                           <p v-if="selectedTraining" class="progress-level__chart-level">
+                              {{selectedTraining.training.level}} уровень
                            </p>
                            <div class="progress-level__current"></div>
                         </div>
@@ -69,8 +72,8 @@
                </div>
                <div class="plugin-block__list">
                   <div class="plugin-block__item">
-                     <h5 class="plugin-block__title-caps">
-                        7 дней
+                     <h5 v-if="User" class="plugin-block__title-caps">
+                        {{daysLeft()}} дней
                      </h5>
                      <p class="plugin-block__prg">
                         До отключения <br>доступа
@@ -129,13 +132,62 @@ import Logout from "../general/Logout.vue";
 import MenuOffice from "../general/Menu.vue";
 
 export default {
-  components: {
-   SubscriptionModal,
-   WorkoutModal,
-   DietModal,
-   DietModalSimple,
-   MenuOffice,
-   Logout
-  },
+   components: {
+      SubscriptionModal,
+      WorkoutModal,
+      DietModal,
+      DietModalSimple,
+      MenuOffice,
+      Logout
+   },
+   computed:{
+      User(){
+         return this.$store.getters.GetPersonalAccount;
+      },
+      selectedTraining(){
+         let activeTraining = this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1)
+         if(activeTraining){
+            return this.$store.getters.GetTrainingUsers.find(element => parseInt(element.training_id) === parseInt(activeTraining.training_user.training_id));;
+         }
+         return this.$store.getters.GetTrainingUsers[0];
+      },
+   },
+   mounted(){
+      if (userInfo){
+         this.$store.dispatch('fetchPersonalAccount');
+         this.$store.dispatch('fetchTrainingUsers');
+         this.$store.dispatch('fetchActivityCalendars');
+      }
+   },
+   methods:{
+      find_percentage(){
+         if(this.selectedTraining==null)
+            return 0;
+         var date1 = new Date(this.selectedTraining.created_at);
+         var date2 = new Date();
+         var Difference_In_Time = date2.getTime() - date1.getTime();
+         var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+         var percent = (Difference_In_Days*100)/30;
+         return parseInt(percent);
+      },
+      checkActivity(){
+         if(this.User==null)
+            return false;
+         var date1 = new Date(this.User.deactivated_at);
+         var date2 = new Date();
+         if(date1.getDate()>date2.getDate())
+            return true;
+         return false;
+      },
+      daysLeft(){
+         if(this.User==null)
+            return 0;
+         var date1 = new Date(this.User.deactivated_at);
+         var date2 = new Date();
+         var Difference_In_Date = date1.getDate() - date2.getDate();
+
+         return parseInt(Difference_In_Date);
+      }
+   }
 };
 </script>

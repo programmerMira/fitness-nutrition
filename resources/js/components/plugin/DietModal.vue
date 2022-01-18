@@ -42,20 +42,6 @@
                         </div>
                      </div>
                   </label>
-                  <!-- <div class="plugin-checkbox__label plugin-checkbox__label-bonus"  data-toggle="modal" data-target="#diet-simple">
-                     <input class="check__input" type="checkbox">
-                     <div class="plugin-checkbox">
-                        <div class="plugin-checkbox__number">
-                        +
-                        </div>
-                        <div class="plugin-checkbox__txt plugin-modal__txt">
-                           Бонусное меню 
-                           <b>
-                              Простые рецепты
-                           </b>
-                        </div>
-                     </div>
-                  </div> -->
                </div>
                <button v-if="disableBtn()" type="button" class="plugin-modal-form__btn btn-none" @click.prevent="next()">оплатить</button>
                <button v-else type="button" class="plugin-modal-form__btn btn-none" disabled>оплатить</button>
@@ -76,54 +62,60 @@
    export default {
    data: () => ({
       disabledBtn: false,
-       calorics: [
-         {
-            value: false,
-            title: '1300-1400',
-         },
-         {
-            value: false,
-           title: '1500-1600',
-         },
-           {
-            value: false,
-           title: '1800-1900',
-         },
-         {
-            value: false,
-           title: '2000-2100',
-         }
-      ],
-      diets: [
-         {
-            value: false,
-            menu: ' Меню на 30 дней 1',
-            price: '2 000 р.',
-         },
-         {
-            value: false,
-            menu: ' Меню на 30 дней 2',
-            price: '2 000 р.',
-         },
-      ],
+      calorics_list: [],
+      diets_list: [],
       activeStep: 1,
       formSteps: [],
       selected_calory:null,
       selected_diet:null,
    }),
+   mounted(){
+      this.$store.dispatch('fetchMenuCalories');
+      this.$store.dispatch('fetchMenus');
+   },
+   computed:{
+      calorics(){
+         this.calorics_list = [];
+         let cals = this.$store.getters.GetMenuCalories;
+         if(!cals)
+            return [];
+         cals.forEach(element=>{
+            this.calorics_list.push(
+               {
+                  value: false,
+                  title: element.name,
+               }
+            )
+         });
+         return this.calorics_list;
+      },
+      diets(){
+         this.diets_list = [];
+         let diets = this.$store.getters.GetMenus;
+         if(!diets)
+            return [];
+         diets.forEach(element=>{
+            this.diets_list.push(
+               {
+                  value: false,
+                  menu: 'Меню на '+ element.menu_days.length +' дней ' + element.menu_content,
+                  price: element.menu_price + ' р.',
+               }
+            )
+         });
+         return this.diets_list;
+      }
+   },
    methods: {
       prev() {
-      this.activeStep--;
+         this.activeStep--;
       },
       next() {
-      this.activeStep++;
+         this.activeStep++;
       },
       disableBtn() {
          return this.selected_calory!=null && this.selected_diet!=null;
       }
    },
-   computed: {
-      
-   }
 };
 </script>

@@ -205,8 +205,7 @@ export default {
          this.available_levels=[];
          if(this.selectedTraining&&this.$store.getters.GetTrainingUsers){
             this.$store.getters.GetTrainingUsers.forEach(element => {
-               if(this.selectedTraining.training.problem_zone_id == element.training.problem_zone_id)
-                  this.available_levels.push(element.training.level);
+               this.available_levels.push(element.training.level);
             });
             return this.available_levels;
          }
@@ -216,9 +215,7 @@ export default {
          if(this.selectedTraining&&this.$store.getters.GetTrainingUsers){
             this.$store.getters.GetTrainings.forEach(element1 =>{
                let tmp = this.available_levels.find(element2=>parseInt(element2)==parseInt(element1.level));
-                  console.log(tmp);
-               if(this.selectedTraining.training.problem_zone_id == element1.problem_zone_id &&
-                  !tmp)
+               if(!tmp)
                   this.disabled_levels.push(element1.level);
             });
             return this.disabled_levels;

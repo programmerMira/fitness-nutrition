@@ -18,8 +18,7 @@ class MenuCaloryController extends Controller
     public function index(Request $request)
     {
         $menuCalories = MenuCalory::all();
-
-        return new MenuCaloryCollection($menuCalories);
+        return response()->json($menuCalories);
     }
 
     /**
