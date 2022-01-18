@@ -94,7 +94,7 @@
                                  Разнообразное меню
                               </li>
                            </ul>
-                           <ul :style="show_select_types? 'display: block !important': 'display: none !important'" class="select__ul">
+                           <ul :style="show_select_types? 'display: block !important; z-index:1000;': 'display: none !important'" class="select__ul">
                               <li>
                                  Разнообразное меню
                               </li>
@@ -114,19 +114,19 @@
                         <li class="progress-diet__plan-item">
                            Белки
                            <b>
-                              {{UserMenu.proteins}} гр
+                              {{UserMenu.menu.proteins}} гр
                            </b>
                         </li>
                         <li class="progress-diet__plan-item">
                            Жиры
                            <b>
-                              {{UserMenu.fat}} гр
+                              {{UserMenu.menu.fat}} гр
                            </b>
                         </li>
                         <li class="progress-diet__plan-item">
                            Углеводы
                            <b>
-                              {{UserMenu.carbs}} гр
+                              {{UserMenu.menu.carbs}} гр
                            </b>
                         </li>
                      </ul>
@@ -167,10 +167,12 @@ export default {
       User(){
          return this.$store.getters.GetPersonalAccount;
       },
+      selectedTrainingId(){
+         return this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1);
+      },
       UserTrainings(){
-         //console.log("GetTrainingUsers:",this.$store.getters.GetTrainingUsers);
          if(this.selectedTrainingId)
-            return this.$store.getters.GetTrainingUsers[0];
+            return this.$store.getters.GetTrainingUsers.find(element => parseInt(element.training_id) === parseInt(this.selectedTrainingId.training_user.training_id));
       },
       UserMenu(){
          console.log("usersmenus:",this.$store.getters.GetUserMenus);
@@ -178,7 +180,11 @@ export default {
             return this.$store.getters.GetUserMenus.find(element=>element.menu_id === this.selectedMenuId.users_menus.menu_id);
       },
       Physics(){
-         return this.$store.getters.GetPhysicsParameters;
+         if(this.selectedTrainingId){
+            let tmp = this.$store.getters.GetPhysicsParameters.filter(element => element.training_id == this.selectedTrainingId.training_user.training_id);
+            if(tmp)
+               return tmp[tmp.length-1];
+         }
       },
       UserFoodCallendar(){
          //console.log("UserFoodCallendar:",this.$store.getters.GetFoodCalendars.find(element=>parseInt(element.is_active)==1))
@@ -219,6 +225,7 @@ export default {
          this.$store.dispatch('fetchTrainingUsers');
          this.$store.dispatch('fetchUserMenus');
          this.$store.dispatch('fetchFoodCalendars');
+         this.$store.dispatch('fetchActivityCalendars');
       }
    },
    methods: {

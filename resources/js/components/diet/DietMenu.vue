@@ -46,7 +46,7 @@
                   Дополнительно в течении дня(супер-фуд):
                </div>
                <ul class="diet-info__list">
-                  <li v-for="(item, index) in current_menu.menu.info" :key="index" class="diet-info__item" v-html="item"></li>
+                  <li v-for="(item, index) in current_day.info" :key="index" class="diet-info__item" v-html="item"></li>
                   <li class="diet-info__item">
                      Заказать оригинальные продукты и подробное описание каждого есть у нас в магазине. Для наших подписчиков по коду <b>GOODIETS</b> скидка до 42% - <a href="/plugin">оформить заказ</a>
                   </li>

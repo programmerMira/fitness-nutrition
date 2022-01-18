@@ -223,7 +223,6 @@ export default {
     },
     Physics(){
       if(this.selectedTrainingId){
-        console.log()
         let tmp = this.$store.getters.GetPhysicsParameters.filter(element => element.training_id == this.selectedTrainingId.training_user.training_id);
         if(tmp)
             return tmp[tmp.length-1];

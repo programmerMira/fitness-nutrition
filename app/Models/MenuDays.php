@@ -20,6 +20,7 @@ class MenuDays extends Model
         'name',
         'description',
         'content',
+        'info',
     ];
 
     /**
@@ -31,6 +32,7 @@ class MenuDays extends Model
         'id' => 'integer',
         'menu_id' => 'integer',
         'content' => 'array',
+        'info' => 'array',
     ];
 
 

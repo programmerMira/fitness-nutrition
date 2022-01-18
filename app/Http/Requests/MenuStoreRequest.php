@@ -30,8 +30,7 @@ class MenuStoreRequest extends FormRequest
             'menu_price' => ['required', 'double'],
             'proteins' => ['required', 'double'],
             'fat' => ['required', 'double'],
-            'carbs' => ['required', 'double'],
-            'info' => ['required', 'json'],
+            'carbs' => ['required', 'double']
         ];
     }
 }

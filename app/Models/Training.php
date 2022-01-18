@@ -21,8 +21,7 @@ class Training extends Model
         'training_days',
         'level',
         'training_price',
-        'problem_zone_id',
-        'info',
+        'problem_zone_id'
     ];
 
     /**

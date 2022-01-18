@@ -22,6 +22,7 @@ class CreateMenuDaysTable extends Migration
             $table->string('name', 50);
             $table->string('description', 1000);
             $table->json('content');
+            $table->json('info');
             $table->timestamps();
         });
 

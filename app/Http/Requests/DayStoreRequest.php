@@ -29,6 +29,7 @@ class DayStoreRequest extends FormRequest
             'name' => ['required', 'string', 'max:50'],
             'description' => ['required', 'string', 'max:1000'],
             'videos' => ['required', 'json'],
+            'info' => ['required', 'json'],
         ];
     }
 }

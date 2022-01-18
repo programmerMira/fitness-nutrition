@@ -58,7 +58,7 @@
                   </b>
                 </h5>
                 <ul class="workout-info__list">
-                  <li v-for="(step, index) in current_training.training.info" :key="index" class="workout-info__item">
+                  <li v-for="(step, index) in current_day.info" :key="index" class="workout-info__item">
                     <b>
                       Шаг {{index+1}}.
                     </b>

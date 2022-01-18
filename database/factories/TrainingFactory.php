@@ -31,7 +31,6 @@ class TrainingFactory extends Factory
             'level' => $this->faker->random_int(0,99999),
             'training_price' => $this->faker->randomFloat(0, 0, 9999999999.),
             'problem_zone_id'=> ProblemZone::factory(),
-            'info'=>'{}',
         ];
     }
 }

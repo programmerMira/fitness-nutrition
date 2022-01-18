@@ -2251,20 +2251,35 @@ __webpack_require__.r(__webpack_exports__);
     User: function User() {
       return this.$store.getters.GetPersonalAccount;
     },
+    selectedTrainingId: function selectedTrainingId() {
+      return this.$store.getters.GetActivityCalendars.find(function (element) {
+        return parseInt(element.is_active) == 1;
+      });
+    },
     UserTrainings: function UserTrainings() {
-      //console.log("GetTrainingUsers:",this.$store.getters.GetTrainingUsers);
-      if (this.selectedTrainingId) return this.$store.getters.GetTrainingUsers[0];
+      var _this = this;
+
+      if (this.selectedTrainingId) return this.$store.getters.GetTrainingUsers.find(function (element) {
+        return parseInt(element.training_id) === parseInt(_this.selectedTrainingId.training_user.training_id);
+      });
     },
     UserMenu: function UserMenu() {
-      var _this = this;
+      var _this2 = this;
 
       console.log("usersmenus:", this.$store.getters.GetUserMenus);
       if (this.selectedMenuId) return this.$store.getters.GetUserMenus.find(function (element) {
-        return element.menu_id === _this.selectedMenuId.users_menus.menu_id;
+        return element.menu_id === _this2.selectedMenuId.users_menus.menu_id;
       });
     },
     Physics: function Physics() {
-      return this.$store.getters.GetPhysicsParameters;
+      var _this3 = this;
+
+      if (this.selectedTrainingId) {
+        var tmp = this.$store.getters.GetPhysicsParameters.filter(function (element) {
+          return element.training_id == _this3.selectedTrainingId.training_user.training_id;
+        });
+        if (tmp) return tmp[tmp.length - 1];
+      }
     },
     UserFoodCallendar: function UserFoodCallendar() {
       //console.log("UserFoodCallendar:",this.$store.getters.GetFoodCalendars.find(element=>parseInt(element.is_active)==1))
@@ -2273,7 +2288,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     MenuTitleAndDays: function MenuTitleAndDays() {
-      var _this2 = this;
+      var _this4 = this;
 
       var tmp = this.$store.getters.GetUserMenus;
       if (!tmp || tmp.length < 1) return this.slider;
@@ -2288,7 +2303,7 @@ __webpack_require__.r(__webpack_exports__);
           });
         });
 
-        _this2.slider.push({
+        _this4.slider.push({
           menutitle: item.menu.menu_content,
           days: days
         });
@@ -2305,6 +2320,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.dispatch('fetchTrainingUsers');
       this.$store.dispatch('fetchUserMenus');
       this.$store.dispatch('fetchFoodCalendars');
+      this.$store.dispatch('fetchActivityCalendars');
     }
   },
   methods: {
@@ -5112,7 +5128,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       if (this.selectedTrainingId) {
-        console.log();
         var tmp = this.$store.getters.GetPhysicsParameters.filter(function (element) {
           return element.training_id == _this3.selectedTrainingId.training_user.training_id;
         });
@@ -5392,8 +5407,10 @@ document.addEventListener("DOMContentLoaded", function () {
     spaceBetween: 0,
     slidesPerView: 1,
     navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev"
+      // nextEl: ".swiper-button-next",
+      // prevEl: ".swiper-button-prev",
+      nextEl: ".next",
+      prevEl: ".prev"
     }
   });
   var swiperScrinImg = new Swiper('.office__img-slider', {
@@ -46456,7 +46473,7 @@ var render = function () {
                               {
                                 staticClass: "select__ul",
                                 style: _vm.show_select_types
-                                  ? "display: block !important"
+                                  ? "display: block !important; z-index:1000;"
                                   : "display: none !important",
                               },
                               [
@@ -46517,7 +46534,7 @@ var render = function () {
                                   _c("b", [
                                     _vm._v(
                                       "\n                            " +
-                                        _vm._s(_vm.UserMenu.proteins) +
+                                        _vm._s(_vm.UserMenu.menu.proteins) +
                                         " гр\n                         "
                                     ),
                                   ]),
@@ -46534,7 +46551,7 @@ var render = function () {
                                   _c("b", [
                                     _vm._v(
                                       "\n                            " +
-                                        _vm._s(_vm.UserMenu.fat) +
+                                        _vm._s(_vm.UserMenu.menu.fat) +
                                         " гр\n                         "
                                     ),
                                   ]),
@@ -46551,7 +46568,7 @@ var render = function () {
                                   _c("b", [
                                     _vm._v(
                                       "\n                            " +
-                                        _vm._s(_vm.UserMenu.carbs) +
+                                        _vm._s(_vm.UserMenu.menu.carbs) +
                                         " гр\n                         "
                                     ),
                                   ]),
@@ -46810,7 +46827,7 @@ var render = function () {
                   "ul",
                   { staticClass: "diet-info__list" },
                   [
-                    _vm._l(_vm.current_menu.menu.info, function (item, index) {
+                    _vm._l(_vm.current_day.info, function (item, index) {
                       return _c("li", {
                         key: index,
                         staticClass: "diet-info__item",
@@ -51886,9 +51903,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "calendar__slider-workout-pagination" }, [
-      _c("div", { staticClass: "swiper-button-next" }),
+      _c("div", { staticClass: "swiper-button-next next" }),
       _vm._v(" "),
-      _c("div", { staticClass: "swiper-button-prev" }),
+      _c("div", { staticClass: "swiper-button-prev prev" }),
     ])
   },
 ]
@@ -52072,32 +52089,29 @@ var render = function () {
                 _c(
                   "ul",
                   { staticClass: "workout-info__list" },
-                  _vm._l(
-                    _vm.current_training.training.info,
-                    function (step, index) {
-                      return _c(
-                        "li",
-                        { key: index, staticClass: "workout-info__item" },
-                        [
-                          _c("b", [
-                            _vm._v(
-                              "\n                  Шаг " +
-                                _vm._s(index + 1) +
-                                ".\n                "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("p", [
-                            _vm._v(
-                              "\n                  " +
-                                _vm._s(step) +
-                                "\n                "
-                            ),
-                          ]),
-                        ]
-                      )
-                    }
-                  ),
+                  _vm._l(_vm.current_day.info, function (step, index) {
+                    return _c(
+                      "li",
+                      { key: index, staticClass: "workout-info__item" },
+                      [
+                        _c("b", [
+                          _vm._v(
+                            "\n                  Шаг " +
+                              _vm._s(index + 1) +
+                              ".\n                "
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("p", [
+                          _vm._v(
+                            "\n                  " +
+                              _vm._s(step) +
+                              "\n                "
+                          ),
+                        ]),
+                      ]
+                    )
+                  }),
                   0
                 ),
               ])

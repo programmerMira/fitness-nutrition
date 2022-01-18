@@ -24,7 +24,6 @@ class CreateMenusTable extends Migration
             $table->double('proteins');
             $table->double('fat');
             $table->double('carbs');
-            $table->json('info');
             $table->timestamps();
         });
 

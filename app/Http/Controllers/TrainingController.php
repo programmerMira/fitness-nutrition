@@ -13,7 +13,7 @@ use App\Models\TrainingUser;
 
 class TrainingController extends Controller
 {
-    public function index(Request $request, $id)
+    public function index(Request $request)
     {
         $trainings = Training::with('days')->get();
         return response()->json($trainings);

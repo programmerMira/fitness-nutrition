@@ -20,6 +20,7 @@ class Days extends Model
         'name',
         'description',
         'videos',
+        'info',
     ];
 
     /**
@@ -31,6 +32,7 @@ class Days extends Model
         'id' => 'integer',
         'training_id' => 'integer',
         'videos' => 'array',
+        'info'=>'array',
     ];
 
 

@@ -21,6 +21,7 @@ class DayResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'videos' => $this->videos,
+            'info' => $this->info,
         ];
     }
 }
