@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="card-footer card-footer-edit">
                                     <button class="btn btn-sm btn-primary" type="submit"> Добавить</button>
-                                    <a class="btn btn-sm btn-danger" href="/admin/question"> Назад</a>
+                                    <a class="btn btn-sm btn-danger" href="/admin/notification"> Назад</a>
                                 </div>
                             </form>
                         </div>

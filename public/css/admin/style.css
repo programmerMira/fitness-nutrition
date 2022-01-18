@@ -18822,6 +18822,7 @@ h3 {
 .btns-edit {
   display: flex;
   align-items: center;
+  border-bottom: none !important;
 }
 .btns-edit .users-btn {
   margin: 0 3px;

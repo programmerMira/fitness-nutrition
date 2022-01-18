@@ -13,6 +13,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PhysicsParametersController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\MainPageController;
+use App\Http\Controllers\TrainingController;
 #endregion
 
 Route::get("/", [MainPageController::class,'index'])->name('main');
@@ -39,10 +40,15 @@ Route::prefix('/admin')->group(function () {
         Route::get('/one-edit', function(){         return view('admin.dashboard.menu.menuOneEditForm'); });
     });
     Route::prefix('/workout')->group(function () {  // word: "icons" - not working as part of adress
-        Route::get('/', function(){         return view('admin.dashboard.workout.workoutList'); });
-        Route::get('/show', function(){         return view('admin.dashboard.workout.workoutShow'); });
-        Route::get('/edit', function(){         return view('admin.dashboard.workout.workoutEditForm'); });
-        Route::get('/one-edit', function(){         return view('admin.dashboard.workout.workoutOneEditForm'); });
+        Route::get('/', [TrainingController::class,'adminTrainings'])->name('training');
+        Route::get('/edit/{id}', [TrainingController::class,'adminShowTraining']);
+        Route::post('/editTraining/{id}', [TrainingController::class,'adminEditTraining'])->name('editTraining');
+        Route::get('/add', [TrainingController::class,'adminAddView']);
+        Route::post('/addTraining', [TrainingController::class,'adminAddTraining'])->name('addTraining');
+        Route::post('/deleteTraining/{id}', [TrainingController::class,'adminDeleteTraining'])->name('deleteTraining');
+        Route::prefix('/days')->group(function () {
+            Route::get('/', [TrainingController::class,'adminTrainingsDay'])->name('trainingDay');
+        });
     });
     Route::prefix('/question')->group(function () {  // word: "icons" - not working as part of adress
         Route::get('/', [ArticleController::class,'adminArticles'])->name('adminQuestion');
@@ -64,10 +70,8 @@ Route::prefix('/admin')->group(function () {
     Route::prefix('notification')->group(function () {  // word: "icons" - not working as part of adress
         Route::get('/', [NotificationController::class,'list'])->name('notification');
         Route::delete('/delete/{id}', [NotificationController::class,'destroy'])->name('notification.destroy');
-
         Route::get('/edit/{id}', [NotificationController::class,'adminShowNotification']);
         Route::post('/editNotification/{id}', [NotificationController::class,'adminEditNotification'])->name('editNotification');
-
         Route::get('/add', [NotificationController::class,'adminAddView']);
         Route::post('/addNotification', [NotificationController::class,'adminAddNotification'])->name('addNotification');
     });

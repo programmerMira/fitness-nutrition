@@ -59,7 +59,7 @@
                           <div class="calendar__days">
                             <div
                             class="calendar__day"
-                            v-for="(tab, index) in tabs.days" 
+                            v-for="(tab, index) in tabs.days"
                             :key="index"
                             v-on:click = "changeTabSelection(tab.title)"
                             :class="changeTabStyle(tab.title)"
@@ -68,12 +68,12 @@
                             </div>
                           </div>
                         </div>
-                      </div> 
-                      <div class="calendar__slider-workout-pagination">
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
                       </div>
-                    </div> 
+                      <div class="calendar__slider-workout-pagination">
+                        <div class="swiper-button-next next"></div>
+                        <div class="swiper-button-prev prev"></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
             </div>
@@ -263,7 +263,7 @@ export default {
         day: parseInt(tabTitle),
         is_active: this.UserActiveCallendar.is_active
         });
-      
+
       this.selectedTab = tabTitle;
     },
     changeTabStyle(tabTitle){
@@ -288,5 +288,5 @@ export default {
 };
 </script>
 <style lang="css">
-  
+
 </style>

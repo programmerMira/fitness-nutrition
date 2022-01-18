@@ -5392,8 +5392,10 @@ document.addEventListener("DOMContentLoaded", function () {
     spaceBetween: 0,
     slidesPerView: 1,
     navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev"
+      // nextEl: ".swiper-button-next",
+      // prevEl: ".swiper-button-prev",
+      nextEl: ".next",
+      prevEl: ".prev"
     }
   });
   var swiperScrinImg = new Swiper('.office__img-slider', {
@@ -51886,9 +51888,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "calendar__slider-workout-pagination" }, [
-      _c("div", { staticClass: "swiper-button-next" }),
+      _c("div", { staticClass: "swiper-button-next next" }),
       _vm._v(" "),
-      _c("div", { staticClass: "swiper-button-prev" }),
+      _c("div", { staticClass: "swiper-button-prev prev" }),
     ])
   },
 ]
