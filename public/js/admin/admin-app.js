@@ -2999,7 +2999,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 commit = _ref.commit;
                 axios.get('/api/menu-type/list').then(function (response) {
-                  commit('LoadMenuTypes', response.data);
+                  commit('LoadMenuTypes', response.data.data);
                 })["catch"](function (error) {
                   console.log("fetchMenuTypes:", error.response);
                 });

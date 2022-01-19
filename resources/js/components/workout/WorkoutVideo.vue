@@ -1,5 +1,5 @@
 <template>
-    <div class="workout-video">
+    <div v-if="day&&trainingId&&locationId" class="workout-video">
           <template>
             <div class="scroll__contain">
               <div v-if="!IsDayOff&&current_day" class="workout-video__list">
@@ -57,7 +57,7 @@
                     ДЕНЬ №{{day}}
                   </b>
                 </h5>
-                <ul class="workout-info__list">
+                <ul v-if="current_day" class="workout-info__list">
                   <li v-for="(step, index) in current_day.info" :key="index" class="workout-info__item">
                     <b>
                       Шаг {{index+1}}.
@@ -96,7 +96,7 @@ export default {
       this.current_training = this.$store.getters.GetTrainingUsers.find(element => element.training_id === this.trainingId.training_user.training_id);
       //console.log("this.current_training:",this.current_training);
       if(this.current_training){
-        this.current_day = this.current_training.days.find(element => element.day_number === parseInt(this.day) && element.location_id === parseInt(this.training_location_id));
+        this.current_day = this.current_training.days.find(element => element.day_number === parseInt(this.day) && element.training_location_id === parseInt(this.locationId));
         //console.log("this.current_day:",this.current_day);
         if(this.current_day&&this.current_day.name === "Выходной")
           return true

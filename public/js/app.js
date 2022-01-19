@@ -2224,6 +2224,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2244,7 +2266,10 @@ __webpack_require__.r(__webpack_exports__);
       slider: [],
       selectedTab: null,
       show_select_types: false,
-      selectedMenuId: null
+      selectedMenuId: null,
+      current_type: null,
+      disabled_types: [],
+      available_types: []
     };
   },
   computed: {
@@ -2267,9 +2292,15 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       console.log("usersmenus:", this.$store.getters.GetUserMenus);
-      if (this.selectedMenuId) return this.$store.getters.GetUserMenus.find(function (element) {
-        return element.menu_id === _this2.selectedMenuId.users_menus.menu_id;
-      });
+
+      if (this.selectedMenuId) {
+        if (!this.current_type) this.current_type = this.$store.getters.GetUserMenus.find(function (element) {
+          return element.menu_id === _this2.selectedMenuId.users_menus.menu_id;
+        }).menu_type;
+        return this.$store.getters.GetUserMenus.find(function (element) {
+          return element.menu_id === _this2.selectedMenuId.users_menus.menu_id;
+        });
+      }
     },
     Physics: function Physics() {
       var _this3 = this;
@@ -2311,6 +2342,33 @@ __webpack_require__.r(__webpack_exports__);
       console.log("this.slider: ", this.slider);
       console.log("this.selectedMenuId:", this.selectedMenuId);
       return this.slider;
+    },
+    AvailableTypes: function AvailableTypes() {
+      var _this5 = this;
+
+      var tmp_types = this.$store.getters.GetMenuTypes;
+      console.log("tmp_types:", tmp_types);
+      var types = undefined;
+      if (this.selectedMenuId) types = this.$store.getters.GetUserMenus.filter(function (element) {
+        return element.menu_id === _this5.selectedMenuId.users_menus.menu_id;
+      });
+
+      if (types != undefined) {
+        types.forEach(function (element) {
+          if (tmp_types != undefined) tmp_types.forEach(function (element1) {
+            if (element.menu_type_id == element1.id) {
+              if (!_this5.available_types.includes(element1)) _this5.available_types.push(element1);
+            } else {
+              if (!_this5.disabled_types.includes(element1)) _this5.disabled_types.push(element1);
+            }
+          });
+        });
+      }
+
+      return this.available_types;
+    },
+    DisabledTypes: function DisabledTypes() {
+      return this.disabled_types;
     }
   },
   mounted: function mounted() {
@@ -2321,6 +2379,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.dispatch('fetchUserMenus');
       this.$store.dispatch('fetchFoodCalendars');
       this.$store.dispatch('fetchActivityCalendars');
+      this.$store.dispatch('fetchMenuTypes');
     }
   },
   methods: {
@@ -2347,6 +2406,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     changeTabStyle: function changeTabStyle(tabTitle) {
       if (this.selectedTab != null && this.selectedTab.toString() == tabTitle) return 'active';
+    },
+    changeType: function changeType(type) {
+      this.current_type = type;
+      console.log("type:", this.current_type);
     }
   }
 });
@@ -2423,7 +2486,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["day", "menuId"],
+  props: ["day", "menuId", "typeId"],
   data: function data() {
     return {
       current_menu: null,
@@ -2441,19 +2504,18 @@ __webpack_require__.r(__webpack_exports__);
     UserMenus: function UserMenus() {
       var _this = this;
 
-      console.log('this.menuId:', this.menuId);
-      console.log('this.day:', this.day);
+      //console.log('this.menuId:',this.menuId);
+      //console.log('this.day:',this.day);
       if (!this.menuId) return false;
       this.current_menu = this.$store.getters.GetUserMenus.find(function (element) {
         return parseInt(element.menu_id) === parseInt(_this.menuId.users_menus.menu_id);
-      });
-      console.log('this.current_menu:', this.current_menu);
+      }); //console.log('this.current_menu:',this.current_menu);
 
       if (this.current_menu) {
         this.current_day = this.current_menu.days.find(function (element) {
-          return parseInt(element.day_number) === parseInt(_this.day);
-        });
-        console.log('this.current_day:', this.current_day);
+          return parseInt(element.day_number) === parseInt(_this.day) && element.menu_type_id === parseInt(_this.typeId);
+        }); //console.log('this.current_day:',this.current_day);
+
         if (this.current_day) return true;
       }
 
@@ -5063,9 +5125,10 @@ __webpack_require__.r(__webpack_exports__);
       slider: [],
       selectedTab: null,
       selectedTrainingId: null,
+      current_location: null,
       show_select_location: false,
       available_locations: [],
-      disabled_levels: []
+      disabled_locations: []
     };
   },
   computed: {
@@ -5076,9 +5139,14 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       //console.log("GetTrainingUsers:",this.$store.getters.GetTrainingUsers);
-      if (this.selectedTrainingId) return this.$store.getters.GetTrainingUsers.find(function (element) {
-        return parseInt(element.training_id) === parseInt(_this.selectedTrainingId.training_user.training_id);
-      });
+      if (this.selectedTrainingId) {
+        if (!this.current_location) this.current_location = this.$store.getters.GetTrainingUsers.find(function (element) {
+          return parseInt(element.training_id) === parseInt(_this.selectedTrainingId.training_user.training_id);
+        }).training_location;
+        return this.$store.getters.GetTrainingUsers.find(function (element) {
+          return parseInt(element.training_id) === parseInt(_this.selectedTrainingId.training_user.training_id);
+        });
+      }
     },
     UserActiveCallendar: function UserActiveCallendar() {
       //console.log("UserActiveCallendar:",this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1))
@@ -5135,10 +5203,30 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     Available_locations: function Available_locations() {
-      this.available_locations = [];
+      var _this4 = this;
+
+      var tmp_locs = this.$store.getters.GetTrainingLocations;
+      var trainings = undefined;
+      if (this.selectedTrainingId) trainings = this.$store.getters.GetTrainingUsers.filter(function (element) {
+        return parseInt(element.training_id) === parseInt(_this4.selectedTrainingId.training_user.training_id);
+      });
+
+      if (trainings != undefined) {
+        trainings.forEach(function (element) {
+          if (tmp_locs != undefined) tmp_locs.forEach(function (element1) {
+            if (element.training_location_id == element1.id) {
+              if (!_this4.available_locations.includes(element1)) _this4.available_locations.push(element1);
+            } else {
+              if (!_this4.disabled_locations.includes(element1)) _this4.disabled_locations.push(element1);
+            }
+          });
+        });
+      }
+
+      return this.available_locations;
     },
     Disabled_locations: function Disabled_locations() {
-      return [];
+      return this.disabled_locations;
     }
   },
   mounted: function mounted() {
@@ -5147,6 +5235,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.dispatch('fetchPhysicsParameters');
       this.$store.dispatch('fetchTrainingUsers');
       this.$store.dispatch('fetchActivityCalendars');
+      this.$store.dispatch('fetchTrainingLocations');
     }
   },
   methods: {
@@ -5175,16 +5264,20 @@ __webpack_require__.r(__webpack_exports__);
       this.show_select_location = !this.show_select_location;
     },
     changeTraining: function changeTraining(level) {
-      var _this4 = this;
+      var _this5 = this;
 
       if (this.$store.getters.GetTrainingUsers) {
         this.$store.getters.GetTrainingUsers.forEach(function (element) {
-          if (_this4.selectedTraining.training.problem_zone_id == element.training.problem_zone_id && element.training.level == level) {
-            _this4.changeActiveTraining(element);
+          if (_this5.selectedTraining.training.problem_zone_id == element.training.problem_zone_id && element.training.level == level) {
+            _this5.changeActiveTraining(element);
           }
         });
         return this.available_locations;
       }
+    },
+    changeLocation: function changeLocation(location) {
+      this.current_location = location;
+      console.log("location:", this.current_location);
     }
   }
 });
@@ -5277,7 +5370,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["day", "trainingId"],
+  props: ["day", "trainingId", "locationId"],
   data: function data() {
     return {
       current_training: null,
@@ -5303,7 +5396,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.current_training) {
         this.current_day = this.current_training.days.find(function (element) {
-          return element.day_number === parseInt(_this.day);
+          return element.day_number === parseInt(_this.day) && element.training_location_id === parseInt(_this.locationId);
         }); //console.log("this.current_day:",this.current_day);
 
         if (this.current_day && this.current_day.name === "Выходной") return true;
@@ -6244,7 +6337,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 commit = _ref.commit;
                 axios.get('/api/menu-type/list').then(function (response) {
-                  commit('LoadMenuTypes', response.data);
+                  commit('LoadMenuTypes', response.data.data);
                 })["catch"](function (error) {
                   console.log("fetchMenuTypes:", error.response);
                 });
@@ -46466,7 +46559,17 @@ var render = function () {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "select__wrap" }, [
-                            _vm._m(1),
+                            _c("ul", { staticClass: "default__option" }, [
+                              _vm.current_type
+                                ? _c("li", { staticClass: "option selected" }, [
+                                    _vm._v(
+                                      "\n                               " +
+                                        _vm._s(_vm.current_type.name) +
+                                        "\n                            "
+                                    ),
+                                  ])
+                                : _vm._e(),
+                            ]),
                             _vm._v(" "),
                             _c(
                               "ul",
@@ -46477,18 +46580,110 @@ var render = function () {
                                   : "display: none !important",
                               },
                               [
-                                _c("li", [
-                                  _vm._v(
-                                    "\n                               Разнообразное меню\n                            "
-                                  ),
-                                ]),
+                                _vm._l(_vm.AvailableTypes, function (type, id) {
+                                  return _c(
+                                    "li",
+                                    {
+                                      key: id,
+                                      on: {
+                                        click: function ($event) {
+                                          return _vm.changeType(type)
+                                        },
+                                      },
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                               " +
+                                          _vm._s(type.name) +
+                                          "\n                            "
+                                      ),
+                                    ]
+                                  )
+                                }),
                                 _vm._v(" "),
-                                _c("li", [
-                                  _vm._v(
-                                    "\n                               Простое меню\n                            "
-                                  ),
-                                ]),
-                              ]
+                                _vm._l(_vm.DisabledTypes, function (type, id) {
+                                  return _c(
+                                    "li",
+                                    { key: id, staticClass: "disabled" },
+                                    [
+                                      _vm._v(
+                                        "\n                               " +
+                                          _vm._s(type.name) +
+                                          "\n                               "
+                                      ),
+                                      _c(
+                                        "svg",
+                                        {
+                                          staticClass: "icon",
+                                          attrs: {
+                                            width: "14",
+                                            height: "14",
+                                            viewBox: "0 0 14 14",
+                                            fill: "none",
+                                            xmlns: "http://www.w3.org/2000/svg",
+                                          },
+                                        },
+                                        [
+                                          _c(
+                                            "g",
+                                            {
+                                              attrs: {
+                                                "clip-path": "url(#clip0)",
+                                              },
+                                            },
+                                            [
+                                              _c("path", {
+                                                attrs: {
+                                                  d: "M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z",
+                                                  fill: "#BEBEBE",
+                                                },
+                                              }),
+                                              _vm._v(" "),
+                                              _c("path", {
+                                                attrs: {
+                                                  d: "M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z",
+                                                  fill: "#BEBEBE",
+                                                },
+                                              }),
+                                              _vm._v(" "),
+                                              _c("path", {
+                                                attrs: {
+                                                  d: "M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z",
+                                                  fill: "#BEBEBE",
+                                                },
+                                              }),
+                                              _vm._v(" "),
+                                              _c("path", {
+                                                attrs: {
+                                                  d: "M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z",
+                                                  fill: "#BEBEBE",
+                                                },
+                                              }),
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("defs", [
+                                            _c(
+                                              "clipPath",
+                                              { attrs: { id: "clip0" } },
+                                              [
+                                                _c("rect", {
+                                                  attrs: {
+                                                    width: "14",
+                                                    height: "14",
+                                                    fill: "white",
+                                                  },
+                                                }),
+                                              ]
+                                            ),
+                                          ]),
+                                        ]
+                                      ),
+                                    ]
+                                  )
+                                }),
+                              ],
+                              2
                             ),
                             _vm._v(" "),
                             _c(
@@ -46579,12 +46774,15 @@ var render = function () {
                         : _vm._e(),
                     ]),
                     _vm._v(" "),
-                    _c("DietMenu", {
-                      attrs: {
-                        day: _vm.selectedTab,
-                        menuId: _vm.selectedMenuId,
-                      },
-                    }),
+                    _vm.current_type
+                      ? _c("DietMenu", {
+                          attrs: {
+                            day: _vm.selectedTab,
+                            menuId: _vm.selectedMenuId,
+                            typeId: _vm.current_type.id,
+                          },
+                        })
+                      : _vm._e(),
                   ],
                   1
                 ),
@@ -46609,18 +46807,6 @@ var staticRenderFns = [
       _c("div", { staticClass: "swiper-button-next" }),
       _vm._v(" "),
       _c("div", { staticClass: "swiper-button-prev" }),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "default__option" }, [
-      _c("li", { staticClass: "option selected" }, [
-        _vm._v(
-          "\n                               Разнообразное меню\n                            "
-        ),
-      ]),
     ])
   },
 ]
@@ -51727,14 +51913,12 @@ var render = function () {
                             },
                           },
                           [
-                            _vm.UserTrainings
+                            _vm.current_location
                               ? _c("ul", { staticClass: "default__option" }, [
                                   _c("li", { staticClass: "option selected" }, [
                                     _vm._v(
                                       "Для " +
-                                        _vm._s(
-                                          _vm.UserTrainings.location.name
-                                        ) +
+                                        _vm._s(_vm.current_location.name) +
                                         "а"
                                     ),
                                   ]),
@@ -51752,30 +51936,38 @@ var render = function () {
                               [
                                 _vm._l(
                                   _vm.Available_locations,
-                                  function (location) {
-                                    return _c("li", { key: location }, [
-                                      _vm._v(
-                                        "\n                              Для " +
-                                          _vm._s(location) +
-                                          "а\n                            "
-                                      ),
-                                    ])
+                                  function (location, id) {
+                                    return _c(
+                                      "li",
+                                      {
+                                        key: id,
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.changeLocation(location)
+                                          },
+                                        },
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                              Для " +
+                                            _vm._s(location.name) +
+                                            "а\n                            "
+                                        ),
+                                      ]
+                                    )
                                   }
                                 ),
                                 _vm._v(" "),
                                 _vm._l(
                                   _vm.Disabled_locations,
-                                  function (location) {
+                                  function (location, id) {
                                     return _c(
                                       "li",
-                                      {
-                                        key: location,
-                                        staticClass: "disabled",
-                                      },
+                                      { key: id, staticClass: "disabled" },
                                       [
                                         _vm._v(
                                           "\n                              Для " +
-                                            _vm._s(location) +
+                                            _vm._s(location.name) +
                                             "а\n                              "
                                         ),
                                         _c(
@@ -51881,12 +52073,15 @@ var render = function () {
                       ]),
                     ]),
                     _vm._v(" "),
-                    _c("WorkoutVideo", {
-                      attrs: {
-                        day: _vm.selectedTab,
-                        trainingId: _vm.selectedTrainingId,
-                      },
-                    }),
+                    _vm.current_location
+                      ? _c("WorkoutVideo", {
+                          attrs: {
+                            day: _vm.selectedTab,
+                            trainingId: _vm.selectedTrainingId,
+                            locationId: _vm.current_location.id,
+                          },
+                        })
+                      : _vm._e(),
                   ],
                   1
                 ),
@@ -51931,196 +52126,207 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "workout-video" },
-    [
-      [
-        _c("div", { staticClass: "scroll__contain" }, [
-          !_vm.IsDayOff && _vm.current_day
-            ? _c(
-                "div",
-                { staticClass: "workout-video__list" },
-                _vm._l(_vm.current_day.videos, function (video, index) {
-                  return _c(
+  return _vm.day && _vm.trainingId && _vm.locationId
+    ? _c(
+        "div",
+        { staticClass: "workout-video" },
+        [
+          [
+            _c("div", { staticClass: "scroll__contain" }, [
+              !_vm.IsDayOff && _vm.current_day
+                ? _c(
                     "div",
-                    { key: index, staticClass: "workout-video__item" },
-                    [
-                      _c(
+                    { staticClass: "workout-video__list" },
+                    _vm._l(_vm.current_day.videos, function (video, index) {
+                      return _c(
                         "div",
-                        {
-                          staticClass: "workout-video__img-preview",
-                          attrs: {
-                            "data-toggle": "modal",
-                            "data-target": "#video-" + video.title,
-                          },
-                        },
+                        { key: index, staticClass: "workout-video__item" },
                         [
-                          _c("iframe", {
-                            attrs: {
-                              width: "100%",
-                              height: "100%",
-                              src:
-                                video.link +
-                                "?autoplay=0&showinfo=0&controls=0&mute=1",
-                              frameborder: "0",
-                            },
-                          }),
-                          _vm._v(" "),
                           _c(
-                            "button",
+                            "div",
                             {
-                              staticClass: "workout-video__btn",
+                              staticClass: "workout-video__img-preview",
                               attrs: {
-                                type: "button",
                                 "data-toggle": "modal",
                                 "data-target": "#video-" + video.title,
                               },
                             },
                             [
+                              _c("iframe", {
+                                attrs: {
+                                  width: "100%",
+                                  height: "100%",
+                                  src:
+                                    video.link +
+                                    "?autoplay=0&showinfo=0&controls=0&mute=1",
+                                  frameborder: "0",
+                                },
+                              }),
+                              _vm._v(" "),
                               _c(
-                                "svg",
+                                "button",
                                 {
+                                  staticClass: "workout-video__btn",
                                   attrs: {
-                                    width: "24",
-                                    height: "27",
-                                    viewBox: "0 0 24 27",
-                                    fill: "none",
-                                    xmlns: "http://www.w3.org/2000/svg",
+                                    type: "button",
+                                    "data-toggle": "modal",
+                                    "data-target": "#video-" + video.title,
                                   },
                                 },
                                 [
-                                  _c("path", {
-                                    attrs: {
-                                      d: "M22.8547 11.8451C24.1738 12.639 24.1388 14.5632 22.7917 15.3086L3.30879 26.0901C1.96169 26.8355 0.312779 25.8431 0.340746 24.3038L0.745229 2.04034C0.773196 0.500993 2.45707 -0.430825 3.7762 0.363069L22.8547 11.8451Z",
-                                      fill: "white",
+                                  _c(
+                                    "svg",
+                                    {
+                                      attrs: {
+                                        width: "24",
+                                        height: "27",
+                                        viewBox: "0 0 24 27",
+                                        fill: "none",
+                                        xmlns: "http://www.w3.org/2000/svg",
+                                      },
                                     },
-                                  }),
+                                    [
+                                      _c("path", {
+                                        attrs: {
+                                          d: "M22.8547 11.8451C24.1738 12.639 24.1388 14.5632 22.7917 15.3086L3.30879 26.0901C1.96169 26.8355 0.312779 25.8431 0.340746 24.3038L0.745229 2.04034C0.773196 0.500993 2.45707 -0.430825 3.7762 0.363069L22.8547 11.8451Z",
+                                          fill: "white",
+                                        },
+                                      }),
+                                    ]
+                                  ),
                                 ]
                               ),
                             ]
                           ),
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "workout-video__title" }, [
-                        _vm._v(_vm._s(video.title)),
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "modal fade modal-video",
-                          attrs: {
-                            id: "video-" + video.title,
-                            tabindex: "-1",
-                            role: "dialog",
-                            "aria-labelledby": "exampleModalCenterTitle",
-                            "aria-hidden": "true",
-                          },
-                        },
-                        [
+                          _vm._v(" "),
+                          _c("div", { staticClass: "workout-video__title" }, [
+                            _vm._v(_vm._s(video.title)),
+                          ]),
+                          _vm._v(" "),
                           _c(
                             "div",
                             {
-                              staticClass: "modal-dialog modal-dialog-centered",
-                              attrs: { role: "document" },
+                              staticClass: "modal fade modal-video",
+                              attrs: {
+                                id: "video-" + video.title,
+                                tabindex: "-1",
+                                role: "dialog",
+                                "aria-labelledby": "exampleModalCenterTitle",
+                                "aria-hidden": "true",
+                              },
                             },
                             [
                               _c(
                                 "div",
                                 {
                                   staticClass:
-                                    "modal-content modal-video__content",
+                                    "modal-dialog modal-dialog-centered",
+                                  attrs: { role: "document" },
                                 },
                                 [
-                                  _c("div", { staticClass: "workout__video" }, [
-                                    _c("iframe", {
-                                      staticClass: "workout-video__embed",
-                                      attrs: {
-                                        width: "512",
-                                        height: "288",
-                                        src: video.link,
-                                        frameborder: "0",
-                                        allow:
-                                          "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
-                                        allowfullscreen: "",
-                                      },
-                                    }),
-                                  ]),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "modal-content modal-video__content",
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        { staticClass: "workout__video" },
+                                        [
+                                          _c("iframe", {
+                                            staticClass: "workout-video__embed",
+                                            attrs: {
+                                              width: "512",
+                                              height: "288",
+                                              src: video.link,
+                                              frameborder: "0",
+                                              allow:
+                                                "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+                                              allowfullscreen: "",
+                                            },
+                                          }),
+                                        ]
+                                      ),
+                                    ]
+                                  ),
                                 ]
                               ),
                             ]
                           ),
                         ]
-                      ),
-                    ]
+                      )
+                    }),
+                    0
                   )
-                }),
-                0
-              )
-            : _vm.current_day
-            ? _c("div", { staticClass: "workout-info__txt-block" }, [
-                _vm._m(0),
-                _vm._v(" "),
-                _c("p", {
-                  domProps: { innerHTML: _vm._s(_vm.current_day.description) },
-                }),
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.current_training
-            ? _c("div", { staticClass: "workout-info__block" }, [
-                _c("h5", { staticClass: "workout-info__title" }, [
-                  _vm._v(
-                    "\n              " +
-                      _vm._s(_vm.current_training.training.description) +
-                      "\n              "
-                  ),
-                  _c("b", [
-                    _vm._v(
-                      "\n                ДЕНЬ №" +
-                        _vm._s(_vm.day) +
-                        "\n              "
-                    ),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c(
-                  "ul",
-                  { staticClass: "workout-info__list" },
-                  _vm._l(_vm.current_day.info, function (step, index) {
-                    return _c(
-                      "li",
-                      { key: index, staticClass: "workout-info__item" },
-                      [
-                        _c("b", [
-                          _vm._v(
-                            "\n                  Шаг " +
-                              _vm._s(index + 1) +
-                              ".\n                "
-                          ),
-                        ]),
-                        _vm._v(" "),
-                        _c("p", [
-                          _vm._v(
-                            "\n                  " +
-                              _vm._s(step) +
-                              "\n                "
-                          ),
-                        ]),
-                      ]
-                    )
-                  }),
-                  0
-                ),
-              ])
-            : _vm._e(),
-        ]),
-      ],
-    ],
-    2
-  )
+                : _vm.current_day
+                ? _c("div", { staticClass: "workout-info__txt-block" }, [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c("p", {
+                      domProps: {
+                        innerHTML: _vm._s(_vm.current_day.description),
+                      },
+                    }),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.current_training
+                ? _c("div", { staticClass: "workout-info__block" }, [
+                    _c("h5", { staticClass: "workout-info__title" }, [
+                      _vm._v(
+                        "\n              " +
+                          _vm._s(_vm.current_training.training.description) +
+                          "\n              "
+                      ),
+                      _c("b", [
+                        _vm._v(
+                          "\n                ДЕНЬ №" +
+                            _vm._s(_vm.day) +
+                            "\n              "
+                        ),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _vm.current_day
+                      ? _c(
+                          "ul",
+                          { staticClass: "workout-info__list" },
+                          _vm._l(_vm.current_day.info, function (step, index) {
+                            return _c(
+                              "li",
+                              { key: index, staticClass: "workout-info__item" },
+                              [
+                                _c("b", [
+                                  _vm._v(
+                                    "\n                  Шаг " +
+                                      _vm._s(index + 1) +
+                                      ".\n                "
+                                  ),
+                                ]),
+                                _vm._v(" "),
+                                _c("p", [
+                                  _vm._v(
+                                    "\n                  " +
+                                      _vm._s(step) +
+                                      "\n                "
+                                  ),
+                                ]),
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      : _vm._e(),
+                  ])
+                : _vm._e(),
+            ]),
+          ],
+        ],
+        2
+      )
+    : _vm._e()
 }
 var staticRenderFns = [
   function () {

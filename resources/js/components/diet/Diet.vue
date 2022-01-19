@@ -90,16 +90,38 @@
                         </h5>
                         <div class="select__wrap">
                            <ul class="default__option">
-                              <li class="option selected">
-                                 Разнообразное меню
+                              <li v-if="current_type" class="option selected">
+                                 {{current_type.name}}
                               </li>
                            </ul>
                            <ul :style="show_select_types? 'display: block !important; z-index:1000;': 'display: none !important'" class="select__ul">
-                              <li>
-                                 Разнообразное меню
+                              <li v-on:click = "changeType(type)" v-for="(type, id) in AvailableTypes" :key="id">
+                                 {{type.name}}
                               </li>
-                              <li>
-                                 Простое меню
+                              <li v-for="(type, id) in DisabledTypes" :key="id" class="disabled">
+                                 {{type.name}}
+                                 <svg class="icon" width="14" height="14" viewBox="0 0 14 14" fill="none"
+                                  xmlns="http://www.w3.org/2000/svg">
+                                  <g clip-path="url(#clip0)">
+                                      <path
+                                        d="M10.9375 14H3.0625C2.33917 14 1.75 13.4114 1.75 12.6875V6.5625C1.75 5.83858 2.33917 5.25 3.0625 5.25H10.9375C11.6608 5.25 12.25 5.83858 12.25 6.5625V12.6875C12.25 13.4114 11.6608 14 10.9375 14ZM3.0625 6.125C2.82158 6.125 2.625 6.321 2.625 6.5625V12.6875C2.625 12.929 2.82158 13.125 3.0625 13.125H10.9375C11.1784 13.125 11.375 12.929 11.375 12.6875V6.5625C11.375 6.321 11.1784 6.125 10.9375 6.125H3.0625Z"
+                                        fill="#BEBEBE" />
+                                      <path
+                                        d="M10.0625 6.125C9.821 6.125 9.625 5.929 9.625 5.6875V3.5C9.625 2.05275 8.44725 0.875 7 0.875C5.55275 0.875 4.375 2.05275 4.375 3.5V5.6875C4.375 5.929 4.179 6.125 3.9375 6.125C3.696 6.125 3.5 5.929 3.5 5.6875V3.5C3.5 1.56975 5.06975 0 7 0C8.93025 0 10.5 1.56975 10.5 3.5V5.6875C10.5 5.929 10.304 6.125 10.0625 6.125Z"
+                                        fill="#BEBEBE" />
+                                      <path
+                                        d="M6.99992 9.91665C6.3565 9.91665 5.83325 9.3934 5.83325 8.74998C5.83325 8.10656 6.3565 7.58331 6.99992 7.58331C7.64334 7.58331 8.16659 8.10656 8.16659 8.74998C8.16659 9.3934 7.64334 9.91665 6.99992 9.91665ZM6.99992 8.45831C6.83951 8.45831 6.70826 8.58898 6.70826 8.74998C6.70826 8.91098 6.83951 9.04165 6.99992 9.04165C7.16034 9.04165 7.29159 8.91098 7.29159 8.74998C7.29159 8.58898 7.16034 8.45831 6.99992 8.45831Z"
+                                        fill="#BEBEBE" />
+                                      <path
+                                        d="M7 11.6667C6.7585 11.6667 6.5625 11.4707 6.5625 11.2292V9.625C6.5625 9.3835 6.7585 9.1875 7 9.1875C7.2415 9.1875 7.4375 9.3835 7.4375 9.625V11.2292C7.4375 11.4707 7.2415 11.6667 7 11.6667Z"
+                                        fill="#BEBEBE" />
+                                  </g>
+                                  <defs>
+                                      <clipPath id="clip0">
+                                        <rect width="14" height="14" fill="white" />
+                                      </clipPath>
+                                  </defs>
+                                 </svg>
                               </li>
                            </ul>
                            <svg class="select__svg" width="17" height="9" viewBox="0 0 17 9" fill="none"
@@ -131,7 +153,7 @@
                         </li>
                      </ul>
                   </div>
-                     <DietMenu :day="selectedTab" :menuId="selectedMenuId"></DietMenu>
+                     <DietMenu v-if="current_type" :day="selectedTab" :menuId="selectedMenuId" :typeId="current_type.id"></DietMenu>
                </div>
             </div>
                <DietModal></DietModal>
@@ -162,6 +184,9 @@ export default {
       selectedTab: null,
       show_select_types:false,
       selectedMenuId:null,
+      current_type: null,
+      disabled_types:[],
+      available_types:[],
    }),
    computed:{
       User(){
@@ -176,8 +201,11 @@ export default {
       },
       UserMenu(){
          console.log("usersmenus:",this.$store.getters.GetUserMenus);
-         if(this.selectedMenuId)
+         if(this.selectedMenuId){
+            if(!this.current_type)
+               this.current_type = this.$store.getters.GetUserMenus.find(element=>element.menu_id === this.selectedMenuId.users_menus.menu_id).menu_type;
             return this.$store.getters.GetUserMenus.find(element=>element.menu_id === this.selectedMenuId.users_menus.menu_id);
+         }
       },
       Physics(){
          if(this.selectedTrainingId){
@@ -217,6 +245,32 @@ export default {
          console.log("this.selectedMenuId:",this.selectedMenuId);
          return this.slider;
       },
+      AvailableTypes(){
+         let tmp_types = this.$store.getters.GetMenuTypes;
+         console.log("tmp_types:",tmp_types);
+         let types = undefined;
+         if(this.selectedMenuId)
+            types = this.$store.getters.GetUserMenus.filter(element=>element.menu_id === this.selectedMenuId.users_menus.menu_id);
+         
+         if(types!=undefined){
+            types.forEach(element=>{
+               if(tmp_types!=undefined)
+                  tmp_types.forEach(element1=>{
+                  if(element.menu_type_id == element1.id){
+                     if(!this.available_types.includes(element1))
+                        this.available_types.push(element1);
+                  } else {
+                     if(!this.disabled_types.includes(element1))
+                        this.disabled_types.push(element1);
+                  }
+               });
+            });
+         }
+         return this.available_types;
+      },
+      DisabledTypes(){
+         return this.disabled_types;
+      }
    },
    mounted(){
       if(userInfo){
@@ -226,6 +280,7 @@ export default {
          this.$store.dispatch('fetchUserMenus');
          this.$store.dispatch('fetchFoodCalendars');
          this.$store.dispatch('fetchActivityCalendars');
+         this.$store.dispatch('fetchMenuTypes');
       }
    },
    methods: {
@@ -257,6 +312,10 @@ export default {
          if(this.selectedTab!=null&&this.selectedTab.toString()==tabTitle)
             return 'active';
       },
+      changeType(type){
+         this.current_type = type;
+         console.log("type:", this.current_type);
+      }
    },
 };
 </script>

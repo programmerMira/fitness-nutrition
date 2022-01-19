@@ -19,11 +19,10 @@ class TrainingUserController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user()->id;
-        $trainingsUser = TrainingUser::with('training')->where('user_id','=',$user)->get();
+        $trainingsUser = TrainingUser::with('training')->with('trainingLocation')->where('user_id','=',$user)->get();
         foreach($trainingsUser as $tr_u)
         {
             $tr_u->days = Days::all()->where('training_id','=',$tr_u->training_id);
-            $tr_u->location = TrainingLocation::where('id','=',$tr_u->training->training_location_id)->first();
         }
         return response()->json($trainingsUser);
     }

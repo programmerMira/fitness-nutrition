@@ -17,7 +17,7 @@ class UserMenuController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user()->id;
-        $userMenus = UserMenu::where('user_id','=',$user)->with('menu')->get();
+        $userMenus = UserMenu::where('user_id','=',$user)->with('menu')->with('menuType')->get();
         foreach($userMenus as $m_u)
         {
             $m_u->days = MenuDays::all()->where('menu_id','=',$m_u->menu_id);

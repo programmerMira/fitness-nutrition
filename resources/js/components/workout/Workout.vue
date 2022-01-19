@@ -94,15 +94,15 @@
                       <div class="progress-block__head">
                         <h5 class="progress-block__title">Тренировки</h5>
                         <div v-on:click="show_location()" class="select__wrap select-workout__wrap">
-                            <ul v-if="UserTrainings" class="default__option">
-                              <li class="option selected">Для {{UserTrainings.location.name}}а</li>
+                            <ul v-if="current_location" class="default__option">
+                              <li class="option selected">Для {{current_location.name}}а</li>
                             </ul>
                             <ul :style="show_select_location? 'display: block !important': 'display: none !important'" class="select__ul">
-                              <li v-for="(location) in Available_locations" :key="location">
-                                Для {{location}}а
+                              <li v-on:click = "changeLocation(location)" v-for="(location, id) in Available_locations" :key="id">
+                                Для {{location.name}}а
                               </li>
-                              <li v-for="(location) in Disabled_locations" :key="location" class="disabled">
-                                Для {{location}}а
+                              <li v-for="(location, id) in Disabled_locations" :key="id" class="disabled">
+                                Для {{location.name}}а
                                 <svg class="icon" width="14" height="14" viewBox="0 0 14 14" fill="none"
                                   xmlns="http://www.w3.org/2000/svg">
                                   <g clip-path="url(#clip0)">
@@ -136,7 +136,7 @@
                         </div>
                       </div>
                   </div>
-                  <WorkoutVideo :day="selectedTab" :trainingId="selectedTrainingId" :locationId="selectedLocationId"></WorkoutVideo>
+                  <WorkoutVideo v-if="current_location" :day="selectedTab" :trainingId="selectedTrainingId" :locationId="current_location.id"></WorkoutVideo>
                 </div>
             </div>
           </div>
@@ -162,10 +162,10 @@ export default {
     slider: [],
     selectedTab: null,
     selectedTrainingId: null,
-    selectedLocationId: null,
+    current_location: null,
     show_select_location:false,
     available_locations:[],
-    disabled_levels:[]
+    disabled_locations:[]
   }),
   computed:{
     User(){
@@ -173,8 +173,11 @@ export default {
     },
     UserTrainings(){
       //console.log("GetTrainingUsers:",this.$store.getters.GetTrainingUsers);
-      if(this.selectedTrainingId)
+      if(this.selectedTrainingId){
+        if(!this.current_location)
+          this.current_location = this.$store.getters.GetTrainingUsers.find(element => parseInt(element.training_id) === parseInt(this.selectedTrainingId.training_user.training_id)).training_location;
         return this.$store.getters.GetTrainingUsers.find(element => parseInt(element.training_id) === parseInt(this.selectedTrainingId.training_user.training_id));
+      }
     },
     UserActiveCallendar(){
       //console.log("UserActiveCallendar:",this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1))
@@ -230,10 +233,29 @@ export default {
       }
     },
     Available_locations(){
-      this.available_locations=[];
+      let tmp_locs = this.$store.getters.GetTrainingLocations;
+      let trainings = undefined;
+      if(this.selectedTrainingId)
+        trainings = this.$store.getters.GetTrainingUsers.filter(element => parseInt(element.training_id) === parseInt(this.selectedTrainingId.training_user.training_id));
+      
+      if(trainings!=undefined){
+        trainings.forEach(element=>{
+          if(tmp_locs!=undefined)
+            tmp_locs.forEach(element1=>{
+              if(element.training_location_id == element1.id){
+                if(!this.available_locations.includes(element1))
+                  this.available_locations.push(element1);
+              } else {
+                if(!this.disabled_locations.includes(element1))
+                  this.disabled_locations.push(element1);
+              }
+            });
+        });
+      }
+      return this.available_locations;
     },
     Disabled_locations(){
-      return [];
+      return this.disabled_locations;
     },
   },
   mounted(){
@@ -242,6 +264,7 @@ export default {
       this.$store.dispatch('fetchPhysicsParameters');
       this.$store.dispatch('fetchTrainingUsers');
       this.$store.dispatch('fetchActivityCalendars');
+      this.$store.dispatch('fetchTrainingLocations');
     }
   },
   methods: {
@@ -284,6 +307,10 @@ export default {
         return this.available_locations;
       }
     },
+    changeLocation(location){
+      this.current_location = location;
+      console.log("location:", this.current_location);
+    }
   },
 };
 </script>

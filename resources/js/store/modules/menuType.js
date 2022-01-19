@@ -2,7 +2,7 @@ export default {
     actions:{
         async fetchMenuTypes({ commit }) {
             axios.get('/api/menu-type/list').then(response => {
-                commit('LoadMenuTypes', response.data)
+                commit('LoadMenuTypes', response.data.data)
             }).catch((error)=>{
                 console.log("fetchMenuTypes:",error.response);
             });
