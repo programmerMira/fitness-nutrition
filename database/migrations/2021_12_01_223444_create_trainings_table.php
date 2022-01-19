@@ -17,7 +17,6 @@ class CreateTrainingsTable extends Migration
 
         Schema::create('trainings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('training_location_id')->constrained();
             $table->string('name', 50);
             $table->string('description', 300);
             $table->double('training_price');

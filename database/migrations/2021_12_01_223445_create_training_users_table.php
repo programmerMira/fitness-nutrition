@@ -19,6 +19,7 @@ class CreateTrainingUsersTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('training_id')->constrained();
+            $table->foreignId('training_location_id')->constrained();
             $table->timestamps();
         });
 

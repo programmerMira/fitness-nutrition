@@ -136,7 +136,7 @@
                         </div>
                       </div>
                   </div>
-                  <WorkoutVideo :day="selectedTab" :trainingId="selectedTrainingId"></WorkoutVideo>
+                  <WorkoutVideo :day="selectedTab" :trainingId="selectedTrainingId" :locationId="selectedLocationId"></WorkoutVideo>
                 </div>
             </div>
           </div>
@@ -162,6 +162,7 @@ export default {
     slider: [],
     selectedTab: null,
     selectedTrainingId: null,
+    selectedLocationId: null,
     show_select_location:false,
     available_locations:[],
     disabled_levels:[]

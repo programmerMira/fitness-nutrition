@@ -23,6 +23,7 @@ class CreateDaysTable extends Migration
             $table->string('description', 1000);
             $table->json('videos');
             $table->json('info');
+            $table->foreignId('training_location_id')->constrained();
             $table->timestamps();
         });
 

@@ -15,7 +15,6 @@ class Menu extends Model
      * @var array
      */
     protected $fillable = [
-        'menu_type_id',
         'menu_calories_id',
         'menu_content',
         'menu_price',
@@ -32,7 +31,6 @@ class Menu extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'menu_type_id' => 'integer',
         'menu_calories_id' => 'integer',
         'menu_content' => 'string',
         'menu_price' => 'double',
@@ -46,11 +44,6 @@ class Menu extends Model
     public function menuDays()
     {
         return $this->HasMany(\App\Models\MenuDays::class);
-    }
-
-    public function menuType()
-    {
-        return $this->belongsTo(\App\Models\MenuType::class);
     }
 
     public function menuCalories()

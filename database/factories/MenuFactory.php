@@ -25,7 +25,6 @@ class MenuFactory extends Factory
     public function definition()
     {
         return [
-            'menu_type_id' => MenuType::factory(),
             'menu_calories_id' => MenuCalory::factory(),
             'menu_content' => $this->faker->name,
             'menu_price' => $this->faker->randomFloat(0, 0, 9999999999.),

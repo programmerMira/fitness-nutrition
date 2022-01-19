@@ -75,7 +75,7 @@
 <script>
 
 export default {
-  props: ["day","trainingId"],
+  props: ["day","trainingId", "locationId"],
   data: () => ({
     current_training: null,
     current_day: null,
@@ -96,7 +96,7 @@ export default {
       this.current_training = this.$store.getters.GetTrainingUsers.find(element => element.training_id === this.trainingId.training_user.training_id);
       //console.log("this.current_training:",this.current_training);
       if(this.current_training){
-        this.current_day = this.current_training.days.find(element => element.day_number === parseInt(this.day));
+        this.current_day = this.current_training.days.find(element => element.day_number === parseInt(this.day) && element.location_id === parseInt(this.training_location_id));
         //console.log("this.current_day:",this.current_day);
         if(this.current_day&&this.current_day.name === "Выходной")
           return true

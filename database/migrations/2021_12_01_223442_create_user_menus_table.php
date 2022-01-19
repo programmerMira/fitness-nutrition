@@ -19,6 +19,7 @@ class CreateUserMenusTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('menu_id')->constrained();
+            $table->foreignId('menu_type_id')->constrained();
             $table->timestamps();
         });
 

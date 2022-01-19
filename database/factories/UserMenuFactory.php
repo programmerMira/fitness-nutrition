@@ -27,6 +27,7 @@ class UserMenuFactory extends Factory
         return [
             'user_id' => User::factory(),
             'menu_id' => Menu::factory(),
+            'menu_type_id' => MenuType::factory(),
         ];
     }
 }

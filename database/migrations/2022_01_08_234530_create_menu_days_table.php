@@ -17,12 +17,13 @@ class CreateMenuDaysTable extends Migration
 
         Schema::create('menu_days', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('menu_id')->constrained('Menus');
+            $table->foreignId('menu_id')->constrained();
             $table->integer('day_number');
             $table->string('name', 50);
             $table->string('description', 1000);
             $table->json('content');
             $table->json('info');
+            $table->foreignId('menu_type_id')->constrained();
             $table->timestamps();
         });
 

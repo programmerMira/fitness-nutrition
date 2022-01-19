@@ -22,6 +22,7 @@ class MenuDayResource extends JsonResource
             'description' => $this->description,
             'content' => $this->content,
             'info' => $this->info,
+            'menu_type_id' => $this->menu_type_id,
         ];
     }
 }

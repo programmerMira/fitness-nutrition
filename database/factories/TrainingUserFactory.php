@@ -27,6 +27,7 @@ class TrainingUserFactory extends Factory
         return [
             'user_id' => User::factory(),
             'training_id' => Training::factory(),
+            'training_location_id' => TrainingLocation::factory(),
         ];
     }
 }

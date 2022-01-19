@@ -26,6 +26,7 @@ class UserMenuStoreRequest extends FormRequest
         return [
             'user_id' => ['required', 'integer', 'exists:users,id'],
             'menu_id' => ['required', 'integer', 'exists:menus,id'],
+            'menu_type_id' => ['required', 'integer', 'exists:menu_types,id'],
         ];
     }
 }

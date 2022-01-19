@@ -58,7 +58,7 @@
 </template>
 <script>
 export default {
-   props: ["day","menuId"],
+   props: ["day","menuId","typeId"],
    data: () => ({
       current_menu: null,
       current_day: null,
@@ -72,16 +72,16 @@ export default {
    },
    computed:{
       UserMenus(){
-         console.log('this.menuId:',this.menuId);
-         console.log('this.day:',this.day);
+         //console.log('this.menuId:',this.menuId);
+         //console.log('this.day:',this.day);
 
          if(!this.menuId)
             return false;
          this.current_menu = this.$store.getters.GetUserMenus.find(element => parseInt(element.menu_id) === parseInt(this.menuId.users_menus.menu_id));
-         console.log('this.current_menu:',this.current_menu);
+         //console.log('this.current_menu:',this.current_menu);
          if(this.current_menu){
-            this.current_day = this.current_menu.days.find(element=>parseInt(element.day_number) === parseInt(this.day));
-            console.log('this.current_day:',this.current_day);
+            this.current_day = this.current_menu.days.find(element=>parseInt(element.day_number) === parseInt(this.day) && elemnt.menu_type_id === parseInt(this.typeId));
+            //console.log('this.current_day:',this.current_day);
             if(this.current_day)
                return true;
          }

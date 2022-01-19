@@ -21,6 +21,7 @@ class Days extends Model
         'description',
         'videos',
         'info',
+        'training_location_id',
     ];
 
     /**
@@ -33,8 +34,13 @@ class Days extends Model
         'training_id' => 'integer',
         'videos' => 'array',
         'info'=>'array',
+        'training_location_id' => 'integer',
     ];
 
+    public function trainingLocation()
+    {
+        return $this->belongsTo(\App\Models\TrainingLocation::class);
+    }
 
     public function training()
     {

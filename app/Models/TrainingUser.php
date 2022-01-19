@@ -17,6 +17,7 @@ class TrainingUser extends Model
     protected $fillable = [
         'user_id',
         'training_id',
+        'training_location_id',
     ];
 
     /**
@@ -28,8 +29,14 @@ class TrainingUser extends Model
         'id' => 'integer',
         'user_id' => 'integer',
         'training_id' => 'integer',
+        'training_location_id' => 'integer',
     ];
 
+
+    public function trainingLocation()
+    {
+        return $this->belongsTo(\App\Models\TrainingLocation::class);
+    }
 
     public function user()
     {

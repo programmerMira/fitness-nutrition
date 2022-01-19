@@ -25,7 +25,6 @@ class TrainingFactory extends Factory
     public function definition()
     {
         return [
-            'training_location_id' => TrainingLocation::factory(),
             'name' => $this->faker->name,
             'description' => $this->faker->text,
             'level' => $this->faker->random_int(0,99999),

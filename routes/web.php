@@ -64,8 +64,8 @@ Route::prefix('/admin')->group(function () {
         Route::get('/edit', function(){         return view('admin.dashboard.program.programEditForm'); });
     });
     Route::prefix('/main')->group(function () {  // word: "icons" - not working as part of adress
-        Route::get('/', [ArticleController::class,'adminMagePage'])->name('adminMagePage');
-        Route::post('/edit/{id}', [ArticleController::class,'adminEditContent']);
+        Route::get('/', [MainPageController::class,'adminMagePage'])->name('adminMagePage');
+        Route::post('/edit/{id}', [MainPageController::class,'adminEditContent']);
     });
     Route::prefix('notification')->group(function () {  // word: "icons" - not working as part of adress
         Route::get('/', [NotificationController::class,'list'])->name('notification');

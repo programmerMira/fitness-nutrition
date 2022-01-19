@@ -9,8 +9,10 @@ class MainPageController extends Controller
 {
     function index(Request $request)
     {
-        $data = MainPage::all();
-        return view('index');//->with(compact('data'));
+        $main_welcome = MainPage::where('name','=','main_welcome')->first();
+        $address_us_if = MainPage::where('name','=','address_us_if')->first();
+
+        return view('index')->with(compact('main_welcome','address_us_if'));
     }
 
     function adminEditContent(Request $request, $id)

@@ -26,6 +26,7 @@ class TrainingUserUpdateRequest extends FormRequest
         return [
             'user_id' => ['required', 'integer', 'exists:users,id'],
             'training_id' => ['required', 'integer', 'exists:trainings,id'],
+            'training_location_id' => ['required', 'integer', 'exists:training_locations,id'],
         ];
     }
 }

@@ -18,6 +18,7 @@ class TrainingUserResource extends JsonResource
             'id' => $this->id,
             'user_id' => $this->user_id,
             'training_id' => $this->training_id,
+            'training_location_id' => $this->training_location_id,
         ];
     }
 }

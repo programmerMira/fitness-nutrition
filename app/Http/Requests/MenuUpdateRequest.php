@@ -24,7 +24,6 @@ class MenuUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'menu_type_id' => ['required', 'integer', 'exists:menu_types,id'],
             'menu_calories_id' => ['required', 'integer', 'exists:menu_calories,id'],
             'menu_content' => ['required', 'string', 'max:50'],
             'menu_price' => ['required', 'double'],

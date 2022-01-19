@@ -30,6 +30,7 @@ class MenuDaysFactory extends Factory
             'description' => $this->faker->text,
             'content' => '{}',
             'info' => '{}',
+            'menu_type_id' => MenuType::factory(),
         ];
     }
 }

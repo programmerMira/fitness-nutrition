@@ -30,6 +30,7 @@ class MenuDayStoreRequest extends FormRequest
             'description' => ['required', 'string', 'max:1000'],
             'content' => ['required', 'json'],
             'info' => ['required', 'json'],
+            'menu_type_id' => ['required', 'integer', 'exists:menu_types,id'],
         ];
     }
 }

@@ -17,7 +17,6 @@ class CreateMenusTable extends Migration
 
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('menu_type_id')->constrained();
             $table->foreignId('menu_calories_id')->constrained('menu_calory');
             $table->string('menu_content',50);
             $table->double('menu_price');

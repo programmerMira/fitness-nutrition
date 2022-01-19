@@ -30,6 +30,7 @@ class DaysFactory extends Factory
             'description' => $this->faker->text,
             'videos' => '{}',
             'info'=>'{}',
+            'training_location_id' => TrainingLocation::factory(),
         ];
     }
 }

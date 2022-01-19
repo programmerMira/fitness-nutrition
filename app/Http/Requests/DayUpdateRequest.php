@@ -30,6 +30,7 @@ class DayUpdateRequest extends FormRequest
             'description' => ['required', 'string', 'max:1000'],
             'videos' => ['required', 'json'],
             'info' => ['required', 'json'],
+            'training_location_id' => ['required', 'integer', 'exists:training_locations,id'],
         ];
     }
 }

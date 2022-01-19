@@ -17,6 +17,7 @@ class UserMenu extends Model
     protected $fillable = [
         'user_id',
         'menu_id',
+        'menu_type_id',
     ];
 
     /**
@@ -28,8 +29,15 @@ class UserMenu extends Model
         'id' => 'integer',
         'user_id' => 'integer',
         'menu_id' => 'integer',
+        'menu_type_id' => 'integer',
     ];
 
+
+    
+    public function menuType()
+    {
+        return $this->belongsTo(\App\Models\MenuType::class);
+    }
 
     public function user()
     {
