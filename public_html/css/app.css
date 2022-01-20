@@ -3475,7 +3475,7 @@ footer {
   position: fixed;
   width: 134px;
   left: 0;
-  z-index: 1;
+  z-index: 5;
 }
 .account-header .sidebar {
   padding: 28px 18px 79px 17px;

@@ -2243,10 +2243,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/WorkoutOneEdit.vue?vue&type=script&lang=js&":
-/*!***************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/WorkoutOneEdit.vue?vue&type=script&lang=js& ***!
-  \***************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/TodoListVideo.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/TodoListVideo.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2275,18 +2275,106 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       new_task: {
-        text: ''
+        title: '',
+        link: ''
       },
       tasks: [{
-        text: 'Вода – 2-2,5 литра (чистая либо с лимоном)'
+        title: 'Видео 1',
+        link: 'https://www.youtube.com/embed/9yLxmbICrTM'
       }, {
-        text: 'Витамины Active Woman – после завтрака'
+        title: 'Видео 2',
+        link: 'https://www.youtube.com/embed/9yLxmbICrTM'
       }]
     };
+  },
+  methods: {
+    task_done: function task_done() {
+      this.$emit('task_done');
+    },
+    add_task: function add_task() {
+      if (this.new_task.title != '', this.new_task.link != '') {
+        this.tasks.push({
+          title: this.new_task.title,
+          link: this.new_task.link
+        });
+        this.new_task.title = '';
+        this.new_task.link = '';
+      }
+    },
+    delete_task: function delete_task(index) {
+      this.tasks.splice(index, 1);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/WorkoutOneEdit.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/WorkoutOneEdit.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    var _ref;
+
+    return _ref = {
+      new_task: {
+        text: ''
+      }
+    }, _defineProperty(_ref, "new_task", {
+      title: '',
+      desc: '',
+      measure: ''
+    }), _defineProperty(_ref, "tasks", [{
+      text: 'Вода – 2-2,5 литра (чистая либо с лимоном)'
+    }, {
+      text: 'Витамины Active Woman – после завтрака'
+    }]), _ref;
   },
   methods: {
     task_done: function task_done() {
@@ -40731,6 +40819,45 @@ component.options.__file = "resources/js/components/admin/TodoList.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/admin/TodoListVideo.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/admin/TodoListVideo.vue ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _TodoListVideo_vue_vue_type_template_id_8aa97f08___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TodoListVideo.vue?vue&type=template&id=8aa97f08& */ "./resources/js/components/admin/TodoListVideo.vue?vue&type=template&id=8aa97f08&");
+/* harmony import */ var _TodoListVideo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TodoListVideo.vue?vue&type=script&lang=js& */ "./resources/js/components/admin/TodoListVideo.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _TodoListVideo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TodoListVideo_vue_vue_type_template_id_8aa97f08___WEBPACK_IMPORTED_MODULE_0__.render,
+  _TodoListVideo_vue_vue_type_template_id_8aa97f08___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/admin/TodoListVideo.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/admin/WorkoutOneEdit.vue":
 /*!**********************************************************!*\
   !*** ./resources/js/components/admin/WorkoutOneEdit.vue ***!
@@ -40802,6 +40929,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/admin/TodoListVideo.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/admin/TodoListVideo.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TodoListVideo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TodoListVideo.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/TodoListVideo.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TodoListVideo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/admin/WorkoutOneEdit.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************!*\
   !*** ./resources/js/components/admin/WorkoutOneEdit.vue?vue&type=script&lang=js& ***!
@@ -40848,6 +40991,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TodoList_vue_vue_type_template_id_d85abc22___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TodoList_vue_vue_type_template_id_d85abc22___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TodoList.vue?vue&type=template&id=d85abc22& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/TodoList.vue?vue&type=template&id=d85abc22&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/admin/TodoListVideo.vue?vue&type=template&id=8aa97f08&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/admin/TodoListVideo.vue?vue&type=template&id=8aa97f08& ***!
+  \****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TodoListVideo_vue_vue_type_template_id_8aa97f08___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TodoListVideo_vue_vue_type_template_id_8aa97f08___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TodoListVideo_vue_vue_type_template_id_8aa97f08___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TodoListVideo.vue?vue&type=template&id=8aa97f08& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/TodoListVideo.vue?vue&type=template&id=8aa97f08&");
 
 
 /***/ }),
@@ -41171,10 +41331,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/WorkoutOneEdit.vue?vue&type=template&id=2f3c765e&":
-/*!********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/WorkoutOneEdit.vue?vue&type=template&id=2f3c765e& ***!
-  \********************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/TodoListVideo.vue?vue&type=template&id=8aa97f08&":
+/*!*******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/TodoListVideo.vue?vue&type=template&id=8aa97f08& ***!
+  \*******************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -41187,45 +41347,78 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "form-group row" }, [
-    _c("label", { staticClass: "col-md-3 col-form-label" }, [
-      _vm._v("Дополнительно"),
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "col-md-7" }, [
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.new_task.text,
-            expression: "new_task.text",
-          },
-        ],
-        staticClass: "form-control",
-        attrs: { type: "text", placeholder: "Ссылка на видео" },
-        domProps: { value: _vm.new_task.text },
-        on: {
-          input: function ($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.new_task, "text", $event.target.value)
-          },
-        },
-      }),
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "2" }, [
-      _c("small", { staticClass: "form-text text-muted" }, [
-        _vm._v(_vm._s("Дополнительно: " + _vm.tasks.length)),
+  return _c("div", [
+    _c("div", { staticClass: "form-group row edit-row" }, [
+      _c("div", { staticClass: "form-group col-md-5" }, [
+        _c("label", { staticClass: "col-form-label" }, [_vm._v("Название")]),
+        _vm._v(" "),
+        _c("div", [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.new_task.title,
+                expression: "new_task.title",
+              },
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text" },
+            domProps: { value: _vm.new_task.title },
+            on: {
+              input: function ($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.new_task, "title", $event.target.value)
+              },
+            },
+          }),
+        ]),
       ]),
       _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-outline-primary", on: { click: _vm.add_task } },
-        [_vm._v("Добавить")]
-      ),
+      _c("div", { staticClass: "form-group col-md-5" }, [
+        _c("label", { staticClass: "col-form-label" }, [_vm._v("Ссылка")]),
+        _vm._v(" "),
+        _c("div", [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.new_task.link,
+                expression: "new_task.link",
+              },
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text" },
+            domProps: { value: _vm.new_task.link },
+            on: {
+              input: function ($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.new_task, "link", $event.target.value)
+              },
+            },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-2" }, [
+        _c("small", { staticClass: "form-text text-muted" }, [
+          _vm._v(_vm._s("Видео: " + _vm.tasks.length)),
+        ]),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-outline-primary",
+            on: { click: _vm.add_task },
+          },
+          [_vm._v("Добавить")]
+        ),
+      ]),
     ]),
     _vm._v(" "),
     _c(
@@ -41244,7 +41437,13 @@ var render = function () {
             },
           },
           [
-            _vm._v("\n            * " + _vm._s(data.text) + ".\n            "),
+            _vm._v(
+              "\n            " +
+                _vm._s(data.title) +
+                " / " +
+                _vm._s(data.link) +
+                "\n            "
+            ),
             _c(
               "span",
               {
@@ -41262,6 +41461,115 @@ var render = function () {
       }),
       0
     ),
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/WorkoutOneEdit.vue?vue&type=template&id=2f3c765e&":
+/*!********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/WorkoutOneEdit.vue?vue&type=template&id=2f3c765e& ***!
+  \********************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "form-group row" }, [
+      _c("label", { staticClass: "col-md-3 col-form-label" }, [
+        _vm._v("Дополнительно"),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-7" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.new_task.text,
+              expression: "new_task.text",
+            },
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", placeholder: "Ссылка на видео" },
+          domProps: { value: _vm.new_task.text },
+          on: {
+            input: function ($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.new_task, "text", $event.target.value)
+            },
+          },
+        }),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "2" }, [
+        _c("small", { staticClass: "form-text text-muted" }, [
+          _vm._v(_vm._s("Дополнительно: " + _vm.tasks.length)),
+        ]),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-outline-primary",
+            on: { click: _vm.add_task },
+          },
+          [_vm._v("Добавить")]
+        ),
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "col-md-12 edit-chips" },
+        _vm._l(_vm.tasks, function (data, index) {
+          return _c(
+            "div",
+            {
+              key: index,
+              staticClass: "badge badge-pill badge-secondary",
+              on: {
+                task_done: function ($event) {
+                  return _vm.delete_task(index)
+                },
+              },
+            },
+            [
+              _vm._v(
+                "\n                * " +
+                  _vm._s(data.text) +
+                  ".\n                "
+              ),
+              _c(
+                "span",
+                {
+                  staticClass: "badge badge-light",
+                  on: {
+                    click: function ($event) {
+                      return _vm.delete_task(index)
+                    },
+                  },
+                },
+                [_vm._v("x")]
+              ),
+            ]
+          )
+        }),
+        0
+      ),
+    ]),
   ])
 }
 var staticRenderFns = []
@@ -55770,10 +56078,10 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")["default"]);
 
-Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_1__["default"]); // Vue.component('Todolist', require('./components/TodoList.vue').default);
-
+Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_1__["default"]);
 Vue.component('Todolist', (__webpack_require__(/*! ./components/admin/MenuOneEdit.vue */ "./resources/js/components/admin/MenuOneEdit.vue")["default"]));
 Vue.component('Workouttodolist', (__webpack_require__(/*! ./components/admin/WorkoutOneEdit.vue */ "./resources/js/components/admin/WorkoutOneEdit.vue")["default"]));
+Vue.component('Todolistvideo', (__webpack_require__(/*! ./components/admin/TodoListVideo.vue */ "./resources/js/components/admin/TodoListVideo.vue")["default"]));
 var app = new Vue({
   el: '#app',
   store: _store__WEBPACK_IMPORTED_MODULE_0__["default"]

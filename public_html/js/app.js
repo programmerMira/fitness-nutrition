@@ -5488,24 +5488,32 @@ document.addEventListener("DOMContentLoaded", function () {
     spaceBetween: 100,
     slidesPerView: 2
   });
-  var swiperDiet = new Swiper(".calendar__slider-diet", {
+  var swiperDiet = new Swiper(".calendar__slider-account", {
     spaceBetween: 0,
     slidesPerView: 1,
     navigation: {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev"
     }
-  });
-  var swiperWorkout = new Swiper(".calendar__slider-workout", {
-    spaceBetween: 0,
-    slidesPerView: 1,
-    navigation: {
-      // nextEl: ".swiper-button-next",
-      // prevEl: ".swiper-button-prev",
-      nextEl: ".next",
-      prevEl: ".prev"
-    }
-  });
+  }); // var swiperDiet = new Swiper(".calendar__slider-diet", {
+  //     spaceBetween: 0,
+  //     slidesPerView: 1,
+  //     navigation: {
+  //         nextEl: ".swiper-button-next",
+  //         prevEl: ".swiper-button-prev",
+  //     },
+  // });
+  // var swiperWorkout = new Swiper(".calendar__slider-workout", {
+  //     spaceBetween: 0,
+  //     slidesPerView: 1,
+  //     navigation: {
+  //         // nextEl: ".swiper-button-next",
+  //         // prevEl: ".swiper-button-prev",
+  //         nextEl: ".next",
+  //         prevEl: ".prev",
+  //     },
+  // });
+
   var swiperScrinImg = new Swiper('.office__img-slider', {
     centeredSlides: true,
     roundLengths: true,
@@ -46427,72 +46435,82 @@ var render = function () {
                   _c("div", { staticClass: "calendar diet" }, [
                     _c("div", { staticClass: "calendar__container" }, [
                       _vm.MenuTitleAndDays.length > 0
-                        ? _c("div", { staticClass: "calendar__slider-diet" }, [
-                            _c(
-                              "div",
-                              { staticClass: "swiper-wrapper" },
-                              _vm._l(
-                                _vm.MenuTitleAndDays,
-                                function (tabs, index) {
-                                  return _c(
-                                    "div",
-                                    { key: index, staticClass: "swiper-slide" },
-                                    [
-                                      _c(
-                                        "div",
-                                        { staticClass: "calendar__title" },
-                                        [
-                                          _c("span", [
-                                            _vm._v("Календарь питания"),
-                                          ]),
-                                          _vm._v(" "),
-                                          _c("h5", [
-                                            _vm._v(_vm._s(tabs.menutitle)),
-                                          ]),
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        { staticClass: "calendar__days" },
-                                        _vm._l(
-                                          tabs.days,
-                                          function (tab, index) {
-                                            return _c(
-                                              "div",
-                                              {
-                                                key: index,
-                                                staticClass: "calendar__day",
-                                                class: _vm.changeTabStyle(
-                                                  tab.title
-                                                ),
-                                                on: {
-                                                  click: function ($event) {
-                                                    return _vm.changeTabSelection(
-                                                      tab.title
-                                                    )
+                        ? _c(
+                            "div",
+                            {
+                              staticClass:
+                                "calendar__slider-diet calendar__slider-account",
+                            },
+                            [
+                              _c(
+                                "div",
+                                { staticClass: "swiper-wrapper" },
+                                _vm._l(
+                                  _vm.MenuTitleAndDays,
+                                  function (tabs, index) {
+                                    return _c(
+                                      "div",
+                                      {
+                                        key: index,
+                                        staticClass: "swiper-slide",
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          { staticClass: "calendar__title" },
+                                          [
+                                            _c("span", [
+                                              _vm._v("Календарь питания"),
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("h5", [
+                                              _vm._v(_vm._s(tabs.menutitle)),
+                                            ]),
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "calendar__days" },
+                                          _vm._l(
+                                            tabs.days,
+                                            function (tab, index) {
+                                              return _c(
+                                                "div",
+                                                {
+                                                  key: index,
+                                                  staticClass: "calendar__day",
+                                                  class: _vm.changeTabStyle(
+                                                    tab.title
+                                                  ),
+                                                  on: {
+                                                    click: function ($event) {
+                                                      return _vm.changeTabSelection(
+                                                        tab.title
+                                                      )
+                                                    },
                                                   },
                                                 },
-                                              },
-                                              [
-                                                _c("span", [
-                                                  _vm._v(_vm._s(tab.title)),
-                                                ]),
-                                              ]
-                                            )
-                                          }
+                                                [
+                                                  _c("span", [
+                                                    _vm._v(_vm._s(tab.title)),
+                                                  ]),
+                                                ]
+                                              )
+                                            }
+                                          ),
+                                          0
                                         ),
-                                        0
-                                      ),
-                                    ]
-                                  )
-                                }
+                                      ]
+                                    )
+                                  }
+                                ),
+                                0
                               ),
-                              0
-                            ),
-                            _vm._v(" "),
-                            _vm._m(0),
-                          ])
+                              _vm._v(" "),
+                              _vm._m(0),
+                            ]
+                          )
                         : _vm._e(),
                     ]),
                   ]),
@@ -51784,73 +51802,83 @@ var render = function () {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "calendar workout" }, [
-                  _vm.TrainingTitleAndDays.length > 0
-                    ? _c("div", { staticClass: "calendar__container" }, [
-                        _c("div", { staticClass: "calendar__slider-workout" }, [
-                          _c(
-                            "div",
-                            { staticClass: "swiper-wrapper" },
-                            _vm._l(
-                              _vm.TrainingTitleAndDays,
-                              function (tabs, index) {
-                                return _c(
-                                  "div",
-                                  { key: index, staticClass: "swiper-slide" },
-                                  [
-                                    _c(
-                                      "div",
-                                      { staticClass: "calendar__title" },
-                                      [
-                                        _c("span", [
-                                          _vm._v("Календарь активности"),
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("h5", [
-                                          _vm._v(_vm._s(tabs.menutitle)),
-                                        ]),
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      { staticClass: "calendar__days" },
-                                      _vm._l(tabs.days, function (tab, index) {
-                                        return _c(
-                                          "div",
-                                          {
-                                            key: index,
-                                            staticClass: "calendar__day",
-                                            class: _vm.changeTabStyle(
-                                              tab.title
-                                            ),
-                                            on: {
-                                              click: function ($event) {
-                                                return _vm.changeTabSelection(
+                  _c("div", { staticClass: "calendar__container" }, [
+                    _vm.TrainingTitleAndDays.length > 0
+                      ? _c(
+                          "div",
+                          {
+                            staticClass:
+                              "calendar__slider-workout calendar__slider-account",
+                          },
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "swiper-wrapper" },
+                              _vm._l(
+                                _vm.TrainingTitleAndDays,
+                                function (tabs, index) {
+                                  return _c(
+                                    "div",
+                                    { key: index, staticClass: "swiper-slide" },
+                                    [
+                                      _c(
+                                        "div",
+                                        { staticClass: "calendar__title" },
+                                        [
+                                          _c("span", [
+                                            _vm._v("Календарь активности"),
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("h5", [
+                                            _vm._v(_vm._s(tabs.menutitle)),
+                                          ]),
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        { staticClass: "calendar__days" },
+                                        _vm._l(
+                                          tabs.days,
+                                          function (tab, index) {
+                                            return _c(
+                                              "div",
+                                              {
+                                                key: index,
+                                                staticClass: "calendar__day",
+                                                class: _vm.changeTabStyle(
                                                   tab.title
-                                                )
+                                                ),
+                                                on: {
+                                                  click: function ($event) {
+                                                    return _vm.changeTabSelection(
+                                                      tab.title
+                                                    )
+                                                  },
+                                                },
                                               },
-                                            },
-                                          },
-                                          [
-                                            _c("span", [
-                                              _vm._v(_vm._s(tab.title)),
-                                            ]),
-                                          ]
-                                        )
-                                      }),
-                                      0
-                                    ),
-                                  ]
-                                )
-                              }
+                                              [
+                                                _c("span", [
+                                                  _vm._v(_vm._s(tab.title)),
+                                                ]),
+                                              ]
+                                            )
+                                          }
+                                        ),
+                                        0
+                                      ),
+                                    ]
+                                  )
+                                }
+                              ),
+                              0
                             ),
-                            0
-                          ),
-                          _vm._v(" "),
-                          _vm._m(0),
-                        ]),
-                      ])
-                    : _vm._e(),
+                            _vm._v(" "),
+                            _vm._m(0),
+                          ]
+                        )
+                      : _vm._e(),
+                  ]),
                 ]),
               ]),
               _vm._v(" "),
@@ -52098,9 +52126,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "calendar__slider-workout-pagination" }, [
-      _c("div", { staticClass: "swiper-button-next next" }),
+      _c("div", { staticClass: "swiper-button-next" }),
       _vm._v(" "),
-      _c("div", { staticClass: "swiper-button-prev prev" }),
+      _c("div", { staticClass: "swiper-button-prev" }),
     ])
   },
 ]
