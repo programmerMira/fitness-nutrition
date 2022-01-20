@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
         spaceBetween: 100,
         slidesPerView: 2,
     });
-    var swiperDiet = new Swiper(".calendar__slider-diet", {
+    var swiperDiet = new Swiper(".calendar__slider-account", {
         spaceBetween: 0,
         slidesPerView: 1,
         navigation: {
@@ -12,16 +12,24 @@ document.addEventListener("DOMContentLoaded", function () {
             prevEl: ".swiper-button-prev",
         },
     });
-    var swiperWorkout = new Swiper(".calendar__slider-workout", {
-        spaceBetween: 0,
-        slidesPerView: 1,
-        navigation: {
-            // nextEl: ".swiper-button-next",
-            // prevEl: ".swiper-button-prev",
-            nextEl: ".next",
-            prevEl: ".prev",
-        },
-    });
+    // var swiperDiet = new Swiper(".calendar__slider-diet", {
+    //     spaceBetween: 0,
+    //     slidesPerView: 1,
+    //     navigation: {
+    //         nextEl: ".swiper-button-next",
+    //         prevEl: ".swiper-button-prev",
+    //     },
+    // });
+    // var swiperWorkout = new Swiper(".calendar__slider-workout", {
+    //     spaceBetween: 0,
+    //     slidesPerView: 1,
+    //     navigation: {
+    //         // nextEl: ".swiper-button-next",
+    //         // prevEl: ".swiper-button-prev",
+    //         nextEl: ".next",
+    //         prevEl: ".prev",
+    //     },
+    // });
     let swiperScrinImg = new Swiper('.office__img-slider', {
         centeredSlides: true,
         roundLengths: true,

@@ -49,7 +49,7 @@
                   </div>
                      <div class="calendar diet">
                      <div class="calendar__container">
-                        <div v-if="MenuTitleAndDays.length>0" class="calendar__slider-diet">
+                        <div v-if="MenuTitleAndDays.length>0" class="calendar__slider-diet calendar__slider-account">
                            <div class="swiper-wrapper">
                               <div class="swiper-slide" v-for="(tabs, index) in MenuTitleAndDays" :key="index">
                                  <div class="calendar__title">
@@ -58,7 +58,7 @@
                                  <div class="calendar__days">
                                     <div
                                     class="calendar__day"
-                                    v-for="(tab, index) in tabs.days" 
+                                    v-for="(tab, index) in tabs.days"
                                     :key="index"
                                     v-on:click = "changeTabSelection(tab.title)"
                                     :class="changeTabStyle(tab.title)"
@@ -67,17 +67,17 @@
                                     </div>
                                  </div>
                               </div>
-                           </div> 
+                           </div>
                            <div class="calendar__slider-diet-pagination">
                               <div class="swiper-button-next"></div>
                               <div class="swiper-button-prev"></div>
                            </div>
-                        </div> 
+                        </div>
                      </div>
                   </div>
                </div>
                <div class="progress__col-second">
-                  <div class="progress-block">  
+                  <div class="progress-block">
                      <div class="progress-block__svg-elem">
                         <svg width="280" height="322" viewBox="0 0 280 322" fill="none" xmlns="http://www.w3.org/2000/svg">
                            <ellipse opacity="0.13" rx="164.341" ry="156.191" transform="matrix(-0.969532 -0.244963 0.273341 -0.961917 202.027 131.5)" fill="white"/>
@@ -305,7 +305,7 @@ export default {
             day: parseInt(tabTitle),
             is_active: this.UserFoodCallendar.is_active
          });
-         
+
          this.selectedTab = tabTitle;
       },
       changeTabStyle(tabTitle){

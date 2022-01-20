@@ -49,8 +49,8 @@
                   </div>
                 </div>
                 <div class="calendar workout">
-                  <div v-if="TrainingTitleAndDays.length>0" class="calendar__container">
-                    <div class="calendar__slider-workout">
+                  <div class="calendar__container">
+                    <div v-if="TrainingTitleAndDays.length>0" class="calendar__slider-workout calendar__slider-account">
                       <div class="swiper-wrapper">
                         <div class="swiper-slide" v-for="(tabs, index) in TrainingTitleAndDays" :key="index">
                           <div class="calendar__title">
@@ -70,8 +70,8 @@
                         </div>
                       </div>
                       <div class="calendar__slider-workout-pagination">
-                        <div class="swiper-button-next next"></div>
-                        <div class="swiper-button-prev prev"></div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
                       </div>
                     </div>
                   </div>
