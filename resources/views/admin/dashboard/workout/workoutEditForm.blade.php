@@ -24,22 +24,27 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label">Тренировка для </label>
-                                    <div class="col-md-9">
-                                        <input class="form-control" placeholder="Тренировка для... " type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 col-form-label">Место:</label>
+                                    <label class="col-md-3 col-form-label">Тренировка для</label>
                                     <div class="col-md-9">
                                         <select name="trainingLocation" class="form-control">
-                                           <option value="{{$training->trainingLocation}}">{{$training->trainingLocation->name}}</option>
-                                            @foreach($locations as $location)
-                                                <option value="{{$location->id}}">{{$location->name}}</option>
+                                            <option value="{{$training->problemZone}}">{{$training->problemZone->name}}</option>
+                                            @foreach($problem_zones as $problem_zone)
+                                                <option value="{{$problem_zone->id}}">{{$problem_zone->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
+{{--                                <div class="form-group row">--}}
+{{--                                    <label class="col-md-3 col-form-label">Место:</label>--}}
+{{--                                    <div class="col-md-9">--}}
+{{--                                        <select name="trainingLocation" class="form-control">--}}
+{{--                                           <option value="{{$training->trainingLocation}}">{{$training->trainingLocation->name}}</option>--}}
+{{--                                            @foreach($locations as $location)--}}
+{{--                                                <option value="{{$location->id}}">{{$location->name}}</option>--}}
+{{--                                            @endforeach--}}
+{{--                                        </select>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
                                 <div class="card-footer card-footer-edit">
                                     <button class="btn btn-sm btn-primary" type="submit"> Сохранить</button>
                                     <a class="btn btn-sm btn-danger" href="/admin/workout"> Назад</a>

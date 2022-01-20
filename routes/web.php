@@ -45,7 +45,10 @@ Route::prefix('/admin')->group(function () {
         Route::post('/addTraining', [TrainingController::class,'adminAddTraining'])->name('addTraining');
         Route::post('/deleteTraining/{id}', [TrainingController::class,'adminDeleteTraining'])->name('deleteTraining');
         Route::prefix('/days')->group(function () {
-            Route::get('/', [TrainingController::class,'adminTrainingsDay'])->name('trainingDay');
+            Route::get('/{id}', [TrainingController::class,'adminTrainingsDay'])->name('trainingDay');
+            //Route::get('/edit', function(){         return view('admin.dashboard.workout.oneDayTraining.workoutEditForm'); });
+            Route::get('/edit/{id}', [TrainingController::class,'adminShowTrainingDay']);
+            Route::post('/editTraining/{id}', [TrainingController::class,'adminEditTrainingDay'])->name('editTrainingDay');
         });
     });
     Route::prefix('/question')->group(function () {  // word: "icons" - not working as part of adress

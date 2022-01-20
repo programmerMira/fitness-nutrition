@@ -27,8 +27,12 @@ class TrainingLocation extends Model
         'id' => 'integer',
     ];
 
-    public function trainings()
+//    public function trainings()
+//    {
+//        return $this->hasMany('\App\Models\Training','training_location_id', 'id');
+//    }
+    public function days()
     {
-        return $this->hasMany('\App\Models\Training','training_location_id', 'id');
+        return $this->hasMany('\App\Models\Days','training_location_id', 'id');
     }
 }

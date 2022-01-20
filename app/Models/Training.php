@@ -18,7 +18,6 @@ class Training extends Model
         'training_location_id',
         'name',
         'description',
-        'training_days',
         'level',
         'training_price',
         'problem_zone_id',
@@ -33,22 +32,22 @@ class Training extends Model
     protected $casts = [
         'id' => 'integer',
         'training_location_id' => 'integer',
-        'training_days' => 'array',
         'level' => 'integer',
         'training_price' => 'double',
         'problem_zone_id'=>'integer',
         'info'=>'array',
     ];
 
+    protected $with = ["trainingLocation"];
 
     public function trainingLocation()
     {
-        return $this->belongsTo(\App\Models\TrainingLocation::class);
+        return $this->belongsTo(\App\Models\TrainingLocation::class,"training_location_id","id");
     }
 
     public function trainingDays()
     {
-        return $this->belongsTo(\App\Models\Days::class,"id","training_id");
+        return $this->hasMany(\App\Models\Days::class,"training_id","id");
     }
 
     public function problemZone()

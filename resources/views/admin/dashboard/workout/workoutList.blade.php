@@ -2,49 +2,55 @@
 
 @section('content')
 
-        <div class="container-fluid">
-          <div class="animated fadeIn">
-              <div class="row">
-                  <div class="col-sm-12 col-md-12">
-                      <a  href="/admin/workout/add" class="btn btn-primary btn-lg mb-3">Добавить</a>
-                  </div>
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-header"><i class="fa fa-align-justify"></i>Все тренировки</div>
-                            <div class="card-body">
-                                <table class="table table-responsive-sm table-bordered table-striped table-sm">
-                                    <thead>
-                                    <tr>
-                                        <th>Название</th>
-                                        <th>Количесво дней</th>
-                                        <th>Тренировка для</th>
-                                        <th>Зал/Дом</th>
-                                        <th>Цена руб.</th>
-                                        <th>Настройки</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <a href="/admin/workout/add" class="btn btn-primary btn-lg mb-3">Добавить</a>
+                </div>
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header"><i class="fa fa-align-justify"></i>Все тренировки</div>
+                        <div class="card-body">
+                            <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                                <thead>
+                                <tr>
+                                    <th>Название</th>
+                                    <th>Количесво дней</th>
+                                    <th>Тренировка для</th>
+                                    <th>Цена руб.</th>
+                                    <th>Настройки</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                @isset($trainings)
                                     @foreach($trainings as $training)
                                         <tr>
-                                        <td>{{ $training->name}}</td>
-                                        <td>
-                                            @if(!is_null($training->trainingDays))
-                                            {{ $training->trainingDays->training_id }}
-                                            @else
-                                                <p>Не указано</p>
-                                            @endif
-                                        </td>
-                                        <td>-</td>
-                                        <td>
-                                            {{$training->trainingLocation->name}}
-                                        </td>
-                                        <td>{{ $training->training_price }}</td>
-                                        <td class="btns-edit">
-                                            <a href="/admin/workout/days" class="users-btn btn btn-block btn-success">
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                     width="512px" height="512px" viewBox="0 0 512 512"
-                                                     style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                            <td>{{ $training->name}}</td>
+                                            <td>
+                                                -
+{{--                                                @dd($training->trainingDays)--}}
+
+{{--                                                @if(!is_null($training->trainingDays))--}}
+
+{{--                                                    {{ $training->trainingDays->training_id }}--}}
+{{--                                                @else--}}
+{{--                                                    <p>Не указано</p>--}}
+{{--                                                @endif--}}
+                                            </td>
+                                            <td>
+                                                {{$training->problemZone->name}}
+                                            </td>
+                                            <td>{{ $training->training_price }}</td>
+                                            <td class="btns-edit">
+                                                <a href="/admin/workout/days/{{$training->id}}"
+                                                   class="users-btn btn btn-block btn-success">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                         width="512px" height="512px" viewBox="0 0 512 512"
+                                                         style="enable-background:new 0 0 512 512;"
+                                                         xml:space="preserve">
                                     <g>
                                         <path d="M256,96C144.341,96,47.559,161.021,0,256c47.559,94.979,144.341,160,256,160c111.656,0,208.439-65.021,256-160
                                             C464.441,161.021,367.656,96,256,96z M382.225,180.852c30.082,19.187,55.572,44.887,74.719,75.148
@@ -55,30 +61,32 @@
                                             s-48-21.49-48-48s21.49-48,48-48S256,178.49,256,205z"/>
                                     </g>
                                     </svg>
-                                            </a>
-                                            <a   href="/admin/workout/edit/{{$training->id}}" class="users-btn btn btn-block btn-primary">
-                                                <svg id="Layer_1" style="enable-background:new 0 0 128 128;" version="1.1"
-                                                     viewBox="0 0 128 128" xml:space="preserve"
-                                                     xmlns="http://www.w3.org/2000/svg"
-                                                     xmlns:xlink="http://www.w3.org/1999/xlink"><g>
-                                                        <path
-                                                            d="M91.4,63.5L64.5,36.6L1,100.1V127h26.9L91.4,63.5z M9,119v-15.6l55.5-55.5l15.6,15.6L24.6,119H9z"/>
-                                                        <rect height="8" width="44" x="55" y="119"/>
-                                                        <rect height="8" width="8" x="109" y="119"/>
-                                                        <path
-                                                            d="M71.6,29.6l26.9,26.9L116.8,38L90,11.2L71.6,29.6z M98.4,45.1L82.9,29.6l7.1-7.1L105.5,38L98.4,45.1z"/>
-                                                    </g></svg>
-                                            </a>
-                                            <form
-                                                  action="{{route('deleteTraining',['id'=>$training->id])}}"
-                                                  method="POST">
-                                                @csrf
-                                                <button type="submit" class="users-btn btn btn-block btn-danger">
-                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                         viewBox="0 0 791.908 791.908"
-                                                         style="enable-background:new 0 0 791.908 791.908;"
-                                                         xml:space="preserve">
+                                                </a>
+                                                <a href="/admin/workout/edit/{{$training->id}}"
+                                                   class="users-btn btn btn-block btn-primary">
+                                                    <svg id="Layer_1" style="enable-background:new 0 0 128 128;"
+                                                         version="1.1"
+                                                         viewBox="0 0 128 128" xml:space="preserve"
+                                                         xmlns="http://www.w3.org/2000/svg"
+                                                         xmlns:xlink="http://www.w3.org/1999/xlink"><g>
+                                                            <path
+                                                                d="M91.4,63.5L64.5,36.6L1,100.1V127h26.9L91.4,63.5z M9,119v-15.6l55.5-55.5l15.6,15.6L24.6,119H9z"/>
+                                                            <rect height="8" width="44" x="55" y="119"/>
+                                                            <rect height="8" width="8" x="109" y="119"/>
+                                                            <path
+                                                                d="M71.6,29.6l26.9,26.9L116.8,38L90,11.2L71.6,29.6z M98.4,45.1L82.9,29.6l7.1-7.1L105.5,38L98.4,45.1z"/>
+                                                        </g></svg>
+                                                </a>
+                                                <form
+                                                    action="{{route('deleteTraining',['id'=>$training->id])}}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="users-btn btn btn-block btn-danger">
+                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                             viewBox="0 0 791.908 791.908"
+                                                             style="enable-background:new 0 0 791.908 791.908;"
+                                                             xml:space="preserve">
                                                 <g>
                                                     <path d="M648.587,99.881H509.156C500.276,43.486,452.761,0,394.444,0S287.696,43.486,279.731,99.881H142.315
                                                         c-26.733,0-48.43,21.789-48.43,48.43v49.437c0,24.719,17.761,44.493,41.564,47.423V727.64c0,35.613,28.655,64.268,64.268,64.268
@@ -95,19 +103,20 @@
                                                         C513.093,680.309,504.212,671.337,504.212,661.45z"/>
                                                 </g>
                                                 </svg>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
                                     @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
+                                @endisset
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-          </div>
+            </div>
         </div>
+    </div>
 
 @endsection
 

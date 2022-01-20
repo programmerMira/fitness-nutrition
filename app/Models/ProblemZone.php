@@ -26,4 +26,9 @@ class ProblemZone extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+
+    public function trainings()
+    {
+        return $this->hasMany('\App\Models\Training','problem_zone_id', 'id');
+    }
 }

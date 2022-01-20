@@ -6,7 +6,6 @@
     "/js/admin/media.js": "/js/admin/media.js",
     "/js/admin/media-cropp.js": "/js/admin/media-cropp.js",
     "/css/admin/style.css": "/css/admin/style.css",
-    "/css/app.css": "/css/app.css",
     "/css/admin/coreui-chartjs.css": "/css/admin/coreui-chartjs.css",
     "/css/admin/cropper.css": "/css/admin/cropper.css",
     "/js/admin/coreui-utils.js": "/js/admin/coreui-utils.js",
@@ -233,6 +232,5 @@
     "/svg/flag/cif-zw.svg": "/svg/flag/cif-zw.svg",
     "/icons/sprites/brand.svg": "/icons/sprites/brand.svg",
     "/icons/sprites/flag.svg": "/icons/sprites/flag.svg",
-    "/icons/sprites/free.svg": "/icons/sprites/free.svg",
-    "/assets/.DS_Store": "/assets/.DS_Store"
+    "/icons/sprites/free.svg": "/icons/sprites/free.svg"
 }
