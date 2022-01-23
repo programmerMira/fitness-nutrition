@@ -101,7 +101,7 @@
                               <li v-on:click = "changeLocation(location)" v-for="(location, id) in Available_locations" :key="id">
                                 Для {{location.name}}а
                               </li>
-                              <li v-for="(location, id) in Disabled_locations" :key="id" class="disabled">
+                              <li v-show="false" v-for="(location, id) in Disabled_locations" :key="id" class="disabled">
                                 Для {{location.name}}а
                                 <svg class="icon" width="14" height="14" viewBox="0 0 14 14" fill="none"
                                   xmlns="http://www.w3.org/2000/svg">
@@ -173,15 +173,15 @@ export default {
     },
     UserTrainings(){
       //console.log("GetTrainingUsers:",this.$store.getters.GetTrainingUsers);
-      if(this.selectedTrainingId){
-        if(!this.current_location)
-          this.current_location = this.$store.getters.GetTrainingUsers.find(element => parseInt(element.training_id) === parseInt(this.selectedTrainingId.training_user.training_id)).training_location;
-        return this.$store.getters.GetTrainingUsers.find(element => parseInt(element.training_id) === parseInt(this.selectedTrainingId.training_user.training_id));
+      if(this.selectedTrainingId&&this.current_location){
+        return this.$store.getters.GetTrainingUsers.find(element => parseInt(element.training_id) === parseInt(this.selectedTrainingId.training_user.training_id) && element.training_location_id === this.current_location.id);
       }
     },
     UserActiveCallendar(){
       //console.log("UserActiveCallendar:",this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1))
-      return this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1);
+      let current = this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1);
+      this.current_location = this.$store.getters.GetTrainingLocations.find(element=>element.id === current.training_user.training_location_id);
+      return current;
     },
     TrainingTitleAndDays(){
       let tmp = this.$store.getters.GetTrainingUsers;
@@ -206,20 +206,32 @@ export default {
       
       this.slider = [];
       if(this.selectedTrainingId)
-        tmp.forEach(item=>{
+        for (let index = 0; index < tmp.length; index++){
           let days=[];
-          item.days.forEach(day=>days.push({title: day.day_number}));
+          console.log("typeof tmp[index].days:",typeof tmp[index].days);
+          for (const item of Object.values(tmp[index].days)) {
+            if(this.current_location && item.training_location_id === this.current_location.id)
+              days.push({title: item.day_number});
+          }
           let active = false;
-          if(item.training_id == this.selectedTrainingId.training_user.training_id)
+          if(tmp[index].training_id == this.selectedTrainingId.training_user.training_id)
             active = true;
-          this.slider.push(
+          if(active){
+            this.slider.unshift({
+              menutitle: tmp[index].training.name,
+              days: days,
+              is_active: active
+            });
+          } else{
+            this.slider.push(
             {
-              menutitle: item.training.name,
+              menutitle: tmp[index].training.name,
               days: days,
               is_active: active
             }
-          );
-        });
+          ); 
+          }
+        };
       
       console.log("this.slider: ",this.slider);
       //console.log("this.selectedTrainingId:",this.selectedTrainingId);
@@ -309,7 +321,24 @@ export default {
     },
     changeLocation(location){
       this.current_location = location;
-      console.log("location:", this.current_location);
+      
+      this.$store.dispatch('setActivityCalendar',{
+        id: this.UserActiveCallendar.id,
+        training_user_id: this.UserActiveCallendar.training_user_id,
+        day: this.UserActiveCallendar.day,
+        is_active: false
+      });
+
+      let new_active = this.$store.getters.GetActivityCalendars.find(element => element.training_user.training_id === this.UserActiveCallendar.training_user.training_id && element.training_user.training_location_id != this.UserActiveCallendar.training_user.training_location_id);
+
+      this.$store.dispatch('setActivityCalendar',{
+        id: new_active.id,
+        training_user_id: new_active.training_user_id,
+        day: new_active.day,
+        is_active: true
+      });
+
+      this.$store.dispatch('fetchActivityCalendars');
     }
   },
 };

@@ -4964,6 +4964,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _WorkoutVideo_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./WorkoutVideo.vue */ "./resources/js/components/workout/WorkoutVideo.vue");
 /* harmony import */ var _general_Logout_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../general/Logout.vue */ "./resources/js/components/general/Logout.vue");
 /* harmony import */ var _general_Menu_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../general/Menu.vue */ "./resources/js/components/general/Menu.vue");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 //
 //
 //
@@ -5139,24 +5141,23 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       //console.log("GetTrainingUsers:",this.$store.getters.GetTrainingUsers);
-      if (this.selectedTrainingId) {
-        if (!this.current_location) this.current_location = this.$store.getters.GetTrainingUsers.find(function (element) {
-          return parseInt(element.training_id) === parseInt(_this.selectedTrainingId.training_user.training_id);
-        }).training_location;
+      if (this.selectedTrainingId && this.current_location) {
         return this.$store.getters.GetTrainingUsers.find(function (element) {
-          return parseInt(element.training_id) === parseInt(_this.selectedTrainingId.training_user.training_id);
+          return parseInt(element.training_id) === parseInt(_this.selectedTrainingId.training_user.training_id) && element.training_location_id === _this.current_location.id;
         });
       }
     },
     UserActiveCallendar: function UserActiveCallendar() {
       //console.log("UserActiveCallendar:",this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1))
-      return this.$store.getters.GetActivityCalendars.find(function (element) {
+      var current = this.$store.getters.GetActivityCalendars.find(function (element) {
         return parseInt(element.is_active) == 1;
       });
+      this.current_location = this.$store.getters.GetTrainingLocations.find(function (element) {
+        return element.id === current.training_user.training_location_id;
+      });
+      return current;
     },
     TrainingTitleAndDays: function TrainingTitleAndDays() {
-      var _this2 = this;
-
       var tmp = this.$store.getters.GetTrainingUsers;
       if (!tmp || tmp.length < 1) return this.slider;
 
@@ -5172,52 +5173,65 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.selectedTrainingId) this.selectedTab = this.selectedTrainingId.day.toString();else this.selectedTab = "1";
       this.slider = [];
-      if (this.selectedTrainingId) tmp.forEach(function (item) {
+      if (this.selectedTrainingId) for (var index = 0; index < tmp.length; index++) {
         var days = [];
-        item.days.forEach(function (day) {
-          return days.push({
-            title: day.day_number
-          });
-        });
-        var active = false;
-        if (item.training_id == _this2.selectedTrainingId.training_user.training_id) active = true;
+        console.log("typeof tmp[index].days:", _typeof(tmp[index].days));
 
-        _this2.slider.push({
-          menutitle: item.training.name,
-          days: days,
-          is_active: active
-        });
-      });
+        for (var _i = 0, _Object$values = Object.values(tmp[index].days); _i < _Object$values.length; _i++) {
+          var item = _Object$values[_i];
+          if (this.current_location && item.training_location_id === this.current_location.id) days.push({
+            title: item.day_number
+          });
+        }
+
+        var active = false;
+        if (tmp[index].training_id == this.selectedTrainingId.training_user.training_id) active = true;
+
+        if (active) {
+          this.slider.unshift({
+            menutitle: tmp[index].training.name,
+            days: days,
+            is_active: active
+          });
+        } else {
+          this.slider.push({
+            menutitle: tmp[index].training.name,
+            days: days,
+            is_active: active
+          });
+        }
+      }
+      ;
       console.log("this.slider: ", this.slider); //console.log("this.selectedTrainingId:",this.selectedTrainingId);
 
       return this.slider;
     },
     Physics: function Physics() {
-      var _this3 = this;
+      var _this2 = this;
 
       if (this.selectedTrainingId) {
         var tmp = this.$store.getters.GetPhysicsParameters.filter(function (element) {
-          return element.training_id == _this3.selectedTrainingId.training_user.training_id;
+          return element.training_id == _this2.selectedTrainingId.training_user.training_id;
         });
         if (tmp) return tmp[tmp.length - 1];
       }
     },
     Available_locations: function Available_locations() {
-      var _this4 = this;
+      var _this3 = this;
 
       var tmp_locs = this.$store.getters.GetTrainingLocations;
       var trainings = undefined;
       if (this.selectedTrainingId) trainings = this.$store.getters.GetTrainingUsers.filter(function (element) {
-        return parseInt(element.training_id) === parseInt(_this4.selectedTrainingId.training_user.training_id);
+        return parseInt(element.training_id) === parseInt(_this3.selectedTrainingId.training_user.training_id);
       });
 
       if (trainings != undefined) {
         trainings.forEach(function (element) {
           if (tmp_locs != undefined) tmp_locs.forEach(function (element1) {
             if (element.training_location_id == element1.id) {
-              if (!_this4.available_locations.includes(element1)) _this4.available_locations.push(element1);
+              if (!_this3.available_locations.includes(element1)) _this3.available_locations.push(element1);
             } else {
-              if (!_this4.disabled_locations.includes(element1)) _this4.disabled_locations.push(element1);
+              if (!_this3.disabled_locations.includes(element1)) _this3.disabled_locations.push(element1);
             }
           });
         });
@@ -5264,20 +5278,37 @@ __webpack_require__.r(__webpack_exports__);
       this.show_select_location = !this.show_select_location;
     },
     changeTraining: function changeTraining(level) {
-      var _this5 = this;
+      var _this4 = this;
 
       if (this.$store.getters.GetTrainingUsers) {
         this.$store.getters.GetTrainingUsers.forEach(function (element) {
-          if (_this5.selectedTraining.training.problem_zone_id == element.training.problem_zone_id && element.training.level == level) {
-            _this5.changeActiveTraining(element);
+          if (_this4.selectedTraining.training.problem_zone_id == element.training.problem_zone_id && element.training.level == level) {
+            _this4.changeActiveTraining(element);
           }
         });
         return this.available_locations;
       }
     },
     changeLocation: function changeLocation(location) {
+      var _this5 = this;
+
       this.current_location = location;
-      console.log("location:", this.current_location);
+      this.$store.dispatch('setActivityCalendar', {
+        id: this.UserActiveCallendar.id,
+        training_user_id: this.UserActiveCallendar.training_user_id,
+        day: this.UserActiveCallendar.day,
+        is_active: false
+      });
+      var new_active = this.$store.getters.GetActivityCalendars.find(function (element) {
+        return element.training_user.training_id === _this5.UserActiveCallendar.training_user.training_id && element.training_user.training_location_id != _this5.UserActiveCallendar.training_user.training_location_id;
+      });
+      this.$store.dispatch('setActivityCalendar', {
+        id: new_active.id,
+        training_user_id: new_active.training_user_id,
+        day: new_active.day,
+        is_active: true
+      });
+      this.$store.dispatch('fetchActivityCalendars');
     }
   }
 });
@@ -5391,14 +5422,14 @@ __webpack_require__.r(__webpack_exports__);
       //console.log("this.trainingId:",this.trainingId);
       if (!this.trainingId) return false;
       this.current_training = this.$store.getters.GetTrainingUsers.find(function (element) {
-        return element.training_id === _this.trainingId.training_user.training_id;
+        return element.training_id === _this.trainingId.training_user.training_id && element.training_location_id === _this.locationId;
       }); //console.log("this.current_training:",this.current_training);
 
       if (this.current_training) {
-        this.current_day = this.current_training.days.find(function (element) {
+        this.current_day = Object.values(this.current_training.days).find(function (element) {
           return element.day_number === parseInt(_this.day) && element.training_location_id === parseInt(_this.locationId);
-        }); //console.log("this.current_day:",this.current_day);
-
+        });
+        console.log("this.current_day:", this.current_day);
         if (this.current_day && this.current_day.name === "Выходной") return true;
       }
 
@@ -51991,7 +52022,18 @@ var render = function () {
                                   function (location, id) {
                                     return _c(
                                       "li",
-                                      { key: id, staticClass: "disabled" },
+                                      {
+                                        directives: [
+                                          {
+                                            name: "show",
+                                            rawName: "v-show",
+                                            value: false,
+                                            expression: "false",
+                                          },
+                                        ],
+                                        key: id,
+                                        staticClass: "disabled",
+                                      },
                                       [
                                         _vm._v(
                                           "\n                              Для " +

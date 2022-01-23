@@ -93,11 +93,11 @@ export default {
       //console.log("this.trainingId:",this.trainingId);
       if(!this.trainingId)
         return false;
-      this.current_training = this.$store.getters.GetTrainingUsers.find(element => element.training_id === this.trainingId.training_user.training_id);
+      this.current_training = this.$store.getters.GetTrainingUsers.find(element => element.training_id === this.trainingId.training_user.training_id && element.training_location_id === this.locationId);
       //console.log("this.current_training:",this.current_training);
       if(this.current_training){
-        this.current_day = this.current_training.days.find(element => element.day_number === parseInt(this.day) && element.training_location_id === parseInt(this.locationId));
-        //console.log("this.current_day:",this.current_day);
+        this.current_day = Object.values(this.current_training.days).find(element => element.day_number === parseInt(this.day) && element.training_location_id === parseInt(this.locationId));
+        console.log("this.current_day:",this.current_day);
         if(this.current_day&&this.current_day.name === "Выходной")
           return true
       }
