@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="form-group row edit-row">
+        <div class="form-group row">
             <div class="form-group col-md-5">
                 <label class="col-form-label">Название</label>
                 <div>
@@ -14,15 +14,16 @@
                 </div>
             </div>
             <div class="form-group col-md-2">
-                <small class="form-text text-muted">{{ "Видео: " + tasks.length }}</small>
-                <button class="btn btn-outline-primary" @click="add_task">Добавить</button>
+                <small class="form-text text-muted">{{ "Видео: " + videos.length }}</small>
+                <button type="button" class="btn btn-outline-primary" @click="add_task">Добавить</button>
             </div>
         </div>
-        <div class="col-md-12 edit-chips">
+        <div class="edit-chips form-group">
             <div class="badge badge-pill badge-secondary"
-                 @task_done="delete_task(index)" :key="index" v-for="(data,index) in tasks"
+                 @task_done="delete_task(index)" :key="index" v-for="(video,index) in videos"
             >
-                {{ data.title }} / {{ data.link }}
+                {{video.title }} / {{ video.link }}
+                <input type="hidden" name="videos[]" :value="toString(video)">
                 <span class="badge badge-light" @click="delete_task(index)">x</span>
             </div>
         </div>
@@ -30,29 +31,24 @@
 </template>
 <script>
 export default {
+    props:["videos"],
     data: () => ({
         new_task: {
             title: '',
             link: '',
         },
-        tasks: [
-            {
-                title: 'Видео 1',
-                link: 'https://www.youtube.com/embed/9yLxmbICrTM',
-            },
-            {
-                title: 'Видео 2',
-                link: 'https://www.youtube.com/embed/9yLxmbICrTM',
-            },
-        ]
+        videos: []
     }),
     methods: {
+        toString(video){
+          return JSON.stringify(video);
+        },
         task_done() {
             this.$emit('task_done')
         },
         add_task() {
             if (this.new_task.title != '', this.new_task.link != '') {
-                this.tasks.push({
+                this.videos.push({
                     title: this.new_task.title,
                     link: this.new_task.link,
                 });
@@ -61,7 +57,7 @@ export default {
             }
         },
         delete_task(index) {
-            this.tasks.splice(index, 1);
+            this.videos.splice(index, 1);
         }
     },
 }

@@ -51,6 +51,11 @@ class Training extends Model
         return $this->belongsTo(\App\Models\ProblemZone::class);
     }
 
+    public function trainingLocation()
+    {
+        return $this->belongsTo(\App\Models\TrainingLocation::class);
+    }
+
     public function trainingUser()
     {
         return $this->belongsTo(\App\Models\TrainingUser::class);

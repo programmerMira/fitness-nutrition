@@ -62,3 +62,8 @@ mix.copy('node_modules/@coreui/icons/svg/flag', 'public/svg/flag');
 mix.copy('node_modules/@coreui/icons/sprites/', 'public/icons/sprites');
 //images
 mix.copy('resources/assets', 'public/assets');
+
+mix.copy('public/css/admin', 'public_html/css/admin');
+mix.copy('public/js/admin', 'public_html/js/admin');
+mix.copy('public/css', 'public_html/css');
+mix.copy('public/js', 'public_html/js');
