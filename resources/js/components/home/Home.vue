@@ -234,12 +234,15 @@ export default {
       Physics(){
          if(this.selectedTraining){
             let tmp = this.$store.getters.GetPhysicsParameters.filter(element => element.training_id == this.selectedTraining.training_id);
-            if(tmp)
+            if(tmp){
+               this.$loading(false);
                return tmp[tmp.length-1];
+            }
          }
       },
    },
    mounted(){
+      this.$loading(true);
       if (userInfo){
          this.$store.dispatch('fetchPhysicsParameters');
          this.$store.dispatch('fetchPersonalAccount');
@@ -273,19 +276,20 @@ export default {
 
             if(parseInt(item)==1){
                updated_at.setDate(updated_at.getDate() + 10)
-               if(updated_at.GetTime()<today.GetTime())
+               console.log(updated_at);
+               if(updated_at<today)
                   return true;
                return false;
             }
             if(parseInt(item)==2){
                updated_at.setDate(updated_at.getDate() + 20)
-               if(updated_at.GetTime()<today.GetTime())
+               if(updated_at<today)
                   return true;
                return false;
             }
             if(parseInt(item)==3){
                updated_at.setDate(updated_at.getDate() + 29)
-               if(updated_at.GetTime()<today.GetTime())
+               if(updated_at<today)
                   return true;
                return false;
             }
@@ -296,6 +300,7 @@ export default {
          this.show_select_level=!this.show_select_level;
       },
       changeTraining(level){
+         this.$loading(true);
          if(this.$store.getters.GetTrainingUsers){
             this.$store.getters.GetTrainingUsers.forEach(element => {
                if(this.selectedTraining.training.problem_zone_id == element.training.problem_zone_id&&

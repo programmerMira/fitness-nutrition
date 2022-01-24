@@ -33,7 +33,7 @@
                <input v-model="Physics.chest_cm" type="text" class="progres-data__input">
             </div>
          </div>
-         <button v-on:click="savePhysics()" type="submit" class="progres__btn-data">Сохранить</button>
+         <button v-if="Physics.updated_at==null" v-on:click="savePhysics()" type="submit" class="progres__btn-data">Сохранить</button>
       </div>
       <HomeDataImg v-if="Physics.photoes != null"
          v-for="(img, index) in Physics.photoes"

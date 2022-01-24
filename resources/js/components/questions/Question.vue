@@ -35,10 +35,13 @@ export default {
         
     }),
     mounted(){
+        this.$loading(true);
         this.$store.dispatch('fetchQuestion', this.question);
     },
     computed:{
         Question(){
+            if(this.$store.getters.GetQuestion)
+                this.$loading(false);
             return this.$store.getters.GetQuestion;
         },
     },

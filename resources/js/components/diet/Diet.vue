@@ -283,6 +283,7 @@ export default {
                         });
                 });
             }
+            this.$loading(false);
             return this.available_types;
         },
         DisabledTypes() {
@@ -290,6 +291,7 @@ export default {
         }
     },
     mounted() {
+        this.$loading(true);
         if (userInfo) {
             this.$store.dispatch('fetchPersonalAccount');
             this.$store.dispatch('fetchPhysicsParameters');
@@ -315,6 +317,7 @@ export default {
             this.show_select_types = !this.show_select_types;
         },
         changeTabSelection(tabTitle) {
+            this.$loading(true);
             this.$store.dispatch('setFoodCalendar', {
                 id: this.UserFoodCallendar.id,
                 users_menus_id: this.UserFoodCallendar.users_menus_id,

@@ -58,6 +58,7 @@
         "perfect-scrollbar": "1.5.0",
         "save": "^2.4.0",
         "swiper": "^7.4.1",
+        "vuejs-loading-plugin": "^1.0.51",
         "vuelidate": "^0.7.6",
         "vuex": "^3.6.2"
     }

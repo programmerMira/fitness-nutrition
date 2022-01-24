@@ -34,11 +34,13 @@ export default {
     }),
     methods:{
         logout() {
+            this.$loading(true);
             axios.post('/logout').then(response => {
                 this.$router.push("/")
             }).catch(error => {
                 location.reload();
             });
+            this.$loading(false);
         },
         onSubmit(){
             axios.post('/searchQuestions',{
