@@ -1,6 +1,7 @@
 @extends('layouts/account')
 
 @section('content')
-    <Todolistt></Todolistt>
+{{--    <Todolistt></Todolistt>--}}
     <diet></diet>
+
 @endsection

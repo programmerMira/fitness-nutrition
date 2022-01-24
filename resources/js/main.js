@@ -4,15 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
         spaceBetween: 100,
         slidesPerView: 2,
     });
-    var swiperDiet = new Swiper(".calendar__slider-account", {
-        spaceBetween: 0,
-        slidesPerView: 1,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-    });
-    // var swiperDiet = new Swiper(".calendar__slider-diet", {
+    // var swiperDiet = new Swiper(".calendar__slider-account", {
     //     spaceBetween: 0,
     //     slidesPerView: 1,
     //     navigation: {
@@ -20,16 +12,45 @@ document.addEventListener("DOMContentLoaded", function () {
     //         prevEl: ".swiper-button-prev",
     //     },
     // });
-    // var swiperWorkout = new Swiper(".calendar__slider-workout", {
-    //     spaceBetween: 0,
-    //     slidesPerView: 1,
-    //     navigation: {
-    //         // nextEl: ".swiper-button-next",
-    //         // prevEl: ".swiper-button-prev",
-    //         nextEl: ".next",
-    //         prevEl: ".prev",
-    //     },
-    // });
+    const swiper = new Swiper('.swiper', {
+        // Optional parameters
+        direction: 'vertical',
+        loop: true,
+
+        // If we need pagination
+        pagination: {
+            el: '.swiper-pagination',
+        },
+
+        // Navigation arrows
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+
+        // And if we need scrollbar
+        scrollbar: {
+            el: '.swiper-scrollbar',
+        },
+    });
+    var swiperDiet = new Swiper(".calendar__slider-diet", {
+        spaceBetween: 0,
+        slidesPerView: 1,
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+    });
+    var swiperWorkout = new Swiper(".calendar__slider-workout", {
+        spaceBetween: 0,
+        slidesPerView: 1,
+        navigation: {
+            // nextEl: ".swiper-button-next",
+            // prevEl: ".swiper-button-prev",
+            nextEl: ".next",
+            prevEl: ".prev",
+        },
+    });
     let swiperScrinImg = new Swiper('.office__img-slider', {
         centeredSlides: true,
         roundLengths: true,

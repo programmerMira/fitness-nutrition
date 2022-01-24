@@ -15,24 +15,22 @@
                             <div class="tab-pane active" id="workout" role="tabpanel">
                                 <div class="card">
                                     <div class="card-header"><strong>
-                                            Редактирование
+                                            Создание
                                         </strong></div>
                                     <div class="card-body">
-                                        <form class="form-horizontal form" action="{{route('editTrainingDay',['id'=>$training_day->id])}}" method="post">
+                                        <form class="form-horizontal form" action="{{route('addTrainingDay')}}" method="post">
                                             @csrf
                                             <div class="form-group row">
                                                 <label class="col-md-3 col-form-label">Название</label>
                                                 <div class="col-md-9">
-                                                    <input value="{{ $training_day->name }}" name="name" class="form-control" type="text" placeholder="Название ">
+                                                    <input name="name" class="form-control" type="text" placeholder="Название ">
                                                 </div>
                                             </div>
-{{--                                            @dd($training_day->videos)--}}
                                             <div class="form-group row">
                                                 <label class="col-md-3 col-form-label">Место:</label>
                                                 <div class="col-md-9">
                                                     <select name="trainingLocation" class="form-control">
                                                         <option
-                                                            value="{{$training_day->trainingLocation}}">{{$training_day->trainingLocation->name}}</option>
                                                         @foreach($locations as $location)
                                                             <option
                                                                 value="{{$location->id}}">{{$location->name}}</option>
@@ -58,7 +56,7 @@
                                 <div class="card">
                                     <div class="card-header"><strong>Для груди и рук</strong></div>
                                     <div class="card-body">
-                                        <form class="form-horizontal form" action="{{route('editTrainingDay',['id'=>$training_day->id])}}" method="post">
+                                        <form class="form-horizontal form" action="{{route('addTrainingDay')}}" method="post">
                                             @csrf
                                             <Workouttodolist
                                                 :infos="{{json_encode($training_day->info)}}"
