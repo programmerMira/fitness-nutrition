@@ -14,6 +14,7 @@ use App\Http\Controllers\PhysicsParametersController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\TrainingController;
+use App\Http\Controllers\FileController;
 #endregion
 
 Route::get("/", [MainPageController::class,'index'])->name('main');
@@ -86,6 +87,7 @@ Route::prefix('/admin')->group(function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::post('/upload/{id}', [FileController::class, 'upload'])->name('uploadIMG');
 
 Route::prefix('api/personal-account')->group(function () {
     Route::get('/list', [PersonalAccountController::class,'index']);

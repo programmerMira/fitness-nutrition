@@ -103,7 +103,7 @@
                            </ul>
                            <ul :style="show_select_level? 'display: block !important': 'display: none !important'" class="select__ul">
                               <li v-on:click="changeTraining(level)" v-for="(level) in Available_levels" :key="level">
-                                 {{level}} уровень
+                                 {{level}}
                               </li>
                               <li href="/plugin" class="disabled" v-for="(level) in Disabled_levels" :key="level">
                                  {{level}} уровень
@@ -215,7 +215,7 @@ export default {
          this.available_levels=[];
          if(this.selectedTraining&&this.$store.getters.GetTrainingUsers){
             this.$store.getters.GetTrainingUsers.forEach(element => {
-               this.available_levels.push(element.training.level);
+               this.available_levels.push(element.training.level+" уровень "+"("+element.training_location.name+")");
             });
             return this.available_levels;
          }
@@ -301,6 +301,7 @@ export default {
       },
       changeTraining(level){
          this.$loading(true);
+         level = parseInt(level.charAt(0));
          if(this.$store.getters.GetTrainingUsers){
             this.$store.getters.GetTrainingUsers.forEach(element => {
                if(this.selectedTraining.training.problem_zone_id == element.training.problem_zone_id&&
