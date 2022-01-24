@@ -39,10 +39,12 @@
          </div>
          <button v-if="!disabled()" v-on:click="savePhysics()" type="submit" class="progres__btn-data">Сохранить</button>
       </div>
-      <HomeDataImg
+      <HomeDataImg v-if="Physics.photoes != null"
          v-for="(img, index) in Physics.photoes"
          :key="index" v-bind:img="img.img" @change="OnChangeChild"
       ></HomeDataImg>
+      <HomeDataImg v-for="(img, index) in imgs"
+         :key="index" v-bind:img="img.img" @change="OnChangeChild"></HomeDataImg>
    </div>
 </template>
 <script>
@@ -54,6 +56,17 @@ export default {
    },
    data: () => ({
       selectedTab: "1",
+      imgs:[
+         {
+            "img":1
+         },
+         {
+            "img":2
+         },
+         {
+            "img":3
+         }
+      ]
    }),
    computed:{
       Physics(){

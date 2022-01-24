@@ -1,76 +1,76 @@
 <template>
     <div v-if="day&&trainingId&&locationId" class="workout-video">
-          <template>
-            <div class="scroll__contain">
-              <div v-if="!IsDayOff&&current_day" class="workout-video__list">
-                <div v-for="(video, index) in current_day.videos" :key="index" class="workout-video__item">
-                  <div class="workout-video__img-preview" data-toggle="modal" :data-target="'#video-'+video.title">
-                    <iframe width="100%" height="100%"
-                      :src="video.link+'?autoplay=0&showinfo=0&controls=0&mute=1'" frameborder="0"
-                    ></iframe>
-                    <button
-                      type="button"
-                      class="workout-video__btn"
-                      data-toggle="modal"
-                      :data-target="'#video-'+video.title"
-                    >
-                      <svg
-                        width="24"
-                        height="27"
-                        viewBox="0 0 24 27"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M22.8547 11.8451C24.1738 12.639 24.1388 14.5632 22.7917 15.3086L3.30879 26.0901C1.96169 26.8355 0.312779 25.8431 0.340746 24.3038L0.745229 2.04034C0.773196 0.500993 2.45707 -0.430825 3.7762 0.363069L22.8547 11.8451Z"
-                          fill="white"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                  <div class="workout-video__title">{{video.title}}</div>
-                  <div class="modal fade modal-video" :id="'video-'+video.title" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                      <div class="modal-content modal-video__content">
-                          <div class="workout__video">
-                            <iframe class="workout-video__embed" width="512" height="288"
-                                :src="video.link" frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen></iframe>
-                          </div>
+      <template>
+        <div class="scroll__contain">
+          <div v-if="!IsDayOff&&current_day" class="workout-video__list">
+            <div v-for="(video, index) in current_day.videos" :key="index" class="workout-video__item">
+              <div class="workout-video__img-preview" data-toggle="modal" :data-target="'#video-'+video.title">
+                <iframe width="100%" height="100%"
+                  :src="video.link+'?autoplay=0&showinfo=0&controls=0&mute=1'" frameborder="0"
+                ></iframe>
+                <button
+                  type="button"
+                  class="workout-video__btn"
+                  data-toggle="modal"
+                  :data-target="'#video-'+video.title"
+                >
+                  <svg
+                    width="24"
+                    height="27"
+                    viewBox="0 0 24 27"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M22.8547 11.8451C24.1738 12.639 24.1388 14.5632 22.7917 15.3086L3.30879 26.0901C1.96169 26.8355 0.312779 25.8431 0.340746 24.3038L0.745229 2.04034C0.773196 0.500993 2.45707 -0.430825 3.7762 0.363069L22.8547 11.8451Z"
+                      fill="white"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div class="workout-video__title">{{video.title}}</div>
+              <div class="modal fade modal-video" :id="'video-'+video.title" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content modal-video__content">
+                      <div class="workout__video">
+                        <iframe class="workout-video__embed" width="512" height="288"
+                            :src="video.link" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
                       </div>
-                    </div>
                   </div>
                 </div>
-              </div>
-              <div v-else-if="current_day" class="workout-info__txt-block">
-                <div class="workout-info__img">
-                  <img src="/images/luba.png" alt="" />
-                </div>
-                <p v-html="current_day.description"></p>
-              </div>
-              <div v-if="current_training" class="workout-info__block">
-                <h5 class="workout-info__title">
-                  {{current_training.training.description}}
-                  <b>
-                    ДЕНЬ №{{day}}
-                  </b>
-                </h5>
-                <ul v-if="current_day" class="workout-info__list">
-                  <li v-for="(step, index) in current_day.info" :key="index" class="workout-info__item">
-                    <b>
-                      Шаг {{index+1}}.
-                    </b>
-                    <p>
-                      {{step}}
-                    </p>
-                  </li>
-                </ul>
               </div>
             </div>
-          </template>
+          </div>
+          <div v-else-if="current_day" class="workout-info__txt-block">
+            <div class="workout-info__img">
+              <img src="/images/luba.png" alt="" />
+            </div>
+            <p v-html="current_day.description"></p>
+          </div>
+          <div v-if="current_training" class="workout-info__block">
+            <h5 class="workout-info__title">
+              {{current_training.training.description}}
+              <b>
+                ДЕНЬ №{{day}}
+              </b>
+            </h5>
+            <ul v-if="current_day" class="workout-info__list">
+              <li v-for="(step, index) in current_day.info" :key="index" class="workout-info__item">
+                <b>
+                  Шаг {{index+1}}.
+                </b>
+                <p>
+                  {{step}}
+                </p>
+              </li>
+            </ul>
+          </div>
         </div>
+      </template>
+    </div>
 </template>
 <script>
 
