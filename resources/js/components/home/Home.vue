@@ -140,14 +140,24 @@
                         </div>
                      </div>
                      <ul class="progress-block__steps">
-                        <li v-for="tab in tabs" v-on:click="change_show_tab(tab.title)"
-                        :key="tab.title" :class="['progress-block__step', show(tab.title)]"
+                        <li v-on:click="change_show_tab(1)" 
+                        :class="['progress-block__step', show(1)]"
                         >
-                           {{ tab.title }} Этап
+                           1 Этап
+                        </li>
+                        <li v-on:click="change_show_tab(2)" 
+                        :class="['progress-block__step', show(2)]"
+                        >
+                           2 Этап
+                        </li>
+                        <li v-on:click="change_show_tab(3)" 
+                        :class="['progress-block__step', show(3)]"
+                        >
+                           3 Этап
                         </li>
                      </ul>
                   </div>
-                  <HomeData v-if="selectedTraining!=null" :phase_number=selectedTab :can_edit=canEdit :training_id=selectedTraining.training_id></HomeData>
+                  <HomeData v-if="selectedTraining!=null" :phase_number=selectedTab :training_id=selectedTraining.training_id></HomeData>
                </div>
             </div>
          </div>
@@ -256,65 +266,34 @@ export default {
          return 'progress-block__step';
       },
       change_show_tab(item){
-         this.selectedTab = item;
-      },
-      show_level(){
-         this.show_select_level=!this.show_select_level;
-      },
-      canEdit(){
-         //check days for training if 30 or 14
-         //let training = this.$store.getters.GetTrainings.filter(element=>element.id==this.selectedTraining.training_id);
-         //if(training){
-         //   if(training.days.length==30){
-         //
-         if(this.selectedTraining!=null){
+         if(this.selectedTraining!=null)
+         {
             var updated_at = new Date(Date.parse(this.selectedTraining.created_at));
             var today = new Date();
-            if(parseInt(this.selectedTab)==1){
+
+            if(parseInt(item)==1){
                updated_at.setDate(updated_at.getDate() + 10)
-               if(updated_at<today)
+               if(updated_at.GetTime()<today.GetTime())
                   return true;
                return false;
             }
-            if(parseInt(this.selectedTab)==2){
+            if(parseInt(item)==2){
                updated_at.setDate(updated_at.getDate() + 20)
-               if(updated_at<today)
+               if(updated_at.GetTime()<today.GetTime())
                   return true;
                return false;
             }
-            if(parseInt(this.selectedTab)==3){
+            if(parseInt(item)==3){
                updated_at.setDate(updated_at.getDate() + 29)
-               if(updated_at<today)
+               if(updated_at.GetTime()<today.GetTime())
                   return true;
                return false;
             }
          }
-         //    }
-         //    if(training.days.length==14){
-         //       if(this.selectedTraining!=null){
-               //    var updated_at = new Date(Date.parse(this.selectedTraining.created_at));
-               //    var today = new Date();
-               //    if(parseInt(this.selectedTab)==1){
-               //       updated_at.setDate(updated_at.getDate() + 4)
-               //       if(updated_at<today)
-               //          return true;
-               //       return false;
-               //    }
-               //    if(parseInt(this.selectedTab)==2){
-               //       updated_at.setDate(updated_at.getDate() + 4)
-               //       if(updated_at<today)
-               //          return true;
-               //       return false;
-               //    }
-               //    if(parseInt(this.selectedTab)==3){
-               //       updated_at.setDate(updated_at.getDate() + 3)
-               //       if(updated_at<today)
-               //          return true;
-               //       return false;
-               //    }
-               // }
-         //    }
-         //}
+         this.selectedTab = item;
+      },
+      show_level(){
+         this.show_select_level=!this.show_select_level;
       },
       changeTraining(level){
          if(this.$store.getters.GetTrainingUsers){
