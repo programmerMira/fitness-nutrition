@@ -147,12 +147,15 @@ export default {
       selectedTraining(){
          let activeTraining = this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1)
          if(activeTraining){
+            this.$loading(false);
             return this.$store.getters.GetTrainingUsers.find(element => parseInt(element.training_id) === parseInt(activeTraining.training_user.training_id));;
          }
-         return this.$store.getters.GetTrainingUsers[0];
+         //this.$loading(false);
+         //return this.$store.getters.GetTrainingUsers[0];
       },
    },
    mounted(){
+      this.$loading(true);
       if (userInfo){
          this.$store.dispatch('fetchPersonalAccount');
          this.$store.dispatch('fetchTrainingUsers');

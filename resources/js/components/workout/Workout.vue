@@ -173,7 +173,8 @@ export default {
     },
     UserTrainings(){
       //console.log("GetTrainingUsers:",this.$store.getters.GetTrainingUsers);
-      if(this.selectedTrainingId&&this.current_location){
+      //console.log("this.selectedTrainingId:",this.selectedTrainingId);
+      if(this.selectedTrainingId && this.current_location && this.selectedTrainingId.training_user){
         return this.$store.getters.GetTrainingUsers.find(element => parseInt(element.training_id) === parseInt(this.selectedTrainingId.training_user.training_id) && element.training_location_id === this.current_location.id);
       }
     },
@@ -208,7 +209,7 @@ export default {
       if(this.selectedTrainingId)
         for (let index = 0; index < tmp.length; index++){
           let days=[];
-          console.log("typeof tmp[index].days:",typeof tmp[index].days);
+          //console.log("typeof tmp[index].days:",typeof tmp[index].days);
           for (const item of Object.values(tmp[index].days)) {
             if(this.current_location && item.training_location_id === this.current_location.id)
               days.push({title: item.day_number});
@@ -233,7 +234,7 @@ export default {
           }
         };
       
-      console.log("this.slider: ",this.slider);
+      //console.log("this.slider: ",this.slider);
       //console.log("this.selectedTrainingId:",this.selectedTrainingId);
       return this.slider;
     },
@@ -264,6 +265,8 @@ export default {
             });
         });
       }
+      if(this.available_locations.length>0)
+        this.$loading(false);
       return this.available_locations;
     },
     Disabled_locations(){
@@ -271,6 +274,7 @@ export default {
     },
   },
   mounted(){
+    this.$loading(true);
     if (userInfo){
       this.$store.dispatch('fetchPersonalAccount');
       this.$store.dispatch('fetchPhysicsParameters');
@@ -292,6 +296,7 @@ export default {
       return parseInt(percent);
     },
     changeTabSelection(tabTitle){
+      this.$loading(true);
       this.$store.dispatch('setActivityCalendar',{
         id: this.UserActiveCallendar.id,
         training_user_id: this.UserActiveCallendar.training_user_id,
@@ -300,6 +305,8 @@ export default {
         });
 
       this.selectedTab = tabTitle;
+
+      this.$store.dispatch('fetchActivityCalendars');
     },
     changeTabStyle(tabTitle){
       if(this.selectedTab!=null&&this.selectedTab.toString()==tabTitle)
@@ -320,6 +327,7 @@ export default {
       }
     },
     changeLocation(location){
+      this.$loading(true);
       this.current_location = location;
       
       this.$store.dispatch('setActivityCalendar',{

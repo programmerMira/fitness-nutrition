@@ -27,7 +27,7 @@ class PhysicsParameterUpdateRequest extends FormRequest
             'user_id' => ['required', 'integer', 'exists:users,id'],
             'training_id' => ['required', 'integer', 'exists:trainings,id'],
             'phase_number' => ['required', 'integer'],
-            'photoes' => ['required', 'json'],
+            'photoes' => ['json', 'nullable'],
             'weight' => ['required', 'numeric'],
             'height' => ['required', 'numeric'],
             'dream_weight' => ['required', 'numeric'],

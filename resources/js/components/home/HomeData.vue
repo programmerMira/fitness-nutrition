@@ -6,8 +6,7 @@
                <p class="progres__elem-prg">
                   Вес
                </p>
-               <input v-if="!disabled()" v-model="Physics.current_weight" type="text" class="progres-data__input">
-               <input v-else v-model="Physics.current_weight" type="text" class="progres-data__input" readonly>
+               <input v-model="Physics.current_weight" type="text" class="progres-data__input">
             </div>
          </div>
          <div class="progres__elem">
@@ -15,8 +14,7 @@
                <p class="progres__elem-prg">
                   Бёдра
                </p>
-               <input v-if="!disabled()" v-model="Physics.hips_cm" type="text" class="progres-data__input">
-               <input v-else v-model="Physics.hips_cm" type="text" class="progres-data__input" readonly>
+               <input v-model="Physics.hips_cm" type="text" class="progres-data__input">
             </div>
          </div>
          <div class="progres__elem">
@@ -24,8 +22,7 @@
                <p class="progres__elem-prg">
                   Талия
                </p>
-               <input v-if="!disabled()" v-model="Physics.waist_cm" type="text" class="progres-data__input">
-               <input v-else v-model="Physics.waist_cm" type="text" class="progres-data__input" readonly>
+               <input v-model="Physics.waist_cm" type="text" class="progres-data__input">
             </div>
          </div>
          <div class="progres__elem">
@@ -33,16 +30,17 @@
                <p class="progres__elem-prg">
                   Грудь
                </p>
-               <input v-if="!disabled()" v-model="Physics.chest_cm" type="text" class="progres-data__input">
-               <input v-else v-model="Physics.chest_cm" type="text" class="progres-data__input" readonly>
+               <input v-model="Physics.chest_cm" type="text" class="progres-data__input">
             </div>
          </div>
-         <button v-if="!disabled()" v-on:click="savePhysics()" type="submit" class="progres__btn-data">Сохранить</button>
+         <button v-if="Physics.updated_at==null" v-on:click="savePhysics()" type="submit" class="progres__btn-data">Сохранить</button>
       </div>
-      <HomeDataImg
+      <HomeDataImg v-if="Physics.photoes != null"
          v-for="(img, index) in Physics.photoes"
          :key="index" v-bind:img="img.img" @change="OnChangeChild"
       ></HomeDataImg>
+      <HomeDataImg v-for="(img, index) in imgs"
+         :key="index" v-bind:img="img.img" @change="OnChangeChild"></HomeDataImg>
    </div>
 </template>
 <script>
@@ -54,6 +52,17 @@ export default {
    },
    data: () => ({
       selectedTab: "1",
+      imgs:[
+         {
+            "img":1
+         },
+         {
+            "img":2
+         },
+         {
+            "img":3
+         }
+      ]
    }),
    computed:{
       Physics(){

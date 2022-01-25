@@ -71,10 +71,13 @@ export default {
             return this.questions;
       },
       Topics(){
+         if(this.$store.getters.GetTopics)
+            this.$loading(false);
          return this.$store.getters.GetTopics;
       }
    },
    mounted(){
+      this.$loading(true);
       this.$store.dispatch('fetchQuestions');
       this.$store.dispatch('fetchTopics');
    },

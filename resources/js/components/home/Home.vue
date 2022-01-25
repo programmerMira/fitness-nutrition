@@ -103,7 +103,7 @@
                            </ul>
                            <ul :style="show_select_level? 'display: block !important': 'display: none !important'" class="select__ul">
                               <li v-on:click="changeTraining(level)" v-for="(level) in Available_levels" :key="level">
-                                 {{level}} уровень
+                                 {{level}}
                               </li>
                               <li href="/plugin" class="disabled" v-for="(level) in Disabled_levels" :key="level">
                                  {{level}} уровень
@@ -140,14 +140,24 @@
                         </div>
                      </div>
                      <ul class="progress-block__steps">
-                        <li v-for="tab in tabs" v-on:click="change_show_tab(tab.title)"
-                        :key="tab.title" :class="['progress-block__step', show(tab.title)]"
+                        <li v-on:click="change_show_tab(1)" 
+                        :class="['progress-block__step', show(1)]"
                         >
-                           {{ tab.title }} Этап
+                           1 Этап
+                        </li>
+                        <li v-on:click="change_show_tab(2)" 
+                        :class="['progress-block__step', show(2)]"
+                        >
+                           2 Этап
+                        </li>
+                        <li v-on:click="change_show_tab(3)" 
+                        :class="['progress-block__step', show(3)]"
+                        >
+                           3 Этап
                         </li>
                      </ul>
                   </div>
-                  <HomeData v-if="selectedTraining!=null" :phase_number=selectedTab :can_edit=canEdit :training_id=selectedTraining.training_id></HomeData>
+                  <HomeData v-if="selectedTraining!=null" :phase_number=selectedTab :training_id=selectedTraining.training_id></HomeData>
                </div>
             </div>
          </div>
@@ -179,7 +189,6 @@ export default {
       ],
       selectedTab: "1",
       show_select_level:false,
-      selected_level: null,
       available_levels: [],
       disabled_levels: []
    }),
@@ -191,21 +200,26 @@ export default {
          let activeTraining = this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1)
          if(activeTraining){
             let tmp = this.$store.getters.GetTrainingUsers.find(element => parseInt(element.training_id) === parseInt(activeTraining.training_user.training_id));
-            this.selected_level = tmp.training.level;
+
             console.log(tmp);
             return tmp;
          }
          let tmp = this.$store.getters.GetTrainingUsers[0];
-         if(tmp){
-            this.selected_level = tmp.training.level;
+         if(tmp!=null){
             return tmp;
          }
+      },
+      TrainingLevel(){
+         if(this.selectedTraining)
+            return this.selectedTraining.training.level;
       },
       Available_levels(){
          this.available_levels=[];
          if(this.selectedTraining&&this.$store.getters.GetTrainingUsers){
             this.$store.getters.GetTrainingUsers.forEach(element => {
-               this.available_levels.push(element.training.level);
+               let tmp = this.available_levels.find(element2 => element2 === element.training.level+" уровень");
+               if(tmp==null)
+                  this.available_levels.push(element.training.level+" уровень");
             });
             return this.available_levels;
          }
@@ -224,12 +238,15 @@ export default {
       Physics(){
          if(this.selectedTraining){
             let tmp = this.$store.getters.GetPhysicsParameters.filter(element => element.training_id == this.selectedTraining.training_id);
-            if(tmp)
+            if(tmp){
+               this.$loading(false);
                return tmp[tmp.length-1];
+            }
          }
       },
    },
    mounted(){
+      this.$loading(true);
       if (userInfo){
          this.$store.dispatch('fetchPhysicsParameters');
          this.$store.dispatch('fetchPersonalAccount');
@@ -256,67 +273,39 @@ export default {
          return 'progress-block__step';
       },
       change_show_tab(item){
-         this.selectedTab = item;
-      },
-      show_level(){
-         this.show_select_level=!this.show_select_level;
-      },
-      canEdit(){
-         //check days for training if 30 or 14
-         //let training = this.$store.getters.GetTrainings.filter(element=>element.id==this.selectedTraining.training_id);
-         //if(training){
-         //   if(training.days.length==30){
-         //
-         if(this.selectedTraining!=null){
+         if(this.selectedTraining!=null)
+         {
             var updated_at = new Date(Date.parse(this.selectedTraining.created_at));
             var today = new Date();
-            if(parseInt(this.selectedTab)==1){
+
+            if(parseInt(item)==1){
                updated_at.setDate(updated_at.getDate() + 10)
+               console.log(updated_at);
                if(updated_at<today)
                   return true;
                return false;
             }
-            if(parseInt(this.selectedTab)==2){
+            if(parseInt(item)==2){
                updated_at.setDate(updated_at.getDate() + 20)
                if(updated_at<today)
                   return true;
                return false;
             }
-            if(parseInt(this.selectedTab)==3){
+            if(parseInt(item)==3){
                updated_at.setDate(updated_at.getDate() + 29)
                if(updated_at<today)
                   return true;
                return false;
             }
          }
-         //    }
-         //    if(training.days.length==14){
-         //       if(this.selectedTraining!=null){
-               //    var updated_at = new Date(Date.parse(this.selectedTraining.created_at));
-               //    var today = new Date();
-               //    if(parseInt(this.selectedTab)==1){
-               //       updated_at.setDate(updated_at.getDate() + 4)
-               //       if(updated_at<today)
-               //          return true;
-               //       return false;
-               //    }
-               //    if(parseInt(this.selectedTab)==2){
-               //       updated_at.setDate(updated_at.getDate() + 4)
-               //       if(updated_at<today)
-               //          return true;
-               //       return false;
-               //    }
-               //    if(parseInt(this.selectedTab)==3){
-               //       updated_at.setDate(updated_at.getDate() + 3)
-               //       if(updated_at<today)
-               //          return true;
-               //       return false;
-               //    }
-               // }
-         //    }
-         //}
+         this.selectedTab = item;
+      },
+      show_level(){
+         this.show_select_level=!this.show_select_level;
       },
       changeTraining(level){
+         this.$loading(true);
+         level = parseInt(level.charAt(0));
          if(this.$store.getters.GetTrainingUsers){
             this.$store.getters.GetTrainingUsers.forEach(element => {
                if(this.selectedTraining.training.problem_zone_id == element.training.problem_zone_id&&
