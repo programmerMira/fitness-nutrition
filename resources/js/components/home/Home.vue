@@ -217,7 +217,9 @@ export default {
          this.available_levels=[];
          if(this.selectedTraining&&this.$store.getters.GetTrainingUsers){
             this.$store.getters.GetTrainingUsers.forEach(element => {
-               this.available_levels.push(element.training.level+" уровень "+"("+element.training_location.name+")");
+               let tmp = this.available_levels.find(element2 => element2 === element.training.level+" уровень");
+               if(tmp==null)
+                  this.available_levels.push(element.training.level+" уровень");
             });
             return this.available_levels;
          }
