@@ -225,11 +225,11 @@
 }
 .select__ul {
    width: 147px;
-   height: 88px;
    background: #ffffff;
    border-radius: 8px;
    padding: 10px 15px 10px 10px;
    flex-direction: column;
+    z-index: 9;
    justify-content: space-between;
    li {
       font-weight: 600;

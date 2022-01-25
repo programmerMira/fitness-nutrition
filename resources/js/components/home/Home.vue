@@ -351,6 +351,6 @@ export default {
 </script>
 <style>
    .progress-block__steps {
-      z-index: 1000;
+      z-index: 1;
    }
 </style>
