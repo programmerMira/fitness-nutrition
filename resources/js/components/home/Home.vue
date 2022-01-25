@@ -201,7 +201,8 @@ export default {
          let activeTraining = this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1)
          if(activeTraining){
             let tmp = this.$store.getters.GetTrainingUsers.find(element => parseInt(element.training_id) === parseInt(activeTraining.training_user.training_id));
-            this.selected_level = tmp.training.level;
+            if(tmp)
+               this.selected_level = tmp.training.level;
             console.log(tmp);
             return tmp;
          }
