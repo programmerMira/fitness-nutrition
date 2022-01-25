@@ -189,7 +189,6 @@ export default {
       ],
       selectedTab: "1",
       show_select_level:false,
-      selected_level: null,
       available_levels: [],
       disabled_levels: []
    }),
@@ -201,16 +200,18 @@ export default {
          let activeTraining = this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1)
          if(activeTraining){
             let tmp = this.$store.getters.GetTrainingUsers.find(element => parseInt(element.training_id) === parseInt(activeTraining.training_user.training_id));
-            if(tmp!=null)
-               this.selected_level = tmp.training.level;
+
             console.log(tmp);
             return tmp;
          }
          let tmp = this.$store.getters.GetTrainingUsers[0];
          if(tmp!=null){
-            this.selected_level = tmp.training.level;
             return tmp;
          }
+      },
+      TrainingLevel(){
+         if(this.selectedTraining)
+            return this.selectedTraining.training.level;
       },
       Available_levels(){
          this.available_levels=[];
