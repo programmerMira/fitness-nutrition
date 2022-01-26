@@ -126,7 +126,6 @@
    border-radius: 20px;
 }
 .progres-diet__block {
-   height: 204px;
    position: relative;
    width: auto;
    max-width: 438px;
@@ -219,7 +218,7 @@
    right: 0;
    margin: auto;
    width: 100%;
-   max-width: 200px;
+   max-width: 400px;
    height: 17px;
    .swiper-button-next:after,
    .swiper-button-prev:after {
@@ -286,6 +285,7 @@
 @media only screen and (max-width: 1270px) {
    .calendar__slider-diet, .calendar__slider-workout {
       width: 400px;
+       margin: auto;
    }
 }
 @media only screen and (max-width: 1200px) {
@@ -394,7 +394,6 @@
       padding: 26px 21px 28px 23px;
    }
    .progres-diet__block {
-      height: 146px;
       padding: 18px 29px 27px 21px;
       box-shadow: 0px 8px 20px rgba(129, 135, 189, 0.2);
       border-radius: 16px;
@@ -521,7 +520,7 @@
       padding-left: 0;
    }
    .calendar__slider-diet, .calendar__slider-workout {
-      width: auto;
+       width: 320px;
    }
    .diet .calendar__title h5 {
       font-size: 12px;
@@ -558,11 +557,13 @@
    }
 }
 @media only screen and (max-width: 390px) {
-   .calendar__slider-diet, .calendar__slider-workout {
-      width: 280px;
-   }
    .diet .calendar__container {
       margin-left: auto;
       margin-right: auto;
    }
+}
+@media only screen and (max-width: 360px) {
+    .calendar__slider-diet, .calendar__slider-workout {
+        width: 246px;
+    }
 }

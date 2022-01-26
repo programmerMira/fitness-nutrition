@@ -15,6 +15,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\MenuController;
 #endregion
 
 Route::get("/", [MainPageController::class,'index'])->name('main');
@@ -35,10 +36,19 @@ Route::prefix('/admin')->group(function () {
         Route::get('/edit', function(){         return view('admin.dashboard.admin.userEditForm'); });
     });
     Route::prefix('/menu')->group(function () {  // word: "icons" - not working as part of adress
-        Route::get('/', function(){         return view('admin.dashboard.menu.menuList'); });
-        Route::get('/show', function(){         return view('admin.dashboard.menu.menuShow'); });
-        Route::get('/edit', function(){         return view('admin.dashboard.menu.menuEditForm'); });
-        Route::get('/one-edit', function(){         return view('admin.dashboard.menu.menuOneEditForm'); });
+        Route::get('/', [MenuController::class,'adminMenus'])->name('menu');
+        Route::get('/edit/{id}', [MenuController::class,'adminShowMenu']);
+        Route::post('/editMenu/{id}', [MenuController::class,'adminEditMenu'])->name('editMenu');
+        Route::get('/add', [MenuController::class,'adminAddView']);
+        Route::post('/addMenu', [MenuController::class,'adminAddMenu'])->name('addMenu');
+        Route::prefix('/days')->group(function () {
+            Route::get('/{id}', [MenuController::class,'adminMenuDay'])->name('menuDay');
+            Route::get('/edit/{id}', [MenuController::class,'adminShowMenuDay']);
+            Route::post('/editMenuDay/{id}', [MenuController::class,'adminEditMenuDay'])->name('editMenuDay');
+            Route::get('/add', [MenuController::class,'adminAddViewDay']);
+            Route::post('/addMenuDay', [MenuController::class,'adminAddMenuDay'])->name('addMenuDay');
+            Route::post('/deleteMenuDay/{id}', [MenuController::class,'adminDeleteMenuDay'])->name('deleteMenuDay');
+        });
     });
     Route::prefix('/workout')->group(function () {  // word: "icons" - not working as part of adress
         Route::get('/', [TrainingController::class,'adminTrainings'])->name('training');
@@ -49,7 +59,6 @@ Route::prefix('/admin')->group(function () {
         Route::post('/deleteTraining/{id}', [TrainingController::class,'adminDeleteTraining'])->name('deleteTraining');
         Route::prefix('/days')->group(function () {
             Route::get('/{id}', [TrainingController::class,'adminTrainingsDay'])->name('trainingDay');
-            //Route::get('/edit', function(){         return view('admin.dashboard.workout.oneDayTraining.workoutEditForm'); });
             Route::get('/edit/{id}', [TrainingController::class,'adminShowTrainingDay']);
             Route::post('/editTrainingDay/{id}', [TrainingController::class,'adminEditTrainingDay'])->name('editTrainingDay');
             Route::get('/add', [TrainingController::class,'adminAddViewDay']);

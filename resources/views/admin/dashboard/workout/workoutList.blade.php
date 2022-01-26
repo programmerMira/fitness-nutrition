@@ -30,14 +30,14 @@
                                             <td>{{ $training->name}}</td>
                                             <td>
                                                 -
-{{--                                                @dd($training->trainingDays)--}}
+                                                {{--                                                @dd($training->trainingDays)--}}
 
-{{--                                                @if(!is_null($training->trainingDays))--}}
+                                                {{--                                                @if(!is_null($training->trainingDays))--}}
 
-{{--                                                    {{ $training->trainingDays->training_id }}--}}
-{{--                                                @else--}}
-{{--                                                    <p>Не указано</p>--}}
-{{--                                                @endif--}}
+                                                {{--                                                    {{ $training->trainingDays->training_id }}--}}
+                                                {{--                                                @else--}}
+                                                {{--                                                    <p>Не указано</p>--}}
+                                                {{--                                                @endif--}}
                                             </td>
                                             <td>
                                                 {{$training->problemZone->name}}
@@ -124,4 +124,3 @@
 @section('javascript')
 
 @endsection
-

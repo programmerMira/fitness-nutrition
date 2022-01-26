@@ -43,9 +43,9 @@
                                             <Todolistvideo
                                                 :videos="{{json_encode($training_day->videos)}}"
                                             ></Todolistvideo>
-                                            <Workouttodolist
+                                            <Todolistinfo
                                                 :infos="{{json_encode($training_day->info)}}"
-                                            ></Workouttodolist>
+                                            ></Todolistinfo>
                                             <div class="card-footer card-footer-edit">
                                                 <button class="btn btn-sm btn-primary" type="submit"> Сохранить</button>
                                                 <a class="btn btn-sm btn-danger" href="/admin/workout"> Назад</a>
