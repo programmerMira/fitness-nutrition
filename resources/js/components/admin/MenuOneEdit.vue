@@ -1,68 +1,125 @@
 <template>
     <div>
-        <mytodolist v-for="(item, index) in list" :key="index"></mytodolist>
-        <div class="form-group row edit-row">
-            <div class="form-group col-md-10">
-                <label class="col-form-label">Дополнительно</label>
-                <div>
-                    <input class="form-control" type="text" v-model="new_task.text">
+        <div :key="index" v-for="(content,index) in contents">
+            <div class="form-group row">
+                <div class="form-group col-md-5">
+                    <label class="col-form-label">{{ content.name }}</label>
+                    <div>
+                        <input class="form-control" type="text" v-model="new_food.name">
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="col-form-label">Граммовки</label>
+                    <div>
+                        <input class="form-control" type="text" v-model="new_food.amount">
+                    </div>
+                </div>
+                <div class="form-group col-md-2">
+                    <small class="form-text text-muted">{{ "Продуктов: " + foods.length }}</small>
+                    <button class="btn btn-outline-primary" @click="add_food">Добавить</button>
                 </div>
             </div>
-            <div class="form-group col-md-2">
-                <button class="btn btn-outline-primary" @click="add_task">Добавить</button>
+            <div class="col-md-12 edit-chips">
+                <div class="badge badge-pill badge-secondary"
+                     @food_done="delete_food(index)" :key="index" v-for="(food,index) in content.foods"
+                >
+                    {{ food.name }} / {{ food.amount }}
+                    <input type="hidden" name="foods[]" :value="toStringFood(food)">
+                    <span class="badge badge-light" @click="delete_food(index)">x</span>
+                </div>
             </div>
-        </div>
-        <div class="col-md-12 edit-chips">
-            <div class="badge badge-pill badge-secondary"
-                 @task_done="delete_task(index)" :key="index" v-for="(data,index) in tasks"
-            >
-                * {{ data.text }}.
-                <span class="badge badge-light" @click="delete_task(index)">x</span>
+
+            <div class="form-group row">
+                <div class="form-group col-md-5">
+                    <label class="col-form-label">Название</label>
+                    <div>
+                        <input class="form-control" type="text" v-model="new_task.title">
+                    </div>
+                </div>
+                <div class="form-group col-md-5">
+                    <label class="col-form-label">Ссылка</label>
+                    <div>
+                        <input class="form-control" type="text" v-model="new_task.link">
+                    </div>
+                </div>
+                <div class="form-group col-md-2">
+                    <small class="form-text text-muted">{{ "Видео: " + videos.length }}</small>
+                    <button type="button" class="btn btn-outline-primary" @click="add_task">Добавить</button>
+                </div>
+            </div>
+            <div class="edit-chips form-group">
+                <div class="badge badge-pill badge-secondary"
+                     @task_done="delete_task(index)" :key="index" v-for="(video,index) in content.videos"
+                >
+                    {{video.title }} / {{ video.link }}
+                    <input type="hidden" name="videos[]" :value="toString(video)">
+                    <span class="badge badge-light" @click="delete_task(index)">x</span>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import Mytodolist from "./TodoList.vue";
 export default {
-    components: {
-        Mytodolist
-    },
+    props: ["contents"],
     data: () => ({
-        list: [
-            {item: 1},
-            {item: 2},
-            {item: 3},
-            {item: 4},
-        ],
-        new_task: {
-            text: '',
+        new_food: {
+            name: '',
+            amount: '',
         },
-        tasks: [
-            {
-                text: 'Вода – 2-2,5 литра (чистая либо с лимоном)',
-            },
-            {
-                text: 'Витамины Active Woman – после завтрака',
-            },
-        ]
+        new_task: {
+            title: '',
+            link: '',
+        },
+        foods: [],
+        videos: [],
+        contents: []
     }),
+    mounted() {
+        console.log(this.contents);
+    },
     methods: {
+        toStringFood(food){
+            return JSON.stringify(food);
+        },
+        food_done() {
+            this.$emit('food_done')
+        },
+        add_food() {
+            if (this.new_food.name != '', this.new_food.amount != '') {
+                this.foods.push({
+                    name: this.new_food.name,
+                    amount: this.new_food.amount,
+                });
+                this.new_food.name = '';
+                this.new_food.amount = '';
+            }
+        },
+        delete_food(index) {
+            this.foods.splice(index, 1);
+        },
+
+        toString(video){
+            return JSON.stringify(video);
+        },
         task_done() {
             this.$emit('task_done')
         },
         add_task() {
-            if (this.new_task.text != '') {
-                this.tasks.push({
-                    text: this.new_task.text
+            if (this.new_task.title != '', this.new_task.link != '') {
+                this.videos.push({
+                    title: this.new_task.title,
+                    link: this.new_task.link,
                 });
-                this.new_task.text = '';
+                this.new_task.title = '';
+                this.new_task.link = '';
             }
         },
         delete_task(index) {
-            this.tasks.splice(index, 1);
+            this.videos.splice(index, 1);
         }
-    }
+    },
 }
 </script>
+

@@ -219,7 +219,7 @@
    right: 0;
    margin: auto;
    width: 100%;
-   max-width: 200px;
+   max-width: 400px;
    height: 17px;
    .swiper-button-next:after,
    .swiper-button-prev:after {
@@ -286,6 +286,7 @@
 @media only screen and (max-width: 1270px) {
    .calendar__slider-diet, .calendar__slider-workout {
       width: 400px;
+       margin: auto;
    }
 }
 @media only screen and (max-width: 1200px) {
@@ -521,7 +522,7 @@
       padding-left: 0;
    }
    .calendar__slider-diet, .calendar__slider-workout {
-      width: auto;
+       width: 320px;
    }
    .diet .calendar__title h5 {
       font-size: 12px;
@@ -558,11 +559,13 @@
    }
 }
 @media only screen and (max-width: 390px) {
-   .calendar__slider-diet, .calendar__slider-workout {
-      width: 280px;
-   }
    .diet .calendar__container {
       margin-left: auto;
       margin-right: auto;
    }
+}
+@media only screen and (max-width: 360px) {
+    .calendar__slider-diet, .calendar__slider-workout {
+        width: 246px;
+    }
 }

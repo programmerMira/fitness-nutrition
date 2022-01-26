@@ -41,16 +41,14 @@ document.addEventListener("DOMContentLoaded", function () {
             prevEl: ".swiper-button-prev",
         },
     });
-    var swiperWorkout = new Swiper(".calendar__slider-workout", {
+    /*var swiperWorkout = new Swiper(".calendar__slider-workout", {
         spaceBetween: 0,
         slidesPerView: 1,
         navigation: {
-            // nextEl: ".swiper-button-next",
-            // prevEl: ".swiper-button-prev",
-            nextEl: ".next",
-            prevEl: ".prev",
+            nextEl: ".swiper-button-next.workout-swiper",
+            prevEl: ".swiper-button-prev.workout-swiper",
         },
-    });
+    });*/
     let swiperScrinImg = new Swiper('.office__img-slider', {
         centeredSlides: true,
         roundLengths: true,

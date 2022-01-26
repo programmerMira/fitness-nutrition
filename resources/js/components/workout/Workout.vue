@@ -54,7 +54,7 @@
                       <div class="swiper-wrapper">
                         <div class="swiper-slide" v-for="(tabs, index) in TrainingTitleAndDays" :key="index">
                           <div class="calendar__title">
-                            <span>Календарь активности</span> <h5>{{ tabs.menutitle }}</h5>
+                            <span>Календарь активности</span> <h5>{{ tabs.menutitle }} ({{ tabs.location }})</h5>
                           </div>
                           <div class="calendar__days">
                             <div
@@ -70,8 +70,8 @@
                         </div>
                       </div>
                       <div class="calendar__slider-workout-pagination">
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next workout-swiper" v-on:click="setNextActiveTraining()"></div>
+                        <div class="swiper-button-prev workout-swiper" v-on:click="setPrevActiveTraining()"></div>
                       </div>
                     </div>
                   </div>
@@ -165,7 +165,8 @@ export default {
     current_location: null,
     show_select_location:false,
     available_locations:[],
-    disabled_locations:[]
+    disabled_locations:[],
+    start_index: 0,
   }),
   computed:{
     User(){
@@ -215,26 +216,22 @@ export default {
               days.push({title: item.day_number});
           }
           let active = false;
-          if(tmp[index].training_id == this.selectedTrainingId.training_user.training_id)
+          if(tmp[index].training_id == this.selectedTrainingId.training_user.training_id && tmp[index].training_location_id == this.selectedTrainingId.training_user.training_location_id)
+          {
             active = true;
-          if(active){
-            this.slider.unshift({
+          }
+          if(tmp[index].training_location.id === this.selectedTrainingId.training_user.training_location_id)
+            this.slider.push({
+              training_user_id: tmp[index].id,
               menutitle: tmp[index].training.name,
+              location: tmp[index].training_location.name,
+              level: tmp[index].training.level,
               days: days,
               is_active: active
             });
-          } else{
-            this.slider.push(
-            {
-              menutitle: tmp[index].training.name,
-              days: days,
-              is_active: active
-            }
-          ); 
-          }
         };
-      
-      //console.log("this.slider: ",this.slider);
+      this.activateSwiper();
+      console.log("this.slider: ",this.slider);
       //console.log("this.selectedTrainingId:",this.selectedTrainingId);
       return this.slider;
     },
@@ -282,6 +279,7 @@ export default {
       this.$store.dispatch('fetchActivityCalendars');
       this.$store.dispatch('fetchTrainingLocations');
     }
+    
   },
   methods: {
     findPercent()
@@ -315,17 +313,6 @@ export default {
     show_location(){
       this.show_select_location=!this.show_select_location;
     },
-    changeTraining(level){
-      if(this.$store.getters.GetTrainingUsers){
-        this.$store.getters.GetTrainingUsers.forEach(element => {
-            if(this.selectedTraining.training.problem_zone_id == element.training.problem_zone_id&&
-              element.training.level == level){
-                this.changeActiveTraining(element)
-              }
-        });
-        return this.available_locations;
-      }
-    },
     changeLocation(location){
       this.$loading(true);
       this.current_location = location;
@@ -347,7 +334,75 @@ export default {
       });
 
       this.$store.dispatch('fetchActivityCalendars');
-    }
+    },
+    activateSwiper(){
+      for(let i = 0; i<this.slider.length; i++){
+        if(this.slider[i].is_active)
+          this.start_index = i;
+      }
+
+      var swiperWorkout = new Swiper(".calendar__slider-workout", {
+        spaceBetween: 0,
+        slidesPerView: 1,
+        initialSlide : this.start_index,
+        navigation: {
+            nextEl: ".swiper-button-next.workout-swiper",
+            prevEl: ".swiper-button-prev.workout-swiper",
+        },
+      });
+
+      console.log("swiperWorkout:",swiperWorkout);
+    },
+    setNextActiveTraining()
+    {
+      if(this.start_index<this.slider.length-1)
+      {
+        this.$loading(true);
+
+        this.$store.dispatch('setActivityCalendar',{
+          id: this.UserActiveCallendar.id,
+          training_user_id: this.UserActiveCallendar.training_user_id,
+          day: this.UserActiveCallendar.day,
+          is_active: false
+        });
+        
+        let new_active = this.$store.getters.GetActivityCalendars.find(element => element.training_user_id === this.slider[this.start_index+1].training_user_id);
+
+        this.$store.dispatch('setActivityCalendar',{
+          id: new_active.id,
+          training_user_id: new_active.training_user_id,
+          day: new_active.day,
+          is_active: true
+        });
+
+        this.$store.dispatch('fetchActivityCalendars');
+      }
+    },
+    setPrevActiveTraining()
+    {
+      if(this.start_index>0)
+      {
+        this.$loading(true);
+      
+        this.$store.dispatch('setActivityCalendar',{
+          id: this.UserActiveCallendar.id,
+          training_user_id: this.UserActiveCallendar.training_user_id,
+          day: this.UserActiveCallendar.day,
+          is_active: false
+        });
+        
+        let new_active = this.$store.getters.GetActivityCalendars.find(element => element.training_user_id === this.slider[this.start_index-1].training_user_id);
+
+        this.$store.dispatch('setActivityCalendar',{
+          id: new_active.id,
+          training_user_id: new_active.training_user_id,
+          day: new_active.day,
+          is_active: true
+        });
+
+        this.$store.dispatch('fetchActivityCalendars');
+      }
+    },
   },
 };
 </script>
