@@ -386,6 +386,7 @@ export default {
                     nextEl: ".swiper-button-next",
                     prevEl: ".swiper-button-prev",
                 },
+                allowTouchMove: false,
             });
 
             //console.log("swiperDiet:",swiperDiet);

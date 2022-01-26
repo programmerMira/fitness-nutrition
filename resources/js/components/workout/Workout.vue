@@ -349,6 +349,7 @@ export default {
             nextEl: ".swiper-button-next.workout-swiper",
             prevEl: ".swiper-button-prev.workout-swiper",
         },
+        allowTouchMove: false,
       });
 
       console.log("swiperWorkout:",swiperWorkout);
