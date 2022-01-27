@@ -3539,6 +3539,9 @@ footer {
   margin-top: auto;
   margin-bottom: 0;
 }
+.sidebar__list li.active a {
+  background: #ff144a;
+}
 
 .home .progress__col-first {
   margin-right: 64px;
@@ -4666,6 +4669,9 @@ svg.radial-progress {
 .account-header.diet .sidebar__list li a:focus {
   background: #03ac8d;
 }
+.account-header.diet .sidebar__list li.active a {
+  background: #03ac8d;
+}
 .account-header.diet .notifications__elem,
 .account-header.diet .notifications__title {
   color: #00ab8c;
@@ -5275,6 +5281,9 @@ svg.radial-progress {
 .question .sidebar__list li a:focus {
   background: #ff6c39;
 }
+.question .sidebar__list li.active a {
+  background: #ff6c39;
+}
 .question .account-head__exit {
   color: #ff3f14;
 }
@@ -5680,6 +5689,9 @@ svg.radial-progress {
 .plugin .sidebar__list li a:hover,
 .plugin .sidebar__list li a:active,
 .plugin .sidebar__list li a:focus {
+  background: #bc02da;
+}
+.plugin .sidebar__list li.active a {
   background: #bc02da;
 }
 .plugin .account-head__exit {
@@ -6806,6 +6818,9 @@ svg.radial-progress {
 .workout .sidebar__list li a:hover,
 .workout .sidebar__list li a:active,
 .workout .sidebar__list li a:focus {
+  background: #573dff;
+}
+.workout .sidebar__list li.active a {
   background: #573dff;
 }
 .workout .account-head__exit {
