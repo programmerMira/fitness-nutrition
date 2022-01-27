@@ -1,6 +1,6 @@
 <template>
    <div class="progres-diet__menu">
-      <template v-if="UserMenus">
+      <template v-if="day && menuId && typeId">
          <div class="scroll__contain">
             <div v-if="show_modal" class="modal modal-video" tabindex="-1" role="dialog"
                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -15,7 +15,7 @@
                   </div>
                </div>
             </div>
-            <div v-if="current_day" class="progres-diet__contain">
+            <div v-if="UserMenus && current_day" class="progres-diet__contain">
                <div v-for="(item, index) in current_day.content" :key="index" class="progres-diet__block">
                   <div v-for="(video, index) in item.videos" :key="index" class="progres-diet__btn-play">
                      <svg data-toggle="modal" :data-target="'#video-'+video.title" width="20" height="22" viewBox="0 0 20 22" fill="none"
@@ -58,7 +58,7 @@
                <div class="diet-info__title">
                   Дополнительно в течении дня(супер-фуд):
                </div>
-               <ul class="diet-info__list">
+               <ul v-if="current_day" class="diet-info__list">
                   <li v-for="(item, index) in current_day.info" :key="index" class="diet-info__item" v-html="item"></li>
                   <li class="diet-info__item">
                      Заказать оригинальные продукты и подробное описание каждого есть у нас в магазине. Для наших подписчиков по коду <b>GOODIETS</b> скидка до 42% - <a href="/plugin">оформить заказ</a>
@@ -93,7 +93,7 @@ export default {
          this.current_menu = this.$store.getters.GetUserMenus.find(element => parseInt(element.menu_id) === parseInt(this.menuId.users_menus.menu_id));
          //console.log('this.current_menu:',this.current_menu);
          if(this.current_menu){
-            this.current_day = this.current_menu.days.find(element=>parseInt(element.day_number) === parseInt(this.day) && element.menu_type_id === parseInt(this.typeId));
+            this.current_day = Object.values(this.current_menu.days).find(element=>parseInt(element.day_number) === parseInt(this.day));
             //console.log('this.current_day:',this.current_day);
             if(this.current_day)
                return true;

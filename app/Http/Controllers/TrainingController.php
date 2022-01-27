@@ -144,14 +144,16 @@ class TrainingController extends Controller
         $trainingLocation = $request->trainingLocation;
         $info_text = $request->info_text;
         $videos = $request->videos;
+        $description = $request->description;
 
         Log::info(print_r($request->toArray(), true));
-        if ($name != null && $trainingLocation != null && $info_text != null && $videos != null) {
+        if ($name != null && $trainingLocation != null && $info_text != null && $videos != null && $description != null) {
             Days::whereId($id)->update([
                 'name' => $name,
                 'trainingLocation' => $trainingLocation,
                 'info' => json_encode($info_text),
                 'videos' => json_encode($videos),
+                'description' => $description,
             ]);
         }
         return redirect()->route('trainingDay');
@@ -170,13 +172,15 @@ class TrainingController extends Controller
         $trainingLocation = $request->trainingLocation;
         $info_text = $request->info_text;
         $videos = $request->videos;
+        $description = $request->description;
 
-        if ($name != null && $trainingLocation != null && $info_text != null && $videos != null) {
+        if ($name != null && $trainingLocation != null && $info_text != null && $videos != null && $description != null) {
             Days::create([
                 'name' => $name,
                 'trainingLocation' => $trainingLocation,
                 'info' => json_encode($info_text),
                 'videos' => json_encode($videos),
+                'description' => $description,
             ]);
         }
         return redirect()->route('training');

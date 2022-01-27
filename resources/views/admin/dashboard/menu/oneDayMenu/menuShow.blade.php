@@ -10,33 +10,46 @@
                 <div class="col-lg-12">
                     @foreach($menus->menuDays as $menu_day)
                         <div class="card">
-                            <div class="card-header"><i class="fa fa-align-justify"></i>День 1</div>
+                            <div class="card-header"><i class="fa fa-align-justify"></i>День {{$menu_day->day_number}}
+                            </div>
                             <div class="card-body">
                                 <table class="table table-responsive-sm table-bordered table-striped table-sm">
                                     <thead>
                                     <tr>
-                                        <th>Завтрак / гр(шт)</th>
-                                        <th>Прекус 1 / гр(шт)</th>
-                                        <th>Обед / гр(шт)</th>
-                                        <th>Прекус 2 / гр(шт)</th>
-                                        <th>Ужин / гр(шт)</th>
+                                        @isset($menu_day->content)
+                                            @foreach($menu_day->content as $item)
+                                                <th>
+                                                    {{$item["name"]}} / гр(шт)
+                                                </th>
+                                            @endforeach
+                                        @endisset
                                         <th>Дополнительно</th>
+                                        <th>Описание</th>
                                         <th>Настройки</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td>Гречка / 100гр;<br> Яблоко / 100гр;<br> Йогурт домашний 2% / 100гр</td>
-                                        <td>Гречка / 100гр;<br> Яблоко / 100гр;<br> Йогурт домашний 2% / 100гр</td>
-                                        <td>Яицо / 2шт;<br> Яблоко / 100гр;<br> Йогурт домашний 2% / 100гр</td>
-                                        <td>Гречка / 100гр;<br> Яблоко / 100гр;<br> Йогурт домашний 2% / 100гр</td>
-                                        <td>Яицо / 2шт;<br> Яблоко / 100гр;<br> Йогурт домашний 2% / 100гр</td>
-                                        <td>* Вода – 2-2,5 литра (чистая либо с лимоном).
-                                            <br> * Витамины Active Woman – после завтрака.
-                                            <br> * Рыбный жир(omega) + Витамин D – во время завтрака либо обеда.
+                                        @isset($menu_day->content)
+                                            @foreach($menu_day->content as $item)
+                                                <td>
+                                                    @foreach($item["foods"] as $food)
+                                                        <span>{{$food["name"]}} / {{$food["amount"]}}; </span>
+                                                    @endforeach
+                                                </td>
+                                            @endforeach
+                                        @endisset
+                                        <td>
+                                            @isset($menu_day->info)
+                                                @foreach($menu_day->info as $item)
+                                                    <span>{{$item}}</span>
+                                                @endforeach
+                                            @endisset
                                         </td>
+                                        <td>{{$menu_day->description}}</td>
                                         <td class="btns-edit">
-                                            <a href="/admin/menu/days/edit/{{$menu_day->id}}" class="users-btn btn btn-block btn-primary">
+                                            <a href="/admin/menu/days/edit/{{$menu_day->id}}"
+                                               class="users-btn btn btn-block btn-primary">
                                                 <svg id="Layer_1" style="enable-background:new 0 0 128 128;"
                                                      version="1.1"
                                                      viewBox="0 0 128 128" xml:space="preserve"
@@ -78,13 +91,17 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td></td>
+                                        @isset($menu_day->content)
+                                            @foreach($menu_day->content as $item)
+                                                <td>
+                                                    @foreach($item["videos"] as $video)
+                                                        <a href="{{$video["link"]}}">{{$video["title"]}}</a>
+                                                    @endforeach
+                                                </td>
+                                            @endforeach
+                                        @endisset
+                                        <td>Нет видео</td>
+                                        <td>Нет видео</td>
                                     </tr>
                                     </tbody>
                                 </table>

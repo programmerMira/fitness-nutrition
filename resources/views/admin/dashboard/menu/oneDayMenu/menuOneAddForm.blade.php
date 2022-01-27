@@ -21,6 +21,12 @@
                                     <div class="card-body">
                                         <Todolistmenu :contents="{{json_encode($menu_day->content)}}"></Todolistmenu>
                                         <Todolistinfo :infos="{{json_encode($menu_day->info)}}"></Todolistinfo>
+                                        <div class="form-group row">
+                                            <label class="col-md-3 col-form-label">Описание дня</label>
+                                            <div class="col-md-9">
+                                                <input name="description" class="form-control" type="text" placeholder="Название ">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
