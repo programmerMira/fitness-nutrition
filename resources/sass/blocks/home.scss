@@ -552,6 +552,11 @@
             margin-top: auto;
             margin-bottom: 0;
         }
+        &.active {
+            a {
+                background: #ff144a;
+            }
+        }
     }
 }
 

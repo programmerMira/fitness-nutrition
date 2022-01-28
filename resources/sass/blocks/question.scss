@@ -7,6 +7,13 @@
    .sidebar__list li a:focus {
       background: #ff6c39;
    }
+    .sidebar__list li {
+        &.active {
+            a {
+                background: #ff6c39;
+            }
+        }
+    }
    .account-head__exit {
       color: #ff3f14;
    }
