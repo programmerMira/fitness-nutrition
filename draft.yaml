@@ -1,11 +1,9 @@
 models:
-  MenuDays:
-    menu_id: id foreign:Menu
-    day_number: integer
-    name: string:50
-    description: string:1000
-    content: json
+  AccessHistory:
+    user_id: id foreign:User
+    activation_date: datetime
+    deactivation_date: datetime
 controllers:
-  MenuDays:
+  AccessHistory:
     resource: api
-seeders: MenuDays
+seeders: AccessHistory

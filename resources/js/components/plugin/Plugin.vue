@@ -1,7 +1,7 @@
 <template>
    <main class="main account-main">
       <header class="account-header plugin">
-         <MenuOffice></MenuOffice>
+         <MenuOffice v-bind:page='plugin'></MenuOffice>
       </header>
       <section id="account-head" class="plugin">
          <Logout></Logout>

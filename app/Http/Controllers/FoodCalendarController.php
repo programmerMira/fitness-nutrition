@@ -17,20 +17,12 @@ class FoodCalendarController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user()->id;
-        $menu_user = UserMenu::where('user_id','=',$user)->with('menu')->get();
-        $foodCalendars=[];
-        foreach($menu_user as $tr_u){
-            $tmp = FoodCalendar::where('users_menus_id','=',$tr_u->id)->with('usersMenus')->get();
-            if(sizeof($tmp)>0){
-                $tmp['userMenu'] = $tr_u;
-                array_push($foodCalendars, $tmp);
-            }
-        }
-        $fin_arr=[];
-        foreach($foodCalendars as $act_cal){
-            foreach($act_cal as $item){
+        $foodCalendars=FoodCalendar::with('usersMenus')->get();
+        //dd($foodCalendars);
+        $fin_arr = [];
+        foreach($foodCalendars as $item){
+            if($item->usersMenus->user_id == $user)
                 array_push($fin_arr, $item);
-            }
         }
         return response()->json($fin_arr);
     }

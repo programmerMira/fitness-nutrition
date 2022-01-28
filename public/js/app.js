@@ -2287,7 +2287,8 @@ __webpack_require__.r(__webpack_exports__);
       current_type: null,
       disabled_types: [],
       available_types: [],
-      start_index: 0
+      start_index: 0,
+      selected_day: null
     };
   },
   computed: {
@@ -2348,9 +2349,13 @@ __webpack_require__.r(__webpack_exports__);
 
         for (var _i = 0, _Object$values = Object.values(index.days); _i < _Object$values.length; _i++) {
           var item = _Object$values[_i];
-          if (_this4.current_type && item.menu_type_id === _this4.current_type.id) days.push({
-            title: item.day_number
-          });
+
+          if (index.menu_id == _this4.selectedMenuId.users_menus.menu_id && index.menu_type_id == _this4.selectedMenuId.users_menus.menu_type_id) {
+            days.push({
+              title: item.day_number
+            });
+            if (item.day_number == parseInt(_this4.selectedTab)) _this4.selected_day = item;
+          }
         }
 
         var active = false;
@@ -2371,6 +2376,7 @@ __webpack_require__.r(__webpack_exports__);
           is_active: active
         });
       }); //console.log("this.slider: ", this.slider);
+      //console.log("this.selected_day:",this.selected_day);
       //console.log("this.selectedMenuId:", this.selectedMenuId);
 
       this.activateSwiper();
@@ -2454,8 +2460,8 @@ __webpack_require__.r(__webpack_exports__);
         users_menus_id: this.UserFoodCallendar.users_menus_id,
         day: this.UserFoodCallendar.day,
         is_active: false
-      }); //console.log("this.$store.getters.GetFoodCalendars:",this.$store.getters.GetFoodCalendars)
-
+      });
+      console.log("this.$store.getters.GetFoodCalendars:", this.$store.getters.GetFoodCalendars);
       var new_active = this.$store.getters.GetFoodCalendars.find(function (element) {
         return element.users_menus.menu_type_id == _this6.current_type.id;
       });
@@ -2479,7 +2485,8 @@ __webpack_require__.r(__webpack_exports__);
         navigation: {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev"
-        }
+        },
+        allowTouchMove: false
       }); //console.log("swiperDiet:",swiperDiet);
     },
     setNextActiveMenu: function setNextActiveMenu() {
@@ -2937,10 +2944,72 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Notifications: _Notifications_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  props: ["page"],
+  mounted: function mounted() {
+    console.log(this.page);
   }
 });
 
@@ -5450,7 +5519,8 @@ __webpack_require__.r(__webpack_exports__);
         navigation: {
           nextEl: ".swiper-button-next.workout-swiper",
           prevEl: ".swiper-button-prev.workout-swiper"
-        }
+        },
+        allowTouchMove: false
       });
       console.log("swiperWorkout:", swiperWorkout);
     },
@@ -46719,7 +46789,12 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("main", { staticClass: "main account-main" }, [
-    _c("header", { staticClass: "account-header diet" }, [_c("MenuOffice")], 1),
+    _c(
+      "header",
+      { staticClass: "account-header diet" },
+      [_c("MenuOffice", { attrs: { page: _vm.diet } })],
+      1
+    ),
     _vm._v(" "),
     _c(
       "section",
@@ -46911,66 +46986,63 @@ var render = function () {
                               _c(
                                 "div",
                                 { staticClass: "swiper-wrapper" },
-                                _vm._l(
-                                  _vm.MenuTitleAndDays,
-                                  function (tabs, index) {
-                                    return _c(
-                                      "div",
-                                      {
-                                        key: index,
-                                        staticClass: "swiper-slide",
-                                      },
-                                      [
-                                        _c(
-                                          "div",
-                                          { staticClass: "calendar__title" },
-                                          [
-                                            _c("span", [
-                                              _vm._v("Календарь питания"),
-                                            ]),
-                                            _vm._v(" "),
-                                            _c("h5", [
-                                              _vm._v(_vm._s(tabs.menutitle)),
-                                            ]),
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          { staticClass: "calendar__days" },
-                                          _vm._l(
-                                            tabs.days,
-                                            function (tab, index) {
-                                              return _c(
-                                                "div",
-                                                {
-                                                  key: index,
-                                                  staticClass: "calendar__day",
-                                                  class: _vm.changeTabStyle(
-                                                    tab.title
-                                                  ),
-                                                  on: {
-                                                    click: function ($event) {
-                                                      return _vm.changeTabSelection(
-                                                        tab.title
-                                                      )
-                                                    },
+                                _vm._l(_vm.MenuTitleAndDays, function (tabs) {
+                                  return _c(
+                                    "div",
+                                    {
+                                      key: tabs.menutitle,
+                                      staticClass: "swiper-slide",
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        { staticClass: "calendar__title" },
+                                        [
+                                          _c("span", [
+                                            _vm._v("Календарь питания"),
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("h5", [
+                                            _vm._v(_vm._s(tabs.menutitle)),
+                                          ]),
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        { staticClass: "calendar__days" },
+                                        _vm._l(
+                                          tabs.days,
+                                          function (tab, index) {
+                                            return _c(
+                                              "div",
+                                              {
+                                                key: index,
+                                                staticClass: "calendar__day",
+                                                class: _vm.changeTabStyle(
+                                                  tab.title
+                                                ),
+                                                on: {
+                                                  click: function ($event) {
+                                                    return _vm.changeTabSelection(
+                                                      tab.title
+                                                    )
                                                   },
                                                 },
-                                                [
-                                                  _c("span", [
-                                                    _vm._v(_vm._s(tab.title)),
-                                                  ]),
-                                                ]
-                                              )
-                                            }
-                                          ),
-                                          0
+                                              },
+                                              [
+                                                _c("span", [
+                                                  _vm._v(_vm._s(tab.title)),
+                                                ]),
+                                              ]
+                                            )
+                                          }
                                         ),
-                                      ]
-                                    )
-                                  }
-                                ),
+                                        0
+                                      ),
+                                    ]
+                                  )
+                                }),
                                 0
                               ),
                               _vm._v(" "),
@@ -47089,11 +47161,11 @@ var render = function () {
                                   : "display: none !important",
                               },
                               [
-                                _vm._l(_vm.AvailableTypes, function (type, id) {
+                                _vm._l(_vm.AvailableTypes, function (type) {
                                   return _c(
                                     "li",
                                     {
-                                      key: id,
+                                      key: type.name,
                                       on: {
                                         click: function ($event) {
                                           return _vm.changeType(type)
@@ -47231,7 +47303,7 @@ var render = function () {
                         ]
                       ),
                       _vm._v(" "),
-                      _vm.UserMenu
+                      _vm.selected_day != null && _vm.UserMenu
                         ? _c(
                             "ul",
                             {
@@ -47249,7 +47321,7 @@ var render = function () {
                                   _c("b", [
                                     _vm._v(
                                       "\n                                    " +
-                                        _vm._s(_vm.UserMenu.menu.proteins) +
+                                        _vm._s(_vm.selected_day.proteins) +
                                         " гр\n                                "
                                     ),
                                   ]),
@@ -47266,7 +47338,7 @@ var render = function () {
                                   _c("b", [
                                     _vm._v(
                                       "\n                                    " +
-                                        _vm._s(_vm.UserMenu.menu.fat) +
+                                        _vm._s(_vm.selected_day.fat) +
                                         " гр\n                                "
                                     ),
                                   ]),
@@ -47283,7 +47355,7 @@ var render = function () {
                                   _c("b", [
                                     _vm._v(
                                       "\n                                    " +
-                                        _vm._s(_vm.UserMenu.menu.carbs) +
+                                        _vm._s(_vm.selected_day.carbs) +
                                         " гр\n                                "
                                     ),
                                   ]),
@@ -47922,212 +47994,403 @@ var render = function () {
         _c("ul", { staticClass: "sidebar__list" }, [
           _c("li", [
             _c("a", { attrs: { href: "/home" } }, [
-              _c(
-                "svg",
-                {
-                  attrs: {
-                    width: "20",
-                    height: "18",
-                    viewBox: "0 0 20 18",
-                    fill: "none",
-                    xmlns: "http://www.w3.org/2000/svg",
-                  },
-                },
-                [
-                  _c("path", {
-                    attrs: {
-                      d: "M8 17.1017V11.2542H12V17.1017H17V9.30508H20L10 0.53389L0 9.30508H3V17.1017H8Z",
-                      fill: "white",
+              _vm.page == "home"
+                ? _c(
+                    "svg",
+                    {
+                      attrs: {
+                        width: "20",
+                        height: "18",
+                        viewBox: "0 0 20 18",
+                        fill: "none",
+                        xmlns: "http://www.w3.org/2000/svg",
+                      },
                     },
-                  }),
-                ]
-              ),
+                    [
+                      _c("path", {
+                        attrs: {
+                          d: "M8 17.1017V11.2542H12V17.1017H17V9.30508H20L10 0.53389L0 9.30508H3V17.1017H8Z",
+                          fill: "white",
+                        },
+                      }),
+                    ]
+                  )
+                : _c(
+                    "svg",
+                    {
+                      attrs: {
+                        width: "20",
+                        height: "18",
+                        viewBox: "0 0 20 18",
+                        fill: "none",
+                        xmlns: "http://www.w3.org/2000/svg",
+                      },
+                    },
+                    [
+                      _c("path", {
+                        attrs: {
+                          d: "M8 17.1017V11.2542H12V17.1017H17V9.30508H20L10 0.53389L0 9.30508H3V17.1017H8Z",
+                          fill: "white",
+                        },
+                      }),
+                    ]
+                  ),
             ]),
           ]),
           _vm._v(" "),
           _c("li", [
             _c("a", { attrs: { href: "/diet" } }, [
-              _c(
-                "svg",
-                {
-                  attrs: {
-                    width: "23",
-                    height: "25",
-                    viewBox: "0 0 23 25",
-                    fill: "none",
-                    xmlns: "http://www.w3.org/2000/svg",
-                  },
-                },
-                [
-                  _c("path", {
-                    attrs: {
-                      d: "M14.2664 4.41249C12.7789 5.02499 10.9414 3.79999 10.9414 3.79999C10.9414 3.79999 11.5539 1.69999 13.0414 1.17499C14.5289 0.649988 16.3664 1.78749 16.3664 1.78749C16.3664 1.78749 15.7539 3.79999 14.2664 4.41249Z",
-                      stroke: "white",
-                      "stroke-width": "2",
-                      "stroke-miterlimit": "10",
-                      "stroke-linecap": "round",
-                      "stroke-linejoin": "round",
+              _vm.page == "diet"
+                ? _c(
+                    "svg",
+                    {
+                      attrs: {
+                        width: "23",
+                        height: "25",
+                        viewBox: "0 0 23 25",
+                        fill: "white",
+                        xmlns: "http://www.w3.org/2000/svg",
+                      },
                     },
-                  }),
-                  _vm._v(" "),
-                  _c("path", {
-                    attrs: {
-                      d: "M16.8039 6.33752C15.4914 6.07502 14.0914 6.42502 13.0414 7.12502C12.0789 7.73752 10.8539 7.73752 9.97888 7.12502C8.84138 6.42502 7.44138 6.07502 6.12888 6.33752C2.89138 6.86252 0.616379 10.275 1.05388 13.95C1.49138 17.625 5.07888 24.1875 8.31638 23.6625C8.75388 23.575 9.19138 23.4 9.54138 23.1375C10.6789 22.35 12.2539 22.35 13.3914 23.1375C13.7414 23.4 14.1789 23.575 14.6164 23.6625C17.8539 24.1875 21.4414 17.625 21.8789 13.95C22.4039 10.275 20.1289 6.86252 16.8039 6.33752Z",
-                      stroke: "white",
-                      "stroke-width": "2",
-                      "stroke-miterlimit": "10",
-                      "stroke-linecap": "round",
-                      "stroke-linejoin": "round",
+                    [
+                      _c("path", {
+                        attrs: {
+                          d: "M14.2664 4.41249C12.7789 5.02499 10.9414 3.79999 10.9414 3.79999C10.9414 3.79999 11.5539 1.69999 13.0414 1.17499C14.5289 0.649988 16.3664 1.78749 16.3664 1.78749C16.3664 1.78749 15.7539 3.79999 14.2664 4.41249Z",
+                          stroke: "white",
+                          "stroke-width": "2",
+                          "stroke-miterlimit": "10",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("path", {
+                        attrs: {
+                          d: "M16.8039 6.33752C15.4914 6.07502 14.0914 6.42502 13.0414 7.12502C12.0789 7.73752 10.8539 7.73752 9.97888 7.12502C8.84138 6.42502 7.44138 6.07502 6.12888 6.33752C2.89138 6.86252 0.616379 10.275 1.05388 13.95C1.49138 17.625 5.07888 24.1875 8.31638 23.6625C8.75388 23.575 9.19138 23.4 9.54138 23.1375C10.6789 22.35 12.2539 22.35 13.3914 23.1375C13.7414 23.4 14.1789 23.575 14.6164 23.6625C17.8539 24.1875 21.4414 17.625 21.8789 13.95C22.4039 10.275 20.1289 6.86252 16.8039 6.33752Z",
+                          stroke: "white",
+                          "stroke-width": "2",
+                          "stroke-miterlimit": "10",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("path", {
+                        attrs: {
+                          d: "M7.96643 1L8.31643 1.2625C10.3289 2.75 11.4664 5.1125 11.4664 7.5625",
+                          stroke: "white",
+                          "stroke-width": "2",
+                          "stroke-miterlimit": "10",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                        },
+                      }),
+                    ]
+                  )
+                : _c(
+                    "svg",
+                    {
+                      attrs: {
+                        width: "23",
+                        height: "25",
+                        viewBox: "0 0 23 25",
+                        fill: "none",
+                        xmlns: "http://www.w3.org/2000/svg",
+                      },
                     },
-                  }),
-                  _vm._v(" "),
-                  _c("path", {
-                    attrs: {
-                      d: "M7.96643 1L8.31643 1.2625C10.3289 2.75 11.4664 5.1125 11.4664 7.5625",
-                      stroke: "white",
-                      "stroke-width": "2",
-                      "stroke-miterlimit": "10",
-                      "stroke-linecap": "round",
-                      "stroke-linejoin": "round",
-                    },
-                  }),
-                ]
-              ),
+                    [
+                      _c("path", {
+                        attrs: {
+                          d: "M14.2664 4.41249C12.7789 5.02499 10.9414 3.79999 10.9414 3.79999C10.9414 3.79999 11.5539 1.69999 13.0414 1.17499C14.5289 0.649988 16.3664 1.78749 16.3664 1.78749C16.3664 1.78749 15.7539 3.79999 14.2664 4.41249Z",
+                          stroke: "white",
+                          "stroke-width": "2",
+                          "stroke-miterlimit": "10",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("path", {
+                        attrs: {
+                          d: "M16.8039 6.33752C15.4914 6.07502 14.0914 6.42502 13.0414 7.12502C12.0789 7.73752 10.8539 7.73752 9.97888 7.12502C8.84138 6.42502 7.44138 6.07502 6.12888 6.33752C2.89138 6.86252 0.616379 10.275 1.05388 13.95C1.49138 17.625 5.07888 24.1875 8.31638 23.6625C8.75388 23.575 9.19138 23.4 9.54138 23.1375C10.6789 22.35 12.2539 22.35 13.3914 23.1375C13.7414 23.4 14.1789 23.575 14.6164 23.6625C17.8539 24.1875 21.4414 17.625 21.8789 13.95C22.4039 10.275 20.1289 6.86252 16.8039 6.33752Z",
+                          stroke: "white",
+                          "stroke-width": "2",
+                          "stroke-miterlimit": "10",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("path", {
+                        attrs: {
+                          d: "M7.96643 1L8.31643 1.2625C10.3289 2.75 11.4664 5.1125 11.4664 7.5625",
+                          stroke: "white",
+                          "stroke-width": "2",
+                          "stroke-miterlimit": "10",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                        },
+                      }),
+                    ]
+                  ),
             ]),
           ]),
           _vm._v(" "),
           _c("li", [
             _c("a", { attrs: { href: "/workout" } }, [
-              _c(
-                "svg",
-                {
-                  attrs: {
-                    width: "28",
-                    height: "28",
-                    viewBox: "0 0 28 28",
-                    fill: "none",
-                    xmlns: "http://www.w3.org/2000/svg",
-                  },
-                },
-                [
-                  _c("path", {
-                    attrs: {
-                      d: "M20.125 8.75C21.5747 8.75 22.75 7.57475 22.75 6.125C22.75 4.67525 21.5747 3.5 20.125 3.5C18.6753 3.5 17.5 4.67525 17.5 6.125C17.5 7.57475 18.6753 8.75 20.125 8.75Z",
-                      stroke: "white",
-                      "stroke-width": "2",
-                      "stroke-miterlimit": "10",
-                      "stroke-linecap": "round",
-                      "stroke-linejoin": "round",
+              _vm.page == "workout"
+                ? _c(
+                    "svg",
+                    {
+                      attrs: {
+                        width: "28",
+                        height: "28",
+                        viewBox: "0 0 28 28",
+                        fill: "white",
+                        xmlns: "http://www.w3.org/2000/svg",
+                      },
                     },
-                  }),
-                  _vm._v(" "),
-                  _c("path", {
-                    attrs: {
-                      d: "M7 8.75001L9.45 6.30001C10.5 5.25001 12.25 5.25001 13.3 6.30001L20.2125 13.2125C21.175 14.175 22.6625 14.2625 23.8 13.3875L26.25 11.375",
-                      stroke: "white",
-                      "stroke-width": "2",
-                      "stroke-miterlimit": "10",
-                      "stroke-linecap": "round",
-                      "stroke-linejoin": "round",
+                    [
+                      _c("path", {
+                        attrs: {
+                          d: "M20.125 8.75C21.5747 8.75 22.75 7.57475 22.75 6.125C22.75 4.67525 21.5747 3.5 20.125 3.5C18.6753 3.5 17.5 4.67525 17.5 6.125C17.5 7.57475 18.6753 8.75 20.125 8.75Z",
+                          stroke: "white",
+                          "stroke-width": "2",
+                          "stroke-miterlimit": "10",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("path", {
+                        attrs: {
+                          d: "M7 8.75001L9.45 6.30001C10.5 5.25001 12.25 5.25001 13.3 6.30001L20.2125 13.2125C21.175 14.175 22.6625 14.2625 23.8 13.3875L26.25 11.375",
+                          stroke: "white",
+                          "stroke-width": "2",
+                          "stroke-miterlimit": "10",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("path", {
+                        attrs: {
+                          d: "M14.875 8.75L10.7625 12.8625C9.45004 14.175 9.88754 16.5375 11.6375 17.2375L15.05 18.55C16.0125 18.9 16.7125 19.8625 16.7125 20.9125V26.1625",
+                          stroke: "white",
+                          "stroke-width": "2",
+                          "stroke-miterlimit": "10",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("path", {
+                        attrs: {
+                          d: "M12.25 17.5L9.975 19.775C9.275 20.475 8.1375 20.475 7.525 19.775L4.375 16.625",
+                          stroke: "white",
+                          "stroke-width": "2",
+                          "stroke-miterlimit": "10",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("path", {
+                        attrs: {
+                          d: "M14 15.75L18.375 11.375",
+                          stroke: "white",
+                          "stroke-width": "2",
+                          "stroke-miterlimit": "10",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                        },
+                      }),
+                    ]
+                  )
+                : _c(
+                    "svg",
+                    {
+                      attrs: {
+                        width: "28",
+                        height: "28",
+                        viewBox: "0 0 28 28",
+                        fill: "none",
+                        xmlns: "http://www.w3.org/2000/svg",
+                      },
                     },
-                  }),
-                  _vm._v(" "),
-                  _c("path", {
-                    attrs: {
-                      d: "M14.875 8.75L10.7625 12.8625C9.45004 14.175 9.88754 16.5375 11.6375 17.2375L15.05 18.55C16.0125 18.9 16.7125 19.8625 16.7125 20.9125V26.1625",
-                      stroke: "white",
-                      "stroke-width": "2",
-                      "stroke-miterlimit": "10",
-                      "stroke-linecap": "round",
-                      "stroke-linejoin": "round",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c("path", {
-                    attrs: {
-                      d: "M12.25 17.5L9.975 19.775C9.275 20.475 8.1375 20.475 7.525 19.775L4.375 16.625",
-                      stroke: "white",
-                      "stroke-width": "2",
-                      "stroke-miterlimit": "10",
-                      "stroke-linecap": "round",
-                      "stroke-linejoin": "round",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c("path", {
-                    attrs: {
-                      d: "M14 15.75L18.375 11.375",
-                      stroke: "white",
-                      "stroke-width": "2",
-                      "stroke-miterlimit": "10",
-                      "stroke-linecap": "round",
-                      "stroke-linejoin": "round",
-                    },
-                  }),
-                ]
-              ),
+                    [
+                      _c("path", {
+                        attrs: {
+                          d: "M20.125 8.75C21.5747 8.75 22.75 7.57475 22.75 6.125C22.75 4.67525 21.5747 3.5 20.125 3.5C18.6753 3.5 17.5 4.67525 17.5 6.125C17.5 7.57475 18.6753 8.75 20.125 8.75Z",
+                          stroke: "white",
+                          "stroke-width": "2",
+                          "stroke-miterlimit": "10",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("path", {
+                        attrs: {
+                          d: "M7 8.75001L9.45 6.30001C10.5 5.25001 12.25 5.25001 13.3 6.30001L20.2125 13.2125C21.175 14.175 22.6625 14.2625 23.8 13.3875L26.25 11.375",
+                          stroke: "white",
+                          "stroke-width": "2",
+                          "stroke-miterlimit": "10",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("path", {
+                        attrs: {
+                          d: "M14.875 8.75L10.7625 12.8625C9.45004 14.175 9.88754 16.5375 11.6375 17.2375L15.05 18.55C16.0125 18.9 16.7125 19.8625 16.7125 20.9125V26.1625",
+                          stroke: "white",
+                          "stroke-width": "2",
+                          "stroke-miterlimit": "10",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("path", {
+                        attrs: {
+                          d: "M12.25 17.5L9.975 19.775C9.275 20.475 8.1375 20.475 7.525 19.775L4.375 16.625",
+                          stroke: "white",
+                          "stroke-width": "2",
+                          "stroke-miterlimit": "10",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("path", {
+                        attrs: {
+                          d: "M14 15.75L18.375 11.375",
+                          stroke: "white",
+                          "stroke-width": "2",
+                          "stroke-miterlimit": "10",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                        },
+                      }),
+                    ]
+                  ),
             ]),
           ]),
           _vm._v(" "),
           _c("li", [
             _c("a", { attrs: { href: "/plugin" } }, [
-              _c(
-                "svg",
-                {
-                  attrs: {
-                    width: "24",
-                    height: "24",
-                    viewBox: "0 0 24 24",
-                    fill: "none",
-                    xmlns: "http://www.w3.org/2000/svg",
-                  },
-                },
-                [
-                  _c("g", { attrs: { "clip-path": "url(#clip0)" } }, [
-                    _c("path", {
+              _vm.page == "plugin"
+                ? _c(
+                    "svg",
+                    {
                       attrs: {
-                        d: "M21.0375 12.7031H23.2969C23.6852 12.7031 24 12.3883 24 12V5.22188C24 4.83356 23.6852 4.51875 23.2969 4.51875H17.2219V2.9625C17.2219 1.32895 15.8929 0 14.2594 0C12.6259 0 11.2969 1.329 11.2969 2.9625V4.51875H5.22188C4.83356 4.51875 4.51875 4.83356 4.51875 5.22188V11.2969H2.9625C1.329 11.2969 0 12.6259 0 14.2594C0 15.8929 1.329 17.2219 2.9625 17.2219H4.51875V23.2969C4.51875 23.6852 4.83356 24 5.22188 24H12C12.3883 24 12.7031 23.6852 12.7031 23.2969V21.0375C12.7031 20.1794 13.4013 19.4813 14.2594 19.4813C15.1175 19.4813 15.8156 20.1794 15.8156 21.0375V23.2969C15.8156 23.6852 16.1304 24 16.5187 24H23.2969C23.6852 24 24 23.6852 24 23.2969V16.5187C24 16.1304 23.6852 15.8156 23.2969 15.8156H21.0375C20.1794 15.8156 19.4813 15.1175 19.4813 14.2594C19.4813 13.4013 20.1794 12.7031 21.0375 12.7031ZM21.0375 17.2219H22.5938V22.5938H17.2219V21.0375C17.2219 19.404 15.8929 18.075 14.2594 18.075C12.6259 18.075 11.2969 19.404 11.2969 21.0375V22.5938H5.925V16.5187C5.925 16.1304 5.61019 15.8156 5.22188 15.8156H2.9625C2.10436 15.8156 1.40625 15.1175 1.40625 14.2594C1.40625 13.4013 2.10441 12.7031 2.9625 12.7031H5.22188C5.61019 12.7031 5.925 12.3883 5.925 12V5.925H12C12.3883 5.925 12.7031 5.61019 12.7031 5.22188V2.9625C12.7031 2.10436 13.4013 1.40625 14.2594 1.40625C15.1175 1.40625 15.8156 2.10441 15.8156 2.9625V5.22188C15.8156 5.61019 16.1304 5.925 16.5187 5.925H22.5938V11.2969H21.0375C19.404 11.2969 18.075 12.6259 18.075 14.2594C18.075 15.8929 19.404 17.2219 21.0375 17.2219Z",
+                        width: "24",
+                        height: "24",
+                        viewBox: "0 0 24 24",
                         fill: "white",
-                        stroke: "white",
-                        "stroke-width": "0.5",
+                        xmlns: "http://www.w3.org/2000/svg",
                       },
-                    }),
-                  ]),
-                  _vm._v(" "),
-                  _c("defs", [
-                    _c("clipPath", { attrs: { id: "clip0" } }, [
-                      _c("rect", {
-                        attrs: { width: "24", height: "24", fill: "white" },
-                      }),
-                    ]),
-                  ]),
-                ]
-              ),
+                    },
+                    [
+                      _c("g", { attrs: { "clip-path": "url(#clip0)" } }, [
+                        _c("path", {
+                          attrs: {
+                            d: "M21.0375 12.7031H23.2969C23.6852 12.7031 24 12.3883 24 12V5.22188C24 4.83356 23.6852 4.51875 23.2969 4.51875H17.2219V2.9625C17.2219 1.32895 15.8929 0 14.2594 0C12.6259 0 11.2969 1.329 11.2969 2.9625V4.51875H5.22188C4.83356 4.51875 4.51875 4.83356 4.51875 5.22188V11.2969H2.9625C1.329 11.2969 0 12.6259 0 14.2594C0 15.8929 1.329 17.2219 2.9625 17.2219H4.51875V23.2969C4.51875 23.6852 4.83356 24 5.22188 24H12C12.3883 24 12.7031 23.6852 12.7031 23.2969V21.0375C12.7031 20.1794 13.4013 19.4813 14.2594 19.4813C15.1175 19.4813 15.8156 20.1794 15.8156 21.0375V23.2969C15.8156 23.6852 16.1304 24 16.5187 24H23.2969C23.6852 24 24 23.6852 24 23.2969V16.5187C24 16.1304 23.6852 15.8156 23.2969 15.8156H21.0375C20.1794 15.8156 19.4813 15.1175 19.4813 14.2594C19.4813 13.4013 20.1794 12.7031 21.0375 12.7031ZM21.0375 17.2219H22.5938V22.5938H17.2219V21.0375C17.2219 19.404 15.8929 18.075 14.2594 18.075C12.6259 18.075 11.2969 19.404 11.2969 21.0375V22.5938H5.925V16.5187C5.925 16.1304 5.61019 15.8156 5.22188 15.8156H2.9625C2.10436 15.8156 1.40625 15.1175 1.40625 14.2594C1.40625 13.4013 2.10441 12.7031 2.9625 12.7031H5.22188C5.61019 12.7031 5.925 12.3883 5.925 12V5.925H12C12.3883 5.925 12.7031 5.61019 12.7031 5.22188V2.9625C12.7031 2.10436 13.4013 1.40625 14.2594 1.40625C15.1175 1.40625 15.8156 2.10441 15.8156 2.9625V5.22188C15.8156 5.61019 16.1304 5.925 16.5187 5.925H22.5938V11.2969H21.0375C19.404 11.2969 18.075 12.6259 18.075 14.2594C18.075 15.8929 19.404 17.2219 21.0375 17.2219Z",
+                            fill: "white",
+                            stroke: "white",
+                            "stroke-width": "0.5",
+                          },
+                        }),
+                      ]),
+                      _vm._v(" "),
+                      _c("defs", [
+                        _c("clipPath", { attrs: { id: "clip0" } }, [
+                          _c("rect", {
+                            attrs: { width: "24", height: "24", fill: "white" },
+                          }),
+                        ]),
+                      ]),
+                    ]
+                  )
+                : _c(
+                    "svg",
+                    {
+                      attrs: {
+                        width: "24",
+                        height: "24",
+                        viewBox: "0 0 24 24",
+                        fill: "none",
+                        xmlns: "http://www.w3.org/2000/svg",
+                      },
+                    },
+                    [
+                      _c("g", { attrs: { "clip-path": "url(#clip0)" } }, [
+                        _c("path", {
+                          attrs: {
+                            d: "M21.0375 12.7031H23.2969C23.6852 12.7031 24 12.3883 24 12V5.22188C24 4.83356 23.6852 4.51875 23.2969 4.51875H17.2219V2.9625C17.2219 1.32895 15.8929 0 14.2594 0C12.6259 0 11.2969 1.329 11.2969 2.9625V4.51875H5.22188C4.83356 4.51875 4.51875 4.83356 4.51875 5.22188V11.2969H2.9625C1.329 11.2969 0 12.6259 0 14.2594C0 15.8929 1.329 17.2219 2.9625 17.2219H4.51875V23.2969C4.51875 23.6852 4.83356 24 5.22188 24H12C12.3883 24 12.7031 23.6852 12.7031 23.2969V21.0375C12.7031 20.1794 13.4013 19.4813 14.2594 19.4813C15.1175 19.4813 15.8156 20.1794 15.8156 21.0375V23.2969C15.8156 23.6852 16.1304 24 16.5187 24H23.2969C23.6852 24 24 23.6852 24 23.2969V16.5187C24 16.1304 23.6852 15.8156 23.2969 15.8156H21.0375C20.1794 15.8156 19.4813 15.1175 19.4813 14.2594C19.4813 13.4013 20.1794 12.7031 21.0375 12.7031ZM21.0375 17.2219H22.5938V22.5938H17.2219V21.0375C17.2219 19.404 15.8929 18.075 14.2594 18.075C12.6259 18.075 11.2969 19.404 11.2969 21.0375V22.5938H5.925V16.5187C5.925 16.1304 5.61019 15.8156 5.22188 15.8156H2.9625C2.10436 15.8156 1.40625 15.1175 1.40625 14.2594C1.40625 13.4013 2.10441 12.7031 2.9625 12.7031H5.22188C5.61019 12.7031 5.925 12.3883 5.925 12V5.925H12C12.3883 5.925 12.7031 5.61019 12.7031 5.22188V2.9625C12.7031 2.10436 13.4013 1.40625 14.2594 1.40625C15.1175 1.40625 15.8156 2.10441 15.8156 2.9625V5.22188C15.8156 5.61019 16.1304 5.925 16.5187 5.925H22.5938V11.2969H21.0375C19.404 11.2969 18.075 12.6259 18.075 14.2594C18.075 15.8929 19.404 17.2219 21.0375 17.2219Z",
+                            fill: "white",
+                            stroke: "white",
+                            "stroke-width": "0.5",
+                          },
+                        }),
+                      ]),
+                      _vm._v(" "),
+                      _c("defs", [
+                        _c("clipPath", { attrs: { id: "clip0" } }, [
+                          _c("rect", {
+                            attrs: { width: "24", height: "24", fill: "white" },
+                          }),
+                        ]),
+                      ]),
+                    ]
+                  ),
             ]),
           ]),
           _vm._v(" "),
           _c("li", [
             _c("a", { attrs: { href: "/question" } }, [
-              _c(
-                "svg",
-                {
-                  attrs: {
-                    width: "23",
-                    height: "24",
-                    viewBox: "0 0 23 24",
-                    fill: "none",
-                    xmlns: "http://www.w3.org/2000/svg",
-                  },
-                },
-                [
-                  _c("path", {
-                    attrs: {
-                      d: "M10.35 19.2H12.65V16.8H10.35V19.2ZM11.5 0C5.152 0 0 5.376 0 12C0 18.624 5.152 24 11.5 24C17.848 24 23 18.624 23 12C23 5.376 17.848 0 11.5 0ZM11.5 21.6C6.4285 21.6 2.3 17.292 2.3 12C2.3 6.708 6.4285 2.4 11.5 2.4C16.5715 2.4 20.7 6.708 20.7 12C20.7 17.292 16.5715 21.6 11.5 21.6ZM11.5 4.8C8.9585 4.8 6.9 6.948 6.9 9.6H9.2C9.2 8.28 10.235 7.2 11.5 7.2C12.765 7.2 13.8 8.28 13.8 9.6C13.8 12 10.35 11.7 10.35 15.6H12.65C12.65 12.9 16.1 12.6 16.1 9.6C16.1 6.948 14.0415 4.8 11.5 4.8Z",
-                      fill: "white",
+              _vm.page == "question"
+                ? _c(
+                    "svg",
+                    {
+                      attrs: {
+                        width: "23",
+                        height: "24",
+                        viewBox: "0 0 23 24",
+                        fill: "white",
+                        xmlns: "http://www.w3.org/2000/svg",
+                      },
                     },
-                  }),
-                ]
-              ),
+                    [
+                      _c("path", {
+                        attrs: {
+                          d: "M10.35 19.2H12.65V16.8H10.35V19.2ZM11.5 0C5.152 0 0 5.376 0 12C0 18.624 5.152 24 11.5 24C17.848 24 23 18.624 23 12C23 5.376 17.848 0 11.5 0ZM11.5 21.6C6.4285 21.6 2.3 17.292 2.3 12C2.3 6.708 6.4285 2.4 11.5 2.4C16.5715 2.4 20.7 6.708 20.7 12C20.7 17.292 16.5715 21.6 11.5 21.6ZM11.5 4.8C8.9585 4.8 6.9 6.948 6.9 9.6H9.2C9.2 8.28 10.235 7.2 11.5 7.2C12.765 7.2 13.8 8.28 13.8 9.6C13.8 12 10.35 11.7 10.35 15.6H12.65C12.65 12.9 16.1 12.6 16.1 9.6C16.1 6.948 14.0415 4.8 11.5 4.8Z",
+                          fill: "white",
+                        },
+                      }),
+                    ]
+                  )
+                : _c(
+                    "svg",
+                    {
+                      attrs: {
+                        width: "23",
+                        height: "24",
+                        viewBox: "0 0 23 24",
+                        fill: "none",
+                        xmlns: "http://www.w3.org/2000/svg",
+                      },
+                    },
+                    [
+                      _c("path", {
+                        attrs: {
+                          d: "M10.35 19.2H12.65V16.8H10.35V19.2ZM11.5 0C5.152 0 0 5.376 0 12C0 18.624 5.152 24 11.5 24C17.848 24 23 18.624 23 12C23 5.376 17.848 0 11.5 0ZM11.5 21.6C6.4285 21.6 2.3 17.292 2.3 12C2.3 6.708 6.4285 2.4 11.5 2.4C16.5715 2.4 20.7 6.708 20.7 12C20.7 17.292 16.5715 21.6 11.5 21.6ZM11.5 4.8C8.9585 4.8 6.9 6.948 6.9 9.6H9.2C9.2 8.28 10.235 7.2 11.5 7.2C12.765 7.2 13.8 8.28 13.8 9.6C13.8 12 10.35 11.7 10.35 15.6H12.65C12.65 12.9 16.1 12.6 16.1 9.6C16.1 6.948 14.0415 4.8 11.5 4.8Z",
+                          fill: "white",
+                        },
+                      }),
+                    ]
+                  ),
             ]),
           ]),
         ]),
@@ -48385,7 +48648,7 @@ var render = function () {
         _c(
           "header",
           { staticClass: "account-header home" },
-          [_c("MenuOffice")],
+          [_c("MenuOffice", { attrs: { page: _vm.home } })],
           1
         ),
         _vm._v(" "),
@@ -50894,7 +51157,7 @@ var render = function () {
       _c(
         "header",
         { staticClass: "account-header plugin" },
-        [_c("MenuOffice")],
+        [_c("MenuOffice", { attrs: { page: _vm.plugin } })],
         1
       ),
       _vm._v(" "),
@@ -51857,7 +52120,7 @@ var render = function () {
     _c(
       "header",
       { staticClass: "account-header question" },
-      [_c("MenuOffice")],
+      [_c("MenuOffice", { attrs: { page: _vm.question } })],
       1
     ),
     _vm._v(" "),
@@ -51938,7 +52201,7 @@ var render = function () {
     _c(
       "header",
       { staticClass: "account-header question" },
-      [_c("MenuOffice")],
+      [_c("MenuOffice", { attrs: { page: _vm.question } })],
       1
     ),
     _vm._v(" "),

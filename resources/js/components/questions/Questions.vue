@@ -1,7 +1,7 @@
 <template>
 <main class="main account-main">
     <header class="account-header question">
-      <MenuOffice></MenuOffice>
+      <MenuOffice v-bind:page='question'></MenuOffice>
     </header>
     <section id="account-head" class="question">
       <Logout></Logout>

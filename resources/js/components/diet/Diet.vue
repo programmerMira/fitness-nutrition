@@ -1,7 +1,7 @@
 <template>
     <main class="main account-main">
         <header class="account-header diet">
-            <MenuOffice></MenuOffice>
+            <MenuOffice v-bind:page='diet'></MenuOffice>
         </header>
         <section id="account-head" class="diet">
             <Logout></Logout>
@@ -59,8 +59,8 @@
                                 <div v-if="MenuTitleAndDays.length>0"
                                      class="calendar__slider-diet calendar__slider-account">
                                     <div class="swiper-wrapper">
-                                        <div class="swiper-slide" v-for="(tabs, index) in MenuTitleAndDays"
-                                             :key="index">
+                                        <div class="swiper-slide" v-for="(tabs) in MenuTitleAndDays"
+                                             :key="tabs.menutitle">
                                             <div class="calendar__title">
                                                 <span>Календарь питания</span> <h5>{{ tabs.menutitle }}</h5>
                                             </div>
@@ -110,8 +110,8 @@
                                     </ul>
                                     <ul :style="show_select_types? 'display: block !important; z-index:1000;': 'display: none !important'"
                                         class="select__ul">
-                                        <li v-on:click="changeType(type)" v-for="(type, id) in AvailableTypes"
-                                            :key="id">
+                                        <li v-on:click="changeType(type)" v-for="(type) in AvailableTypes"
+                                            :key="type.name">
                                             {{ type.name }}
                                         </li>
                                         <li v-show="false" v-for="(type, id) in DisabledTypes" :key="id" class="disabled">
@@ -148,23 +148,23 @@
                                     </svg>
                                 </div>
                             </div>
-                            <ul v-if="UserMenu" class="progress-block__steps progress-diet__plan-list">
+                            <ul v-if="selected_day!=null&&UserMenu" class="progress-block__steps progress-diet__plan-list">
                                 <li class="progress-diet__plan-item">
                                     Белки
                                     <b>
-                                        {{ UserMenu.menu.proteins }} гр
+                                        {{ selected_day.proteins }} гр
                                     </b>
                                 </li>
                                 <li class="progress-diet__plan-item">
                                     Жиры
                                     <b>
-                                        {{ UserMenu.menu.fat }} гр
+                                        {{ selected_day.fat }} гр
                                     </b>
                                 </li>
                                 <li class="progress-diet__plan-item">
                                     Углеводы
                                     <b>
-                                        {{ UserMenu.menu.carbs }} гр
+                                        {{ selected_day.carbs }} гр
                                     </b>
                                 </li>
                             </ul>
@@ -205,6 +205,7 @@ export default {
         disabled_types: [],
         available_types: [],
         start_index: 0,
+        selected_day: null,
     }),
     computed: {
         User() {
@@ -254,12 +255,16 @@ export default {
                     let days = [];
                     //console.log("this.current_type:",this.current_type);
                     for (const item of Object.values(index.days)) {
-                        if(this.current_type && item.menu_type_id === this.current_type.id)
-                        days.push({title: item.day_number});
+                        if(index.menu_id == this.selectedMenuId.users_menus.menu_id && 
+                           index.menu_type_id == this.selectedMenuId.users_menus.menu_type_id){
+                               days.push({title: item.day_number});
+                               if (item.day_number == parseInt(this.selectedTab))
+                                    this.selected_day = item;
+                           }
                     }
                     let active = false;
                     if(index.menu_id == this.selectedMenuId.users_menus.menu_id && 
-                    index.menu_type_id == this.selectedMenuId.users_menus.menu_type_id){
+                       index.menu_type_id == this.selectedMenuId.users_menus.menu_type_id){
                         active = true;
                     }
                     let calories = this.$store.getters.GetMenuCalories.find(element => element.id == index.menu.menu_calories_id);
@@ -274,6 +279,7 @@ export default {
                             });
                 });
                 //console.log("this.slider: ", this.slider);
+                //console.log("this.selected_day:",this.selected_day);
                 //console.log("this.selectedMenuId:", this.selectedMenuId);
                 this.activateSwiper();
                 if(this.slider.length>0)
@@ -360,7 +366,8 @@ export default {
                 day: this.UserFoodCallendar.day,
                 is_active: false
             });
-            //console.log("this.$store.getters.GetFoodCalendars:",this.$store.getters.GetFoodCalendars)
+            
+            console.log("this.$store.getters.GetFoodCalendars:",this.$store.getters.GetFoodCalendars)
             let new_active = this.$store.getters.GetFoodCalendars.find(element => element.users_menus.menu_type_id == this.current_type.id);
 
             this.$store.dispatch('setFoodCalendar',{
