@@ -1,9 +1,0 @@
-models:
-  AccessHistory:
-    user_id: id foreign:User
-    activation_date: datetime
-    deactivation_date: datetime
-controllers:
-  AccessHistory:
-    resource: api
-seeders: AccessHistory

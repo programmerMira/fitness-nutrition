@@ -14,6 +14,7 @@ use App\Http\Controllers\MenuTypeController;
 use App\Http\Controllers\MenuCaloryController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\TopicController;
+use App\Http\Controllers\PricingController;
 #endregion
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -92,6 +93,13 @@ Route::prefix('question')->group(function () {
     Route::put('/update/{id}', [QuestionController::class,'update']);
     Route::delete('/delete/{id}', [QuestionController::class,'destroy']);
 });
+Route::prefix('pricing')->group(function () {
+    Route::get('/list', [PricingController::class,'index']);
+    Route::get('/show/{id}', [PricingController::class,'show']);
+    Route::post('/create', [PricingController::class,'store']);
+    Route::put('/update/{id}', [PricingController::class,'update']);
+    Route::delete('/delete/{id}', [PricingController::class,'destroy']);
+});
 #endregion
 #region resources
 /*Route::apiResource('problem-zone', ProblemZoneController::class);
@@ -124,3 +132,6 @@ Route::apiResource('menu-days', App\Http\Controllers\MenuDaysController::class);
 
 
 Route::apiResource('access-history', App\Http\Controllers\AccessHistoryController::class);
+
+
+Route::apiResource('pricing', App\Http\Controllers\PricingController::class);

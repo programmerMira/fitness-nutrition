@@ -27,67 +27,7 @@
          <p class="plugin-modal__txt">
             Выберите период для продления.Чем больше срок, тем больше выгода.
          </p>
-         <!-- <form class="plugin-modal-form" v-if="activeStep === 1">
-            <div class="plugin-checkboxes">
-               <label class="plugin-checkbox__label">
-                  <input class="check__input" type="checkbox" id="plugin-checkbox1">
-                  <div class="plugin-checkbox">
-                     <div class="plugin-checkbox__number">
-                        1
-                     </div>
-                     <div class="plugin-checkbox__txt plugin-modal__txt">
-                        1 месяца
-                        <b>
-                           2 000 р.
-                        </b>
-                     </div>
-                  </div>
-               </label>
-               <label class="plugin-checkbox__label">
-                  <input class="check__input" type="checkbox" id="plugin-checkbox2">
-                  <div class="plugin-checkbox">
-                     <div class="plugin-checkbox__discount">
-                        -15%
-                     </div>
-                     <div class="plugin-checkbox__number">
-                        3
-                     </div>
-                     <div class="plugin-checkbox__txt plugin-modal__txt">
-                        3 месяца
-                        <b>
-                           5 100 р.
-                        </b>
-                     </div>
-                  </div>
-               </label>
-               <label class="plugin-checkbox__label">
-                  <input class="check__input" type="checkbox" id="plugin-checkbox3">
-                  <div class="plugin-checkbox">
-                     <div class="plugin-checkbox__discount">
-                        -20%
-                     </div>
-                     <div class="plugin-checkbox__number">
-                        6
-                     </div>
-                     <div class="plugin-checkbox__txt plugin-modal__txt">
-                        6 месяца
-                        <b>
-                           9 600 р.
-                        </b>
-                     </div>
-                  </div>
-               </label>
-            </div>
-            <p class="plugin-modal__txt-small">
-               1 месяц равен 30 календарным дням
-            </p>
-            <button type="button" class="plugin-modal-form__btn btn-none" @click.prevent="next()">оплатить</button>
-            <p class="plugin-modal__txt-small center">
-               Нажимая “Оплатить”, я принимаю условия Политики обработки персональных данный и условия
-               Оферты
-            </p>
-         </form> -->
-           <form class="plugin-modal-form" v-if="activeStep === 1">
+         <form class="plugin-modal-form" v-if="activeStep === 1">
             <div class="plugin-checkboxes">
                <!-- <label class="plugin-checkbox__label" v-for="(checkbox, i) in checkboxes" :key="checkbox.i"> -->
                <label class="plugin-checkbox__label" v-for="checkbox in checkboxes" :key="checkbox.number">

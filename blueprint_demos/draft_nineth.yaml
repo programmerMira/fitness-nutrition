@@ -22,3 +22,23 @@ controllers:
     resource: api
 seeders: MenuDays
 
+models:
+  AccessHistory:
+    user_id: id foreign:User
+    activation_date: datetime
+    deactivation_date: datetime
+controllers:
+  AccessHistory:
+    resource: api
+seeders: AccessHistory
+
+models:
+  Pricing:
+    month: string:50
+    number: float
+    price: float
+    discount: float
+controllers:
+  Pricing:
+    resource: api
+seeders: Pricing

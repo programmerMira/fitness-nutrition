@@ -1,14 +1,14 @@
 created:
-    - app/Http/Controllers/AccessHistoryController.php
-    - database/factories/AccessHistoryFactory.php
-    - database/migrations/2022_01_29_221549_create_access_histories_table.php
-    - app/Models/AccessHistory.php
-    - database/seeders/AccessHistorySeeder.php
-    - tests/Feature/Http/Controllers/AccessHistoryControllerTest.php
-    - app/Http/Requests/AccessHistoryStoreRequest.php
-    - app/Http/Requests/AccessHistoryUpdateRequest.php
-    - app/Http/Resources/AccessHistoryCollection.php
-    - app/Http/Resources/AccessHistoryResource.php
+    - app/Http/Controllers/PricingController.php
+    - database/factories/PricingFactory.php
+    - database/migrations/2022_01_29_224347_create_pricings_table.php
+    - app/Models/Pricing.php
+    - database/seeders/PricingSeeder.php
+    - tests/Feature/Http/Controllers/PricingControllerTest.php
+    - app/Http/Requests/PricingStoreRequest.php
+    - app/Http/Requests/PricingUpdateRequest.php
+    - app/Http/Resources/PricingCollection.php
+    - app/Http/Resources/PricingResource.php
 updated:
     - routes/api.php
 models:
@@ -32,3 +32,4 @@ models:
     MainPage: { name: 'string:50', content: 'string:50' }
     MenuDays: { menu_id: 'id foreign:Menu', day_number: integer, name: 'string:50', description: 'string:1000', content: json }
     AccessHistory: { user_id: 'id foreign:User', activation_date: datetime, deactivation_date: datetime }
+    Pricing: { month: 'string:50', number: float, price: float, discount: float }
