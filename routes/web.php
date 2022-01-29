@@ -16,6 +16,7 @@ use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\AccessHistoryController;
 #endregion
 
 Route::get("/", [MainPageController::class,'index'])->name('main');
@@ -146,4 +147,12 @@ Route::prefix('api/physics-parameter')->group(function () {
     Route::post('/create', [PhysicsParametersController::class,'store']);
     Route::put('/update/{id}', [PhysicsParametersController::class,'update']);
     Route::delete('/delete/{id}', [PhysicsParametersController::class,'destroy']);
+});
+
+Route::prefix('api/access-history')->group(function(){//
+    Route::get('/list', [AccessHistoryController::class,'index']);
+    Route::get('/show/{id}', [AccessHistoryController::class,'show']);
+    Route::post('/create', [AccessHistoryController::class,'store']);
+    Route::put('/update/{id}', [AccessHistoryController::class,'update']);
+    Route::delete('/delete/{id}', [AccessHistoryController::class,'destroy']);
 });

@@ -13,11 +13,12 @@ import topics from './modules/topics'
 import questions from './modules/questions'
 import notifications from './modules/notifications'
 import physicsParameters from './modules/physicsParameters'
-/*NoUpdateHere*/import personalAccount from './modules/personalAccount'
-/*fix for users*/import userMenus from './modules/userMenus'
-/*fix for users*/import foodCalendars from './modules/foodCalendars'
-/*fix for users*/import trainingUsers from './modules/trainingUsers'
-/*fix for users*/import activityCalendars from './modules/activityCalendars'
+import personalAccount from './modules/personalAccount'
+import userMenus from './modules/userMenus'
+import foodCalendars from './modules/foodCalendars'
+import trainingUsers from './modules/trainingUsers'
+import activityCalendars from './modules/activityCalendars'
+import accessHistory from './modules/accessHistory'
 //#endregion
 
 Vue.use(Vuex)
@@ -40,5 +41,6 @@ export default new Vuex.Store({
         notifications,
         physicsParameters,
         topics,
+        accessHistory
     }
 })
