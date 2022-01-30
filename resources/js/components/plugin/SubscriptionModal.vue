@@ -14,8 +14,8 @@
          <div class="plugin-modal__head">
             <h4 class="plugin-modal__title">Управление подпиской</h4>
             <h5 class="plugin-modal__subtitle">Подписка истекает</h5>
-            <p class="plugin-modal__txt red">
-               31 сентября будет отключена.
+            <p v-if='deactivationDate' class="plugin-modal__txt red">
+               {{deactivationDate}} будет отключена.
             </p>
             <p class="plugin-modal__txt red">
                Для продления подписки оплатите дальнейший доступ к сервису.
@@ -30,11 +30,11 @@
          <form class="plugin-modal-form" v-if="activeStep === 1">
             <div class="plugin-checkboxes">
                <!-- <label class="plugin-checkbox__label" v-for="(checkbox, i) in checkboxes" :key="checkbox.i"> -->
-               <label class="plugin-checkbox__label" v-for="checkbox in checkboxes" :key="checkbox.number">
+               <label class="plugin-checkbox__label" v-for="checkbox in Pricings" :key="checkbox.number">
                   <input class="check__input" type="radio" :id="checkbox.number" :value="checkbox.number" v-model="selected_checkbox">
                   <div class="plugin-checkbox">
                      <div class="plugin-checkbox__discount">
-                        {{ checkbox.discount }}
+                        -{{ checkbox.discount }}%
                      </div>
                      <div class="plugin-checkbox__number">
                         {{ checkbox.number }}
@@ -68,33 +68,42 @@
 <script>
    export default {
    data: () => ({
-      checkboxes: [
-         {
-            value: false,
-            month : '1 месяц',
-            number: '1',
-            price: '2 000',
-            discount: '-20%'
-         },
-         {
-             value: false,
-            month : '3 месяца',
-            number: '3',
-            price: '5 100',
-            discount: '-15%'
-         },
-         {
-             value: false,
-            month : '6 месяцев',
-            number: '4',
-            price: '9 600',
-            discount: '-20%'
-         },
-      ],
+      checkboxes: [],
       activeStep: 1,
       formSteps: [],
       selected_checkbox:null,
    }),
+   computed:{
+      Pricings(){
+         this.checkboxes = this.$store.getters.GetPricings;
+         for(let i = 0; i < this.checkboxes.length; i++)
+         {
+            this.checkboxes[i]['value'] = false;
+         }
+
+         return this.checkboxes;
+      },
+      deactivationDate()
+      {
+         var tmp = this.$store.getters.GetAccessHistory;
+         let options = {
+            month: "long",
+            day: "numeric"
+         }
+         if(tmp)
+         {
+            var date = new Date(tmp.deactivation_date)
+            return date.toLocaleDateString('ru-RU', options)
+         }
+         return null;
+      },
+   },
+   mounted(){
+      if(userInfo){
+         this.$store.dispatch('fetchPricings');
+         this.$store.dispatch('fetchAccessHistory');
+      }
+   },
    methods: {
       prev() {
       this.activeStep--;

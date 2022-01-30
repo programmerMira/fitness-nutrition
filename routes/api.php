@@ -131,7 +131,4 @@ Route::apiResource('days', App\Http\Controllers\DaysController::class);
 Route::apiResource('menu-days', App\Http\Controllers\MenuDaysController::class);
 
 
-Route::apiResource('access-history', App\Http\Controllers\AccessHistoryController::class);
-
-
 Route::apiResource('pricing', App\Http\Controllers\PricingController::class);

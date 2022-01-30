@@ -2,7 +2,7 @@
    <div class="sidebar">
       <Notifications></Notifications>
       <nav class="sidebar__menu">
-         <ul class="sidebar__list">
+         <ul v-if="page!=null" class="sidebar__list">
             <li>
                <a href="/home">
                   <svg v-if="page == 'home'" width="20" height="18" viewBox="0 0 20 18" fill="none"

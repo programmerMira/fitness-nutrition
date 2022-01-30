@@ -1,7 +1,7 @@
 <template>
    <main class="main account-main">
       <header class="account-header plugin">
-         <MenuOffice v-bind:page='plugin'></MenuOffice>
+         <MenuOffice page='plugin'></MenuOffice>
       </header>
       <section id="account-head" class="plugin">
          <Logout></Logout>
@@ -10,7 +10,7 @@
          <div class="account-container">
             <div class="plugin__container">
                <div class="plugin__row">
-                  <div v-if="User" class="progress-block plugin-progress__block">
+                  <div v-if="User && AccessHistory" class="progress-block plugin-progress__block">
                      <div class="progress-block__head">
                         <h4 class="plugin-progress__title">
                            Подписка
@@ -42,8 +42,8 @@
                         </svg>
                      </div>
                   </div>
-                  <div class="progress-level plugin-progress__level">
-                     <div v-if="User" class="progress-level__title">
+                  <div v-if="User" class="progress-level plugin-progress__level">
+                     <div class="progress-level__title">
                         {{User.user.name}}
                         <div v-if="selectedTraining" class="progress-level__mob">
                            {{selectedTraining.training.level}} уровень
@@ -144,6 +144,9 @@ export default {
       User(){
          return this.$store.getters.GetPersonalAccount;
       },
+      AccessHistory(){
+         return this.$store.getters.GetAccessHistory;
+      },
       selectedTraining(){
          let activeTraining = this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1)
          if(activeTraining){
@@ -160,6 +163,7 @@ export default {
          this.$store.dispatch('fetchPersonalAccount');
          this.$store.dispatch('fetchTrainingUsers');
          this.$store.dispatch('fetchActivityCalendars');
+         this.$store.dispatch('fetchAccessHistory');
       }
    },
    methods:{
@@ -174,22 +178,23 @@ export default {
          return parseInt(percent);
       },
       checkActivity(){
-         if(this.User==null)
+         if(this.AccessHistory==null)
             return false;
-         var date1 = new Date(this.User.deactivated_at);
+         var date1 = new Date(this.AccessHistory.deactivation_date);
          var date2 = new Date();
-         if(date1.getDate()>date2.getDate())
+         if(date1>date2)
             return true;
          return false;
       },
       daysLeft(){
-         if(this.User==null)
+         if(this.AccessHistory==null)
             return 0;
-         var date1 = new Date(this.User.deactivated_at);
+         var date1 = new Date(this.AccessHistory.deactivation_date);
          var date2 = new Date();
-         var Difference_In_Date = date1.getDate() - date2.getDate();
-
-         return parseInt(Difference_In_Date);
+         var Difference_In_Date = Math.ceil((Math.abs(date1 - date2))/ (1000 * 60 * 60 * 24));
+         if(Difference_In_Date<0)
+            return 0;
+         return Difference_In_Date;
       }
    }
 };

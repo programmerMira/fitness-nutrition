@@ -9,6 +9,8 @@ use App\Http\Resources\AccessHistoryResource;
 use App\Models\AccessHistory;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
+
 class AccessHistoryController extends Controller
 {
     /**

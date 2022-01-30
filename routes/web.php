@@ -149,7 +149,7 @@ Route::prefix('api/physics-parameter')->group(function () {
     Route::delete('/delete/{id}', [PhysicsParametersController::class,'destroy']);
 });
 
-Route::prefix('api/access-history')->group(function(){//
+Route::prefix('api/access-history')->group(function(){
     Route::get('/list', [AccessHistoryController::class,'index']);
     Route::get('/show/{id}', [AccessHistoryController::class,'show']);
     Route::post('/create', [AccessHistoryController::class,'store']);

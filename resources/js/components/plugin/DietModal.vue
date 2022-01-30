@@ -98,7 +98,7 @@
             this.diets_list.push(
                {
                   value: false,
-                  menu: 'Меню на '+ element.menu_days.length +' дней ' + element.menu_content,
+                  menu: 'Меню на '+ element.menu_days.length +' дней \n' + element.menu_content,
                   price: element.menu_price + ' р.',
                }
             )

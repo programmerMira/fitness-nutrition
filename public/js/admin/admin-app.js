@@ -2387,8 +2387,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _modules_problemZones__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/problemZones */ "./resources/js/store/modules/problemZones.js");
 /* harmony import */ var _modules_lifeStyles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/lifeStyles */ "./resources/js/store/modules/lifeStyles.js");
 /* harmony import */ var _modules_trainingLocations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/trainingLocations */ "./resources/js/store/modules/trainingLocations.js");
@@ -2405,6 +2405,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_foodCalendars__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./modules/foodCalendars */ "./resources/js/store/modules/foodCalendars.js");
 /* harmony import */ var _modules_trainingUsers__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./modules/trainingUsers */ "./resources/js/store/modules/trainingUsers.js");
 /* harmony import */ var _modules_activityCalendars__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./modules/activityCalendars */ "./resources/js/store/modules/activityCalendars.js");
+/* harmony import */ var _modules_accessHistory__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./modules/accessHistory */ "./resources/js/store/modules/accessHistory.js");
+/* harmony import */ var _modules_pricing__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./modules/pricing */ "./resources/js/store/modules/pricing.js");
 
  //#region import modules
 
@@ -2419,24 +2421,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/*NoUpdateHere*/
 
 
-/*fix for users*/
 
 
-/*fix for users*/
 
-
-/*fix for users*/
-
-
-/*fix for users*/
 
  //#endregion
 
-vue__WEBPACK_IMPORTED_MODULE_16__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_17__["default"]);
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_17__["default"].Store({
+vue__WEBPACK_IMPORTED_MODULE_18__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_19__["default"]);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_19__["default"].Store({
   modules: {
     problemZones: _modules_problemZones__WEBPACK_IMPORTED_MODULE_0__["default"],
     lifeStyles: _modules_lifeStyles__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -2453,9 +2447,107 @@ vue__WEBPACK_IMPORTED_MODULE_16__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1
     questions: _modules_questions__WEBPACK_IMPORTED_MODULE_8__["default"],
     notifications: _modules_notifications__WEBPACK_IMPORTED_MODULE_9__["default"],
     physicsParameters: _modules_physicsParameters__WEBPACK_IMPORTED_MODULE_10__["default"],
-    topics: _modules_topics__WEBPACK_IMPORTED_MODULE_7__["default"]
+    topics: _modules_topics__WEBPACK_IMPORTED_MODULE_7__["default"],
+    accessHistory: _modules_accessHistory__WEBPACK_IMPORTED_MODULE_16__["default"],
+    pricing: _modules_pricing__WEBPACK_IMPORTED_MODULE_17__["default"]
   }
 }));
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/accessHistory.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/store/modules/accessHistory.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  actions: {
+    fetchAccessHistory: function fetchAccessHistory(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit;
+                axios.get('/api/access-history/list').then(function (response) {
+                  commit('LoadAccessHistory', response.data);
+                })["catch"](function (error) {
+                  console.log("LoadAccessHistory:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    storeAccessHistory: function storeAccessHistory(_ref2, AccessHistory) {
+      var commit = _ref2.commit;
+      axios.post('/api/access-history/create', {
+        user_id: AccessHistory.user_id,
+        activation_date: AccessHistory.activation_date,
+        deactivation_date: AccessHistory.deactivation_date
+      }).then(function (response) {
+        commit('LoadAccessHistory', AccessHistory);
+      })["catch"](function (error) {
+        console.log("storeAccessHistory:", error.response);
+      });
+    },
+    setAccessHistory: function setAccessHistory(_ref3, AccessHistory) {
+      var commit = _ref3.commit;
+      axios.put('/api/access-history/update/' + AccessHistory.id, {
+        user_id: AccessHistory.user_id,
+        activation_date: AccessHistory.activation_date,
+        deactivation_date: AccessHistory.deactivation_date
+      }).then(function (response) {
+        commit('LoadAccessHistory', AccessHistory);
+      })["catch"](function (error) {
+        console.log("setAccessHistory:", error.response);
+      });
+    },
+    delAccessHistory: function delAccessHistory(_ref4, AccessHistory) {
+      var commit = _ref4.commit;
+      axios["delete"]('/api/access-history/delete/' + AccessHistory.id).then(function (response) {
+        commit('DeleteAccessHistory');
+      })["catch"](function (error) {
+        console.log("delAccessHistory:", error.response);
+      });
+    }
+  },
+  mutations: {
+    LoadAccessHistory: function LoadAccessHistory(state, AccessHistory) {
+      state.AccessHistory = AccessHistory;
+    },
+    DeleteAccessHistory: function DeleteAccessHistory(state) {
+      state.AccessHistory = null;
+    }
+  },
+  state: {
+    AccessHistory: null
+  },
+  getters: {
+    GetAccessHistory: function GetAccessHistory(state) {
+      return state.AccessHistory;
+    }
+  }
+});
 
 /***/ }),
 
@@ -3660,6 +3752,148 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     GetPhysicsParameter: function GetPhysicsParameter(state) {
       return state.PhysicsParameter;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/pricing.js":
+/*!***********************************************!*\
+  !*** ./resources/js/store/modules/pricing.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  actions: {
+    fetchPricings: function fetchPricings(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit;
+                axios.get('/api/pricing/list').then(function (response) {
+                  commit('LoadPricings', response.data);
+                })["catch"](function (error) {
+                  console.log("fetchPricings:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    fetchPricing: function fetchPricing(_ref2, PricingId) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit;
+                axios.get('/api/pricing/show/' + PricingId).then(function (response) {
+                  commit('LoadPricing', response.data);
+                })["catch"](function (error) {
+                  console.log("LoadPricing:", error.response);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    storePricing: function storePricing(_ref3, Pricing) {
+      var commit = _ref3.commit;
+      axios.post('/api/pricing/create', {
+        month: Pricing.month,
+        number: Pricing.number,
+        price: Pricing.price,
+        discount: Pricing.discount
+      }).then(function (response) {
+        commit('CreatePricing', Pricing);
+      })["catch"](function (error) {
+        console.log("storePricing:", error.response);
+      });
+    },
+    setPricing: function setPricing(_ref4, Pricing) {
+      var commit = _ref4.commit;
+      axios.put('/api/pricing/update/' + Pricing.id, {
+        month: Pricing.month,
+        number: Pricing.number,
+        price: Pricing.price,
+        discount: Pricing.discount
+      }).then(function (response) {
+        commit('UpdatePricing', Pricing);
+      })["catch"](function (error) {
+        console.log("setPricing:", error.response);
+      });
+    },
+    delPricing: function delPricing(_ref5, Pricing) {
+      var commit = _ref5.commit;
+      axios["delete"]('/api/pricing/delete/' + Pricing.id).then(function (response) {
+        commit('DeletePricing', Pricing);
+      })["catch"](function (error) {
+        console.log("delPricing:", error.response);
+      });
+    }
+  },
+  mutations: {
+    LoadPricings: function LoadPricings(state, Pricings) {
+      state.Pricings = Pricings;
+    },
+    LoadPricing: function LoadPricing(state, Pricing) {
+      state.Pricing = Pricing;
+    },
+    CreatePricing: function CreatePricing(state, Pricing) {
+      var index = state.Pricings.findIndex(function (Pricing) {
+        return Pricing.id == id;
+      });
+      state.Pricings.unshift(index);
+    },
+    UpdatePricing: function UpdatePricing(state, Pricing) {
+      var index = state.Pricings.findIndex(function (p) {
+        return p.id === Pricing.id;
+      });
+      state.Pricings[index] = Pricing;
+    },
+    DeletePricing: function DeletePricing(state, Pricing) {
+      var index = state.Pricings.findIndex(function (Pricing) {
+        return Pricing.id == id;
+      });
+      state.Pricings.splice(index, 1);
+    }
+  },
+  state: {
+    Pricings: [],
+    Pricing: null
+  },
+  getters: {
+    GetPricings: function GetPricings(state) {
+      return state.Pricings;
+    },
+    GetPricing: function GetPricing(state) {
+      return state.Pricing;
     }
   }
 });
