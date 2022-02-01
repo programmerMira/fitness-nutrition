@@ -15,7 +15,7 @@ class Notification extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id',
+        'day',
         'name',
         'description',
     ];
@@ -27,12 +27,6 @@ class Notification extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'user_id' => 'integer',
+        'day' => 'integer',
     ];
-
-
-    public function user()
-    {
-        return $this->belongsTo(\App\Models\TrainingUser::class);
-    }
 }

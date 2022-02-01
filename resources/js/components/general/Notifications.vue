@@ -9,7 +9,7 @@
       <svg class="account-head__mob-svg" width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
          <path d="M8.89373 20C9.28933 20 9.66167 19.9034 9.98439 19.7345C11.0724 19.1651 10.1217 17.9487 8.89373 17.9487C7.66576 17.9487 6.71509 19.1651 7.80306 19.7345C8.12578 19.9034 8.49812 20 8.89373 20ZM16.6757 14.8718C15.9671 14.218 15.564 13.2978 15.564 12.3336V8.71795C15.564 5.79802 14.0057 3.31909 11.2348 2.41808C10.8476 2.29217 10.5613 1.94565 10.5613 1.53846C10.5613 0.68718 9.81645 0 8.89373 0C7.971 0 7.22615 0.68718 7.22615 1.53846C7.22615 1.94571 6.94 2.29236 6.5528 2.41856C3.79059 3.31887 2.22343 5.78919 2.22343 8.71795V12.3336C2.22343 13.2978 1.82036 14.218 1.11172 14.8718L0.229607 15.6856C0.0832471 15.8206 0 16.0107 0 16.2098C0 16.6037 0.319331 16.9231 0.713245 16.9231H17.0742C17.4681 16.9231 17.7875 16.6037 17.7875 16.2098C17.7875 16.0107 17.7042 15.8206 17.5578 15.6856L16.6757 14.8718ZM13.3406 10.4249C13.3406 12.8809 11.3497 14.8718 8.89373 14.8718C6.43779 14.8718 4.44686 12.8809 4.44686 10.4249V8.71795C4.44686 6.17436 6.12555 4.10256 8.89373 4.10256C11.6619 4.10256 13.3406 6.17436 13.3406 8.71795V10.4249Z" fill="#FF144A"/>
       </svg>
-      <div v-if="Notifications.length>0" class="notifications__elem" v-bind:class="{ none: open }">
+      <div v-if="Notifications != null" class="notifications__elem" v-bind:class="{ none: open }">
          {{Notifications.length}}
       </div>
    </div>
@@ -31,11 +31,25 @@ export default {
       open: false,
    }),
    mounted(){
-      this.$store.dispatch('fetchNotifications');
+      if (userInfo){
+         this.$store.dispatch('fetchAccessHistory');
+         this.$store.dispatch('fetchNotifications');
+      }         
    },
    computed:{
       Notifications(){
-         return this.$store.getters.GetNotifications;
+         let access_history = this.$store.getters.GetAccessHistory;
+         let notifications = this.$store.getters.GetNotifications;
+
+         if(access_history && notifications)
+         {
+            var date1 = new Date(access_history.activation_date);
+            var date2 = new Date();
+            let day_number = Math.ceil((Math.abs(date2 - date1))/ (1000 * 60 * 60 * 24)) + 1;
+            return notifications.filter(element => element.day === day_number);
+         }
+
+         return null;
       },
    },
 }

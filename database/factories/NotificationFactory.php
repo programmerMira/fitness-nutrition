@@ -24,7 +24,7 @@ class NotificationFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::factory(),
+            'day' => $this->faker->numberBetween(1, 31),
             'name' => $this->faker->name,
             'description' => $this->faker->text,
         ];

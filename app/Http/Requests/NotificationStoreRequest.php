@@ -24,7 +24,7 @@ class NotificationStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'day' => ['required', 'integer'],
             'name' => ['required', 'string', 'max:50'],
             'description' => ['required', 'string', 'max:300'],
         ];

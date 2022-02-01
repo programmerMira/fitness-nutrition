@@ -35,19 +35,27 @@ export default {
          return this.$store.getters.GetPersonalAccount;
       },
       Notifications(){
-         var tmp = this.$store.getters.GetNotifications;
-         if(this.content_open.length!=tmp.length)
-            this.content_open=[];
-            tmp.forEach(element => {
-               this.content_open.push(true);
-            });
-         return tmp;
+         let access_history = this.$store.getters.GetAccessHistory;
+         let notifications = this.$store.getters.GetNotifications;
+
+         if(access_history && notifications)
+         {
+            var date1 = new Date(access_history.activation_date);
+            var date2 = new Date();
+            let day_number = Math.ceil((Math.abs(date2 - date1))/ (1000 * 60 * 60 * 24)) + 1;
+            console.log("day:", day_number);
+            return notifications.filter(element => element.day === day_number);
+         }
+
+         return null;
       },
    },
    mounted(){
-      if (userInfo)
+      if (userInfo){
          this.$store.dispatch('fetchPersonalAccount');
          this.$store.dispatch('fetchNotifications');
+         this.$store.dispatch('fetchAccessHistory');
+      }
    },
    methods: {
       accardionActive(info) {

@@ -16,7 +16,7 @@ export default {
         },
         storeNotification({ commit }, Notification){
             axios.post('/api/notification/create',{
-                'user_id': Notification.user_id,
+                'day': Notification.day,
                 'name': Notification.name,
                 'description': Notification.description
             }).then(response => {
@@ -27,7 +27,7 @@ export default {
         },
         setNotification({ commit }, Notification){
             axios.put('/api/notification/update/'+Notification.id,{
-                'user_id': Notification.user_id,
+                'day': Notification.day,
                 'name': Notification.name,
                 'description': Notification.description
             }).then(response => {

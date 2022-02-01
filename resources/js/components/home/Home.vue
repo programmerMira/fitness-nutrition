@@ -1,7 +1,7 @@
 <template>
    <main v-if="User" class="main account-main">
       <header class="account-header home">
-         <MenuOffice v-bind:page='home'></MenuOffice>
+         <MenuOffice page='home'></MenuOffice>
       </header>
       <section id="account-head">
          <Logout></Logout>
