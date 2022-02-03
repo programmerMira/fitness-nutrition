@@ -1,7 +1,7 @@
 <template>
     <main class="main account-main">
         <header class="account-header diet">
-            <MenuOffice v-bind:page='diet'></MenuOffice>
+            <MenuOffice page='diet'></MenuOffice>
         </header>
         <section id="account-head" class="diet">
             <Logout></Logout>
@@ -227,10 +227,32 @@ export default {
             }
         },
         Physics() {
-            if (this.selectedTrainingId) {
+            if(this.selectedTrainingId){
                 let tmp = this.$store.getters.GetPhysicsParameters.filter(element => element.training_id == this.selectedTrainingId.training_user.training_id);
-                if (tmp)
-                    return tmp[tmp.length - 1];
+                if(tmp){
+                    var updated_at = new Date(Date.parse(this.selectedTrainingId.training_user.created_at));
+                    var today = new Date();
+                    let res = null;
+
+                    updated_at.setDate(updated_at.getDate() + 10)
+
+                    if(updated_at<today)
+                        res = tmp[tmp.length-1];
+
+                    updated_at = new Date(Date.parse(this.selectedTrainingId.training_user.created_at));
+                    updated_at.setDate(updated_at.getDate() + 20)
+
+                    if(updated_at<today)
+                        res = tmp[tmp.length-2];
+
+                    updated_at = new Date(Date.parse(this.selectedTrainingId.training_user.created_at));
+                    updated_at.setDate(updated_at.getDate() + 29)
+
+                    if(updated_at<today)
+                        res = tmp[0];
+
+                    return res;
+                }
             }
         },
         UserFoodCallendar() {

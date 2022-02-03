@@ -200,14 +200,9 @@ export default {
          let activeTraining = this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1)
          if(activeTraining){
             let tmp = this.$store.getters.GetTrainingUsers.find(element => parseInt(element.training_id) === parseInt(activeTraining.training_user.training_id));
-
-            console.log(tmp);
             return tmp;
          }
-         let tmp = this.$store.getters.GetTrainingUsers[0];
-         if(tmp!=null){
-            return tmp;
-         }
+         return null;
       },
       TrainingLevel(){
          if(this.selectedTraining)
@@ -239,8 +234,29 @@ export default {
          if(this.selectedTraining){
             let tmp = this.$store.getters.GetPhysicsParameters.filter(element => element.training_id == this.selectedTraining.training_id);
             if(tmp){
+               var updated_at = new Date(Date.parse(this.selectedTraining.created_at));
+               var today = new Date();
+               let res = null;
+
+               updated_at.setDate(updated_at.getDate() + 10)
+
+               if(updated_at<today)
+                  res = tmp[tmp.length-1];
+
+               updated_at = new Date(Date.parse(this.selectedTraining.created_at));
+               updated_at.setDate(updated_at.getDate() + 20)
+
+               if(updated_at<today)
+                  res = tmp[tmp.length-2];
+
+               updated_at = new Date(Date.parse(this.selectedTraining.created_at));
+               updated_at.setDate(updated_at.getDate() + 29)
+
+               if(updated_at<today)
+                  res = tmp[0];
+
                this.$loading(false);
-               return tmp[tmp.length-1];
+               return res;
             }
          }
       },
@@ -281,24 +297,31 @@ export default {
             if(parseInt(item)==1){
                updated_at.setDate(updated_at.getDate() + 10)
                console.log(updated_at);
-               if(updated_at<today)
+               if(updated_at<today){
+                  this.selectedTab = item;
                   return true;
+               }
                return false;
             }
             if(parseInt(item)==2){
                updated_at.setDate(updated_at.getDate() + 20)
-               if(updated_at<today)
+               console.log(updated_at);
+               if(updated_at<today){
+                  this.selectedTab = item;
                   return true;
+               }
                return false;
             }
             if(parseInt(item)==3){
                updated_at.setDate(updated_at.getDate() + 29)
-               if(updated_at<today)
+               console.log(updated_at);
+               if(updated_at<today){
+                  this.selectedTab = item;
                   return true;
+               }
                return false;
             }
          }
-         this.selectedTab = item;
       },
       show_level(){
          this.show_select_level=!this.show_select_level;

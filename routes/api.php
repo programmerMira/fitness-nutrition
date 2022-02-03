@@ -132,3 +132,6 @@ Route::apiResource('menu-days', App\Http\Controllers\MenuDaysController::class);
 
 
 Route::apiResource('pricing', App\Http\Controllers\PricingController::class);
+
+
+Route::apiResource('marathon-and-program', App\Http\Controllers\MarathonAndProgramController::class);

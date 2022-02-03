@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\MainPage;
+use App\Models\MarathonAndProgram;
 
 class MainPageController extends Controller
 {
@@ -12,7 +13,9 @@ class MainPageController extends Controller
         $main_welcome = MainPage::where('name','=','main_welcome')->first();
         $address_us_if = MainPage::where('name','=','address_us_if')->first();
 
-        return view('index')->with(compact('main_welcome','address_us_if'));
+        $marathons = MarathonAndProgram::all();
+
+        return view('index')->with(compact('main_welcome','address_us_if', 'marathons'));
     }
 
     function adminEditContent(Request $request, $id)

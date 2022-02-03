@@ -42,3 +42,15 @@ controllers:
   Pricing:
     resource: api
 seeders: Pricing
+
+models:
+  MarathonAndProgram:
+    name: string:100,
+    description: json,
+    price: float,
+    discount_price: float,
+    finish_date: timestamp
+controllers:
+  MarathonAndProgram:
+    resource: api
+seeders: MarathonAndProgram

@@ -1,14 +1,14 @@
 created:
-    - app/Http/Controllers/PricingController.php
-    - database/factories/PricingFactory.php
-    - database/migrations/2022_01_29_224347_create_pricings_table.php
-    - app/Models/Pricing.php
-    - database/seeders/PricingSeeder.php
-    - tests/Feature/Http/Controllers/PricingControllerTest.php
-    - app/Http/Requests/PricingStoreRequest.php
-    - app/Http/Requests/PricingUpdateRequest.php
-    - app/Http/Resources/PricingCollection.php
-    - app/Http/Resources/PricingResource.php
+    - app/Http/Controllers/MarathonAndProgramController.php
+    - database/factories/MarathonAndProgramFactory.php
+    - database/migrations/2022_02_03_002509_create_marathon_and_programs_table.php
+    - app/Models/MarathonAndProgram.php
+    - database/seeders/MarathonAndProgramSeeder.php
+    - tests/Feature/Http/Controllers/MarathonAndProgramControllerTest.php
+    - app/Http/Requests/MarathonAndProgramStoreRequest.php
+    - app/Http/Requests/MarathonAndProgramUpdateRequest.php
+    - app/Http/Resources/MarathonAndProgramCollection.php
+    - app/Http/Resources/MarathonAndProgramResource.php
 updated:
     - routes/api.php
 models:
@@ -33,3 +33,4 @@ models:
     MenuDays: { menu_id: 'id foreign:Menu', day_number: integer, name: 'string:50', description: 'string:1000', content: json }
     AccessHistory: { user_id: 'id foreign:User', activation_date: datetime, deactivation_date: datetime }
     Pricing: { month: 'string:50', number: float, price: float, discount: float }
+    MarathonAndProgram: { name: 'string:100,', description: 'json,', price: 'float,', discount_price: 'float,', finish_date: timestamp }

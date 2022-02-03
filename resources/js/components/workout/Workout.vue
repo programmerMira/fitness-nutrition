@@ -1,7 +1,7 @@
 <template>
   <main class="main account-main">
     <header class="account-header workout">
-      <MenuOffice></MenuOffice>
+      <MenuOffice page='workout'></MenuOffice>
     </header>
     <section id="account-head" class="workout">
       <Logout></Logout>
@@ -38,7 +38,9 @@
                       </div>
                   </div>
                   <div class="progress-result">
-                      <div v-if="Physics!=null" class="progress-result__title">{{Physics.current_weight - Physics.weight}} кг</div>
+                      <div v-if="Physics!=null" class="progress-result__title">
+                        {{Physics.current_weight - Physics.weight}} кг
+                      </div>
                       <div v-else class="progress-result__title">-0 кг</div>
                       <div class="progress-result__caption">
                         <span>Мой</span> результат
@@ -236,11 +238,37 @@ export default {
       return this.slider;
     },
     Physics(){
-      if(this.selectedTrainingId){
-        let tmp = this.$store.getters.GetPhysicsParameters.filter(element => element.training_id == this.selectedTrainingId.training_user.training_id);
-        if(tmp)
-            return tmp[tmp.length-1];
-      }
+      if(this.UserActiveCallendar){
+            let tmp = this.$store.getters.GetPhysicsParameters.filter(element => element.training_id == this.UserActiveCallendar.training_user.training_id);
+            console.log(tmp);
+            if(tmp){
+               var updated_at = new Date(Date.parse(this.UserActiveCallendar.training_user.created_at));
+               var today = new Date();
+               let res = null;
+
+               updated_at.setDate(updated_at.getDate() + 10)
+               console.log(updated_at);
+
+               if(updated_at<today)
+                  res = tmp[tmp.length-1];
+
+               updated_at = new Date(Date.parse(this.UserActiveCallendar.training_user.created_at));
+               updated_at.setDate(updated_at.getDate() + 20)
+               console.log(updated_at);
+
+               if(updated_at<today)
+                  res = tmp[tmp.length-2];
+
+               updated_at = new Date(Date.parse(this.UserActiveCallendar.training_user.created_at));
+               updated_at.setDate(updated_at.getDate() + 29)
+               console.log(updated_at);
+
+               if(updated_at<today)
+                  res = tmp[0];
+
+               return res;
+            }
+         }
     },
     Available_locations(){
       let tmp_locs = this.$store.getters.GetTrainingLocations;

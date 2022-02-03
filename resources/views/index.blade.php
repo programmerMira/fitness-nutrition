@@ -450,9 +450,34 @@
                                 <div class="program__promo">
                                     Окончание акции
                                 </div>
-                                <div class="program__promo-time">
-                                    23 : 22 : 01
-                                </div>
+                                <div id="marathon__promo-time" class="program__promo-time"></div>
+                                <script>
+                                    let marathons = {!! json_encode($marathons) !!};
+                                    var countDownDate = new Date(marathons[0].finish_date * 1000).getTime();
+                                    var x = setInterval(function() {
+                                        // Get today's date and time
+                                        var now = new Date().getTime();
+                                        
+                                        // Find the distance between now and the count down date
+                                        var distance = countDownDate - now;
+                                        
+                                        // Time calculations for days, hours, minutes and seconds
+                                        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                                        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                                        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                                        
+                                        // Output the result in an element with id="demo"
+                                        document.getElementById("marathon__promo-time").innerHTML = days + ":" + hours + ":"
+                                        + minutes + ":" + seconds;
+                                        
+                                        // If the count down is over, write some text 
+                                        if (distance < 0) {
+                                            clearInterval(x);
+                                            document.getElementById("marathon__promo-time").innerHTML = "EXPIRED";
+                                        }
+                                    }, 1000);
+                                </script>
                             </div>
                             <div class="program__body">
                                 <ul class="program__list">
@@ -470,12 +495,7 @@
                                                     d="M2.66569 10.3188C2.66644 9.90622 2.65376 0.000791155 2.65376 0.000791155L2.43665 -6.10352e-05C2.43665 -6.10352e-05 0.666748 1.03995 0.666748 8.75778C2.02629 9.14634 1.45426 10.6941 1.35129 10.8913C1.35129 11.284 1.38061 15.3201 1.38061 15.3201L1.38532 15.3176C1.38375 15.3234 1.38218 15.3267 1.38218 15.3316C1.38061 15.7021 1.6698 16.0033 2.0239 15.9999C2.378 16.0015 2.66719 15.7004 2.66562 15.3316C2.66712 15.3267 2.66712 15.3234 2.66562 15.3201L2.66637 15.3167C2.66644 15.3168 2.66644 10.7718 2.66569 10.3188Z"
                                                     fill="white"/>
                                             </svg>
-                                        </div>
-                                        <p>
-                                            Вкусное меню с видеорецептами и щепоточкой любви + в подарок меню ещё на
-                                            30 дней с простыми рецептами. Упрощенное меню отлично подойдёт если у
-                                            тебя нет времени на приготовление блюд.
-                                        </p>
+                                        </div><p>Вкусное меню с видеорецептами и щепоточкой любви + в подарок меню ещё на<br>30 дней с простыми рецептами. Упрощенное меню отлично подойдёт если у<br>тебя нет времени на приготовление блюд.</p>
                                     </li>
                                     <li class="program__item">
                                         <div class="program__icon">
@@ -569,10 +589,10 @@
                                 </ul>
                                 <div class="program__price">
 											<span>
-												5 000 <sub> ₽  за 30 дней</sub>
+												{{$marathons[0]->discount_price}} <sub> ₽  за 30 дней</sub>
 											</span>
                                     <span class="grey">
-												7 000 <sub>₽</sub>
+                                            {{$marathons[0]->price}} <sub>₽</sub>
 											</span>
                                 </div>
                                 <div class="program__start">
@@ -607,9 +627,33 @@
                                 <div class="program__promo">
                                     Окончание акции
                                 </div>
-                                <div class="program__promo-time">
-                                    23 : 22 : 01
-                                </div>
+                                <div id="program__promo-time" class="program__promo-time"></div>
+                                <script>
+                                    var countDownDateProgramm = new Date(marathons[1].finish_date * 1000).getTime();
+                                    var y = setInterval(function() {
+                                        // Get today's date and time
+                                        var now = new Date().getTime();
+                                        
+                                        // Find the distance between now and the count down date
+                                        var distance = countDownDateProgramm - now;
+                                        
+                                        // Time calculations for days, hours, minutes and seconds
+                                        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                                        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                                        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                                        
+                                        // Output the result in an element with id="demo"
+                                        document.getElementById("program__promo-time").innerHTML = days + ":" + hours + ":"
+                                        + minutes + ":" + seconds;
+                                        
+                                        // If the count down is over, write some text 
+                                        if (distance < 0) {
+                                            clearInterval(x);
+                                            document.getElementById("program__promo-time").innerHTML = "EXPIRED";
+                                        }
+                                    }, 1000);
+                                </script>
                             </div>
                             <div class="program__body">
                                 <ul class="program__list">
@@ -720,10 +764,10 @@
                                 </ul>
                                 <div class="program__price">
 											<span>
-												5 000 <sub> ₽  за 30 дней</sub>
+                                                {{$marathons[1]->discount_price}} <sub> ₽  за 30 дней</sub>
 											</span>
                                     <span class="grey">
-												7 000 <sub>₽</sub>
+                                                {{$marathons[1]->price}} <sub>₽</sub>
 											</span>
                                 </div>
                                 <button type="button" class="button" data-toggle="modal" data-target="#buy">
