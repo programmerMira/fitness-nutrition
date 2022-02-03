@@ -93,10 +93,13 @@
 .question-tab__prg {
    font-weight: 500;
    font-size: 14px;
-   line-height: 17px;
+   line-height: 19px;
    color: #464646;
    margin-top: 25px;
    margin-bottom: 20px;
+    p {
+        margin-top: 20px;
+    }
 }
 #question {
    padding: 0 0 49px;
