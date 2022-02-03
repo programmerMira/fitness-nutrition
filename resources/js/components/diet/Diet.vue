@@ -23,8 +23,8 @@
                                         <defs>
                                             <linearGradient id="linear" x1="46.2954" y1="0" x2="46.2954" y2="99.0139"
                                                             gradientUnits="userSpaceOnUse">
-                                                <stop stop-color="#A697FF"/>
-                                                <stop offset="1" stop-color="#573DFF"/>
+                                                <stop stop-color="#81CE9A"/>
+                                                <stop offset="1" stop-color="#00AB8C"/>
                                             </linearGradient>
                                         </defs>
                                         <circle class="incomplete" cx="43" cy="43" r="35"></circle>
@@ -277,7 +277,7 @@ export default {
                     let days = [];
                     //console.log("this.current_type:",this.current_type);
                     for (const item of Object.values(index.days)) {
-                        if(index.menu_id == this.selectedMenuId.users_menus.menu_id && 
+                        if(index.menu_id == this.selectedMenuId.users_menus.menu_id &&
                            index.menu_type_id == this.selectedMenuId.users_menus.menu_type_id){
                                days.push({title: item.day_number});
                                if (item.day_number == parseInt(this.selectedTab))
@@ -285,7 +285,7 @@ export default {
                            }
                     }
                     let active = false;
-                    if(index.menu_id == this.selectedMenuId.users_menus.menu_id && 
+                    if(index.menu_id == this.selectedMenuId.users_menus.menu_id &&
                        index.menu_type_id == this.selectedMenuId.users_menus.menu_type_id){
                         active = true;
                     }
@@ -381,14 +381,14 @@ export default {
         changeType(type) {
             this.$loading(true);
             this.current_type = type;
-            
+
             this.$store.dispatch('setFoodCalendar',{
                 id: this.UserFoodCallendar.id,
                 users_menus_id: this.UserFoodCallendar.users_menus_id,
                 day: this.UserFoodCallendar.day,
                 is_active: false
             });
-            
+
             console.log("this.$store.getters.GetFoodCalendars:",this.$store.getters.GetFoodCalendars)
             let new_active = this.$store.getters.GetFoodCalendars.find(element => element.users_menus.menu_type_id == this.current_type.id);
 
@@ -431,7 +431,7 @@ export default {
                     day: this.UserFoodCallendar.day,
                     is_active: false
                 });
-                
+
                 let new_active = this.$store.getters.GetFoodCalendars.find(element => element.users_menus_id === this.slider[this.start_index+1].users_menus_id);
 
                 this.$store.dispatch('setFoodCalendar',{
@@ -455,7 +455,7 @@ export default {
                     day: this.UserFoodCallendar.day,
                     is_active: false
                 });
-                
+
                 let new_active = this.$store.getters.GetFoodCalendars.find(element => element.users_menus_id === this.slider[this.start_index-1].users_menus_id);
 
                 this.$store.dispatch('setFoodCalendar',{

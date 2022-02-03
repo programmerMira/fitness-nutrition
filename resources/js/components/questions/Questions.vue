@@ -98,8 +98,9 @@ export default {
 <style lang="scss">
    .text-overflow__custom{
       overflow: hidden;
-      display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
+       display: block;
+       height: 59px;
    }
 </style>
