@@ -184,7 +184,7 @@ export default {
     UserActiveCallendar(){
       //console.log("UserActiveCallendar:",this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1))
       let current = this.$store.getters.GetActivityCalendars.find(element=>parseInt(element.is_active)==1);
-      if(current)
+      if(current != undefined && current.training_user != undefined)
         this.current_location = this.$store.getters.GetTrainingLocations.find(element=>element.id === current.training_user.training_location_id);
       return current;
     },
