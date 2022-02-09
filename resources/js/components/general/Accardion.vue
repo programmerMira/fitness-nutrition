@@ -5,7 +5,7 @@
          <div class="notifications__title">
             {{info.name}}
             <span>
-               {{(new Date(Date.parse(info.created_at))).toUTCString()}}
+               {{(new Date()).toLocaleDateString('ru-RU', {year: "numeric", month: "long", day: "numeric"})}}
             </span>
          </div>
          <svg v-show="false" v-bind:class="{ active: content_open[index] }" class="notifications__svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,9 +17,7 @@
             <p class="notifications__subtitle">
               Здравствуйте, {{User.user.name}}!
             </p>
-            <p class="notifications__txt">
-              {{info.description}}
-            </p>
+            <p class="notifications__txt" v-html = "info.description"></p>
          </div>
       </transition>
    </div>
