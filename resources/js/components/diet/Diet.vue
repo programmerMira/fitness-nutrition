@@ -6,7 +6,7 @@
         <section id="account-head" class="diet">
             <Logout></Logout>
         </section>
-        <section v-if="User" id="progress" class="diet">
+        <section v-if="User && checkActivity()" id="progress" class="diet">
             <div class="account-container">
                 <div class="progress__container">
                     <div class="progress__col-first">
@@ -294,7 +294,7 @@ export default {
                         if(index.menu_type_id == this.selectedMenuId.users_menus.menu_type_id)
                             this.slider.push({
                                 users_menus_id: index.id,
-                                menutitle: index.menu.menu_content + " " + calories.name,
+                                menutitle: index.menu.menu_content + " на " + calories.name,
                                 days: days,
                                 type: index.menu_type.name,
                                 is_active: active
@@ -333,7 +333,10 @@ export default {
         },
         DisabledTypes() {
             return this.disabled_types;
-        }
+        },
+        AccessHistory(){
+            return this.$store.getters.GetAccessHistory;
+        },
     },
     mounted() {
         this.$loading(true);
@@ -346,6 +349,7 @@ export default {
             this.$store.dispatch('fetchActivityCalendars');
             this.$store.dispatch('fetchMenuTypes');
             this.$store.dispatch('fetchMenuCalories');
+            this.$store.dispatch('fetchAccessHistory');
         }
     },
     methods: {
@@ -467,7 +471,16 @@ export default {
 
                 this.$store.dispatch('fetchFoodCalendars');
             }
-        }
+        },
+        checkActivity(){
+            if(this.AccessHistory==null)
+                false;
+            var date1 = new Date(this.AccessHistory.deactivation_date);
+            var date2 = new Date();
+            if(date1>date2)
+                return true;
+            window.location.href = `/plugin`;
+        },
     },
 };
 </script>

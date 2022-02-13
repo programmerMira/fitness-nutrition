@@ -71,12 +71,20 @@
                   </div>
                </div>
                <div class="plugin-block__list">
-                  <div class="plugin-block__item">
-                     <h5 v-if="User" class="plugin-block__title-caps">
+                  <div v-if="User && checkActivity()" class="plugin-block__item">
+                     <h5 class="plugin-block__title-caps">
                         {{daysLeft()}} дней
                      </h5>
                      <p class="plugin-block__prg">
                         До отключения <br>доступа
+                     </p>
+                  </div>
+                  <div v-else class="plugin-block__item">
+                     <h5 class="plugin-block__title-caps">
+                        0 дней
+                     </h5>
+                     <p class="plugin-block__prg">
+                        Доступ отключен
                      </p>
                   </div>
                   <div class="plugin-block__item">

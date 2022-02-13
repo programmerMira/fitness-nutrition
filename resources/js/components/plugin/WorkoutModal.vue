@@ -39,7 +39,7 @@
                         {{ workout.level  }}
                      </div>
                      <div class="plugin-checkbox__txt plugin-modal__txt">
-                        {{ workout.level }} уровень
+                        Уровень {{ workout.level }}
                         <b>
                            {{ workout.price }} р.
                         </b>

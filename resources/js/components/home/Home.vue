@@ -1,5 +1,5 @@
 <template>
-   <main v-if="User" class="main account-main">
+   <main v-if="User && checkActivity()" class="main account-main">
       <header class="account-header home">
          <MenuOffice page='home'></MenuOffice>
       </header>
@@ -260,6 +260,9 @@ export default {
             }
          }
       },
+      AccessHistory(){
+         return this.$store.getters.GetAccessHistory;
+      },
    },
    mounted(){
       this.$loading(true);
@@ -270,6 +273,7 @@ export default {
          this.$store.dispatch('fetchActivityCalendars');
          this.$store.dispatch('fetchTrainings');
          this.$store.dispatch('fetchTrainings');
+         this.$store.dispatch('fetchAccessHistory');
       }
    },
    methods: {
@@ -357,7 +361,16 @@ export default {
          });
          this.selectedTab = "1";
          this.$store.dispatch('fetchActivityCalendars');
-      }
+      },
+      checkActivity(){
+         if(this.AccessHistory==null)
+            false;
+         var date1 = new Date(this.AccessHistory.deactivation_date);
+         var date2 = new Date();
+         if(date1>date2)
+            return true;
+         window.location.href = `/plugin`;
+      },
    },
 };
 </script>

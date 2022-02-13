@@ -6,7 +6,7 @@
     <section id="account-head" class="workout">
       <Logout></Logout>
     </section>
-    <section v-if="User" id="progress" class="workout">
+    <section v-if="User && checkActivity()" id="progress" class="workout">
       <div class="account-container">
           <div class="progress__container">
             <div class="progress__col-first">
@@ -56,7 +56,7 @@
                       <div class="swiper-wrapper">
                         <div class="swiper-slide" v-for="(tabs, index) in TrainingTitleAndDays" :key="index">
                           <div class="calendar__title">
-                            <span>Календарь активности</span> <h5>{{ tabs.menutitle }} ({{ tabs.location }})</h5>
+                            <span>Календарь активности</span> <h5>Уровень № {{ tabs.level }}</h5>
                           </div>
                           <div class="calendar__days">
                             <div
@@ -298,6 +298,9 @@ export default {
     Disabled_locations(){
       return this.disabled_locations;
     },
+    AccessHistory(){
+      return this.$store.getters.GetAccessHistory;
+    },
   },
   mounted(){
     this.$loading(true);
@@ -307,6 +310,7 @@ export default {
       this.$store.dispatch('fetchTrainingUsers');
       this.$store.dispatch('fetchActivityCalendars');
       this.$store.dispatch('fetchTrainingLocations');
+      this.$store.dispatch('fetchAccessHistory');
     }
     
   },
@@ -432,6 +436,15 @@ export default {
 
         this.$store.dispatch('fetchActivityCalendars');
       }
+    },
+    checkActivity(){
+      if(this.AccessHistory==null)
+        false;
+      var date1 = new Date(this.AccessHistory.deactivation_date);
+      var date2 = new Date();
+      if(date1>date2)
+        return true;
+      window.location.href = `/plugin`;
     },
   },
 };

@@ -1,12 +1,12 @@
 <template>
 <main class="main account-main">
     <header class="account-header question">
-      <MenuOffice v-bind:page='question'></MenuOffice>
+      <MenuOffice page='question'></MenuOffice>
     </header>
     <section id="account-head" class="question">
       <Logout></Logout>
     </section>
-   <section id="question">
+   <section id="question" v-if="checkActivity()">
       <div class="account-container">
          <div id="progress" class="question question__container">
             <div class="question-tab">
@@ -74,12 +74,16 @@ export default {
          if(this.$store.getters.GetTopics)
             this.$loading(false);
          return this.$store.getters.GetTopics;
-      }
+      },
+      AccessHistory(){
+         return this.$store.getters.GetAccessHistory;
+      },
    },
    mounted(){
       this.$loading(true);
       this.$store.dispatch('fetchQuestions');
       this.$store.dispatch('fetchTopics');
+      this.$store.dispatch('fetchAccessHistory');
    },
    methods:{
       show(item){
@@ -91,7 +95,16 @@ export default {
          if(item===parseInt(this.currentTab))
             return 'question-tab__content active';
          return 'question-tab__content';
-      }
+      },
+      checkActivity(){
+         if(this.AccessHistory==null)
+            false;
+         var date1 = new Date(this.AccessHistory.deactivation_date);
+         var date2 = new Date();
+         if(date1>date2)
+            return true;
+         window.location.href = `/plugin`;
+      },
    }
 };
 </script>

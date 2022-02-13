@@ -95,13 +95,13 @@
          if(!diets)
             return [];
          diets.forEach(element=>{
-            this.diets_list.push(
-               {
-                  value: false,
-                  menu: 'Меню на '+ element.menu_days.length +' дней \n' + element.menu_content,
-                  price: element.menu_price + ' р.',
-               }
-            )
+            let tmp = {
+               value: false,
+               menu: element.menu_content,
+               price: element.menu_price + ' р.',
+            }
+            if(!this.diets_list.some(e => e.menu == tmp.menu && e.price == tmp.price))
+               this.diets_list.push(tmp);
          });
          return this.diets_list;
       }
