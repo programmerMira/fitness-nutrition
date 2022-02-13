@@ -129,13 +129,23 @@ class MenuController extends Controller
         $info_text = $request->info_text;
         $videos = $request->videos;
         $foods = $request->foods;
+        $proteins = $request->proteins;
+        $fat = $request->fat;
+        $carbs = $request->carbs;
+        $day_number = $request->day_number;
+        $name = $request->name;
 
         Log::info(print_r($request->toArray(), true));
-        if ($info_text != null && $videos != null && $foods != null) {
+        if ($info_text != null && $videos != null && $foods != null && $proteins != null && $fat != null && $carbs != null && $day_number != null && $name != null) {
             MenuDays::whereId($id)->update([
                 'info' => json_encode($info_text),
                 'videos' => json_encode($videos),
                 'foods' => json_encode($foods),
+                'proteins' => $proteins,
+                'fat' => $fat,
+                'carbs' => $carbs,
+                'day_number' => $day_number,
+                'name' => $name,
             ]);
         }
         return redirect()->route('menu');
@@ -144,8 +154,8 @@ class MenuController extends Controller
 
     function adminAddViewDay(Request $request, $id)
     {
-        $menu_days = MenuDays::all();
-        return view('admin.dashboard.menu.oneDayMenu.menuOneAddForm')->with(compact('menu_days'));
+        //$menu_days = MenuDays::where("menu_id", $id)->get();
+        return view('admin.dashboard.menu.oneDayMenu.menuOneAddForm');//->with(compact('menu_days', 'id'));
     }
 
     function adminAddMenuDay(Request $request)
@@ -153,12 +163,22 @@ class MenuController extends Controller
         $info_text = $request->info_text;
         $videos = $request->videos;
         $foods = $request->foods;
+        $proteins = $request->proteins;
+        $fat = $request->fat;
+        $carbs = $request->carbs;
+        $day_number = $request->day_number;
+        $name = $request->name;
 
-        if ($info_text != null && $videos != null && $foods != null) {
+        if ($info_text != null && $videos != null && $foods != null && $proteins != null && $fat != null && $carbs != null && $day_number != null && $name != null) {
             MenuDays::create([
                 'info' => json_encode($info_text),
                 'videos' => json_encode($videos),
                 'foods' => json_encode($foods),
+                'proteins' => $proteins,
+                'fat' => $fat,
+                'carbs' => $carbs,
+                'day_number' => $day_number,
+                'name' => $name,
             ]);
         }
         return redirect()->route('menu');

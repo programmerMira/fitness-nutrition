@@ -6,8 +6,16 @@ use App\Http\Requests\PersonalAccountStoreRequest;
 use App\Http\Requests\PersonalAccountUpdateRequest;
 use App\Http\Resources\PersonalAccountCollection;
 use App\Http\Resources\PersonalAccountResource;
+use App\Models\MenuCalory;
 use App\Models\PersonalAccount;
+use App\Models\Question;
+use App\Models\Topic;
+use App\Models\Training;
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\UserMenu;
+use App\Models\Menu;
+use App\Models\TrainingUser;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -47,4 +55,20 @@ class PersonalAccountController extends Controller
         $personalAccount->delete();
         return response()->noContent();
     }
+
+    function adminUsers(Request $request)
+    {
+        $accounts = PersonalAccount::with('user')->get();
+        $users_data = User::all();
+        $user_menus = UserMenu::with('menu')->get();
+
+        $user_trainings = TrainingUser::with('training')->get();
+
+        //dd($user_menus);
+        return view('admin.dashboard.admin.usersList')->with(compact('accounts', 'users_data', 'user_menus', 'user_trainings'));
+    }
+
+
+
+
 }

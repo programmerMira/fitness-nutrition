@@ -16,17 +16,49 @@
                             <div class="tab-pane active" id="menu" role="tabpanel">
                                 <div class="card">
                                     <div class="card-header"><strong>
-                                            Редактирование
+                                            Добавить
                                         </strong></div>
                                     <div class="card-body">
-                                        <Todolistmenu :contents="{{json_encode($menu_day->content)}}"></Todolistmenu>
-                                        <Todolistinfo :infos="{{json_encode($menu_day->info)}}"></Todolistinfo>
+                                        <div class="form-group row">
+                                            <label class="col-md-3 col-form-label">Название дня</label>
+                                            <div class="col-md-9">
+                                                <input name="name" class="form-control" type="text" placeholder="Название дня">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-3 col-form-label">№ дня</label>
+                                            <div class="col-md-9">
+                                                <input name="day_number" class="form-control" type="text" placeholder="№ дня">
+                                            </div>
+                                        </div>
                                         <div class="form-group row">
                                             <label class="col-md-3 col-form-label">Описание дня</label>
                                             <div class="col-md-9">
                                                 <input name="description" class="form-control" type="text" placeholder="Название ">
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <label class="col-form-label">Белки</label>
+                                                <div>
+                                                    <input class="form-control" type="text" name="proteins">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="col-form-label">Жиры</label>
+                                                <div>
+                                                    <input class="form-control" type="text" name="fat">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="col-form-label">Углеводы</label>
+                                                <div>
+                                                    <input class="form-control" type="text" name="carbs">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <Addtodolistmenu></Addtodolistmenu>
+                                        <Addtodolistinfo></Addtodolistinfo>
                                     </div>
                                 </div>
                             </div>
