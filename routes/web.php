@@ -32,9 +32,8 @@ Route::get("/search", [ArticleController::class,'search'])->middleware('auth');
 Route::prefix('/admin')->group(function () {
     Route::get('/', function(){ return view('admin.dashboard.homepage'); });
     Route::prefix('/users')->group(function () {  // word: "icons" - not working as part of adress
-        Route::get('/', function(){         return view('admin.dashboard.admin.usersList'); });
-        Route::get('/show', function(){         return view('admin.dashboard.admin.userShow'); });
-        Route::get('/edit', function(){         return view('admin.dashboard.admin.userEditForm'); });
+        //Route::get('/', function(){         return view('admin.dashboard.admin.usersList'); });
+        Route::get('/', [PersonalAccountController::class,'adminUsers'])->name('user');
     });
     Route::prefix('/menu')->group(function () {  // word: "icons" - not working as part of adress
         Route::get('/', [MenuController::class,'adminMenus'])->name('menu');
@@ -46,7 +45,7 @@ Route::prefix('/admin')->group(function () {
             Route::get('/{id}', [MenuController::class,'adminMenuDay'])->name('menuDay');
             Route::get('/edit/{id}', [MenuController::class,'adminShowMenuDay']);
             Route::post('/editMenuDay/{id}', [MenuController::class,'adminEditMenuDay'])->name('editMenuDay');
-            Route::get('/add', [MenuController::class,'adminAddViewDay']);
+            Route::get('/add/{id}', [MenuController::class,'adminAddViewDay']);
             Route::post('/addMenuDay', [MenuController::class,'adminAddMenuDay'])->name('addMenuDay');
             Route::post('/deleteMenuDay/{id}', [MenuController::class,'adminDeleteMenuDay'])->name('deleteMenuDay');
         });

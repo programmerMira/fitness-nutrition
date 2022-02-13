@@ -19,14 +19,46 @@
                                             Редактирование
                                         </strong></div>
                                     <div class="card-body">
-                                        <Todolistmenu :contents="{{json_encode($menu_day->content)}}"></Todolistmenu>
-                                        <Todolistinfo :infos="{{json_encode($menu_day->info)}}"></Todolistinfo>
+                                        <div class="form-group row">
+                                            <label class="col-md-3 col-form-label">Название дня</label>
+                                            <div class="col-md-9">
+                                                <input value="{{ $menu_day->name }}" name="name" class="form-control" type="text" placeholder="Название дня">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-3 col-form-label">№ дня</label>
+                                            <div class="col-md-9">
+                                                <input value="{{ $menu_day->day_number }}" name="day_number" class="form-control" type="text" placeholder="№ дня">
+                                            </div>
+                                        </div>
                                         <div class="form-group row">
                                             <label class="col-md-3 col-form-label">Описание дня</label>
                                             <div class="col-md-9">
                                                 <input value="{{ $menu_day->description }}" name="description" class="form-control" type="text" placeholder="Название ">
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <label class="col-form-label">Белки</label>
+                                                <div>
+                                                    <input class="form-control" type="text" value="{{ $menu_day->proteins }}" name="proteins">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="col-form-label">Жиры</label>
+                                                <div>
+                                                    <input class="form-control" type="text" value="{{ $menu_day->fat }}" name="fat">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="col-form-label">Углеводы</label>
+                                                <div>
+                                                    <input class="form-control" type="text" value="{{ $menu_day->carbs }}" name="carbs">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <Todolistmenu :contents="{{json_encode($menu_day->content)}}"></Todolistmenu>
+                                        <Todolistinfo :infos="{{json_encode($menu_day->info)}}"></Todolistinfo>
                                     </div>
                                 </div>
                             </div>
