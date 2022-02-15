@@ -263,50 +263,56 @@ export default {
             let tmp = this.$store.getters.GetUserMenus;
             if (!tmp || tmp.length < 1)
                 return this.slider;
+            
             if (this.$store.getters.GetFoodCalendars.length > 0)
                 this.selectedMenuId = this.UserFoodCallendar;
             else
                 this.selectedMenuId = null;
+            
             if (this.selectedMenuId != null && this.selectedMenuId.day != null)
                 this.selectedTab = this.selectedMenuId.day.toString();
             else
                 this.selectedTab = "1";
+            
             this.slider = [];
-            if (this.selectedMenuId != null)
+            
+            if (this.selectedMenuId != null){
                 tmp.forEach(index => {
+
                     let days = [];
-                    //console.log("this.current_type:",this.current_type);
                     for (const item of Object.values(index.days)) {
-                        if(index.menu_id == this.selectedMenuId.users_menus.menu_id &&
-                           index.menu_type_id == this.selectedMenuId.users_menus.menu_type_id){
-                               days.push({title: item.day_number});
-                               if (item.day_number == parseInt(this.selectedTab))
-                                    this.selected_day = item;
-                           }
+                        days.push({title: item.day_number});
+                        if (item.day_number == parseInt(this.selectedTab))
+                            this.selected_day = item;
                     }
+
                     let active = false;
-                    if(index.menu_id == this.selectedMenuId.users_menus.menu_id &&
-                       index.menu_type_id == this.selectedMenuId.users_menus.menu_type_id){
+                    if(index.menu_id == this.selectedMenuId.users_menus.menu_id){
                         active = true;
                     }
-                    let calories = this.$store.getters.GetMenuCalories.find(element => element.id == index.menu.menu_calories_id);
-                    if(calories)
-                        if(index.menu_type_id == this.selectedMenuId.users_menus.menu_type_id)
-                            this.slider.push({
-                                users_menus_id: index.id,
-                                menutitle: index.menu.menu_content + " на " + calories.name,
-                                days: days,
-                                type: index.menu_type.name,
-                                is_active: active
-                            });
+                    
+                    if(index.menu_type_id == this.selectedMenuId.users_menus.menu_type_id)
+                        this.slider.push({
+                            users_menus_id: index.id,
+                            menutitle: index.menu.menu_content,
+                            days: days,
+                            type: index.menu_type.name,
+                            is_active: active
+                        });
                 });
-                //console.log("this.slider: ", this.slider);
-                //console.log("this.selected_day:",this.selected_day);
-                //console.log("this.selectedMenuId:", this.selectedMenuId);
+            }
+                
+            
+            console.log("this.slider: ", this.slider);
+            console.log("this.selected_day:",this.selected_day);
+            console.log("this.selectedMenuId:", this.selectedMenuId);
+                
+            if(this.slider.length > 0 && this.start_index != null){
                 this.activateSwiper();
-                if(this.slider.length>0)
-                    this.$loading(false);
-                return this.slider;
+                this.$loading(false);
+            }
+                
+            return this.slider;
         },
         AvailableTypes() {
             let tmp_types = this.$store.getters.GetMenuTypes;
@@ -327,8 +333,10 @@ export default {
                         });
                 });
             }
-            if(this.available_types.length>0)
+
+            if(this.available_types.length > 0)
                 this.$loading(false);
+
             return this.available_types;
         },
         DisabledTypes() {
@@ -377,6 +385,7 @@ export default {
 
             this.selectedTab = tabTitle;
             this.$store.dispatch('fetchFoodCalendars');
+            this.$store.dispatch('fetchUserMenus');
         },
         changeTabStyle(tabTitle) {
             if (this.selectedTab != null && this.selectedTab.toString() == tabTitle)
@@ -385,6 +394,7 @@ export default {
         changeType(type) {
             this.$loading(true);
             this.current_type = type;
+            this.start_index = 0;
 
             this.$store.dispatch('setFoodCalendar',{
                 id: this.UserFoodCallendar.id,
@@ -395,7 +405,8 @@ export default {
 
             console.log("this.$store.getters.GetFoodCalendars:",this.$store.getters.GetFoodCalendars)
             let new_active = this.$store.getters.GetFoodCalendars.find(element => element.users_menus.menu_type_id == this.current_type.id);
-
+            console.log("new_active:", new_active);
+            
             this.$store.dispatch('setFoodCalendar',{
                 id: new_active.id,
                 users_menus_id: new_active.users_menus_id,
@@ -407,8 +418,9 @@ export default {
         },
         activateSwiper(){
             for(let i = 0; i<this.slider.length; i++){
-                if(this.slider[i].is_active)
-                this.start_index = i;
+                if(this.slider[i].is_active){
+                    this.start_index = i;
+                }
             }
 
             var swiperDiet = new Swiper(".calendar__slider-diet", {
@@ -421,8 +433,6 @@ export default {
                 },
                 allowTouchMove: false,
             });
-
-            //console.log("swiperDiet:",swiperDiet);
         },
         setNextActiveMenu(){
             if(this.start_index<this.slider.length-1)
@@ -436,7 +446,9 @@ export default {
                     is_active: false
                 });
 
-                let new_active = this.$store.getters.GetFoodCalendars.find(element => element.users_menus_id === this.slider[this.start_index+1].users_menus_id);
+                let new_active = this.$store.getters.GetFoodCalendars.find(
+                    element => element.users_menus_id === this.slider[this.start_index+1].users_menus_id
+                );
 
                 this.$store.dispatch('setFoodCalendar',{
                     id: new_active.id,
@@ -446,6 +458,7 @@ export default {
                 });
 
                 this.$store.dispatch('fetchFoodCalendars');
+                this.$store.dispatch('fetchUserMenus');
             }
         },
         setPrevActiveMenu(){

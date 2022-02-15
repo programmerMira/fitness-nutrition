@@ -18,7 +18,6 @@ class FoodCalendarController extends Controller
     {
         $user = Auth::user()->id;
         $foodCalendars=FoodCalendar::with('usersMenus')->get();
-        //dd($foodCalendars);
         $fin_arr = [];
         foreach($foodCalendars as $item){
             if($item->usersMenus->user_id == $user)
