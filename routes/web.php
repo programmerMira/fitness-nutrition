@@ -61,7 +61,7 @@ Route::prefix('/admin')->group(function () {
             Route::get('/{id}', [TrainingController::class,'adminTrainingsDay'])->name('trainingDay');
             Route::get('/edit/{id}', [TrainingController::class,'adminShowTrainingDay']);
             Route::post('/editTrainingDay/{id}', [TrainingController::class,'adminEditTrainingDay'])->name('editTrainingDay');
-            Route::get('/add', [TrainingController::class,'adminAddViewDay']);
+            Route::get('/add/{id}', [TrainingController::class,'adminAddViewDay']);
             Route::post('/addTrainingDay', [TrainingController::class,'adminAddTrainingDay'])->name('addTrainingDay');
             Route::post('/deleteTrainingDay/{id}', [TrainingController::class,'adminDeleteTrainingDay'])->name('deleteTrainingDay');
         });

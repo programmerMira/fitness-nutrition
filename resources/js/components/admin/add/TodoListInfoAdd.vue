@@ -3,7 +3,7 @@
         <div class="form-group row">
             <label class="col-md-3 col-form-label">Дополнительно</label>
             <div class="col-md-7">
-                <input class="form-control" type="text" placeholder="Ссылка на видео" v-model="new_task.text">
+                <input class="form-control" type="text" placeholder="Дополнительно" v-model="new_task.text">
             </div>
             <div class="2">
                 <small class="form-text text-muted">{{ "Дополнительно: " + infos.length }}</small>
@@ -28,9 +28,7 @@
 export default {
     data: () => ({
         new_task: {
-            title: '',
-            desc: '',
-            measure: ''
+            text: ''
         },
         infos: []
     }),
@@ -38,6 +36,9 @@ export default {
         console.log(this.infos);
     },
     methods: {
+        toString(text){
+            return JSON.stringify(text);
+        },
         task_done() {
             this.$emit('task_done')
         },

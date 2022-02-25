@@ -5,7 +5,7 @@
         <div class="animated fadeIn">
             <div class="row">
                 <div class="col-sm-12 col-md-12">
-                    <a href="/admin/workout/days/add" class="btn btn-primary btn-lg mb-3">Добавить</a>
+                    <a href="/admin/workout/days/add/{{$trainings->id}}" class="btn btn-primary btn-lg mb-3">Добавить</a>
                 </div>
                 <div class="col-lg-12">
                     @foreach($trainings->days as $trainings_day)
