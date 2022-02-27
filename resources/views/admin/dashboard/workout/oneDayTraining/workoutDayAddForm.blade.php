@@ -21,9 +21,15 @@
                                         <form class="form-horizontal form" action="{{route('addTrainingDay')}}" method="post">
                                             @csrf
                                             <div class="form-group row">
-                                                <label class="col-md-3 col-form-label">Название</label>
+                                                <label class="col-md-3 col-form-label">Название дня</label>
                                                 <div class="col-md-9">
-                                                    <input name="name" class="form-control" type="text" placeholder="Название ">
+                                                    <input name="name" class="form-control" type="text" placeholder="Название дня">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 col-form-label">№ дня</label>
+                                                <div class="col-md-9">
+                                                    <input name="day_number" class="form-control" type="text" placeholder="№ дня">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -38,12 +44,14 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <Todolistvideo
-                                                :videos="{{json_encode($training_day->videos)}}"
-                                            ></Todolistvideo>
-                                            <Workouttodolist
-                                                :infos="{{json_encode($training_day->info)}}"
-                                            ></Workouttodolist>
+{{--                                            <Todolistvideo--}}
+{{--                                                :videos="{{json_encode($training_day->videos)}}"--}}
+{{--                                            ></Todolistvideo>--}}
+{{--                                            <Todolistinfo--}}
+{{--                                                :infos="{{json_encode($training_day->info)}}"--}}
+{{--                                            ></Todolistinfo>--}}
+                                            <Addtodolistvideo></Addtodolistvideo>
+                                            <Addtodolistinfo></Addtodolistinfo>
                                             <div class="card-footer card-footer-edit">
                                                 <button class="btn btn-sm btn-primary" type="submit"> Сохранить</button>
                                                 <a class="btn btn-sm btn-danger" href="/admin/workout"> Назад</a>
@@ -58,9 +66,19 @@
                                     <div class="card-body">
                                         <form class="form-horizontal form" action="{{route('addTrainingDay')}}" method="post">
                                             @csrf
-                                            <Workouttodolist
-                                                :infos="{{json_encode($training_day->info)}}"
-                                            ></Workouttodolist>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 col-form-label">Название дня</label>
+                                                <div class="col-md-9">
+                                                    <input name="name" class="form-control" type="text" placeholder="Название дня">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 col-form-label">№ дня</label>
+                                                <div class="col-md-9">
+                                                    <input name="day_number" class="form-control" type="text" placeholder="№ дня">
+                                                </div>
+                                            </div>
+                                            ///
                                             <div class="card-footer card-footer-edit">
                                                 <button class="btn btn-sm btn-primary" type="submit"> Сохранить</button>
                                                 <a class="btn btn-sm btn-danger" href="/admin/workout"> Назад</a>

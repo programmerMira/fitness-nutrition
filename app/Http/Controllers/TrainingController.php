@@ -140,6 +140,7 @@ class TrainingController extends Controller
     function adminEditTrainingDay(Request $request, $id)
     {
 
+        $day_number = $request->day_number;
         $name = $request->name;
         $trainingLocation = $request->trainingLocation;
         $info_text = $request->info_text;
@@ -147,9 +148,10 @@ class TrainingController extends Controller
         $description = $request->description;
 
         Log::info(print_r($request->toArray(), true));
-        if ($name != null && $trainingLocation != null && $info_text != null && $videos != null && $description != null) {
+        if ($name != null && $day_number != null && $trainingLocation != null && $info_text != null && $videos != null && $description != null) {
             Days::whereId($id)->update([
                 'name' => $name,
+                'day_number' => $day_number,
                 'trainingLocation' => $trainingLocation,
                 'info' => json_encode($info_text),
                 'videos' => json_encode($videos),
@@ -161,22 +163,23 @@ class TrainingController extends Controller
 
     function adminAddViewDay(Request $request, $id)
     {
-        $training_days = Days::all();
         $locations = TrainingLocation::all();
-        return view('admin.dashboard.workout.oneDayTraining.workoutDayAddForm')->with(compact('training_days', 'locations'));
+        return view('admin.dashboard.workout.oneDayTraining.workoutDayAddForm')->with(compact('locations'));
     }
 
     function adminAddTrainingDay(Request $request)
     {
+        $day_number = $request->day_number;
         $name = $request->name;
         $trainingLocation = $request->trainingLocation;
         $info_text = $request->info_text;
         $videos = $request->videos;
         $description = $request->description;
 
-        if ($name != null && $trainingLocation != null && $info_text != null && $videos != null && $description != null) {
+        if ($name != null && $day_number != null && $trainingLocation != null && $info_text != null && $videos != null && $description != null) {
             Days::create([
                 'name' => $name,
+                'day_number' => $day_number,
                 'trainingLocation' => $trainingLocation,
                 'info' => json_encode($info_text),
                 'videos' => json_encode($videos),

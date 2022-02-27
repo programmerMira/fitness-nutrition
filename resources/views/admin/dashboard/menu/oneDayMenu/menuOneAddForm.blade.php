@@ -57,8 +57,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <Addtodolistmenu></Addtodolistmenu>
-                                        <Addtodolistinfo></Addtodolistinfo>
+                                        <Addtodolistmenu :foods="{{json_encode($menu_day->foods)}}" :videos="{{json_encode($menu_day->videos)}}"></Addtodolistmenu>
+                                        <Addtodolistinfo :infos="{{json_encode($menu_day->info)}}"></Addtodolistinfo>
                                     </div>
                                 </div>
                             </div>

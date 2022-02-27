@@ -21,9 +21,15 @@
                                         <form class="form-horizontal form" action="{{route('editTrainingDay',['id'=>$training_day->id])}}" method="post">
                                             @csrf
                                             <div class="form-group row">
-                                                <label class="col-md-3 col-form-label">Название</label>
+                                                <label class="col-md-3 col-form-label">Название дня</label>
                                                 <div class="col-md-9">
-                                                    <input value="{{ $training_day->name }}" name="name" class="form-control" type="text" placeholder="Название ">
+                                                    <input value="{{ $training_day->name }}" name="name" class="form-control" type="text" placeholder="Название дня">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 col-form-label">№ дня</label>
+                                                <div class="col-md-9">
+                                                    <input value="{{ $training_day->day_number }}" name="day_number" class="form-control" type="text" placeholder="№ дня">
                                                 </div>
                                             </div>
 {{--                                            @dd($training_day->videos)--}}
@@ -60,6 +66,18 @@
                                     <div class="card-body">
                                         <form class="form-horizontal form" action="{{route('editTrainingDay',['id'=>$training_day->id])}}" method="post">
                                             @csrf
+                                            <div class="form-group row">
+                                                <label class="col-md-3 col-form-label">Название дня</label>
+                                                <div class="col-md-9">
+                                                    <input value="{{ $training_day->name }}" name="name" class="form-control" type="text" placeholder="Название дня">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 col-form-label">№ дня</label>
+                                                <div class="col-md-9">
+                                                    <input value="{{ $training_day->day_number }}" name="day_number" class="form-control" type="text" placeholder="№ дня">
+                                                </div>
+                                            </div>
                                             <Workouttodolist
                                                 :infos="{{json_encode($training_day->info)}}"
                                             ></Workouttodolist>
